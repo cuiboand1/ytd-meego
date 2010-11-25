@@ -1,0 +1,3 @@
+#Outline/Abstract of Article for http://appdeveloper.intel.com/en-us/node/2406
+
+= Citizen Journalism with Youtube-Direct for Meego =
