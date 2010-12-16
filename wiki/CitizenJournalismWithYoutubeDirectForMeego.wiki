@@ -30,20 +30,20 @@ clarified in IRC by the N900 hardware adaptation lead Teemu Tuominen:
 The status of camera and GPS functionality on the n900 were discussed on
 12/16/10 meeting on Nokia N900 Hardware Adaptation:
 
-* http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.html
-* http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.log.html
+ * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.html
+ * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.log.html
 
 The camera features needed by YTD-Meego that are under implementation for Meego 1.2
 include:
 
-* http://bugs.meego.com/show_bug.cgi?id=5461 
-** FEATURE: Camera application
+ * http://bugs.meego.com/show_bug.cgi?id=5461 
+  * FEATURE: Camera application
 
-* http://bugs.meego.com/show_bug.cgi?id=2743 
-** FEATURE: Camera subsystem
+ * http://bugs.meego.com/show_bug.cgi?id=2743 
+  * FEATURE: Camera subsystem
 
-* http://bugs.meego.com/show_bug.cgi?id=7623 
-** FEATURE: camerabin support in GStreamer
+ * http://bugs.meego.com/show_bug.cgi?id=7623 
+  * FEATURE: camerabin support in GStreamer
 
 As part of the 1.2 release, there will also be a "Qt camera reference
 application" ((TODO: ref)). This code, and its underlying functionlity will
@@ -54,9 +54,9 @@ is a good basis for the "camera control GUI" part of YTD-meego and it's implemen
 [http://doc.qt.nokia.com/qt-mobility-snapshot/images/qml-camera.png]
 
 Which is created by the QML code:
-* http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera-declarative-camera-qml.html
+ * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera-declarative-camera-qml.html
 But there's also C++ and more:
-* http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
+ * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
 
 Note that QtMobility does not include any QML-based camera or media capture
 functionality, which is why it makes sense to integrate a preexisting
@@ -79,9 +79,9 @@ http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_resuma
 partial-upload logic that is robust in the face of networking challenges.
 
 The web component of the app will be implemented entirely in QML, using Youtube-Direct's JSON API: 
-* http://code.google.com/p/youtube-direct/wiki/YTDAdminJSONAPI
-** In YTD v2.0, the admin backend is complemented with a JSON-RPC API that enables you to fetch all the data relating to assignments, submissions and configuration programmatically.
-** The admin API is based on the JSON-RPC protocol format. It is essentially a REST-ful POST request with a JSON payload. For more information on JSON-RPC - http://en.wikipedia.org/wiki/JSON-RPC.
+ * http://code.google.com/p/youtube-direct/wiki/YTDAdminJSONAPI
+  * In YTD v2.0, the admin backend is complemented with a JSON-RPC API that enables you to fetch all the data relating to assignments, submissions and configuration programmatically.
+  * The admin API is based on the JSON-RPC protocol format. It is essentially a REST-ful POST request with a JSON payload. For more information on JSON-RPC - http://en.wikipedia.org/wiki/JSON-RPC.
 
 http://bugreports.qt.nokia.com/browse/QTBUG-12117 suggests a JSON data
 model for QML and has a workaround:
@@ -176,39 +176,37 @@ http://wiki.meego.com/Architecture#Upcoming_Features the "Sharing framework
 provides a unified API for sharing files via, e.g., BT, email, web
 services. It includes webupload engine and an API for transfer UI." 
 
-* http://bugs.meego.com/show_bug.cgi?id=8179
-** FEATURE: Share UI: Unified entry point to select a destination
-** Share UI that provides unified method for sharing different types of objects:
-# File paths
-# Tracker IRIs for file-backed ontologies
-# Data URL-encoded objects (RFC 2397)
-** Displays sharing plugins supported by Web upload engine
-** Provides flexibility in destination methods implementation, by allowing
+ * http://bugs.meego.com/show_bug.cgi?id=8179
+  * FEATURE: Share UI: Unified entry point to select a destination
+  * Share UI that provides unified method for sharing different types of objects:
+  # File paths
+  # Tracker IRIs for file-backed ontologies
+  # Data URL-encoded objects (RFC 2397)
+  * Displays sharing plugins supported by Web upload engine
+  * Provides flexibility in destination methods implementation, by allowing
 multiple sharing methods per plugin and methods to dynamically change during
 execution
-**Provides full integration with Accounts and Single Sign-on in Meego.com 
+  * Provides full integration with Accounts and Single Sign-on in Meego.com 
 
-* http://bugs.meego.com/show_bug.cgi?id=8180
-** FEATURE: Share: Web Upload Engine
-** Web Upload Engine that provides unified processing of uploads, including:
-# Upload job queues
-# Resizing of still images
-# Metadata removal/replacement for images and videos
-# Upload recovery after crashes/restart of the device
-# Optional: video re-encoding
-** Provides reference share plugins for Facebook, YouTube, Picasa and Email
-** Full integration with Accounts and Single Sing-on in Meego.com
-** Process separation for upload plugins and integrated with Security Framework 
+ * http://bugs.meego.com/show_bug.cgi?id=8180
+  * FEATURE: Share: Web Upload Engine
+  * Web Upload Engine that provides unified processing of uploads, including:
+  # Upload job queues
+  # Resizing of still images
+  # Metadata removal/replacement for images and videos
+  # Upload recovery after crashes/restart of the device
+  # Optional: video re-encoding
+ * Provides reference share plugins for Facebook, YouTube, Picasa and Email
+ * Full integration with Accounts and Single Sing-on in Meego.com
+ * Process separation for upload plugins and integrated with Security Framework 
 
 
-* http://bugs.meego.com/show_bug.cgi?id=8181
-** FEATURE: Transfer UI: Common transfer management
-** Transfer UI that provides integrated transfer visualization for all types of
-transfers:
-# Uploading content to social networks (such as Facebook)
-# Sharing to other devices (e.g. via Bluetooth)
-# Downloading content via different applications (e.g. Browser, Feeds)
-# Synchronizations (e.g. email, contacts, calendar)
-** Transfer UI provides common actions for all types of transfers
-** Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
-
+ * http://bugs.meego.com/show_bug.cgi?id=8181
+  * FEATURE: Transfer UI: Common transfer management
+  * Transfer UI that provides integrated transfer visualization for all types of transfers:
+  # Uploading content to social networks (such as Facebook)
+  # Sharing to other devices (e.g. via Bluetooth)
+  # Downloading content via different applications (e.g. Browser, Feeds)
+  # Synchronizations (e.g. email, contacts, calendar)
+  * Transfer UI provides common actions for all types of transfers
+  * Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
