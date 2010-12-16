@@ -87,8 +87,8 @@ http://bugreports.qt.nokia.com/browse/QTBUG-12117 suggests a JSON data
 model for QML and has a workaround:
 
      It would be very convenient to have a JSON data model to use with QML's
-     list view elements, instead of emulating a model using XMLHttpRequest,
-     regular JavaScript JSON support and ListModel. For example:
+     list view elements, instead of emulating a model using !XMLHttpRequest,
+     regular !JavaScript JSON support and !ListModel. For example:
 {{{
      Item {
          ListModel { id: listmodel }
