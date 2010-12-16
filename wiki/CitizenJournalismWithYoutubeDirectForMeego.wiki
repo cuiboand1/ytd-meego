@@ -48,7 +48,7 @@ include:
 As part of the 1.2 release, there will also be a "Qt camera reference
 application" ((TODO: ref)). This code, and its underlying functionlity will
 be the basis for the "camera" parts of YTD-direct, when it is available and
-working. Specifically, the "declarative camera example" from QtMobility 1.2
+working. Specifically, the "declarative camera example" from !QtMobility 1.2
 is a good basis for the "camera control GUI" part of YTD-meego and it's implemented in QML:
 
 [http://doc.qt.nokia.com/qt-mobility-snapshot/images/qml-camera.png]
@@ -58,9 +58,9 @@ Which is created by the QML code:
 But there's also C++ and more:
  * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
 
-Note that QtMobility does not include any QML-based camera or media capture
+Note that !QtMobility does not include any QML-based camera or media capture
 functionality, which is why it makes sense to integrate a preexisting
-camera application, and integrate C++ QtMobility features for video recording etc
+camera application, and integrate C++ !QtMobility features for video recording etc
 
 === Web Component ===
 
