@@ -1,3 +1,214 @@
 #Outline/Abstract of Article for http://appdeveloper.intel.com/en-us/node/2406
 
-= Citizen Journalism with Youtube-Direct for Meego =
+= ROUGH DRAFT AND RANDOM ORDERING OF TOPICS =
+
+== Overview  == 
+
+The youtube-direct for meego application integrates a number of
+traditionally separate applications: a video recorder/still photo camera,
+GPS integration and geotagging, combined with managing/uploading captured
+media to Youtube-Direct sites. 
+
+== Camera Component TBD == 
+
+As the Meego Handset UX platform is under development, some of the media
+infrastructure needed by this project is not complete, nor in a state where
+it can be used yet. In particular, camera functionality and video recording
+will not be available until Meego 1.2, to be released April 2011. There are
+a number of issues delaying camera integration on Meego which were
+clarified in IRC by the N900 hardware adaptation lead Teemu Tuominen:
+
+     [Tuesday, December 14, 2010] [11:47:01 pm] #meego: <theodor>:
+     currently, the differences in kernel level are [...] delaying camera
+     integration.. since we have selected to support new architecture that
+     cannot be accepted by meego reference kernel due its partly
+     experimental.... To fully featurize camera in N900, Meego needs
+     components that used to be closed binaries in Maemo side. I assume a
+     bunch of 3rdParty agreements needs to be dealt differently with Meego,
+     and can only hope that this is ongoing work.
+
+The status of camera and GPS functionality on the n900 were discussed on
+12/16/10 meeting on Nokia N900 Hardware Adaptation:
+
+* http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.html
+* http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.log.html
+
+The camera features needed by YTD-Meego that are under implementation for Meego 1.2
+include:
+
+* http://bugs.meego.com/show_bug.cgi?id=5461 
+**[FEA] Camera application
+
+* http://bugs.meego.com/show_bug.cgi?id=2743 
+** [FEA] Camera subsystem
+
+* http://bugs.meego.com/show_bug.cgi?id=7623 
+** [FEA] camerabin support in GStreamer
+
+As part of the 1.2 release, there will also be a "Qt camera reference
+application" ((TODO: ref)). This code, and its underlying functionlity will
+be the basis for the "camera" parts of YTD-direct, when it is available and
+working. Specifically, the "declarative camera example" from QtMobility 1.2
+is a good basis for the "camera control GUI" part of YTD-meego and it's implemented in QML:
+
+[http://doc.qt.nokia.com/qt-mobility-snapshot/images/qml-camera.png]
+
+Which is created by the QML code:
+* http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera-declarative-camera-qml.html
+But there's also C++ and more:
+* http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
+
+Note that QtMobility does not include any QML-based camera or media capture
+functionality, which is why it makes sense to integrate a preexisting
+camera application, and integrate C++ QtMobility features for video recording etc
+
+=== Web Component ===
+
+As the camera component will not be ready until April 2011 1.2 release, the
+web component of YTD-meego will be given priority, as that can be evaluated
+within the existing Meego 1.1 handset. The goal will be to use as much Qt
+Quick as possible in this phase of the project,
+
+One of the issues with a youtube-direct client, noted in private comment by
+Jarek Wilkiewicz of YouTube, is that the error&retry logic in resumable
+uploads need be robust: uploading large files while on the move, over flaky
+and shifting networks is nontrivial.  This is handled by the the Youtube
+API for resumable uploads (
+http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_resumable_uploads.html
+). YTD-meego must work with this API and provide the retry and
+partial-upload logic that is robust in the face of networking challenges.
+
+The web component of the app will be implemented entirely in QML, using Youtube-Direct's JSON API: 
+* http://code.google.com/p/youtube-direct/wiki/YTDAdminJSONAPI
+** In YTD v2.0, the admin backend is complemented with a JSON-RPC API that enables you to fetch all the data relating to assignments, submissions and configuration programmatically.
+** The admin API is based on the JSON-RPC protocol format. It is essentially a REST-ful POST request with a JSON payload. For more information on JSON-RPC - http://en.wikipedia.org/wiki/JSON-RPC.
+
+http://bugreports.qt.nokia.com/browse/QTBUG-12117 suggests a JSON data
+model for QML and has a workaround:
+
+     It would be very convenient to have a JSON data model to use with QML's
+     list view elements, instead of emulating a model using XMLHttpRequest,
+     regular JavaScript JSON support and ListModel. For example:
+{{{
+     Item {
+         ListModel { id: listmodel }
+         onCompleted: {
+             var xhr = new XMLHttpRequest;
+             xhr.open("GET", "http://service.com/api");
+             xhr.onreadystatechange = function() {
+                 if (xhr.readyState == XMLHttpRequest.DONE) {
+                     var a = JSON.parse(xhr.responseText);
+                     for (var b in a) {
+                         var o = a[b];
+                         listmodel.append({name: o.name, url: o.url});
+                     }
+                 }
+             }
+             xhr.send();
+         }
+     }
+}}}
+
+An interesting pure QML JSON/RPC example is http://gitorious.org/xbmc-qml-remote
+screenshots: http://forum.xbmc.org/showthread.php?t=82266
+http://gitorious.org/xbmc-qml-remote/pages/Home
+1. Open xbmc.js in your favorite editor and edit this.server and this.port acording to your setup.
+2. Start remote.qml with qmlviewer
+
+For example: /home/npm/youtube-direct/xbmc-qml-remote/player.js
+
+{{{
+Player.prototype.cmd = function(cmd, param) {
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+                if (doc.readyState == XMLHttpRequest.DONE) {
+                        //console.log(doc.responseText);
+                }
+        }
+
+        doc.open("POST", "http://"+$().server+":" + $().port + "/jsonrpc");
+        var str = '{"jsonrpc": "2.0", "method": "'+this.type+'Player.'+cmd+'",';
+        if (param) {
+                str += param + ","
+        }
+        str += ' "id": 1}';
+        console.log(str);
+        doc.send(str);
+        return;
+}
+}}}
+Or /home/npm/youtube-direct/xbmc-qml-remote/library.js
+
+{{{
+Library.prototype.loadMovies = function () {
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+                if (doc.readyState == XMLHttpRequest.DONE) {
+                        //console.log(doc.responseText);
+
+                        var result = JSON.parse(doc.responseText).result;
+                        var movies = result.movies;
+                        for (var i = 0; i < movies.length; i++){
+                                //console.log(movies[i].thumb)
+                                var thumb = "http://"+$().server+":" + $().port + "/images/DefaultAlbumCover.png";
+                                if (movies[i].thumbnail) {
+                                        thumb = "http://192.168.0.11:8080/vfs/" + movies[i].thumbnail;
+                                }
+
+                                movieModel.append({"id": movies[i].movieid, "name": movies[i].label, "thumb": thumb, "genre":  movies[i].genre, "duration": movies[i].runtime, "rating": movies[i].rating});
+                        }
+                }
+        }
+
+        doc.open("POST", "http://"+$().server+":" + $().port + "/jsonrpc");
+        var str = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": { "start": 0, "fields": ["genre", "director", "trailer", "tagline", "plot", "plotoutline", "title", "originaltitle", "lastplayed", "showtitle", "firstaired", "duration", "season", "episode", "runtime", "year", "playcount", "rating"] }, "id": 1}';
+        doc.send(str);
+
+        return;
+ }
+}}}
+
+=== Overlap with Meego 1.2 Sharing Framework == 
+
+As a "custom web app", there is significant overlap between ytd-meego and
+upcoming Meego 1.2 infrastructure's "Sharing Framework" As mentioned in
+http://wiki.meego.com/Architecture#Upcoming_Features the "Sharing framework
+provides a unified API for sharing files via, e.g., BT, email, web
+services. It includes webupload engine and an API for transfer UI." 
+
+* http://bugs.meego.com/show_bug.cgi?id=8179
+** [FEA] Share UI: Unified entry point to select a destination
+** Share UI that provides unified method for sharing different types of objects:
+# File paths
+# Tracker IRIs for file-backed ontologies
+# Data URL-encoded objects (RFC 2397)
+** Displays sharing plugins supported by Web upload engine
+** Provides flexibility in destination methods implementation, by allowing
+multiple sharing methods per plugin and methods to dynamically change during
+execution
+**Provides full integration with Accounts and Single Sign-on in Meego.com 
+
+* http://bugs.meego.com/show_bug.cgi?id=8180
+** [FEA] Share: Web Upload Engine
+** Web Upload Engine that provides unified processing of uploads, including:
+# Upload job queues
+# Resizing of still images
+# Metadata removal/replacement for images and videos
+# Upload recovery after crashes/restart of the device
+# Optional: video re-encoding
+** Provides reference share plugins for Facebook, YouTube, Picasa and Email
+** Full integration with Accounts and Single Sing-on in Meego.com
+** Process separation for upload plugins and integrated with Security Framework 
+
+
+* http://bugs.meego.com/show_bug.cgi?id=8181
+** [FEA] Transfer UI: Common transfer management
+** Transfer UI that provides integrated transfer visualization for all types of
+transfers:
+# Uploading content to social networks (such as Facebook)
+# Sharing to other devices (e.g. via Bluetooth)
+# Downloading content via different applications (e.g. Browser, Feeds)
+# Synchronizations (e.g. email, contacts, calendar)
+** Transfer UI provides common actions for all types of transfers
+** Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
+
