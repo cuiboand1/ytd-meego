@@ -70,7 +70,7 @@ within the existing Meego 1.1 handset. The goal will be to use as much Qt
 Quick as possible in this phase of the project,
 
 One of the issues with a youtube-direct client, noted in private comment by
-Jarek Wilkiewicz of YouTube, is that the error&retry logic in resumable
+Jarek Wilkiewicz of !YouTube, is that the error&retry logic in resumable
 uploads need be robust: uploading large files while on the move, over flaky
 and shifting networks is nontrivial.  This is handled by the the Youtube
 API for resumable uploads (
@@ -109,13 +109,15 @@ model for QML and has a workaround:
      }
 }}}
 
-An interesting pure QML JSON/RPC example is http://gitorious.org/xbmc-qml-remote
-screenshots: http://forum.xbmc.org/showthread.php?t=82266
-http://gitorious.org/xbmc-qml-remote/pages/Home
-1. Open xbmc.js in your favorite editor and edit this.server and this.port acording to your setup.
-2. Start remote.qml with qmlviewer
+An interesting pure QML JSON/RPC example is 
+ * http://gitorious.org/xbmc-qml-remote 
+ * http://gitorious.org/xbmc-qml-remote/pages/Home
 
-For example: /home/npm/youtube-direct/xbmc-qml-remote/player.js
+[http://web2.0-apps.de/fabian/xbmc/screenshot/album.jpeg]
+
+Some code examples from that app doing JSON/RPC entirely within QML:
+
+/home/npm/youtube-direct/xbmc-qml-remote/player.js
 
 {{{
 Player.prototype.cmd = function(cmd, param) {
@@ -137,7 +139,8 @@ Player.prototype.cmd = function(cmd, param) {
         return;
 }
 }}}
-Or /home/npm/youtube-direct/xbmc-qml-remote/library.js
+
+/home/npm/youtube-direct/xbmc-qml-remote/library.js
 
 {{{
 Library.prototype.loadMovies = function () {
