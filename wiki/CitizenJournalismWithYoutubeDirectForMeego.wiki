@@ -18,8 +18,8 @@ will not be available until Meego 1.2, to be released April 2011. There are
 a number of issues delaying camera integration on Meego which were
 clarified in IRC by the N900 hardware adaptation lead Teemu Tuominen:
 
-     [Tuesday, December 14, 2010] [11:47:01 pm] #meego: <theodor>:
-     currently, the differences in kernel level are [...] delaying camera
+     Tuesday, December 14, 2010 11:47:01 pm #meego: theodor:
+     currently, the differences in kernel level are ... delaying camera
      integration.. since we have selected to support new architecture that
      cannot be accepted by meego reference kernel due its partly
      experimental.... To fully featurize camera in N900, Meego needs
@@ -37,13 +37,13 @@ The camera features needed by YTD-Meego that are under implementation for Meego 
 include:
 
 * http://bugs.meego.com/show_bug.cgi?id=5461 
-**[FEA] Camera application
+** FEATURE: Camera application
 
 * http://bugs.meego.com/show_bug.cgi?id=2743 
-** [FEA] Camera subsystem
+** FEATURE: Camera subsystem
 
 * http://bugs.meego.com/show_bug.cgi?id=7623 
-** [FEA] camerabin support in GStreamer
+** FEATURE: camerabin support in GStreamer
 
 As part of the 1.2 release, there will also be a "Qt camera reference
 application" ((TODO: ref)). This code, and its underlying functionlity will
@@ -177,7 +177,7 @@ provides a unified API for sharing files via, e.g., BT, email, web
 services. It includes webupload engine and an API for transfer UI." 
 
 * http://bugs.meego.com/show_bug.cgi?id=8179
-** [FEA] Share UI: Unified entry point to select a destination
+** FEATURE: Share UI: Unified entry point to select a destination
 ** Share UI that provides unified method for sharing different types of objects:
 # File paths
 # Tracker IRIs for file-backed ontologies
@@ -189,7 +189,7 @@ execution
 **Provides full integration with Accounts and Single Sign-on in Meego.com 
 
 * http://bugs.meego.com/show_bug.cgi?id=8180
-** [FEA] Share: Web Upload Engine
+** FEATURE: Share: Web Upload Engine
 ** Web Upload Engine that provides unified processing of uploads, including:
 # Upload job queues
 # Resizing of still images
@@ -202,7 +202,7 @@ execution
 
 
 * http://bugs.meego.com/show_bug.cgi?id=8181
-** [FEA] Transfer UI: Common transfer management
+** FEATURE: Transfer UI: Common transfer management
 ** Transfer UI that provides integrated transfer visualization for all types of
 transfers:
 # Uploading content to social networks (such as Facebook)
