@@ -202,37 +202,32 @@ http://wiki.meego.com/Architecture#Upcoming_Features the "Sharing framework
 provides a unified API for sharing files via, e.g., BT, email, web
 services. It includes webupload engine and an API for transfer UI." 
 
- * http://bugs.meego.com/show_bug.cgi?id=8179
-  * FEATURE: Share UI: Unified entry point to select a destination
+ * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination]
   * Share UI that provides unified method for sharing different types of objects:
-  # File paths
-  # Tracker IRIs for file-backed ontologies
-  # Data URL-encoded objects (RFC 2397)
+   # File paths
+   # Tracker IRIs for file-backed ontologies
+   # Data URL-encoded objects (RFC 2397)
   * Displays sharing plugins supported by Web upload engine
-  * Provides flexibility in destination methods implementation, by allowing
-multiple sharing methods per plugin and methods to dynamically change during
-execution
+  * Provides flexibility in destination methods implementation, by allowing multiple sharing methods per plugin and methods to dynamically change during execution
   * Provides full integration with Accounts and Single Sign-on in Meego.com 
 
- * http://bugs.meego.com/show_bug.cgi?id=8180
-  * FEATURE: Share: Web Upload Engine
+ * [http://bugs.meego.com/show_bug.cgi?id=8180 FEATURE: Share: Web Upload Engine]
   * Web Upload Engine that provides unified processing of uploads, including:
-  # Upload job queues
-  # Resizing of still images
-  # Metadata removal/replacement for images and videos
-  # Upload recovery after crashes/restart of the device
-  # Optional: video re-encoding
- * Provides reference share plugins for Facebook, YouTube, Picasa and Email
- * Full integration with Accounts and Single Sing-on in Meego.com
- * Process separation for upload plugins and integrated with Security Framework 
+   # Upload job queues
+   # Resizing of still images
+   # Metadata removal/replacement for images and videos
+   # Upload recovery after crashes/restart of the device
+   # Optional: video re-encoding
+  * Provides reference share plugins for Facebook, YouTube, Picasa and Email
+  * Full integration with Accounts and Single Sing-on in Meego.com
+  * Process separation for upload plugins and integrated with Security Framework 
 
 
- * http://bugs.meego.com/show_bug.cgi?id=8181
-  * FEATURE: Transfer UI: Common transfer management
+ * [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
   * Transfer UI that provides integrated transfer visualization for all types of transfers:
-  # Uploading content to social networks (such as Facebook)
-  # Sharing to other devices (e.g. via Bluetooth)
-  # Downloading content via different applications (e.g. Browser, Feeds)
-  # Synchronizations (e.g. email, contacts, calendar)
+   # Uploading content to social networks (such as Facebook)
+   # Sharing to other devices (e.g. via Bluetooth)
+   # Downloading content via different applications (e.g. Browser, Feeds)
+   # Synchronizations (e.g. email, contacts, calendar)
   * Transfer UI provides common actions for all types of transfers
   * Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
