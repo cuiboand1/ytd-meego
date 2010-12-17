@@ -9,7 +9,7 @@ traditionally separate applications: a video recorder/still photo camera,
 GPS integration and geotagging, combined with managing/uploading captured
 media to Youtube-Direct sites. 
 
-== Platform and Hardware Overview
+== Platform and Hardware Overview ==
 
 The following diagram describes the n900 Multimedia architecture for Maemo,
 and should translate, roughly to Meego on the same platform:
