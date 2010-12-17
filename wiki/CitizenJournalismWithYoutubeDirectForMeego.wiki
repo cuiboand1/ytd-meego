@@ -194,13 +194,33 @@ Library.prototype.loadMovies = function () {
  }
 }}}
 
-=== Overlap with Meego 1.2 Sharing Framework == 
+=== Overlap with Maemo 5 and Meego 1.2 Sharing Framework == 
 
 As a "custom web app", there is significant overlap between ytd-meego and
 upcoming Meego 1.2 infrastructure's "Sharing Framework" As mentioned in
 http://wiki.meego.com/Architecture#Upcoming_Features the "Sharing framework
 provides a unified API for sharing files via, e.g., BT, email, web
 services. It includes webupload engine and an API for transfer UI." 
+
+The predecessor
+[http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Imaging_and_Sharing Maemo Sharing Framework]
+provides media uploading to a variety of services:
+
+[http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
+
+The Maemo sharing GUI allows for any media captured on the device to be
+selected and reliably uploaded to any provider that implements a
+[http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Using_Data_Sharing/Sharing_Plug-in sharing plugin]:
+
+[http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]
+
+In the future, a well integrated youtube-direct "sharing plugin" written
+for the Meego Sharing Framework could subsume the functionality of
+ytd-meego: allowing arbitrary camera/video apps to output media for
+sharing, and allowing the sharing framework to handle the particulars of
+uploading that media to a given internet sharing service.
+
+The following describe the Meego Sharing Framework:
 
  * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination]
   * Share UI that provides unified method for sharing different types of objects:
@@ -221,7 +241,6 @@ services. It includes webupload engine and an API for transfer UI."
   * Provides reference share plugins for Facebook, YouTube, Picasa and Email
   * Full integration with Accounts and Single Sing-on in Meego.com
   * Process separation for upload plugins and integrated with Security Framework 
-
 
  * [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
   * Transfer UI that provides integrated transfer visualization for all types of transfers:
