@@ -20,12 +20,12 @@ http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
 The following diagram describes the
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Multimedia_Domain Nokia n900 Maemo "Multimedia Domain"],
-and should translate, roughly to Meego on the same platform:
+and should translate, roughly, to !MeeGo on the same platform:
 
 [http://wiki.maemo.org/images/thumb/5/56/OMAP_architecture.png/800px-OMAP_architecture.png]
 
 http://meego.com/developers/meego-architecture/meego-architecture-domain-view
-describes Meego's "Multimedia domain": providing audio and video playback,
+describes !MeeGo's "Multimedia domain": providing audio and video playback,
 streaming, and imaging functionality to the system. It handles retrieval,
 demuxing, decoding and encoding, seeking of audio and video data. It
 includes the following subsystems:
@@ -41,11 +41,11 @@ The source code for these components is located at http://meego.gitorious.org/ma
 
 == Camera Component TBD == 
 
-As the Meego Handset UX platform is under development, some of the media
+As the !MeeGo Handset UX platform is under development, some of the media
 infrastructure needed by this project is incomplete and not in a usable
 state for application developers. In particular, camera functionality and
-video recording will not be available until Meego 1.2, to be released April
-2011. There are a number of issues delaying camera integration on Meego,
+video recording will not be available until !MeeGo 1.2, to be released April
+2011. There are a number of issues delaying camera integration on !MeeGo,
 which were clarified in IRC by the N900 hardware adaptation lead Teemu
 Tuominen:
 
@@ -53,9 +53,9 @@ Tuominen:
      currently, the differences in kernel level are ... delaying camera
      integration.. since we have selected to support new architecture that
      cannot be accepted by meego reference kernel due its partly
-     experimental.... To fully featurize camera in N900, Meego needs
+     experimental.... To fully featurize camera in N900, !MeeGo needs
      components that used to be closed binaries in Maemo side. I assume a
-     bunch of 3rdParty agreements needs to be dealt differently with Meego,
+     bunch of 3rdParty agreements needs to be dealt differently with !MeeGo,
      and can only hope that this is ongoing work.
 
 The status of camera and GPS functionality on the n900 were discussed on
@@ -64,14 +64,14 @@ The status of camera and GPS functionality on the n900 were discussed on
  * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.html
  * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.log.html
 
-The camera features needed by YTD-Meego that are under implementation for Meego 1.2
+The camera features needed by YTD-!MeeGo that are under implementation for !MeeGo 1.2
 include:
 
  * [http://bugs.meego.com/show_bug.cgi?id=5461 FEATURE: Camera 
   * A Camera application is required to capture still images and record videos with the device.  
 
  * [http://bugs.meego.com/show_bug.cgi?id=2743 FEATURE: Camera subsystem]
-  * MeeGo to provide [http://linux.bytesex.org/v4l2/ V4L2] for Camera subsystem  
+  * !MeeGo to provide [http://linux.bytesex.org/v4l2/ V4L2] for Camera subsystem  
   * Components are required on the kernel side:
    * Media controller core
    * Primary and secondary sensor drivers (et8ek8 and smia-sensor)
@@ -110,7 +110,7 @@ But there's also C++ and more:
 
 As the camera component will not be ready until April 2011 1.2 release, the
 web component of YTD-meego will be given priority, as that can be evaluated
-within the existing Meego 1.1 handset. The goal will be to use as much
+within the existing !MeeGo 1.1 handset. The goal will be to use as much
 !QtQuick as possible in this phase of the project, and using C++ components
 only as necessary, e.g for performance reasons, or because no QML
 implementation exists. The second phase of the project, involving
@@ -161,7 +161,7 @@ model for QML and has a workaround:
 
 A similar integration of QML models and JSON/RPC data from a webserver is
 the XBMC Remote for the [http://xbmc.org/ X Box Media Center], which itself
-has already been [ http://www.madeo.co.uk/?page_id=605 ported to Meego]:
+has already been [ http://www.madeo.co.uk/?page_id=605 ported to !MeeGo]:
 
  * http://gitorious.org/xbmc-qml-remote 
  * http://gitorious.org/xbmc-qml-remote/pages/Home
@@ -224,10 +224,10 @@ Library.prototype.loadMovies = function () {
  }
 }}}
 
-=== Overlap with Maemo 5 and Meego 1.2 Sharing Framework == 
+=== Overlap with Maemo 5 and !MeeGo 1.2 Sharing Framework == 
 
 As a "custom web app", there is significant overlap between ytd-meego and
-upcoming Meego 1.2 infrastructure's "Sharing Framework." As mentioned in
+upcoming !MeeGo 1.2 infrastructure's "Sharing Framework." As mentioned in
 http://wiki.meego.com/Architecture#Upcoming_Features , the "Sharing
 framework provides a unified API for sharing files via, e.g., BT, email,
 web services. It includes webupload engine and an API for transfer UI."
@@ -245,13 +245,13 @@ selected and reliably uploaded to any provider that implements a
 [http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]
 
 In the future, a well integrated youtube-direct "sharing plugin" written
-for the Meego Sharing Framework could subsume the functionality of
+for the !MeeGo Sharing Framework could subsume the functionality of
 ytd-meego: allowing arbitrary camera/video apps to output media for
 sharing, and allowing the sharing framework to handle the particulars of
 uploading that media to a given internet sharing service.
 
-Perhaps a "2.0" version of YTD-Meego could be implemented as a custom
-plugin for the Meego Sharing Framework. The framework provides the
+Perhaps a "2.0" version of YTD-!MeeGo could be implemented as a custom
+plugin for the !MeeGo Sharing Framework. The framework provides the
 following features to the handset platform:
 
  * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination]
@@ -261,7 +261,7 @@ following features to the handset platform:
    # Data URL-encoded objects (RFC 2397)
   * Displays sharing plugins supported by Web upload engine
   * Provides flexibility in destination methods implementation, by allowing multiple sharing methods per plugin and methods to dynamically change during execution
-  * Provides full integration with Accounts and Single Sign-on in Meego.com 
+  * Provides full integration with Accounts and Single Sign-on in !MeeGo.com 
 
  * [http://bugs.meego.com/show_bug.cgi?id=8180 FEATURE: Share: Web Upload Engine]
   * Web Upload Engine that provides unified processing of uploads, including:
@@ -271,7 +271,7 @@ following features to the handset platform:
    # Upload recovery after crashes/restart of the device
    # Optional: video re-encoding
   * Provides reference share plugins for Facebook, YouTube, Picasa and Email
-  * Full integration with Accounts and Single Sing-on in Meego.com
+  * Full integration with Accounts and Single Sing-on in !MeeGo.com
   * Process separation for upload plugins and integrated with Security Framework 
 
  * [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
