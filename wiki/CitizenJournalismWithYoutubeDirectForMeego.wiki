@@ -12,9 +12,8 @@ media to Youtube-Direct sites.
 == Platform and Hardware Overview ==
 
 The following diagram describes the
-[http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Multimedia_Domain
-Nokia n900 Maemo Multimedia Domain], and should translate, roughly to Meego
-on the same platform:
+[http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Multimedia_Domain Nokia n900 Maemo "Multimedia Domain"],
+and should translate, roughly to Meego on the same platform:
 
 [http://wiki.maemo.org/images/thumb/5/56/OMAP_architecture.png/800px-OMAP_architecture.png]
 
