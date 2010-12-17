@@ -9,6 +9,13 @@ traditionally separate applications: a video recorder/still photo camera,
 GPS integration and geotagging, combined with managing/uploading captured
 media to Youtube-Direct sites. 
 
+== !YouTube Direct ==
+
+[http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
+
+http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview
+http://code.google.com/p/youtube-direct/wiki/GettingStarted
+
 == Platform and Hardware Overview ==
 
 The following diagram describes the
