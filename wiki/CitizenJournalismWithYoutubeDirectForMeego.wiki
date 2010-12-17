@@ -197,10 +197,10 @@ Library.prototype.loadMovies = function () {
 === Overlap with Maemo 5 and Meego 1.2 Sharing Framework == 
 
 As a "custom web app", there is significant overlap between ytd-meego and
-upcoming Meego 1.2 infrastructure's "Sharing Framework" As mentioned in
-http://wiki.meego.com/Architecture#Upcoming_Features the "Sharing framework
-provides a unified API for sharing files via, e.g., BT, email, web
-services. It includes webupload engine and an API for transfer UI." 
+upcoming Meego 1.2 infrastructure's "Sharing Framework." As mentioned in
+http://wiki.meego.com/Architecture#Upcoming_Features , the "Sharing
+framework provides a unified API for sharing files via, e.g., BT, email,
+web services. It includes webupload engine and an API for transfer UI."
 
 The predecessor
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Imaging_and_Sharing Maemo Sharing Framework]
