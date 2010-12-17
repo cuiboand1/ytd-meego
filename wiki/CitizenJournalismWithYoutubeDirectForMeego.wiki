@@ -19,9 +19,9 @@ and should translate, roughly to Meego on the same platform:
 
 http://meego.com/developers/meego-architecture/meego-architecture-domain-view
 describes Meego's "Multimedia domain": providing audio and video playback,
-streaming, and imaging functionality to the system. It handles handles
-retrieval, demuxing, decoding and encoding, seeking of audio and video
-data. It includes the following subsystems:
+streaming, and imaging functionality to the system. It handles retrieval,
+demuxing, decoding and encoding, seeking of audio and video data. It
+includes the following subsystems:
 
  * Imaging and Video Adaptation - Platform specific codecs and containers for GStreamer
  * Camera Adaptation - Platform specific codecs and containers for GStreamer. Adaptation interface is CameraBin.
@@ -35,11 +35,12 @@ The source code for these components is located at http://meego.gitorious.org/ma
 == Camera Component TBD == 
 
 As the Meego Handset UX platform is under development, some of the media
-infrastructure needed by this project is not complete, nor in a state where
-it can be used yet. In particular, camera functionality and video recording
-will not be available until Meego 1.2, to be released April 2011. There are
-a number of issues delaying camera integration on Meego which were
-clarified in IRC by the N900 hardware adaptation lead Teemu Tuominen:
+infrastructure needed by this project is incomplete and not in a usable
+state for application developers. In particular, camera functionality and
+video recording will not be available until Meego 1.2, to be released April
+2011. There are a number of issues delaying camera integration on Meego,
+which were clarified in IRC by the N900 hardware adaptation lead Teemu
+Tuominen:
 
      Tuesday, December 14, 2010 11:47:01 pm #meego: theodor:
      currently, the differences in kernel level are ... delaying camera
@@ -59,38 +60,57 @@ The status of camera and GPS functionality on the n900 were discussed on
 The camera features needed by YTD-Meego that are under implementation for Meego 1.2
 include:
 
- * http://bugs.meego.com/show_bug.cgi?id=5461 
-  * FEATURE: Camera application
+ * [http://bugs.meego.com/show_bug.cgi?id=5461 FEATURE: Camera 
+  * A Camera application is required to capture still images and record videos with the device.  
 
- * http://bugs.meego.com/show_bug.cgi?id=2743 
-  * FEATURE: Camera subsystem
+ * [http://bugs.meego.com/show_bug.cgi?id=2743 FEATURE: Camera subsystem]
+  * MeeGo to provide [http://linux.bytesex.org/v4l2/ V4L2] for Camera subsystem  
+  * Components are required on the kernel side:
+   * Media controller core
+   * Primary and secondary sensor drivers (et8ek8 and smia-sensor)
+   * Flash and lens controller drivers (adp1653 and ad5820)
+   * OMAP3 ISP driver (isp-mod)
+   * OMAP34xx camera driver (omap34xxcam)
+  * Available at http://gitorious.org/omap3camera/mainline
 
- * http://bugs.meego.com/show_bug.cgi?id=7623 
-  * FEATURE: camerabin support in GStreamer
+ * [http://bugs.meego.com/show_bug.cgi?id=7623 FEATURE: camerabin support in GStreamer]
+  * still image capture with
+   * arbitrary post processing
+   * zooming
+   * various resolutions
+  * 3A (autofocus, autowhitebalance and autoexposure)
+   * locking 3A settings
+  * viewfinder with
+   * arbitrary post processing
+  * videocapture with
+   * arbitrary post processing
+   * zooming
+   * various resolutions
 
-As part of the 1.2 release, there will also be a "Qt camera reference
-application" ((TODO: ref)). This code, and its underlying functionlity will
-be the basis for the "camera" parts of YTD-direct, when it is available and
-working. Specifically, the "declarative camera example" from !QtMobility 1.2
-is a good basis for the "camera control GUI" part of YTD-meego and it's implemented in QML:
+The above open-source "camera application" code will be the basis for the
+"camera" parts of YTD-direct, when it is available for use. Alternately,
+the "declarative camera example" from !QtMobility 1.2 is a good basis for
+the "camera control GUI" part of YTD-meego and it's implemented in QML:
 
 [http://doc.qt.nokia.com/qt-mobility-snapshot/images/qml-camera.png]
 
-Which is created by the QML code:
+The above is created by the QML code:
  * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera-declarative-camera-qml.html
 But there's also C++ and more:
  * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
-
-Note that !QtMobility does not include any QML-based camera or media capture
-functionality, which is why it makes sense to integrate a preexisting
-camera application, and integrate C++ !QtMobility features for video recording etc
 
 === Web Component ===
 
 As the camera component will not be ready until April 2011 1.2 release, the
 web component of YTD-meego will be given priority, as that can be evaluated
-within the existing Meego 1.1 handset. The goal will be to use as much Qt
-Quick as possible in this phase of the project,
+within the existing Meego 1.1 handset. The goal will be to use as much
+!QtQuick as possible in this phase of the project, and using C++ components
+only as necessary, e.g for performance reasons, or because no QML
+implementation exists. The second phase of the project, involving
+integrating the camera and video recording features, will likely involve
+hybrid QML/C++ programming. The first phase will be "rapid prototyping"
+style development, using high-level "Qt Quick" functionality provided by
+QML and modern dynamic programming provided by its !JavaScript language.
 
 One of the issues with a youtube-direct client, noted in private comment by
 Jarek Wilkiewicz of !YouTube, is that the error&retry logic in resumable
@@ -132,7 +152,10 @@ model for QML and has a workaround:
      }
 }}}
 
-An interesting pure QML JSON/RPC example is 
+A similar integration of QML models and JSON/RPC data from a webserver is
+the XBMC Remote for the [http://xbmc.org/ X Box Media Center], which itself
+has already been [ http://www.madeo.co.uk/?page_id=605 ported to Meego]:
+
  * http://gitorious.org/xbmc-qml-remote 
  * http://gitorious.org/xbmc-qml-remote/pages/Home
 
@@ -220,7 +243,9 @@ ytd-meego: allowing arbitrary camera/video apps to output media for
 sharing, and allowing the sharing framework to handle the particulars of
 uploading that media to a given internet sharing service.
 
-The following describe the Meego Sharing Framework:
+Perhaps a "2.0" version of YTD-Meego could be implemented as a custom
+plugin for the Meego Sharing Framework. The framework provides the
+following features to the handset platform:
 
  * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination]
   * Share UI that provides unified method for sharing different types of objects:
