@@ -22,12 +22,12 @@ streaming, and imaging functionality to the system. It handles handles
 retrieval, demuxing, decoding and encoding, seeking of audio and video
 data. It includes the following subsystems:
 
-* Imaging and Video Adaptation - Platform specific codecs and containers for GStreamer
-* Camera Adaptation - Platform specific codecs and containers for GStreamer. Adaptation interface is CameraBin.
-* UPnP - Universal Plug and Play provides a UPnP stack, the UPnP profile for audio and video.
-* Gstreamer - GStreamer, through its plugins, provides playback, streaming, and imaging functionality to the system.
-* Audio Adaptation - Platform specific modules for PulseAudio
-* Pulse Audio - The audio subsystem handles audio inputs, post and pre processing, and outputs in a system. The purpose is to provide a proxy between audio applications and audio hardware.
+ * Imaging and Video Adaptation - Platform specific codecs and containers for GStreamer
+ * Camera Adaptation - Platform specific codecs and containers for GStreamer. Adaptation interface is CameraBin.
+ * UPnP - Universal Plug and Play provides a UPnP stack, the UPnP profile for audio and video.
+ * Gstreamer - GStreamer, through its plugins, provides playback, streaming, and imaging functionality to the system.
+ * Audio Adaptation - Platform specific modules for PulseAudio
+ * Pulse Audio - The audio subsystem handles audio inputs, post and pre processing, and outputs in a system. The purpose is to provide a proxy between audio applications and audio hardware.
 
 The source code for these components is located at http://meego.gitorious.org/maemo-multimedia .
 
