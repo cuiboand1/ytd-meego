@@ -106,7 +106,7 @@ The above is created by the QML code:
 But there's also C++ and more:
  * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
 
-=== Web Component ===
+== Web Component ==
 
 As the camera component will not be ready until April 2011 1.2 release, the
 web component of YTD-meego will be given priority, as that can be evaluated
@@ -224,7 +224,7 @@ Library.prototype.loadMovies = function () {
  }
 }}}
 
-=== Overlap with Maemo 5 and !MeeGo 1.2 Sharing Framework == 
+== Overlap with Maemo 5 and !MeeGo 1.2 Sharing Framework ==
 
 As a "custom web app", there is significant overlap between ytd-meego and
 upcoming !MeeGo 1.2 infrastructure's "Sharing Framework." As mentioned in
@@ -282,3 +282,18 @@ following features to the handset platform:
    # Synchronizations (e.g. email, contacts, calendar)
   * Transfer UI provides common actions for all types of transfers
   * Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
+
+== Question: Interactions With Policy Framework ==
+
+How can ytd-meego work alongside the Meego [http://wiki.meego.com/images/Meego-policy-framework-developer-guide.pdf "Policy Framework"]?
+
+http://conference2010.meego.com/session/policy-framework-flexible-way-orchestrate-multiple-functionalities-meego-devices
+gives a good overview of the role of this framework:
+
+ Functionalities like phone,camera,media player or navigator are often combined in MeeGo devices. Each of them corresponds to a device mode and defines thus an expected behavior pattern. MeeGo devices are expected to behave according to an active device mode and, as a consequence, the behavior of applications can be device mode dependent. The Policy Framework isolates and offloads as much as possible the mode based logic from the applications, making porting of mainstream desktop applications easy. The offloaded logic includes arbitration of media resource usage, management of media streams (routing, audio muting etc) and assignment of adequate resources in terms of memory and scheduling priority. The Policy Framework also isolates and offloads the HW adaptation from the applications and implements implicit,device mode dependent actions to handle events like calls or messages, improving the end-user-experience on handsets or other devices with slower user interaction mechanisms.
+
+Still to be determined: how would ytd-meego interact with this Policy
+Framework on a handset. For example: what happens if a phone call comes in
+while you're shooting video? What forms of notifications, or
+application-switching, is allowed while ytd-meego is being used? Will using
+QtMobility API automatically make this application compliant?
