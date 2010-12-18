@@ -1,22 +1,22 @@
 #Outline/Abstract of Article for http://appdeveloper.intel.com/en-us/node/2406
 
-= ROUGH DRAFT AND RANDOM ORDERING OF TOPICS =
+**( nb: ROUGH DRAFT WORK IN PROGRESS)**
 
-== Overview  == 
+= Overview  = 
 
 The youtube-direct for meego application integrates a number of
 traditionally separate applications: a video recorder/still photo camera,
 GPS integration and geotagging, combined with managing/uploading captured
 media to Youtube-Direct sites. 
 
-== !YouTube Direct ==
+= !YouTube Direct =
 
 [http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
 
 http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview
 http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
-== Platform and Hardware Overview ==
+= Platform and Hardware Overview =
 
 The following diagram describes the
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Multimedia_Domain Nokia n900 Maemo "Multimedia Domain"],
@@ -39,7 +39,7 @@ includes the following subsystems:
 
 The source code for these components is located at http://meego.gitorious.org/maemo-multimedia .
 
-== Camera Component TBD == 
+= Camera Component TBD = 
 
 As the !MeeGo Handset UX platform is under development, some of the media
 infrastructure needed by this project is incomplete and not in a usable
@@ -106,7 +106,7 @@ The above is created by the QML code:
 But there's also C++ and more:
  * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
 
-== Web Component ==
+= Web Component =
 
 As the camera component will not be ready until April 2011 1.2 release, the
 web component of YTD-meego will be given priority, as that can be evaluated
@@ -224,7 +224,7 @@ Library.prototype.loadMovies = function () {
  }
 }}}
 
-== Overlap with Maemo 5 and !MeeGo 1.2 Sharing Framework ==
+= Overlap with Maemo 5 and !MeeGo 1.2 Sharing Framework =
 
 As a "custom web app", there is significant overlap between ytd-meego and
 upcoming !MeeGo 1.2 infrastructure's "Sharing Framework." As mentioned in
@@ -283,7 +283,7 @@ following features to the handset platform:
   * Transfer UI provides common actions for all types of transfers
   * Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
 
-== Question: Interactions With Policy Framework ==
+= Question: Interactions With Policy Framework =
 
 How can ytd-meego work alongside the Meego [http://wiki.meego.com/images/Meego-policy-framework-developer-guide.pdf "Policy Framework"]?
 
