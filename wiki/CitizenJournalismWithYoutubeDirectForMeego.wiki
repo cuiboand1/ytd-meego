@@ -287,8 +287,9 @@ following features to the handset platform:
 
 How can ytd-meego work alongside the Meego [http://wiki.meego.com/images/Meego-policy-framework-developer-guide.pdf "Policy Framework"]?
 
-[http://conference2010.meego.com/session/policy-framework-flexible-way-orchestrate-multiple-functionalities-meego-devices Marco Ballesio's Policy Framework talk at the 2010 Meego Conference]
-gives a good overview of the role of this framework:
+Nokia's Senior architect for !MeeGo Multimedia Middleware,
+[http://conference2010.meego.com/session/policy-framework-flexible-way-orchestrate-multiple-functionalities-meego-devices Marco Ballesio, gave a talk on "Policy Framework"]
+outlines the role of the framework at the 2010 !MeeGo conference:
 
  Functionalities like phone,camera,media player or navigator are often combined in MeeGo devices. Each of them corresponds to a device mode and defines thus an expected behavior pattern. MeeGo devices are expected to behave according to an active device mode and, as a consequence, the behavior of applications can be device mode dependent. The Policy Framework isolates and offloads as much as possible the mode based logic from the applications, making porting of mainstream desktop applications easy. The offloaded logic includes arbitration of media resource usage, management of media streams (routing, audio muting etc) and assignment of adequate resources in terms of memory and scheduling priority. The Policy Framework also isolates and offloads the HW adaptation from the applications and implements implicit,device mode dependent actions to handle events like calls or messages, improving the end-user-experience on handsets or other devices with slower user interaction mechanisms.
 
