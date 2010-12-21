@@ -296,5 +296,5 @@ from the !MeeGo 2010 conference outlines its role:
 Still to be determined: how would ytd-meego interact with this Policy
 Framework on a handset. For example: what happens if a phone call comes in
 while you're shooting video? What forms of notifications, or
-application-switching, is allowed while ytd-meego is being used? Will using
+application-switching, are allowed while ytd-meego is being used? Will using
 QtMobility API automatically make this application compliant?
