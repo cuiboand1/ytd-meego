@@ -11,14 +11,68 @@ media to Youtube-Direct sites.
 
 = !YouTube Direct =
 
-[http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
+ [http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
 
 http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview
 http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
 The [http://ytd-android.googlecode.com !YouTube Direct for Android] application:
 
-[http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
+ [http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
+
+= GUI Technology: Qt Quick and QML = 
+
+== Declarative GUIs and QML ==
+
+== Hybrid Programming in C++ and QML == 
+
+== GUI Components in Qt Quick == 
+
+Qt Quick and QML don't provide a "widget" set in the traditional sense. If
+one wants to develop with a certain look and feel, that is to be embodied
+in the widget set itself, rather than being a part of Qt Quick or QML. This
+flexibility can be problematic for rapid prototyping because there's no
+"one right way to do things" and there are few reusable components or
+patterns to help developers started.
+
+A public project, [https://projects.forum.nokia.com/colibri Qt Quick
+Colibri] is designed to provide reusable UI components suitable for
+cross-platform use on Symbian, Maemo, Meego and Windows/Mac/Linux desktop
+environments. It is designed to get developers started
+with cross-platform Qt Quick / QML application development. Colibri
+currently includes basic components such as buttons, scrollbars, and
+sliders, and a few more advanced ones like histograms and album carousel.
+
+In the future, correct "native" and platform-specific look-and-feel will be
+provided by [http://developer.qt.nokia.com/wiki/Qt_Quick_Components Qt
+Quick Components], which will bring cross platform components to QML, as an
+official Nokia funded project to provide a consistent "native user
+experience" on Nokia mobile platforms.
+
+YTD-Meego will use whatever components, probably from Colibri, that will
+help get the project off the ground as rapidly as possible, with the least
+amount of code. The GUI needs of the YTD-Android application are
+rudimentary "data browsers" combined with the usual buttons, menus,
+etc. The data structures in YTD-Meego are designed to allow easy
+presentation via preexisting
+[http://doc.qt.nokia.com/4.7-snapshot/qdeclarativemodels.html QML Declarative Data models],
+such as:
+
+ * [http://doc.qt.nokia.com/4.7-snapshot/src-imports-folderlistmodel.html Folder List Model]
+
+ [http://doc.qt.nokia.com/4.7-snapshot/images/declarative-folderlistmodel.png]
+
+ * [http://doc.qt.nokia.com/4.7-snapshot/qml-xmllistmodel.html XML List Model]
+
+ [http://doc.qt.nokia.com/4.7-snapshot/images/qml-xmllistmodel-example.png]
+
+ * [http://doc.qt.nokia.com/4.7-snapshot/qml-listmodel.html QML List Model]
+
+ [http://doc.qt.nokia.com/4.7-snapshot/images/listmodel.png
+
+ * http://doc.qt.nokia.com/4.7-snapshot/qml-visualitemmodel.html
+
+ [http://doc.qt.nokia.com/4.7-snapshot/images/visualitemmodel.png]
 
 = Platform and Hardware Overview =
 
@@ -26,7 +80,7 @@ The following diagram describes the
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Multimedia_Domain Nokia n900 Maemo "Multimedia Domain"],
 and should translate, roughly, to !MeeGo on the same platform:
 
-[http://wiki.maemo.org/images/thumb/5/56/OMAP_architecture.png/800px-OMAP_architecture.png]
+ [http://wiki.maemo.org/images/thumb/5/56/OMAP_architecture.png/800px-OMAP_architecture.png]
 
 http://meego.com/developers/meego-architecture/meego-architecture-domain-view
 describes !MeeGo's "Multimedia domain": providing audio and video playback,
@@ -43,7 +97,7 @@ includes the following subsystems:
 
 The source code for these components is located at http://meego.gitorious.org/maemo-multimedia .
 
-= Camera Component TBD = 
+= N900 Camera Component TBD = 
 
 As the !MeeGo Handset UX platform is under development, some of the media
 infrastructure needed by this project is incomplete and not in a usable
@@ -103,7 +157,7 @@ The above open-source "camera application" code will be the basis for the
 the "declarative camera example" from !QtMobility 1.2 is a good basis for
 the "camera control GUI" part of YTD-meego and it's implemented in QML:
 
-[http://doc.qt.nokia.com/qt-mobility-snapshot/images/qml-camera.png]
+ [http://doc.qt.nokia.com/qt-mobility-snapshot/images/qml-camera.png]
 
 The above is created by the QML code:
  * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera-declarative-camera-qml.html
@@ -170,7 +224,7 @@ has already been [ http://www.madeo.co.uk/?page_id=605 ported to !MeeGo]:
  * http://gitorious.org/xbmc-qml-remote 
  * http://gitorious.org/xbmc-qml-remote/pages/Home
 
-[http://web2.0-apps.de/fabian/xbmc/screenshot/album.jpeg]
+ [http://web2.0-apps.de/fabian/xbmc/screenshot/album.jpeg]
 
 Some code examples from that app doing JSON/RPC entirely within QML:
 
@@ -240,13 +294,13 @@ The predecessor
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Imaging_and_Sharing Maemo Sharing Framework]
 provides media uploading to a variety of services:
 
-[http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
+ [http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
 
 The Maemo sharing GUI allows for any media captured on the device to be
 selected and reliably uploaded to any provider that implements a
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Using_Data_Sharing/Sharing_Plug-in sharing plugin]:
 
-[http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]
+ [http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]
 
 In the future, a well integrated youtube-direct "sharing plugin" written
 for the !MeeGo Sharing Framework could subsume the functionality of
