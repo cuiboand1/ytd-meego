@@ -67,12 +67,6 @@ that video become "provable." These are innovative uses of video that can
 only be enabled by having a complete and robust mobile computing and
 telecommunication platform like Meego built into the "video camera"
 
-[1] http://youtube-direct.googlecode.com
-[2] http://ytd-iphone.googlecode.com
-[3] http://ytd-android.googlecode.com
-[4] 
-[5] http://graphics.stanford.edu/papers/fcam/html/
-
 = !YouTube Direct =
 
  [http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
@@ -162,6 +156,14 @@ includes the following subsystems:
  * Pulse Audio - The audio subsystem handles audio inputs, post and pre processing, and outputs in a system. The purpose is to provide a proxy between audio applications and audio hardware.
 
 The source code for these components is located at http://meego.gitorious.org/maemo-multimedia .
+
+The audio subsystem is depicted in the following diagram from
+[http://linuxplumbersconf.org/2009/slides/Jyri-Sarha-audio_miniconf_slides.pdf Jyri Sarha's presentation "Practical Experiences from Using Pulseaudio in Embedded Handheld Device"]
+from the recent Linux Plumber's Conference:
+
+ [http://nielsmayer.com/meego/N900-Pulseaudio-Configuration.png]
+
+The video subsystem, Gstreamer and Camera adaptation diagaram goes here.
 
 = N900 Camera Component TBD = 
 
