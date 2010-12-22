@@ -16,6 +16,10 @@ media to Youtube-Direct sites.
 http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview
 http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
+The [http://ytd-android.googlecode.com !YouTube Direct for Android] application:
+
+[http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
+
 = Platform and Hardware Overview =
 
 The following diagram describes the
