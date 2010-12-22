@@ -7,7 +7,71 @@
 The youtube-direct for meego application integrates a number of
 traditionally separate applications: a video recorder/still photo camera,
 GPS integration and geotagging, combined with managing/uploading captured
-media to Youtube-Direct sites. 
+media to Youtube-Direct sites. Organizations seeking public contribution by
+"[http://gigaom.com/video/youtube-direct-abc7/ citizen journalists]" use
+these sites to facilitate content collection from an increasing population
+of video-enabled smart-phone users.
+
+YTD-Meego represents an innovative use of the handheld platform as a
+computational video camera, performing a unique combination of
+functionality that wasn't possible prior to the confluence of cellular
+networking integrated with handheld/touchscreen computer and video
+camera. The implementation of the application is innovative, utilizing "Qt
+Quick" technology to implement a dynamic, modern touch interface. Qt Quick and QML is the 
+
+
+ Enabling this, "Qt Quick" and QML
+
+
+	    
+
+
+
+This article describes the architecture and design decisions porting the
+[http://youtube-direct.googlecode.com Youtube-Direct]
+handheld application for the
+[http://ytd-iphone.googlecode.com Iphone]
+/
+[http://ytd-android.googlecode.com Android] to
+[http://meego.com MeeGo], using
+Qt Quick/QML
+for the UI, and additional C++ extensions for
+handling HD video capture, geotagging, and uploading to a youtube-direct
+enabled website. 
+As http://ytd-meego.googlecode.com is a new project, part of the purpose of
+this article is to solicit feedback, contributors and domain-expertise on
+the architecture choices described. 
+
+
+The advantages of using Qt's
+declarative capabilities will be explored, describing the benefits to
+iterative design and prototyping that Qt Quick can provide. However, since
+this application pushes the envelope of QML's support for Multimedia
+capture/preview, the article will also discuss adding QtQuick/QML support
+to an existing C++ digital camera application/library (such as FCam[5])
+providing a QML-based prototyping platform for smart-video camera
+applications, such as ytd-meego.
+
+Closing the article, some future thoughts on the possibilities provided by
+the new generation of hybrid video/computing platform like Meego on Nokia
+N900 or N8: with the veracity of news and video footage always in question,
+such platforms can make use of existing platform cryptography libraries
+which can be applied to digitally signing an embedded timecode, geotags and
+other information embedded in the video. Using cryptography, an initial
+"chain of custody" on the video could be established, such as a specific
+certificate issued by the news organization that ensures the
+platform/software/submitter of the information are not forgeries. By
+watermarking digital signatures of GPS geotags and a monotonically
+increasing timecode into the video, edits, photoshopping and omissions to
+that video become "provable." These are innovative uses of video that can
+only be enabled by having a complete and robust mobile computing and
+telecommunication platform like Meego built into the "video camera"
+
+[1] http://youtube-direct.googlecode.com
+[2] http://ytd-iphone.googlecode.com
+[3] http://ytd-android.googlecode.com
+[4] 
+[5] http://graphics.stanford.edu/papers/fcam/html/
 
 = !YouTube Direct =
 
@@ -16,7 +80,7 @@ media to Youtube-Direct sites.
 http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview
 http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
-The [http://ytd-android.googlecode.com !YouTube Direct for Android] application:
+The [http://ytd-android.googlecode.com YouTube Direct for Android] application:
 
  [http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
 
@@ -35,8 +99,9 @@ flexibility can be problematic for rapid prototyping because there's no
 "one right way to do things" and there are few reusable components or
 patterns to help developers started.
 
-A public project, [https://projects.forum.nokia.com/colibri Qt Quick
-Colibri] is designed to provide reusable UI components suitable for
+A public project,
+[https://projects.forum.nokia.com/colibri Qt Quick Colibri]
+is designed to provide reusable UI components suitable for
 cross-platform use on Symbian, Maemo, Meego and Windows/Mac/Linux desktop
 environments. It is designed to get developers started
 with cross-platform Qt Quick / QML application development. Colibri
@@ -44,10 +109,11 @@ currently includes basic components such as buttons, scrollbars, and
 sliders, and a few more advanced ones like histograms and album carousel.
 
 In the future, correct "native" and platform-specific look-and-feel will be
-provided by [http://developer.qt.nokia.com/wiki/Qt_Quick_Components Qt
-Quick Components], which will bring cross platform components to QML, as an
-official Nokia funded project to provide a consistent "native user
-experience" on Nokia mobile platforms.
+provided by
+[http://developer.qt.nokia.com/wiki/Qt_Quick_Components Qt Quick Components],
+which will bring cross platform components to QML, as an official Nokia
+funded project to provide a consistent "native user experience" on Nokia
+mobile platforms.
 
 YTD-Meego will use whatever components, probably from Colibri, that will
 help get the project off the ground as rapidly as possible, with the least
@@ -70,7 +136,7 @@ such as:
 
  [http://doc.qt.nokia.com/4.7-snapshot/images/listmodel.png
 
- * http://doc.qt.nokia.com/4.7-snapshot/qml-visualitemmodel.html
+ * [http://doc.qt.nokia.com/4.7-snapshot/qml-visualitemmodel.html Visual Item Model]
 
  [http://doc.qt.nokia.com/4.7-snapshot/images/visualitemmodel.png]
 
@@ -192,7 +258,7 @@ The web component of the app will be implemented entirely in QML, using Youtube-
   * The admin API is based on the JSON-RPC protocol format. It is essentially a REST-ful POST request with a JSON payload. For more information on JSON-RPC - http://en.wikipedia.org/wiki/JSON-RPC.
 
 http://bugreports.qt.nokia.com/browse/QTBUG-12117 suggests a JSON data
-model for QML and has a workaround:
+model for QML suggests a "design pattern" as workaround:
 
      It would be very convenient to have a JSON data model to use with QML's
      list view elements, instead of emulating a model using !XMLHttpRequest,
@@ -216,6 +282,19 @@ model for QML and has a workaround:
          }
      }
 }}}
+
+The above pattern is an example of how the interface to the !YouTube Direct
+assignment feed in YTD-Meego could be implemented.  Essentially, an
+assignment feed is an RSS feed. An example of an Qt Quick application using
+such a feed is a
+
+[https://projects.forum.nokia.com/QtQuickTwitterExample Qt-Quick "twitter' client]
+.  This constructs a data model that can be browsed by the
+QML "XML List Model" introduced above:
+[https://projects.forum.nokia.com/QtQuickTwitterExample/browser/twitter/content/TwitterModel.qml QtQuickTwitterExample Data Model]
+displaying the data present in the RSS in a GUI:
+
+ [https://projects.forum.nokia.com/QtQuickTwitterExample/raw-attachment/wiki/WikiStart/Twitter-listview1.png]
 
 A similar integration of QML models and JSON/RPC data from a webserver is
 the XBMC Remote for the [http://xbmc.org/ X Box Media Center], which itself
