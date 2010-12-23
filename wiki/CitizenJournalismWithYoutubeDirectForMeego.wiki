@@ -231,6 +231,8 @@ The video subsystem, Gstreamer and Camera adaptation diagaram goes here.
 
 == Meego Policy Framework ==
 
+[http://wiki.meego.com/images/Meego-policy-framework-developer-guide.pdf http://nielsmayer.com/ytd/meego-policy-framework.png]
+
 Marco Ballesio's,
 [http://conference2010.meego.com/session/policy-framework-flexible-way-orchestrate-multiple-functionalities-meego-devices Policy Framework: A Flexible Way To Orchestrate Multiple Functionalities On MeeGo Devices]
 from the !MeeGo 2010 conference outlines the role of the !MeeGo
