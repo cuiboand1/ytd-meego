@@ -17,7 +17,7 @@ computational video camera, performing a unique combination of
 functionality that wasn't possible prior to the confluence of cellular
 networking integrated with handheld/touchscreen computer and video
 camera. The implementation of the application is innovative, utilizing "Qt
-Quick" technology to implement a dynamic, modern touch interface. Qt Quick and QML is the 
+Quick" technology to implement a dynamic, modern touch interface. Qt Quick and QML is the  ...
 
 
  Enabling this, "Qt Quick" and QML
@@ -73,6 +73,14 @@ telecommunication platform like Meego built into the "video camera"
 
 http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview
 http://code.google.com/p/youtube-direct/wiki/GettingStarted
+
+Web Demo: http://ytd-demo.appspot.com/test.html
+
+http://ureport.abc7news.com
+
+ [http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png]
+
+== YTD-Android Reference Application == 
 
 The [http://ytd-android.googlecode.com YouTube Direct for Android] application:
 
@@ -264,6 +272,8 @@ hybrid QML/C++ programming. The first phase will be "rapid prototyping"
 style development, using high-level "Qt Quick" functionality provided by
 QML and modern dynamic programming provided by its !JavaScript language.
 
+== Resumable Uploading == 
+
 One of the issues with a youtube-direct client, noted in private comment by
 Jarek Wilkiewicz of !YouTube, is that the error&retry logic in resumable
 uploads need be robust: uploading large files while on the move, over flaky
@@ -272,6 +282,27 @@ API for resumable uploads (
 http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_resumable_uploads.html
 ). YTD-meego must work with this API and provide the retry and
 partial-upload logic that is robust in the face of networking challenges.
+
+http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#uploading
+
+ For mobile applications, direct resumable uploading is the most reliable choice since it enables an application to gracefully recover from connectivity failures and resume an upload from the point of failure. YouTube’s resumable uploading protocol leverages the HTTP 1.1 Content-Range/Range mechanism to transfer videos in chunks and, in the event of an interruption, to identify the number of bytes that were successfully transferred.
+ While the actual video content is the most important component in an upload, video metadata is an integral part of the process since that metadata lets users locate videos in search and also enables other features described later in this article. In addition to common elements like a category, description, and title, mobile applications can easily include geolocation data from the phone’s GPS device. These data let you provide location-based search or to plot video locations on a map. For video upload applications seeking to minimize user interaction, zero-metadata uploads are another option and more information about that is available from this Google I/O talk.
+
+== Authentication and Access Control == 
+ 
+http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#security
+
+Video uploads as well as any other operations that modify or write data
+require authorization, which is done through an authentication token
+submitted in the API request.
+[http://code.google.com/apis/youtube/2.0/developers_guide_protocol_clientlogin.html# ClientLogin]
+is the simplest method to use for mobile applications. For example, the YTD-Android application, uses the
+[http://developer.android.com/reference/android/accounts/AccountManager.html Android AccountManager]
+to  obtain authentication tokens. An alternative and preferred standard is
+[http://code.google.com/apis/youtube/2.0/developers_guide_protocol_oauth.html OAuth]
+, for which http://gdata-java-client.googlecode.com/ is an example Java client.
+
+= Project Implementation Details =
 
 The web component of the app will be implemented entirely in QML, using Youtube-Direct's JSON API: 
  * http://code.google.com/p/youtube-direct/wiki/YTDAdminJSONAPI
@@ -440,4 +471,21 @@ following features to the handset platform:
    # Synchronizations (e.g. email, contacts, calendar)
   * Transfer UI provides common actions for all types of transfers
   * Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
+
+= Related Work from Maemo = 
+
+ * Furtiv's YouTube upload plug-in for Maemo/n900
+  * http://store.ovi.com/content/29644?clickSource=publisher+channel
+  * The easiest way to upload videos to YouTube from your phone. Upload directly from the Camera or the Photos Gallery. No need to open another app when you just want to share your videos. No need to create an account, just use your YouTube (Google) account. Need help? http://support.furtiv.com
+
+ * Nokia !YouTube uploader for Maemo/n900
+  * http://store.ovi.com/content/39065?clickSource=publisher+channel
+  * The YouTube Uploader allows you to directly upload videos to YouTube when using the Share functionality from the Camera (as a video recorder) or from the Media Player on your Nokia N900.   Video uploads only.
+
+ * PixelPipe for Maemo/N900
+  *  We allow upload directly to the N900 camera and gallery applications to allow for effortless publishing.
+  *  Background uploads! Once you’ve started an upload(s) it’ll go into a queue and deliver your media while your N900 is available and connected via an internet connection.
+  *  Use N900′s Tag Cloud to send to specific services at the time of upload. Just include the service name with an @prefix or create your own custom groups with our Routing Tags feature.
+  * http://www.youtube.com/watch?v=9TO--oQH9lk
+  * http://blog.pixelpipe.com/2009/10/17/enabling-the-nokia-n900-to-the-social-web-with-pixelpipe/
 
