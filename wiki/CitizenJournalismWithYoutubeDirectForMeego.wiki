@@ -16,16 +16,16 @@ YTD-Meego represents an innovative use of the handheld platform as a
 computational video camera, performing a unique combination of
 functionality that wasn't possible prior to the confluence of cellular
 networking integrated with handheld/touchscreen computer and video
-camera. The implementation of the application is innovative, utilizing "Qt
-Quick" technology to implement a dynamic, modern touch interface. Qt Quick and QML is the  ...
+camera. 
 
-
- Enabling this, "Qt Quick" and QML
-
-
-	    
-
-
+The implementation of the application is innovative, utilizing "Qt Quick"
+technology for rapdid-prototyping dynamic, modern touch GUIs. Qt Quick and
+QML is used to implement most of the functionality of this project,
+utilizing prototype-based OOP in the !JavaScript language. However, there
+are areas where plugins or native access to underlying platform
+functionality is not available in QML. In these cases, "hybrid programming"
+technique will be used, implemented in C++ using !QtMobility API, but
+providing high-level !JavaScript calls for use by QML files.
 
 This article describes the architecture and design decisions porting the
 [http://youtube-direct.googlecode.com Youtube-Direct]
@@ -40,51 +40,100 @@ handling HD video capture, geotagging, and uploading to a youtube-direct
 enabled website. 
 As http://ytd-meego.googlecode.com is a new project, part of the purpose of
 this article is to solicit feedback, contributors and domain-expertise on
-the architecture choices described. 
-
-
-The advantages of using Qt's
-declarative capabilities will be explored, describing the benefits to
-iterative design and prototyping that Qt Quick can provide. However, since
-this application pushes the envelope of QML's support for Multimedia
-capture/preview, the article will also discuss adding QtQuick/QML support
-to an existing C++ digital camera application/library (such as FCam[5])
-providing a QML-based prototyping platform for smart-video camera
-applications, such as ytd-meego.
-
-Closing the article, some future thoughts on the possibilities provided by
-the new generation of hybrid video/computing platform like Meego on Nokia
-N900 or N8: with the veracity of news and video footage always in question,
-such platforms can make use of existing platform cryptography libraries
-which can be applied to digitally signing an embedded timecode, geotags and
-other information embedded in the video. Using cryptography, an initial
-"chain of custody" on the video could be established, such as a specific
-certificate issued by the news organization that ensures the
-platform/software/submitter of the information are not forgeries. By
-watermarking digital signatures of GPS geotags and a monotonically
-increasing timecode into the video, edits, photoshopping and omissions to
-that video become "provable." These are innovative uses of video that can
-only be enabled by having a complete and robust mobile computing and
-telecommunication platform like Meego built into the "video camera"
+the architecture choices described.
 
 = !YouTube Direct =
 
- [http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
+ [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
 
-http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview
 http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
 Web Demo: http://ytd-demo.appspot.com/test.html
 
-http://ureport.abc7news.com
+[http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
 
- [http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png]
 
-== YTD-Android Reference Application == 
+= Related Work = 
 
-The [http://ytd-android.googlecode.com YouTube Direct for Android] application:
+The Maemo Linux platform for the Nokia N900 has several YouTube uploader
+applications. These are not !YouTube direct clients, but do represent
+existing applications that support mobile uploading of videos to !YouTube.
 
- [http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
+ * Nokia !YouTube uploader for Maemo/n900
+  * http://store.ovi.com/content/39065?clickSource=publisher+channel
+  * The YouTube Uploader allows you to directly upload videos to YouTube when using the Share functionality from the Camera (as a video recorder) or from the Media Player on your Nokia N900.   Video uploads only.
+
+ * PixelPipe for Maemo/N900
+  *  We allow upload directly to the N900 camera and gallery applications to allow for effortless publishing.
+  *  Background uploads! Once you’ve started an upload(s) it’ll go into a queue and deliver your media while your N900 is available and connected via an internet connection.
+  *  Use N900′s Tag Cloud to send to specific services at the time of upload. Just include the service name with an @prefix or create your own custom groups with our Routing Tags feature.
+  * http://www.youtube.com/watch?v=9TO--oQH9lk
+  * http://blog.pixelpipe.com/2009/10/17/enabling-the-nokia-n900-to-the-social-web-with-pixelpipe/
+
+== Overlap with Maemo 5 and !MeeGo 1.2 Sharing Framework ==
+
+The Nokia YouTube uploader application mentioned above uses the platform
+sharing facilities from Maemo.  There is also significant overlap between
+ytd-meego and upcoming !MeeGo 1.2 infrastructure's "Sharing Framework." As
+mentioned in http://wiki.meego.com/Architecture#Upcoming_Features , the
+"Sharing framework provides a unified API for sharing files via, e.g., BT,
+email, web services. It includes webupload engine and an API for transfer
+UI." Similar overlap exists with authentication, in that the sharing framework has
+"Full integration with
+[http://gitorious.org/accounts-sso/pages/Overview_of_accounts_framework Accounts] and
+[http://gitorious.org/accounts-sso/pages/Home Single Sign-on]
+in !MeeGo.com."
+
+The predecessor
+[http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Imaging_and_Sharing Maemo Sharing Framework]
+provides media uploading to a variety of services:
+
+ [http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
+
+The Maemo sharing GUI allows for any media captured on the device to be
+selected and reliably uploaded to any provider that implements a
+[http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Using_Data_Sharing/Sharing_Plug-in sharing plugin]:
+
+ [http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]
+
+In the future, a well integrated youtube-direct "sharing plugin" written
+for the !MeeGo Sharing Framework could subsume the functionality of
+ytd-meego: allowing arbitrary camera/video apps to output media for
+sharing, and allowing the sharing framework to handle the particulars of
+uploading that media to a given internet sharing service.
+
+Perhaps a "2.0" version of YTD-!MeeGo could be implemented as a custom
+plugin for the !MeeGo Sharing Framework. The framework provides the
+following features to the handset platform:
+
+ * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination]
+  * Share UI that provides unified method for sharing different types of objects:
+   # File paths
+   # Tracker IRIs for file-backed ontologies
+   # Data URL-encoded objects (RFC 2397)
+  * Displays sharing plugins supported by Web upload engine
+  * Provides flexibility in destination methods implementation, by allowing multiple sharing methods per plugin and methods to dynamically change during execution
+  * Provides full integration with Accounts and Single Sign-on in !MeeGo.com 
+
+ * [http://bugs.meego.com/show_bug.cgi?id=8180 FEATURE: Share: Web Upload Engine]
+  * Web Upload Engine that provides unified processing of uploads, including:
+   # Upload job queues
+   # Resizing of still images
+   # Metadata removal/replacement for images and videos
+   # Upload recovery after crashes/restart of the device
+   # Optional: video re-encoding
+  * Provides reference share plugins for Facebook, YouTube, Picasa and Email
+  * Full integration with Accounts and Single Sign-on in !MeeGo.com
+  * Process separation for upload plugins and integrated with Security Framework 
+
+ * [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
+  * Transfer UI that provides integrated transfer visualization for all types of transfers:
+   # Uploading content to social networks (such as Facebook)
+   # Sharing to other devices (e.g. via Bluetooth)
+   # Downloading content via different applications (e.g. Browser, Feeds)
+   # Synchronizations (e.g. email, contacts, calendar)
+  * Transfer UI provides common actions for all types of transfers
+  * Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
 
 = GUI Technology: Qt Quick and QML = 
 
@@ -413,79 +462,27 @@ Library.prototype.loadMovies = function () {
  }
 }}}
 
-= Overlap with Maemo 5 and !MeeGo 1.2 Sharing Framework =
+= Future work enabled by a "Video 2.0" platform =
 
-As a "custom web app", there is significant overlap between ytd-meego and
-upcoming !MeeGo 1.2 infrastructure's "Sharing Framework." As mentioned in
-http://wiki.meego.com/Architecture#Upcoming_Features , the "Sharing
-framework provides a unified API for sharing files via, e.g., BT, email,
-web services. It includes webupload engine and an API for transfer UI."
+The new generation of hybrid video/computing platform such as the Nokia
+N900 or N8 enable a whole different world of applications. Stanford
+University's
+[http://www-graphics.stanford.edu/papers/fcam/ FCam Project ]
+claims applications of "[http://www-graphics.stanford.edu/projects/camera-2.0/ Camera 2.0]"
+include:
+ "high dynamic range imaging, flash-noflash imaging, coded aperture and coded exposure imaging, photography under structured illumination, multi-perspective and panoramic stitching, digital photomontage, all-focus imaging, and light field imaging."
 
-The predecessor
-[http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Imaging_and_Sharing Maemo Sharing Framework]
-provides media uploading to a variety of services:
-
- [http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
-
-The Maemo sharing GUI allows for any media captured on the device to be
-selected and reliably uploaded to any provider that implements a
-[http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Using_Data_Sharing/Sharing_Plug-in sharing plugin]:
-
- [http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]
-
-In the future, a well integrated youtube-direct "sharing plugin" written
-for the !MeeGo Sharing Framework could subsume the functionality of
-ytd-meego: allowing arbitrary camera/video apps to output media for
-sharing, and allowing the sharing framework to handle the particulars of
-uploading that media to a given internet sharing service.
-
-Perhaps a "2.0" version of YTD-!MeeGo could be implemented as a custom
-plugin for the !MeeGo Sharing Framework. The framework provides the
-following features to the handset platform:
-
- * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination]
-  * Share UI that provides unified method for sharing different types of objects:
-   # File paths
-   # Tracker IRIs for file-backed ontologies
-   # Data URL-encoded objects (RFC 2397)
-  * Displays sharing plugins supported by Web upload engine
-  * Provides flexibility in destination methods implementation, by allowing multiple sharing methods per plugin and methods to dynamically change during execution
-  * Provides full integration with Accounts and Single Sign-on in !MeeGo.com 
-
- * [http://bugs.meego.com/show_bug.cgi?id=8180 FEATURE: Share: Web Upload Engine]
-  * Web Upload Engine that provides unified processing of uploads, including:
-   # Upload job queues
-   # Resizing of still images
-   # Metadata removal/replacement for images and videos
-   # Upload recovery after crashes/restart of the device
-   # Optional: video re-encoding
-  * Provides reference share plugins for Facebook, YouTube, Picasa and Email
-  * Full integration with Accounts and Single Sing-on in !MeeGo.com
-  * Process separation for upload plugins and integrated with Security Framework 
-
- * [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
-  * Transfer UI that provides integrated transfer visualization for all types of transfers:
-   # Uploading content to social networks (such as Facebook)
-   # Sharing to other devices (e.g. via Bluetooth)
-   # Downloading content via different applications (e.g. Browser, Feeds)
-   # Synchronizations (e.g. email, contacts, calendar)
-  * Transfer UI provides common actions for all types of transfers
-  * Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
-
-= Related Work from Maemo = 
-
- * Furtiv's YouTube upload plug-in for Maemo/n900
-  * http://store.ovi.com/content/29644?clickSource=publisher+channel
-  * The easiest way to upload videos to YouTube from your phone. Upload directly from the Camera or the Photos Gallery. No need to open another app when you just want to share your videos. No need to create an account, just use your YouTube (Google) account. Need help? http://support.furtiv.com
-
- * Nokia !YouTube uploader for Maemo/n900
-  * http://store.ovi.com/content/39065?clickSource=publisher+channel
-  * The YouTube Uploader allows you to directly upload videos to YouTube when using the Share functionality from the Camera (as a video recorder) or from the Media Player on your Nokia N900.   Video uploads only.
-
- * PixelPipe for Maemo/N900
-  *  We allow upload directly to the N900 camera and gallery applications to allow for effortless publishing.
-  *  Background uploads! Once you’ve started an upload(s) it’ll go into a queue and deliver your media while your N900 is available and connected via an internet connection.
-  *  Use N900′s Tag Cloud to send to specific services at the time of upload. Just include the service name with an @prefix or create your own custom groups with our Routing Tags feature.
-  * http://www.youtube.com/watch?v=9TO--oQH9lk
-  * http://blog.pixelpipe.com/2009/10/17/enabling-the-nokia-n900-to-the-social-web-with-pixelpipe/
+The !YouTube Direct Application on a handset represents the first steps
+towards "Video 2.0."  With the veracity of news and video footage always in
+question, such platforms can make use of existing platform cryptography
+libraries which can be applied to digitally signing an embedded timecode,
+geotags and other information embedded in the video. Using cryptography, an
+initial "chain of custody" on the video could be established, such as a
+specific certificate issued by the news organization that ensures the
+platform/software/submitter of the information are not forgeries. By
+watermarking digital signatures of GPS geotags and a monotonically
+increasing timecode into the video, edits, photoshopping and omissions to
+that video become "provable." These are innovative uses of video that can
+only be enabled by having a complete and robust mobile computing and
+telecommunication platform like Meego built into the "video camera"
 
