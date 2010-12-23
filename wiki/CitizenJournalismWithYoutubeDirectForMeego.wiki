@@ -241,6 +241,20 @@ while you're shooting video? What forms of notifications, or
 application-switching, are allowed while ytd-meego is being used? Will using
 !QtMobility API automatically make this application compliant?
 
+= Other Meego Platform "Middleware" =
+
+== Tracker Subsystem ==
+
+Tracker provides indexing, meta-data extraction, and search  −
+capabilities for a variety of data types, including media files, 
+and document
+
+== Geoclue Subsystem ==
+
+MeeGo provides GeoClue for location services such as GPS, GSM Cell and Wifi
+Network.
+
+
 = Developing for N900 Camera Component =
 
 As the !MeeGo Handset UX platform is under development, some of the media
