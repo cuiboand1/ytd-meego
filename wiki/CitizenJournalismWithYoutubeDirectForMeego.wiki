@@ -103,8 +103,11 @@ sharing, and allowing the sharing framework to handle the particulars of
 uploading that media to a given internet sharing service.
 
 Perhaps a "2.0" version of YTD-!MeeGo could be implemented as a custom
-plugin for the !MeeGo Sharing Framework. The framework provides the
-following features to the handset platform:
+plugin for the !MeeGo Sharing Framework, assuming metadata such as
+geotagging and notations are appropriately added to captured media. The
+"assignment sheet" from youtube-direct sites is a dynamic source of "tags"
+that the user must select and apply to the uploaded media as well. The
+framework provides the following features to the handset platform:
 
  * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination]
   * Share UI that provides unified method for sharing different types of objects:
@@ -245,15 +248,23 @@ application-switching, are allowed while ytd-meego is being used? Will using
 
 == Tracker Subsystem ==
 
-Tracker provides indexing, meta-data extraction, and search  −
-capabilities for a variety of data types, including media files, 
-and document
+Tracker provides indexing, meta-data extraction, and search capabilities
+for a variety of data types, including media files, and document. This API should be used for storing captured media
+
+Note that the Tracker subsystem is also used by the upcoming Meego 1.2
+Sharing Framework: e.g. "Transfer history preservation in Tracker; to
+ensure easy way to establish relationship between services and data. See
+for details, see [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
+[http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination].
+
+TODO: What is Qt API for this? 
 
 == Geoclue Subsystem ==
 
 MeeGo provides GeoClue for location services such as GPS, GSM Cell and Wifi
 Network.
 
+TODO: What is Qt API for this??
 
 = Developing for N900 Camera Component =
 
@@ -365,7 +376,12 @@ to  obtain authentication tokens. An alternative and preferred standard is
 [http://code.google.com/apis/youtube/2.0/developers_guide_protocol_oauth.html OAuth]
 , for which http://gdata-java-client.googlecode.com/ is an example Java client.
 
-= Project Implementation Details =
+An example OAuth implementation using QML can be found at 
+http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/twitter-oauth for example:
+http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.js
+http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.qml
+
+= QML Implementation Details =
 
 The web component of the app will be implemented entirely in QML, using Youtube-Direct's JSON API: 
  * http://code.google.com/p/youtube-direct/wiki/YTDAdminJSONAPI
@@ -402,7 +418,6 @@ The above pattern is an example of how the interface to the !YouTube Direct
 assignment feed in YTD-Meego could be implemented.  Essentially, an
 assignment feed is an RSS feed. An example of an Qt Quick application using
 such a feed is a
-
 [https://projects.forum.nokia.com/QtQuickTwitterExample Qt-Quick "twitter' client]
 .  This constructs a data model that can be browsed by the
 QML "XML List Model" introduced above:
@@ -410,6 +425,7 @@ QML "XML List Model" introduced above:
 displaying the data present in the RSS in a GUI:
 
  [https://projects.forum.nokia.com/QtQuickTwitterExample/raw-attachment/wiki/WikiStart/Twitter-listview1.png]
+
 
 A similar integration of QML models and JSON/RPC data from a webserver is
 the XBMC Remote for the [http://xbmc.org/ X Box Media Center], which itself
@@ -499,4 +515,12 @@ increasing timecode into the video, edits, photoshopping and omissions to
 that video become "provable." These are innovative uses of video that can
 only be enabled by having a complete and robust mobile computing and
 telecommunication platform like Meego built into the "video camera"
+
+= Conclusion =
+
+Youtube-direct on Meego is cool and innovative. Please add your comments,
+in the comments section of this article, and if you have something to
+contribute to the project, please volunteer. There's a lot of code to write
+and a lot of different components to get working and test on this
+promising, but evolving platform.
 
