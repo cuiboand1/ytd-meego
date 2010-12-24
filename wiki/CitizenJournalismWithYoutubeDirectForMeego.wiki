@@ -180,24 +180,24 @@ amount of code. The GUI needs of the YTD-Android application are
 rudimentary "data browsers" combined with the usual buttons, menus,
 etc. The data structures in YTD-Meego are designed to allow easy
 presentation via preexisting
-[http://doc.qt.nokia.com/4.7-snapshot/qdeclarativemodels.html QML Declarative Data models],
+[http://doc.qt.nokia.com/4.7/qdeclarativemodels.html QML Declarative Data models],
 such as:
 
- * [http://doc.qt.nokia.com/4.7-snapshot/src-imports-folderlistmodel.html Folder List Model]
+ * [http://doc.qt.nokia.com/4.7/src-imports-folderlistmodel.html Folder List Model]
 
- [http://doc.qt.nokia.com/4.7-snapshot/images/declarative-folderlistmodel.png]
+ [http://doc.qt.nokia.com/4.7/images/declarative-folderlistmodel.png]
 
- * [http://doc.qt.nokia.com/4.7-snapshot/qml-xmllistmodel.html XML List Model]
+ * [http://doc.qt.nokia.com/4.7/qml-xmllistmodel.html XML List Model]
 
- [http://doc.qt.nokia.com/4.7-snapshot/images/qml-xmllistmodel-example.png]
+ [http://doc.qt.nokia.com/4.7/images/qml-xmllistmodel-example.png]
 
- * [http://doc.qt.nokia.com/4.7-snapshot/qml-listmodel.html QML List Model]
+ * [http://doc.qt.nokia.com/4.7/qml-listmodel.html QML List Model]
 
- [http://doc.qt.nokia.com/4.7-snapshot/images/listmodel.png]
+ [http://doc.qt.nokia.com/4.7/images/listmodel.png]
 
- * [http://doc.qt.nokia.com/4.7-snapshot/qml-visualitemmodel.html Visual Item Model]
+ * [http://doc.qt.nokia.com/4.7/qml-visualitemmodel.html Visual Item Model]
 
- [http://doc.qt.nokia.com/4.7-snapshot/images/visualitemmodel.png]
+ [http://doc.qt.nokia.com/4.7/images/visualitemmodel.png]
 
 = Platform and Hardware Overview =
 
