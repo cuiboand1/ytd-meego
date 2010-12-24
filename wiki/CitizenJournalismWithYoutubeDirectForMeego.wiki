@@ -226,7 +226,7 @@ from the recent Linux Plumber's Conference:
 
 A lively thread on the role of pulseaudio in a handset was started on the [http://lists.linuxaudio.org/listinfo/linux-audio-dev Linux Audio Developers] and [http://lists.meego.com/pipermail/meego-handset/ Meego Handset] Lists, with notable replies by:
  * Marco Ballesio (Nokia Multimedia Architect): [http://lalists.stanford.edu/lad/2010/12/0164.html LAD#1] [http://lalists.stanford.edu/lad/2010/12/0166.html LAD#2]
- * Kai Vehmanen (Nokia Meego Telephony (?) and [http://www.eca.cx/ecasound/ Ecasound] author): [LAD#3 http://lalists.stanford.edu/lad/2010/12/0168.html] [LAD#4 http://lalists.stanford.edu/lad/2010/12/0167.html] [LAD#5 http://lalists.stanford.edu/lad/2010/12/0170.html]
+ * Kai Vehmanen (Nokia Meego Telephony (?) and [http://www.eca.cx/ecasound/ Ecasound] author): [http://lalists.stanford.edu/lad/2010/12/0168.html LAD#3] [http://lalists.stanford.edu/lad/2010/12/0167.html LAD#4 ] [http://lalists.stanford.edu/lad/2010/12/0170.html LAD#5]
 
 == Video and Camera Subsystem == 
 
