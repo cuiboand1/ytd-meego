@@ -380,9 +380,10 @@ http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_resuma
 ). YTD-meego must work with this API and provide the retry and
 partial-upload logic that is robust in the face of networking challenges.
 
-http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#uploading
+http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#uploading provides details:
 
- For mobile applications, direct resumable uploading is the most reliable choice since it enables an application to gracefully recover from connectivity failures and resume an upload from the point of failure. YouTube’s resumable uploading protocol leverages the HTTP 1.1 Content-Range/Range mechanism to transfer videos in chunks and, in the event of an interruption, to identify the number of bytes that were successfully transferred.
+ For mobile applications, [http://code.google.com/apis/youtube/2.0/developers_guide_protocol_resumable_uploads.html#Resumable_uploads direct resumable uploading] is the most reliable choice since it enables an application to gracefully recover from connectivity failures and resume an upload from the point of failure. !YouTube’s resumable uploading protocol leverages the HTTP 1.1 [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16 Content-Range/Range] mechanism to transfer videos in chunks and, in the event of an interruption, to identify the number of bytes that were successfully transferred.
+
  While the actual video content is the most important component in an upload, video metadata is an integral part of the process since that metadata lets users locate videos in search and also enables other features described later in this article. In addition to common elements like a category, description, and title, mobile applications can easily include [http://code.google.com/apis/youtube/2.0/reference.html#GeoRSS_elements_reference geolocation] data from the phone’s GPS device. These data let you provide location-based search or to plot video locations on a map. For video upload applications seeking to minimize user interaction, zero-metadata uploads are another option and more information about that is available from this Google I/O [http://apiblog.youtube.com/2010/06/youtube-api-google-io-2010.html talk].
 
 == Authentication and Access Control == 
