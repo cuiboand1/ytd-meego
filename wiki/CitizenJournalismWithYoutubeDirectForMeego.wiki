@@ -59,7 +59,7 @@ The Maemo Linux platform for the Nokia N900 has several !YouTube uploader
 applications. These are not !YouTube direct clients, but do represent
 existing applications that support mobile uploading of videos to !YouTube.
 
- * [http://store.ovi.com/content/39065?clickSource=publisher+channel Nokia !YouTube uploader for Maemo/n900]
+ * [http://store.ovi.com/content/39065?clickSource=publisher+channel Nokia YouTube uploader for Maemo/n900]
   * The !YouTube Uploader allows you to directly upload videos to !YouTube when using the Share functionality from the Camera (as a video recorder) or from the Media Player on your Nokia N900.   Video uploads only.
 
  * [http://blog.pixelpipe.com/2009/10/17/enabling-the-nokia-n900-to-the-social-web-with-pixelpipe/ PixelPipe for Maemo/N900]
@@ -69,7 +69,7 @@ existing applications that support mobile uploading of videos to !YouTube.
     
 == Overlap with Maemo 5 and !MeeGo 1.2 Sharing Framework ==
 
-The Nokia YouTube uploader application mentioned above uses the platform
+The Nokia !YouTube uploader application mentioned above uses the platform
 sharing facilities from Maemo.  There is also significant overlap between
 ytd-meego and upcoming !MeeGo 1.2 infrastructure's "Sharing Framework." As
 mentioned in http://wiki.meego.com/Architecture#Upcoming_Features , the
@@ -83,7 +83,7 @@ in !MeeGo.com."
 
 The predecessor
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Imaging_and_Sharing Maemo Sharing Framework]
-provides media uploading to a variety of services:
+provides media uploading to a variety of services (an equivalent diagram couldn't be found for Meego at time of writing):
 
  [http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
 
