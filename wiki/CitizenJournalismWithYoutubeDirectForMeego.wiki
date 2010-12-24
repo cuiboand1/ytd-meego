@@ -193,7 +193,7 @@ such as:
 
  * [http://doc.qt.nokia.com/4.7-snapshot/qml-listmodel.html QML List Model]
 
- [http://doc.qt.nokia.com/4.7-snapshot/images/listmodel.png
+ [http://doc.qt.nokia.com/4.7-snapshot/images/listmodel.png]
 
  * [http://doc.qt.nokia.com/4.7-snapshot/qml-visualitemmodel.html Visual Item Model]
 
