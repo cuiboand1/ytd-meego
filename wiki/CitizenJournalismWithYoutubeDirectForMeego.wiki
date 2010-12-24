@@ -206,14 +206,13 @@ http://meego.com/developers/meego-architecture/meego-architecture-domain-view
 describes !MeeGo's "Multimedia domain": providing audio and video playback,
 streaming, and imaging functionality to the system. It handles retrieval,
 demuxing, decoding and encoding, seeking of audio and video data. It
-includes the following subsystems:
+includes the following subsystems under "Media Services" part of Meego Middleware:
 
- * Imaging and Video Adaptation - Platform specific codecs and containers for GStreamer
- * Camera Adaptation - Platform specific codecs and containers for GStreamer. Adaptation interface is !CameraBin.
- * UPnP - Universal Plug and Play provides a UPnP stack, the UPnP profile for audio and video.
- * Gstreamer - GStreamer, through its plugins, provides playback, streaming, and imaging functionality to the system.
- * Audio Adaptation - Platform specific modules for !PulseAudio
- * Pulse Audio - The audio subsystem handles audio inputs, post and pre processing, and outputs in a system. The purpose is to provide a proxy between audio applications and audio hardware.
+ * Gstreamer provides cross platform, plugin-based framework for playback, streaming, and imaging. 
+ * PulseAudio handles audio inputs, post/pre processing, and outputs in a system.
+ * Camera subsystem provides still and video camera functionality, including platform specific codecs and containers for GStreamer, metadata, and image post processing.
+ * GStreamer-compatible codecs are supported for encoding / decoding of audio and video
+ * GUPnP is an object-oriented framework for creating UPnP devices and control points, with extension libraries for IGD and A/V specifications
 
 The source code for these components is located at http://meego.gitorious.org/maemo-multimedia .
 
@@ -224,6 +223,10 @@ The audio subsystem is depicted in the following diagram from
 from the recent Linux Plumber's Conference:
 
  [http://nielsmayer.com/meego/N900-Pulseaudio-Configuration.png]
+
+A lively thread on the role of pulseaudio in a handset was started on the [http://lists.linuxaudio.org/listinfo/linux-audio-dev Linux Audio Developers] and [http://lists.meego.com/pipermail/meego-handset/ Meego Handset] Lists, with notable replies by:
+ * Marco Ballesio (Nokia Multimedia Architect): [http://lalists.stanford.edu/lad/2010/12/0164.html LAD#1] [http://lalists.stanford.edu/lad/2010/12/0166.html LAD#2]
+ * Kai Vehmanen (Nokia Meego Telephony (?) and [http://www.eca.cx/ecasound/ Ecasound] author): [LAD#3 http://lalists.stanford.edu/lad/2010/12/0168.html] [LAD#4 http://lalists.stanford.edu/lad/2010/12/0167.html] [LAD#5 http://lalists.stanford.edu/lad/2010/12/0170.html]
 
 == Video and Camera Subsystem == 
 
