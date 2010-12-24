@@ -148,7 +148,15 @@ one wants to develop with a certain look and feel, that is to be embodied
 in the widget set itself, rather than being a part of Qt Quick or QML. This
 flexibility can be problematic for rapid prototyping because there's no
 "one right way to do things" and there are few reusable components or
-patterns to help developers started.
+patterns to help developers started. Qt Quick however, makes it easier to
+implement UI designers Photoshop work and turn it into a real user
+interface: http://labs.qt.nokia.com/2010/10/19/exporting-qml-from-photoshop-and-gimp/ .
+
+However, with this flexibility, easy adherence to "user interface design
+guidelines" is pushed to the GUI components used. These components are
+manufacturer specific with Qt Quick, and embodied within separate
+public/open and private GUI components: Qt Quick Colibri and Qt Quick
+Compoents.
 
 A public project,
 [https://projects.forum.nokia.com/colibri Qt Quick Colibri]
