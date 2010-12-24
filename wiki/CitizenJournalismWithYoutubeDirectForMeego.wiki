@@ -444,7 +444,7 @@ displaying the data present in the RSS in a GUI:
 
 A similar integration of QML models and JSON/RPC data from a webserver is
 the XBMC Remote for the [http://xbmc.org/ X Box Media Center], which itself
-has already been [ http://www.madeo.co.uk/?page_id=605 ported to !MeeGo]:
+has already been [http://www.madeo.co.uk/?page_id=605 ported to MeeGo]:
 
  * http://gitorious.org/xbmc-qml-remote 
  * http://gitorious.org/xbmc-qml-remote/pages/Home
