@@ -55,21 +55,18 @@ Web Demo: http://ytd-demo.appspot.com/test.html
 
 = Related Work = 
 
-The Maemo Linux platform for the Nokia N900 has several YouTube uploader
+The Maemo Linux platform for the Nokia N900 has several !YouTube uploader
 applications. These are not !YouTube direct clients, but do represent
 existing applications that support mobile uploading of videos to !YouTube.
 
- * Nokia !YouTube uploader for Maemo/n900
-  * http://store.ovi.com/content/39065?clickSource=publisher+channel
-  * The YouTube Uploader allows you to directly upload videos to YouTube when using the Share functionality from the Camera (as a video recorder) or from the Media Player on your Nokia N900.   Video uploads only.
+ * [http://store.ovi.com/content/39065?clickSource=publisher+channel Nokia !YouTube uploader for Maemo/n900]
+  * The !YouTube Uploader allows you to directly upload videos to !YouTube when using the Share functionality from the Camera (as a video recorder) or from the Media Player on your Nokia N900.   Video uploads only.
 
- * PixelPipe for Maemo/N900
-  *  We allow upload directly to the N900 camera and gallery applications to allow for effortless publishing.
-  *  Background uploads! Once you’ve started an upload(s) it’ll go into a queue and deliver your media while your N900 is available and connected via an internet connection.
-  *  Use N900′s Tag Cloud to send to specific services at the time of upload. Just include the service name with an @prefix or create your own custom groups with our Routing Tags feature.
-  * http://www.youtube.com/watch?v=9TO--oQH9lk
-  * http://blog.pixelpipe.com/2009/10/17/enabling-the-nokia-n900-to-the-social-web-with-pixelpipe/
-
+ * [http://blog.pixelpipe.com/2009/10/17/enabling-the-nokia-n900-to-the-social-web-with-pixelpipe/ PixelPipe for Maemo/N900]
+  * Upload directly from N900 camera and gallery applications.
+  * Background uploads. 
+  * Use N900′s Tag Cloud to send to specific services at the time of upload.
+    
 == Overlap with Maemo 5 and !MeeGo 1.2 Sharing Framework ==
 
 The Nokia YouTube uploader application mentioned above uses the platform
@@ -271,9 +268,9 @@ allows access to Tracker at the C++ level.  Therefore "Hybrid
 Programming" technique will be needed to provide high-level interfaces from
 QML to Tracker, via an API consisting of !JavaScript prototype methods.
 
-== Geoclue Subsystem for Geolocation data ==
+== !GeoClue Subsystem for Geolocation data ==
 
-MeeGo provides GeoClue for location services such as GPS, GSM Cell and Wifi
+!MeeGo provides !GeoClue for location services such as GPS, GSM Cell and Wifi
 Network. However, the appropriate way to use these services in YTD-Meego is
 to use
 [http://doc.qt.nokia.com/qtmobility-1.1-tp/location-overview.html Qt Mobility's Location API]
