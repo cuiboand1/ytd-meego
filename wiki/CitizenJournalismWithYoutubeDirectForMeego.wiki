@@ -317,7 +317,7 @@ The status of camera and GPS functionality on the n900 were discussed on
 The camera features needed by YTD-!MeeGo that are under implementation for !MeeGo 1.2
 include:
 
- * [http://bugs.meego.com/show_bug.cgi?id=5461 FEATURE: Camera 
+ * [http://bugs.meego.com/show_bug.cgi?id=5461 FEATURE: Camera] 
   * A Camera application is required to capture still images and record videos with the device.  
 
  * [http://bugs.meego.com/show_bug.cgi?id=2743 FEATURE: Camera subsystem]
