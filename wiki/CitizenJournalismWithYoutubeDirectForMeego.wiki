@@ -81,7 +81,7 @@ UI." Similar overlap exists with authentication, in that the sharing framework h
 [http://gitorious.org/accounts-sso/pages/Home Single Sign-on]
 in !MeeGo.com."
 
-The predecessor (an equivalent diagram couldn't be found for Meego at time of writing)
+The predecessor (an equivalent diagram couldn't be found for !MeeGo at time of writing)
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Imaging_and_Sharing Maemo Sharing Framework]
 provides media uploading to a variety of services:
 
@@ -214,7 +214,7 @@ demuxing, decoding and encoding, seeking of audio and video data. It
 includes the following subsystems under "Media Services" part of Meego Middleware:
 
  * Gstreamer provides cross platform, plugin-based framework for playback, streaming, and imaging. 
- * PulseAudio handles audio inputs, post/pre processing, and outputs in a system.
+ * !PulseAudio handles audio inputs, post/pre processing, and outputs in a system.
  * Camera subsystem provides still and video camera functionality, including platform specific codecs and containers for GStreamer, metadata, and image post processing.
  * GStreamer-compatible codecs are supported for encoding / decoding of audio and video
  * GUPnP is an object-oriented framework for creating UPnP devices and control points, with extension libraries for IGD and A/V specifications
