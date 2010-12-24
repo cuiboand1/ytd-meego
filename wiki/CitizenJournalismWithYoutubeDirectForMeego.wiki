@@ -250,23 +250,36 @@ application-switching, are allowed while ytd-meego is being used? Will using
 
 == Tracker Subsystem ==
 
-Tracker provides indexing, meta-data extraction, and search capabilities
-for a variety of data types, including media files, and document. This API should be used for storing captured media
+The Tracker Subsystem in Meego provides indexing, meta-data extraction, and
+search capabilities for a variety of data types, including media files, and
+document. This API should be used for storing captured media, as well
+tagging media files with meta-data, including Geolocation data.
 
 Note that the Tracker subsystem is also used by the upcoming Meego 1.2
 Sharing Framework: e.g. "Transfer history preservation in Tracker; to
-ensure easy way to establish relationship between services and data. See
-for details, see [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
-[http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination].
+ensure easy way to establish relationship between services and data."
 
-TODO: What is Qt API for this? 
+For details, see
+ * [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
+ * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination].
 
-== Geoclue Subsystem ==
+[http://maemo.gitorious.org/maemo-af/libqttracker A Qt Tracker Library]
+allows access to Tracker at the C++ level.  Therefore "Hybrid
+Programming" technique will be needed to provide high-level interfaces from
+QML to Tracker, via an API consisting of !JavaScript prototype methods.
+
+== Geoclue Subsystem for Geolocation data ==
 
 MeeGo provides GeoClue for location services such as GPS, GSM Cell and Wifi
-Network.
-
-TODO: What is Qt API for this??
+Network. However, the appropriate way to use these services in YTD-Meego is
+to use
+[http://doc.qt.nokia.com/qtmobility-1.1-tp/location-overview.html Qt Mobility's Location API]
+which provides a C++ programming interface. "Hybrid Programming" technique
+will be needed to interface GPS so that high-level, first-class data
+structures can be passed back from the C-level to the QML by invoking
+!JavaScript prototype methods as "callbacks" within the C++
+code. !JavaScript calls will allow high level control of GPS subsystem from
+within QML scripts, such as turning off GPS when not in use to save power.
 
 = Developing for N900 Camera Component =
 
