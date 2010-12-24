@@ -81,9 +81,9 @@ UI." Similar overlap exists with authentication, in that the sharing framework h
 [http://gitorious.org/accounts-sso/pages/Home Single Sign-on]
 in !MeeGo.com."
 
-The predecessor
+The predecessor (an equivalent diagram couldn't be found for Meego at time of writing)
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Imaging_and_Sharing Maemo Sharing Framework]
-provides media uploading to a variety of services (an equivalent diagram couldn't be found for Meego at time of writing):
+provides media uploading to a variety of services:
 
  [http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
 
