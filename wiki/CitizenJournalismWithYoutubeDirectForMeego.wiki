@@ -387,6 +387,43 @@ camera's [http://doc.qt.nokia.com/qt-mobility/declarative-camera-declarative-cam
 
  [http://doc.qt.nokia.com/qt-mobility/images/qml-camera.png]
 
+Below, a snippet of code associated with the "declarative camera", to give
+an exampe of the high-level programming associated with QML:
+
+{{{
+     PhotoPreview {
+         id : photoPreview
+         anchors.fill : parent
+         onClosed: cameraUI.state = "PhotoCapture"
+         focus: visible
+
+         Keys.onPressed : {
+             //return to capture mode if the shutter button is touched
+             if (event.key == Qt.Key_CameraFocus) {
+                 cameraUI.state = "PhotoCapture"
+                 event.accepted = true;
+             }
+         }
+     }
+
+     Camera {
+         id: camera
+         x : 0
+         y : 0
+         width : 640
+         height : 480
+         focus : visible //to receive focus and capture key events
+         flashMode: stillControls.flashMode
+         whiteBalanceMode: stillControls.whiteBalance
+         exposureCompensation: stillControls.exposureCompensation
+
+         onImageCaptured : {
+             photoPreview.source = preview
+             stillControls.previewAvailable = true
+             cameraUI.state = "PhotoPreview"
+         }
+     }
+}}}
 == GUI Components in Qt Quick == 
 
 Qt Quick and QML don't provide a "widget" set in the traditional sense. If
