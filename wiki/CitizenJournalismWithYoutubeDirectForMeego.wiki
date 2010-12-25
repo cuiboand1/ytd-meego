@@ -144,7 +144,7 @@ Introduce strategy of mostly QML with a C++ for heavy lifting and QtMobility fun
 == Details on Hybrid Programming in C++ and QML == 
 
 For details, see [http://doc.trolltech.com/4.7/index.html The latest documentation on Qt]; 
-[http://doc.qt.nokia.com/4.7/qml-extending.html "Extending QML in C++"], which has special section on calling qtscript back out of C++  [http://doc.qt.nokia.com/4.7-snapshot/scripting.html#reacting-to-c-objects-signals-in-scripts "Reacting to C++ Objects Signals in Scripts"].
+[http://doc.qt.nokia.com/4.7/qml-extending.html "Extending QML in C++"], which has special section on calling qtscript back out of C++  [http://doc.qt.nokia.com/4.7/scripting.html#reacting-to-c-objects-signals-in-scripts "Reacting to C++ Objects Signals in Scripts"].
 
 Marko Mattila has blogged about his
 [http://zchydem.enume.net/2010/04/08/my-first-qt-quick-app-quickflickr/ experience in creating a hybrid QML/C++ application],
@@ -434,12 +434,12 @@ The above open-source "camera application" code will be the basis for the
 the "declarative camera example" from !QtMobility 1.2 is a good basis for
 the "camera control GUI" part of YTD-meego and it's implemented in QML:
 
- [http://doc.qt.nokia.com/qt-mobility-snapshot/images/qml-camera.png]
+ [http://doc.qt.nokia.com/qt-mobility/images/qml-camera.png]
 
 The above is created by the QML code:
- * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera-declarative-camera-qml.html
+ * http://doc.qt.nokia.com/qt-mobility/declarative-camera-declarative-camera-qml.html
 But there's also C++ and more:
- * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
+ * http://doc.qt.nokia.com/qt-mobility/declarative-camera.html .
 
 == GUI Components in Qt Quick == 
 
