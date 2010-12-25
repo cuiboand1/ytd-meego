@@ -148,28 +148,29 @@ For details, see [http://doc.trolltech.com/4.7/index.html The latest documentati
 
 Marko Mattila has blogged about his
 [http://zchydem.enume.net/2010/04/08/my-first-qt-quick-app-quickflickr/ experience in creating a hybrid QML/C++ application],
+[http://gitorious.org/quickflickr/quickflickr/trees/master quickflickr]
 which suggests the following architecture for a Qt Quick application:
- * "Heavy lifting" in C++ and w/ QtMobility.
-  * Not all QtMobility facilities have QML counterparts so many will need to be "wrapped" in C++ and made available to the QML-level as a high-level call.
-  * Needed for  video recording and media capture since http://apidocs.meego.com/1.0/qtmobility/multimedia.html lists.
+ * "Heavy lifting" in C++ and w/ !QtMobility.
+  * Not all !QtMobility facilities have QML counterparts so many will need to be "wrapped" in C++ and made available to the QML-level as a high-level call.
+  * Needed for  video recording and media capture since http://apidocs.meego.com/1.0/qtmobility/multimedia.html has no QML faciities for media capture.
  *  QML for eye candy:
-  * "there are developers implementing the “difficult stuff” in C++ side and then the UI designers do the eye-candy UIs using QML. In my opinion, many of the QML examples and demos do little bit too much in the QML side, such as they implement too much stuff using the javascript. On the other hand, I understand that the idea of demos is to demonstrate the power of QML, but I’m not sure how much designers would like work with JavaScript."
+  * "there are developers implementing the “difficult stuff” in C++ side and then the UI designers do the eye-candy UIs using QML. In my opinion, many of the QML examples and demos do little bit too much in the QML side, such as they implement too much stuff using the !JavaScript. On the other hand, I understand that the idea of demos is to demonstrate the power of QML, but I’m not sure how much designers would like work with !JavaScript."
  *  QML side only visualizes the data that comes from C++
   * don't implement too much logic in QML side.
  *  QML calls C++ interfaces get data back from C++-side.
  *  C++ provides data-models for rendering via QML
-  * e.g.  display content of a model in a Flickable ListView only with a few lines of code:  a ListView item and delegate item. 
-  * use  models like XmlListModel or QAbstractItemModel instead of using custom made models e.g. QList<QObject*>. observation from (http://zchydem.enume.net/2010/09/07/quickflickr-available-at-extras-testing/ ) "I made this mistake and after removing the custom model and moving to use XmlListModel, I could get rid of hundreds of lines of C++ code."
- *  C++ side creates UI by using QDeclarativeView  used for loading the main QML component constructing the UI. The QDeclarativeView is also used for accessing QDeclarativeEngine and the root context.
+  * e.g.  display content of a model in a Flickable [http://doc.qt.nokia.com/4.7/qml-listview.html ListView] only with a few lines of code:  a [http://doc.qt.nokia.com/4.7/qml-listview.html ListView] item and delegate item. 
+ *  C++ side creates UI by using [http://doc.qt.nokia.com/4.7/qdeclarativeview.html QDeclarativeView] used for loading the main QML component constructing the UI.
+  * The [http://doc.qt.nokia.com/4.7/qdeclarativeview.html QDeclarativeView] is also used for accessing [http://doc.qt.nokia.com/4.7/qdeclarativeengine.html QDeclarativeEngine] and the root context.
 
 Mattila concludes with [http://zchydem.enume.net/2010/09/07/quickflickr-available-at-extras-testing/ lessons learned]:
- * XmlListModel doesn’t handle everything yet. It will be improved to support e.g. lists
+ * [http://doc.qt.nokia.com/4.7/qml-xmllistmodel.html XmlListModel] doesn’t handle everything yet. It will be improved to support e.g. lists
  * Think when you are implementing delegates! QML is so easy to use that you can accidentally make stupid design decisions e.g. adding a one webview for each delegate:)
- * If something is not visible, then you don’t necessarily  need to create object, or start loading content from a web. Remember this is not always the case e.g. to give better UX you might need to define buffer for ListViews so that they know when to start loading images.
- * Prefer to use  models like XmlListModel or QAbstractItemModel instead of using custom made models e.g. QList<QObject*>. I made this mistake and after removing the custom model and moving to use XmlListModel, I could get rid of hundreds of lines of C++ code.
+ * If something is not visible, then you don’t necessarily  need to create object, or start loading content from a web. Remember this is not always the case e.g. to give better UX you might need to define buffer for [http://doc.qt.nokia.com/4.7/qml-listview.html ListView]s so that they know when to start loading images.
+ * Prefer to use  models like [http://doc.qt.nokia.com/4.7/qml-xmllistmodel.html XmlListModel] or [http://doc.qt.nokia.com/4.7/qabstractitemmodel.html QAbstractItemModel] instead of using custom made models e.g. QList<QObject*>. I made this mistake and after removing the custom model and moving to use [http://doc.qt.nokia.com/4.7/qml-xmllistmodel.html XmlListModel], I could get rid of hundreds of lines of C++ code.
  * Think well the C++ interface that is exposed to QML side. After I re-factored the C++ interface, the development cycle of adding a new flickr interface call and building the QML UI on top of that shortened remarkable.
-* On N900 I have problems to make Image element to load images. Everything else seems to work over the network, but occasionally Images just don’t get loaded.
-* Use QML if you want to  do your UI quickly!
+ * On N900 I have problems to make Image element to load images. Everything else seems to work over the network, but occasionally Images just don’t get loaded.
+ * Use QML if you want to  do your UI quickly!
 
 == "Rapid prototyping" phase will attempt to do it all in QML ==
 
@@ -373,6 +374,73 @@ authentication from a main 'www' site to a separate 'ytd' site; and other
 instances where cross-application and cross-domain cookies need to be
 used by the custom handheld application.
 
+= Developing the N900 Camera Component =
+
+As the !MeeGo Handset UX platform is under development, some of the media
+infrastructure needed by this project is incomplete and not in a usable
+state for application developers. In particular, camera functionality and
+video recording will not be available until !MeeGo 1.2, to be released April
+2011. There are a number of issues delaying camera integration on !MeeGo,
+which were clarified in IRC by the N900 hardware adaptation lead Teemu
+Tuominen:
+
+     Tuesday, December 14, 2010 11:47:01 pm #meego: theodor:
+     currently, the differences in kernel level are ... delaying camera
+     integration.. since we have selected to support new architecture that
+     cannot be accepted by meego reference kernel due its partly
+     experimental.... To fully featurize camera in N900, !MeeGo needs
+     components that used to be closed binaries in Maemo side. I assume a
+     bunch of 3rdParty agreements needs to be dealt differently with !MeeGo,
+     and can only hope that this is ongoing work.
+
+The status of camera and GPS functionality on the n900 were discussed on
+12/16/10 meeting on Nokia N900 Hardware Adaptation:
+
+ * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.html
+ * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.log.html
+
+The camera features needed by YTD-!MeeGo that are under implementation for !MeeGo 1.2
+include:
+
+ * [http://bugs.meego.com/show_bug.cgi?id=5461 FEATURE: Camera] 
+  * A Camera application is required to capture still images and record videos with the device.  
+
+ * [http://bugs.meego.com/show_bug.cgi?id=2743 FEATURE: Camera subsystem]
+  * !MeeGo to provide [http://linux.bytesex.org/v4l2/ V4L2] for Camera subsystem  
+  * Components are required on the kernel side:
+   * Media controller core
+   * Primary and secondary sensor drivers (et8ek8 and smia-sensor)
+   * Flash and lens controller drivers (adp1653 and ad5820)
+   * OMAP3 ISP driver (isp-mod)
+   * OMAP34xx camera driver (omap34xxcam)
+  * Available at http://gitorious.org/omap3camera/mainline
+
+ * [http://bugs.meego.com/show_bug.cgi?id=7623 FEATURE: camerabin support in GStreamer]
+  * still image capture with
+   * arbitrary post processing
+   * zooming
+   * various resolutions
+  * 3A (autofocus, autowhitebalance and autoexposure)
+   * locking 3A settings
+  * viewfinder with
+   * arbitrary post processing
+  * videocapture with
+   * arbitrary post processing
+   * zooming
+   * various resolutions
+
+The above open-source "camera application" code will be the basis for the
+"camera" parts of YTD-direct, when it is available for use. Alternately,
+the "declarative camera example" from !QtMobility 1.2 is a good basis for
+the "camera control GUI" part of YTD-meego and it's implemented in QML:
+
+ [http://doc.qt.nokia.com/qt-mobility-snapshot/images/qml-camera.png]
+
+The above is created by the QML code:
+ * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera-declarative-camera-qml.html
+But there's also C++ and more:
+ * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
+
 == GUI Components in Qt Quick == 
 
 Qt Quick and QML don't provide a "widget" set in the traditional sense. If
@@ -520,73 +588,6 @@ structures can be passed back from the C-level to the QML by invoking
 !JavaScript prototype methods as "callbacks" within the C++
 code. !JavaScript calls will allow high level control of GPS subsystem from
 within QML scripts, such as turning off GPS when not in use to save power.
-
-= Developing for N900 Camera Component =
-
-As the !MeeGo Handset UX platform is under development, some of the media
-infrastructure needed by this project is incomplete and not in a usable
-state for application developers. In particular, camera functionality and
-video recording will not be available until !MeeGo 1.2, to be released April
-2011. There are a number of issues delaying camera integration on !MeeGo,
-which were clarified in IRC by the N900 hardware adaptation lead Teemu
-Tuominen:
-
-     Tuesday, December 14, 2010 11:47:01 pm #meego: theodor:
-     currently, the differences in kernel level are ... delaying camera
-     integration.. since we have selected to support new architecture that
-     cannot be accepted by meego reference kernel due its partly
-     experimental.... To fully featurize camera in N900, !MeeGo needs
-     components that used to be closed binaries in Maemo side. I assume a
-     bunch of 3rdParty agreements needs to be dealt differently with !MeeGo,
-     and can only hope that this is ongoing work.
-
-The status of camera and GPS functionality on the n900 were discussed on
-12/16/10 meeting on Nokia N900 Hardware Adaptation:
-
- * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.html
- * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.log.html
-
-The camera features needed by YTD-!MeeGo that are under implementation for !MeeGo 1.2
-include:
-
- * [http://bugs.meego.com/show_bug.cgi?id=5461 FEATURE: Camera] 
-  * A Camera application is required to capture still images and record videos with the device.  
-
- * [http://bugs.meego.com/show_bug.cgi?id=2743 FEATURE: Camera subsystem]
-  * !MeeGo to provide [http://linux.bytesex.org/v4l2/ V4L2] for Camera subsystem  
-  * Components are required on the kernel side:
-   * Media controller core
-   * Primary and secondary sensor drivers (et8ek8 and smia-sensor)
-   * Flash and lens controller drivers (adp1653 and ad5820)
-   * OMAP3 ISP driver (isp-mod)
-   * OMAP34xx camera driver (omap34xxcam)
-  * Available at http://gitorious.org/omap3camera/mainline
-
- * [http://bugs.meego.com/show_bug.cgi?id=7623 FEATURE: camerabin support in GStreamer]
-  * still image capture with
-   * arbitrary post processing
-   * zooming
-   * various resolutions
-  * 3A (autofocus, autowhitebalance and autoexposure)
-   * locking 3A settings
-  * viewfinder with
-   * arbitrary post processing
-  * videocapture with
-   * arbitrary post processing
-   * zooming
-   * various resolutions
-
-The above open-source "camera application" code will be the basis for the
-"camera" parts of YTD-direct, when it is available for use. Alternately,
-the "declarative camera example" from !QtMobility 1.2 is a good basis for
-the "camera control GUI" part of YTD-meego and it's implemented in QML:
-
- [http://doc.qt.nokia.com/qt-mobility-snapshot/images/qml-camera.png]
-
-The above is created by the QML code:
- * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera-declarative-camera-qml.html
-But there's also C++ and more:
- * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
 
 = Future work enabled by a "Video 2.0" platform =
 
