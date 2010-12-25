@@ -139,7 +139,239 @@ framework provides the following features to the handset platform:
 
 == Declarative GUIs and QML ==
 
-== Hybrid Programming in C++ and QML == 
+Introduce strategy of mostly QML with a C++ for heavy lifting and QtMobility functionality.
+
+== Details on Hybrid Programming in C++ and QML == 
+
+For details, see [http://doc.trolltech.com/4.7/index.html The latest documentation on Qt]; 
+[http://doc.qt.nokia.com/4.7/qml-extending.html "Extending QML in C++"], which has special section on calling qtscript back out of C++  [http://doc.qt.nokia.com/4.7-snapshot/scripting.html#reacting-to-c-objects-signals-in-scripts "Reacting to C++ Objects Signals in Scripts"].
+
+Marko Mattila has blogged about his
+[http://zchydem.enume.net/2010/04/08/my-first-qt-quick-app-quickflickr/ experience in creating a hybrid QML/C++ application],
+which suggests the following architecture for a Qt Quick application:
+ * "Heavy lifting" in C++ and w/ QtMobility.
+  * Not all QtMobility facilities have QML counterparts so many will need to be "wrapped" in C++ and made available to the QML-level as a high-level call.
+  * Needed for  video recording and media capture since http://apidocs.meego.com/1.0/qtmobility/multimedia.html lists.
+ *  QML for eye candy:
+  * "there are developers implementing the “difficult stuff” in C++ side and then the UI designers do the eye-candy UIs using QML. In my opinion, many of the QML examples and demos do little bit too much in the QML side, such as they implement too much stuff using the javascript. On the other hand, I understand that the idea of demos is to demonstrate the power of QML, but I’m not sure how much designers would like work with JavaScript."
+ *  QML side only visualizes the data that comes from C++
+  * don't implement too much logic in QML side.
+ *  QML calls C++ interfaces get data back from C++-side.
+ *  C++ provides data-models for rendering via QML
+  * e.g.  display content of a model in a Flickable ListView only with a few lines of code:  a ListView item and delegate item. 
+  * use  models like XmlListModel or QAbstractItemModel instead of using custom made models e.g. QList<QObject*>. observation from (http://zchydem.enume.net/2010/09/07/quickflickr-available-at-extras-testing/ ) "I made this mistake and after removing the custom model and moving to use XmlListModel, I could get rid of hundreds of lines of C++ code."
+ *  C++ side creates UI by using QDeclarativeView  used for loading the main QML component constructing the UI. The QDeclarativeView is also used for accessing QDeclarativeEngine and the root context.
+
+Mattila concludes with [http://zchydem.enume.net/2010/09/07/quickflickr-available-at-extras-testing/ lessons learned]:
+ * XmlListModel doesn’t handle everything yet. It will be improved to support e.g. lists
+ * Think when you are implementing delegates! QML is so easy to use that you can accidentally make stupid design decisions e.g. adding a one webview for each delegate:)
+ * If something is not visible, then you don’t necessarily  need to create object, or start loading content from a web. Remember this is not always the case e.g. to give better UX you might need to define buffer for ListViews so that they know when to start loading images.
+ * Prefer to use  models like XmlListModel or QAbstractItemModel instead of using custom made models e.g. QList<QObject*>. I made this mistake and after removing the custom model and moving to use XmlListModel, I could get rid of hundreds of lines of C++ code.
+ * Think well the C++ interface that is exposed to QML side. After I re-factored the C++ interface, the development cycle of adding a new flickr interface call and building the QML UI on top of that shortened remarkable.
+* On N900 I have problems to make Image element to load images. Everything else seems to work over the network, but occasionally Images just don’t get loaded.
+* Use QML if you want to  do your UI quickly!
+
+== "Rapid prototyping" phase will attempt to do it all in QML ==
+
+Leaving stub implementations for parts that'll need to be done in C++ in a separate "making it real" phase.
+This includes camera control parts, etc.
+
+== Authentication and Access Control in QML == 
+ 
+http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#security
+
+Video uploads as well as any other operations that modify or write data
+require authorization, which is done through an authentication token
+submitted in the API request.
+[http://code.google.com/apis/youtube/2.0/developers_guide_protocol_clientlogin.html# ClientLogin]
+is the simplest method to use for mobile applications. For example, the YTD-Android application, uses the
+[http://developer.android.com/reference/android/accounts/AccountManager.html Android AccountManager]
+to  obtain authentication tokens. An alternative and preferred standard is
+[http://code.google.com/apis/youtube/2.0/developers_guide_protocol_oauth.html OAuth]
+, for which http://gdata-java-client.googlecode.com/ is an example Java client.
+
+An example OAuth implementation using QML can be found at 
+http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/twitter-oauth for example:
+http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.js
+http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.qml
+
+= JSON RPC in QML =
+
+The web component of the app will be implemented entirely in QML, using Youtube-Direct's JSON API: 
+ * http://code.google.com/p/youtube-direct/wiki/YTDAdminJSONAPI
+  * In YTD v2.0, the admin backend is complemented with a JSON-RPC API that enables you to fetch all the data relating to assignments, submissions and configuration programmatically.
+  * The admin API is based on the JSON-RPC protocol format. It is essentially a REST-ful POST request with a JSON payload. For more information on JSON-RPC - http://en.wikipedia.org/wiki/JSON-RPC.
+
+http://bugreports.qt.nokia.com/browse/QTBUG-12117 suggests a JSON data
+model for QML suggests a "design pattern" as workaround:
+
+     It would be very convenient to have a JSON data model to use with QML's
+     list view elements, instead of emulating a model using !XMLHttpRequest,
+     regular !JavaScript JSON support and !ListModel. For example:
+{{{
+     Item {
+         ListModel { id: listmodel }
+         onCompleted: {
+             var xhr = new XMLHttpRequest;
+             xhr.open("GET", "http://service.com/api");
+             xhr.onreadystatechange = function() {
+                 if (xhr.readyState == XMLHttpRequest.DONE) {
+                     var a = JSON.parse(xhr.responseText);
+                     for (var b in a) {
+                         var o = a[b];
+                         listmodel.append({name: o.name, url: o.url});
+                     }
+                 }
+             }
+             xhr.send();
+         }
+     }
+}}}
+
+The above pattern is an example of how the interface to the !YouTube Direct
+assignment feed in YTD-Meego could be implemented.  Essentially, an
+assignment feed is an RSS feed. An example of an Qt Quick application using
+such a feed is a
+[https://projects.forum.nokia.com/QtQuickTwitterExample Qt-Quick "twitter' client]
+.  This constructs a data model that can be browsed by the
+QML "XML List Model" introduced above:
+[https://projects.forum.nokia.com/QtQuickTwitterExample/browser/twitter/content/TwitterModel.qml QtQuickTwitterExample Data Model]
+displaying the data present in the RSS in a GUI:
+
+ [https://projects.forum.nokia.com/QtQuickTwitterExample/raw-attachment/wiki/WikiStart/Twitter-listview1.png]
+
+A similar integration of QML models and JSON/RPC data from a webserver is
+the XBMC Remote for the [http://xbmc.org/ X Box Media Center], which itself
+has already been [http://www.madeo.co.uk/?page_id=605 ported to MeeGo]:
+
+ * http://gitorious.org/xbmc-qml-remote 
+ * http://gitorious.org/xbmc-qml-remote/pages/Home
+
+ [http://web2.0-apps.de/fabian/xbmc/screenshot/album.jpeg]
+
+Some code examples from that app doing JSON/RPC entirely within QML:
+
+http://gitorious.org/xbmc-qml-remote/xbmc-qml-remote/blobs/master/js/player.js
+{{{
+Player.prototype.cmd = function(cmd, param) {
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+                if (doc.readyState == XMLHttpRequest.DONE) {
+                        //console.log(doc.responseText);
+                }
+        }
+
+        doc.open("POST", "http://"+$().server+":" + $().port + "/jsonrpc");
+        var str = '{"jsonrpc": "2.0", "method": "'+this.type+'Player.'+cmd+'",';
+        if (param) {
+                str += param + ","
+        }
+        str += ' "id": 1}';
+        console.log(str);
+        doc.send(str);
+        return;
+}
+}}}
+
+http://gitorious.org/xbmc-qml-remote/xbmc-qml-remote/blobs/master/js/library.js
+{{{
+Library.prototype.loadMovies = function () {
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+                if (doc.readyState == XMLHttpRequest.DONE) {
+                        //console.log(doc.responseText);
+
+                        var result = JSON.parse(doc.responseText).result;
+                        var movies = result.movies;
+                        for (var i = 0; i < movies.length; i++){
+                                //console.log(movies[i].thumb)
+                                var thumb = "http://"+$().server+":" + $().port + "/images/DefaultAlbumCover.png";
+                                if (movies[i].thumbnail) {
+                                        thumb = "http://192.168.0.11:8080/vfs/" + movies[i].thumbnail;
+                                }
+
+                                movieModel.append({"id": movies[i].movieid, "name": movies[i].label, "thumb": thumb, "genre":  movies[i].genre, "duration": movies[i].runtime, "rating": movies[i].rating});
+                        }
+                }
+        }
+
+        doc.open("POST", "http://"+$().server+":" + $().port + "/jsonrpc");
+        var str = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": { "start": 0, "fields": ["genre", "director", "trailer", "tagline", "plot", "plotoutline", "title", "originaltitle", "lastplayed", "showtitle", "firstaired", "duration", "season", "episode", "runtime", "year", "playcount", "rating"] }, "id": 1}';
+        doc.send(str);
+
+        return;
+ }
+}}}
+
+== Resumable Uploading == 
+
+One of the issues with a youtube-direct client, noted in private comment by
+Jarek Wilkiewicz of !YouTube, is that the error&retry logic in resumable
+uploads need be robust: uploading large files while on the move, over flaky
+and shifting networks is nontrivial.  This is handled by the the Youtube
+API for resumable uploads (
+http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_resumable_uploads.html
+). YTD-meego must work with this API and provide the retry and
+partial-upload logic that is robust in the face of networking challenges.
+
+http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#uploading provides details:
+
+ For mobile applications, [http://code.google.com/apis/youtube/2.0/developers_guide_protocol_resumable_uploads.html#Resumable_uploads direct resumable uploading] is the most reliable choice since it enables an application to gracefully recover from connectivity failures and resume an upload from the point of failure. !YouTube’s resumable uploading protocol leverages the HTTP 1.1 [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16 Content-Range/Range] mechanism to transfer videos in chunks and, in the event of an interruption, to identify the number of bytes that were successfully transferred.
+
+ While the actual video content is the most important component in an upload, video metadata is an integral part of the process since that metadata lets users locate videos in search and also enables other features described later in this article. In addition to common elements like a category, description, and title, mobile applications can easily include [http://code.google.com/apis/youtube/2.0/reference.html#GeoRSS_elements_reference geolocation] data from the phone’s GPS device. These data let you provide location-based search or to plot video locations on a map. For video upload applications seeking to minimize user interaction, zero-metadata uploads are another option and more information about that is available from this Google I/O [http://apiblog.youtube.com/2010/06/youtube-api-google-io-2010.html talk].
+
+== The road not taken: Hybrid !WebKit with !XQuery ==
+
+[http://qt.gitorious.org/qt-labs/graphics-dojo/trees/master/videofeed Nokia
+Qt Labs "videofeed"] application suggests an alternative implementation
+strategy that probably won't be used in this project, but is interesting to
+consider for this class of application. The Nokia demo states: "Various
+video websites like YouTube, Google Videos, TED provide the list of videos
+as RSS, Atom. The demo extracts contents from the RSS using XQuery. The
+list of feeds and the XQuery used to extract contents is read in
+dynamically through configuration files."
+
+One of the configuration files, 
+[http://qt.gitorious.org/qt-labs/graphics-dojo/blobs/master/videofeed/rss/youtube.xq rss/youtube.xq], 
+looks like:
+
+{{{
+  for $i in doc($uri)/rss/channel/item
+      return fn:string-join( (
+          $i/title/string(), 
+          "author",
+          $i/description/string(),
+          "subtitle",
+          $i/link/string(),
+          $i/guid/string(),
+          $i/pubDate/string(),
+          "duration"
+          ), " %%QT_DEMO_DELIM%% ")
+}}}
+
+Note that this technique also uses the high-overhead pathway of !WebKit to
+NPAPI to Flash just to display video; CSS transitions/animations are used
+for display instead of the functionality provided in a "Qt Quick
+Components" or "Qt Quick Colibri."  The above implementation also makes use
+of !WebKit for offline storage -- which is also an issue ytd-meego will
+face. Unfortunately, relying this much on !WebKit is a very high-overhead
+way of implementing this functionality. Online discussion on the subject
+suggests that each !WebKit instance adds about 10Mb to the application. And
+in most cases, the functionality is available natively in Qt, and much of
+it via QML.
+
+In many ways, it might be easiest to do  the "web" part of the app this way,
+and enable call-outs to QtMobility for playing or recording media,
+geotagging, etc. The existing !YouTube-Direct web-application (see
+[http://ytd-demo.appspot.com/test.html web Demo])
+could be dropped directly into a !WebKit frame inside the application 
+
+Such an implementation ends up being a more breakable, heavyweight app using
+!WebKit. On the other hand, perhaps such an approach will be needed anyways.
+For example: using existing browser-based authentication; cross-domain
+authentication from a main 'www' site to a separate 'ytd' site; and other
+instances where cross-application and cross-domain cookies need to be
+used by the custom handheld application.
 
 == GUI Components in Qt Quick == 
 
@@ -355,166 +587,6 @@ The above is created by the QML code:
  * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera-declarative-camera-qml.html
 But there's also C++ and more:
  * http://doc.qt.nokia.com/qt-mobility-snapshot/declarative-camera.html .
-
-= Developing the Web Component =
-
-As the camera component will not be ready until April 2011 1.2 release, the
-web component of YTD-meego will be given priority, as that can be evaluated
-within the existing !MeeGo 1.1 handset. The goal will be to use as much
-!QtQuick as possible in this phase of the project, and using C++ components
-only as necessary, e.g for performance reasons, or because no QML
-implementation exists. The second phase of the project, involving
-integrating the camera and video recording features, will likely involve
-hybrid QML/C++ programming. The first phase will be "rapid prototyping"
-style development, using high-level "Qt Quick" functionality provided by
-QML and modern dynamic programming provided by its !JavaScript language.
-
-== Resumable Uploading == 
-
-One of the issues with a youtube-direct client, noted in private comment by
-Jarek Wilkiewicz of !YouTube, is that the error&retry logic in resumable
-uploads need be robust: uploading large files while on the move, over flaky
-and shifting networks is nontrivial.  This is handled by the the Youtube
-API for resumable uploads (
-http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_resumable_uploads.html
-). YTD-meego must work with this API and provide the retry and
-partial-upload logic that is robust in the face of networking challenges.
-
-http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#uploading provides details:
-
- For mobile applications, [http://code.google.com/apis/youtube/2.0/developers_guide_protocol_resumable_uploads.html#Resumable_uploads direct resumable uploading] is the most reliable choice since it enables an application to gracefully recover from connectivity failures and resume an upload from the point of failure. !YouTube’s resumable uploading protocol leverages the HTTP 1.1 [http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.16 Content-Range/Range] mechanism to transfer videos in chunks and, in the event of an interruption, to identify the number of bytes that were successfully transferred.
-
- While the actual video content is the most important component in an upload, video metadata is an integral part of the process since that metadata lets users locate videos in search and also enables other features described later in this article. In addition to common elements like a category, description, and title, mobile applications can easily include [http://code.google.com/apis/youtube/2.0/reference.html#GeoRSS_elements_reference geolocation] data from the phone’s GPS device. These data let you provide location-based search or to plot video locations on a map. For video upload applications seeking to minimize user interaction, zero-metadata uploads are another option and more information about that is available from this Google I/O [http://apiblog.youtube.com/2010/06/youtube-api-google-io-2010.html talk].
-
-== Authentication and Access Control == 
- 
-http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#security
-
-Video uploads as well as any other operations that modify or write data
-require authorization, which is done through an authentication token
-submitted in the API request.
-[http://code.google.com/apis/youtube/2.0/developers_guide_protocol_clientlogin.html# ClientLogin]
-is the simplest method to use for mobile applications. For example, the YTD-Android application, uses the
-[http://developer.android.com/reference/android/accounts/AccountManager.html Android AccountManager]
-to  obtain authentication tokens. An alternative and preferred standard is
-[http://code.google.com/apis/youtube/2.0/developers_guide_protocol_oauth.html OAuth]
-, for which http://gdata-java-client.googlecode.com/ is an example Java client.
-
-An example OAuth implementation using QML can be found at 
-http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/twitter-oauth for example:
-http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.js
-http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.qml
-
-= QML Implementation Details =
-
-The web component of the app will be implemented entirely in QML, using Youtube-Direct's JSON API: 
- * http://code.google.com/p/youtube-direct/wiki/YTDAdminJSONAPI
-  * In YTD v2.0, the admin backend is complemented with a JSON-RPC API that enables you to fetch all the data relating to assignments, submissions and configuration programmatically.
-  * The admin API is based on the JSON-RPC protocol format. It is essentially a REST-ful POST request with a JSON payload. For more information on JSON-RPC - http://en.wikipedia.org/wiki/JSON-RPC.
-
-http://bugreports.qt.nokia.com/browse/QTBUG-12117 suggests a JSON data
-model for QML suggests a "design pattern" as workaround:
-
-     It would be very convenient to have a JSON data model to use with QML's
-     list view elements, instead of emulating a model using !XMLHttpRequest,
-     regular !JavaScript JSON support and !ListModel. For example:
-{{{
-     Item {
-         ListModel { id: listmodel }
-         onCompleted: {
-             var xhr = new XMLHttpRequest;
-             xhr.open("GET", "http://service.com/api");
-             xhr.onreadystatechange = function() {
-                 if (xhr.readyState == XMLHttpRequest.DONE) {
-                     var a = JSON.parse(xhr.responseText);
-                     for (var b in a) {
-                         var o = a[b];
-                         listmodel.append({name: o.name, url: o.url});
-                     }
-                 }
-             }
-             xhr.send();
-         }
-     }
-}}}
-
-The above pattern is an example of how the interface to the !YouTube Direct
-assignment feed in YTD-Meego could be implemented.  Essentially, an
-assignment feed is an RSS feed. An example of an Qt Quick application using
-such a feed is a
-[https://projects.forum.nokia.com/QtQuickTwitterExample Qt-Quick "twitter' client]
-.  This constructs a data model that can be browsed by the
-QML "XML List Model" introduced above:
-[https://projects.forum.nokia.com/QtQuickTwitterExample/browser/twitter/content/TwitterModel.qml QtQuickTwitterExample Data Model]
-displaying the data present in the RSS in a GUI:
-
- [https://projects.forum.nokia.com/QtQuickTwitterExample/raw-attachment/wiki/WikiStart/Twitter-listview1.png]
-
-
-A similar integration of QML models and JSON/RPC data from a webserver is
-the XBMC Remote for the [http://xbmc.org/ X Box Media Center], which itself
-has already been [http://www.madeo.co.uk/?page_id=605 ported to MeeGo]:
-
- * http://gitorious.org/xbmc-qml-remote 
- * http://gitorious.org/xbmc-qml-remote/pages/Home
-
- [http://web2.0-apps.de/fabian/xbmc/screenshot/album.jpeg]
-
-Some code examples from that app doing JSON/RPC entirely within QML:
-
-/home/npm/youtube-direct/xbmc-qml-remote/player.js
-
-{{{
-Player.prototype.cmd = function(cmd, param) {
-        var doc = new XMLHttpRequest();
-        doc.onreadystatechange = function() {
-                if (doc.readyState == XMLHttpRequest.DONE) {
-                        //console.log(doc.responseText);
-                }
-        }
-
-        doc.open("POST", "http://"+$().server+":" + $().port + "/jsonrpc");
-        var str = '{"jsonrpc": "2.0", "method": "'+this.type+'Player.'+cmd+'",';
-        if (param) {
-                str += param + ","
-        }
-        str += ' "id": 1}';
-        console.log(str);
-        doc.send(str);
-        return;
-}
-}}}
-
-/home/npm/youtube-direct/xbmc-qml-remote/library.js
-
-{{{
-Library.prototype.loadMovies = function () {
-        var doc = new XMLHttpRequest();
-        doc.onreadystatechange = function() {
-                if (doc.readyState == XMLHttpRequest.DONE) {
-                        //console.log(doc.responseText);
-
-                        var result = JSON.parse(doc.responseText).result;
-                        var movies = result.movies;
-                        for (var i = 0; i < movies.length; i++){
-                                //console.log(movies[i].thumb)
-                                var thumb = "http://"+$().server+":" + $().port + "/images/DefaultAlbumCover.png";
-                                if (movies[i].thumbnail) {
-                                        thumb = "http://192.168.0.11:8080/vfs/" + movies[i].thumbnail;
-                                }
-
-                                movieModel.append({"id": movies[i].movieid, "name": movies[i].label, "thumb": thumb, "genre":  movies[i].genre, "duration": movies[i].runtime, "rating": movies[i].rating});
-                        }
-                }
-        }
-
-        doc.open("POST", "http://"+$().server+":" + $().port + "/jsonrpc");
-        var str = '{"jsonrpc": "2.0", "method": "VideoLibrary.GetMovies", "params": { "start": 0, "fields": ["genre", "director", "trailer", "tagline", "plot", "plotoutline", "title", "originaltitle", "lastplayed", "showtitle", "firstaired", "duration", "season", "episode", "runtime", "year", "playcount", "rating"] }, "id": 1}';
-        doc.send(str);
-
-        return;
- }
-}}}
 
 = Future work enabled by a "Video 2.0" platform =
 
