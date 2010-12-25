@@ -196,7 +196,7 @@ http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/
 http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.js
 http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.qml
 
-= JSON RPC in QML =
+== JSON RPC in QML ==
 
 The web component of the app will be implemented entirely in QML, using Youtube-Direct's JSON API: 
  * http://code.google.com/p/youtube-direct/wiki/YTDAdminJSONAPI
@@ -377,72 +377,13 @@ authentication from a main 'www' site to a separate 'ytd' site; and other
 instances where cross-application and cross-domain cookies need to be
 used by the custom handheld application.
 
-= Developing the N900 Camera Component =
+== Reusing !QtMobility 1.2's "declarative camera" Example ==
 
-As the !MeeGo Handset UX platform is under development, some of the media
-infrastructure needed by this project is incomplete and not in a usable
-state for application developers. In particular, camera functionality and
-video recording will not be available until !MeeGo 1.2, to be released April
-2011. There are a number of issues delaying camera integration on !MeeGo,
-which were clarified in IRC by the N900 hardware adaptation lead Teemu
-Tuominen:
-
-     Tuesday, December 14, 2010 11:47:01 pm #meego: theodor:
-     currently, the differences in kernel level are ... delaying camera
-     integration.. since we have selected to support new architecture that
-     cannot be accepted by meego reference kernel due its partly
-     experimental.... To fully featurize camera in N900, !MeeGo needs
-     components that used to be closed binaries in Maemo side. I assume a
-     bunch of 3rdParty agreements needs to be dealt differently with !MeeGo,
-     and can only hope that this is ongoing work.
-
-The status of camera and GPS functionality on the n900 were discussed on
-12/16/10 meeting on Nokia N900 Hardware Adaptation:
-
- * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.html
- * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.log.html
-
-The camera features needed by YTD-!MeeGo that are under implementation for !MeeGo 1.2
-include:
-
- * [http://bugs.meego.com/show_bug.cgi?id=5461 FEATURE: Camera] 
-  * A Camera application is required to capture still images and record videos with the device.  
-
- * [http://bugs.meego.com/show_bug.cgi?id=2743 FEATURE: Camera subsystem]
-  * !MeeGo to provide [http://linux.bytesex.org/v4l2/ V4L2] for Camera subsystem  
-  * Components are required on the kernel side:
-   * Media controller core
-   * Primary and secondary sensor drivers (et8ek8 and smia-sensor)
-   * Flash and lens controller drivers (adp1653 and ad5820)
-   * OMAP3 ISP driver (isp-mod)
-   * OMAP34xx camera driver (omap34xxcam)
-  * Available at http://gitorious.org/omap3camera/mainline
-
- * [http://bugs.meego.com/show_bug.cgi?id=7623 FEATURE: camerabin support in GStreamer]
-  * still image capture with
-   * arbitrary post processing
-   * zooming
-   * various resolutions
-  * 3A (autofocus, autowhitebalance and autoexposure)
-   * locking 3A settings
-  * viewfinder with
-   * arbitrary post processing
-  * videocapture with
-   * arbitrary post processing
-   * zooming
-   * various resolutions
-
-The above open-source "camera application" code will be the basis for the
-"camera" parts of YTD-direct, when it is available for use. Alternately,
-the "declarative camera example" from !QtMobility 1.2 is a good basis for
-the "camera control GUI" part of YTD-meego and it's implemented in QML:
-
- [http://doc.qt.nokia.com/qt-mobility/images/qml-camera.png]
-
-The above is created by the QML code:
- * http://doc.qt.nokia.com/qt-mobility/declarative-camera-declarative-camera-qml.html
-But there's also C++ and more:
- * http://doc.qt.nokia.com/qt-mobility/declarative-camera.html .
+[http://doc.qt.nokia.com/qt-mobility/declarative-camera.html QtMobility's declarative camera demo]
+will form the basis for the "camera" parts of YTD-direct, when it is
+available for use (see below). The "camera" frame would come up when the application is
+put into video-shooting mode, which could be based on the declarative
+camera's [http://doc.qt.nokia.com/qt-mobility/declarative-camera-declarative-camera-qml.html QML-based GUI and code]:
 
 == GUI Components in Qt Quick == 
 
@@ -502,7 +443,73 @@ such as:
 
  [http://doc.qt.nokia.com/4.7/images/visualitemmodel.png]
 
-= Platform and Hardware Overview =
+== !QtMobility 1.2 and the N900 Camera Component ==
+
+As the !MeeGo Handset UX platform is under development, some of the media
+infrastructure needed by this project is incomplete and not in a usable
+state for application developers. In particular, camera functionality and
+video recording will not be available until !MeeGo 1.2, to be released April
+2011. There are a number of issues delaying camera integration on !MeeGo,
+which were clarified in IRC by the N900 hardware adaptation lead Teemu
+Tuominen:
+
+     Tuesday, December 14, 2010 11:47:01 pm #meego: theodor:
+     currently, the differences in kernel level are ... delaying camera
+     integration.. since we have selected to support new architecture that
+     cannot be accepted by meego reference kernel due its partly
+     experimental.... To fully featurize camera in N900, !MeeGo needs
+     components that used to be closed binaries in Maemo side. I assume a
+     bunch of 3rdParty agreements needs to be dealt differently with !MeeGo,
+     and can only hope that this is ongoing work.
+
+The status of camera and GPS functionality on the n900 were discussed on
+12/16/10 meeting on Nokia N900 Hardware Adaptation:
+
+ * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.html
+ * http://trac.tspre.org/meetbot/meego-meeting/2010/meego-meeting.2010-12-16-08.00.log.html
+
+The camera features needed by YTD-!MeeGo that are under implementation for !MeeGo 1.2
+include:
+
+ * [http://bugs.meego.com/show_bug.cgi?id=5461 FEATURE: Camera] 
+  * A Camera application is required to capture still images and record videos with the device.  
+
+ * [http://bugs.meego.com/show_bug.cgi?id=2743 FEATURE: Camera subsystem]
+  * !MeeGo to provide [http://linux.bytesex.org/v4l2/ V4L2] for Camera subsystem  
+  * Components are required on the kernel side:
+   * Media controller core
+   * Primary and secondary sensor drivers (et8ek8 and smia-sensor)
+   * Flash and lens controller drivers (adp1653 and ad5820)
+   * OMAP3 ISP driver (isp-mod)
+   * OMAP34xx camera driver (omap34xxcam)
+  * Available at http://gitorious.org/omap3camera/mainline
+
+ * [http://bugs.meego.com/show_bug.cgi?id=7623 FEATURE: camerabin support in GStreamer]
+  * still image capture with
+   * arbitrary post processing
+   * zooming
+   * various resolutions
+  * 3A (autofocus, autowhitebalance and autoexposure)
+   * locking 3A settings
+  * viewfinder with
+   * arbitrary post processing
+  * videocapture with
+   * arbitrary post processing
+   * zooming
+   * various resolutions
+
+[http://labs.qt.nokia.com/2010/12/24/qt-mobility-1-2-technology-preview/ Qt Mobility 1.2 Technology Preview]
+was just released December 24 2010, so it may be possible to develop and test for some of the camera functionality ahead of
+the !MeeGo 1.2 release. Unfortunately, although this will not result in a functional camera: qml_camera does not display an image." and developers are warned of the status of his code:
+  We would like to share our source package of the Qt Mobility 1.2 APIs at a Technology Preview level of maturity and a set of RPM packages for MeeGo compatible devices. As we communicated earlier, the number one mission for Mobility 1.2 was to deliver backend support for MeeGo, so that has been the primary focus in this release. A lot of work is still on-going and there are known issues in this Technology preview. However, we want to obtain your feedback on the design of new APIs early before we mature the APIs to BETA and then ultimately finalize for our delivery to MeeGo 1.2 in early 2011.
+
+What is useful is that there is
+[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/ documentation on Qt Mobility 1.2]
+and that this is available for testing currently with a
+[http://download.meego.com/live/devel:/qt-mtf:/qt-mobility:/1.2tp1/testing/ MeeGo repository]
+and packages 'qt-mobility' and 'qt-mobility-examples' available for install via zypper.
+
+= N900 Platform and Hardware Overview =
 
 The following diagram describes the
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Multimedia_Domain Nokia n900 Maemo "Multimedia Domain"],
@@ -557,9 +564,9 @@ while you're shooting video? What forms of notifications, or
 application-switching, are allowed while ytd-meego is being used? Will using
 !QtMobility API automatically make this application compliant?
 
-= Other Meego Platform "Middleware" =
+== Other Meego Platform "Middleware" ==
 
-== Tracker Subsystem ==
+=== Tracker Subsystem ===
 
 The Tracker Subsystem in Meego provides indexing, meta-data extraction, and
 search capabilities for a variety of data types, including media files, and
@@ -579,7 +586,7 @@ allows access to Tracker at the C++ level.  Therefore "Hybrid
 Programming" technique will be needed to provide high-level interfaces from
 QML to Tracker, via an API consisting of !JavaScript prototype methods.
 
-== !GeoClue Subsystem for Geolocation data ==
+=== !GeoClue Subsystem for Geolocation data ===
 
 !MeeGo provides !GeoClue for location services such as GPS, GSM Cell and Wifi
 Network. However, the appropriate way to use these services in YTD-Meego is
