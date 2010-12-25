@@ -385,6 +385,8 @@ available for use (see below). The "camera" frame would come up when the applica
 put into video-shooting mode, which could be based on the declarative
 camera's [http://doc.qt.nokia.com/qt-mobility/declarative-camera-declarative-camera-qml.html QML-based GUI and code]:
 
+ [http://doc.qt.nokia.com/qt-mobility/images/qml-camera.png]
+
 == GUI Components in Qt Quick == 
 
 Qt Quick and QML don't provide a "widget" set in the traditional sense. If
