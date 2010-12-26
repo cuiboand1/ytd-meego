@@ -137,10 +137,68 @@ framework provides the following features to the handset platform:
 
 = GUI Technology: Qt Quick and QML = 
 
+http://blogs.forum.nokia.com/blog/kate-alholas-forum-nokia-blog/2010/11/14/how-to-make-modern-mobile-applications-with-qt-quick-components
+
+{{{
+     Component {
+        id: catComponent
+        Page {
+          id:catPage
+          Image {
+            anchors.centerIn: parent
+            source: "aureo600.jpg"
+          }
+        }
+     }
+     Component {
+        id: dialogComponent
+        Page {
+          id:dialog
+          Flickable {
+            id: dialogscrolarea
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
+            width: parent.width
+            anchors.leftMargin:50;anchors.rightMargin:50
+            contentHeight: dialogcontent.height
+            contentWidth: parent.width
+            Column {
+              id: dialogcontent
+              anchors.left:parent.left;anchors.right:parent.right
+              anchors.leftMargin:50;anchors.rightMargin:50
+              spacing: 10
+              Button {
+                text: "Button 1"
+                width: parent.width
+              }
+              LineEdit {
+                id: line1
+                width:parent.width
+                anchors.left: parent.left; anchors.right: parent.Right
+                promptText: "Enter text here"
+              }
+             Button {
+                text: "ToggleButton"
+                width:parent.width
+                checkable:true
+             }
+             CheckBox {
+                id: cbox
+             }
+             Switch {
+                id: switch1
+             
+            }}
+        }}
+     }
+}}}
+
+[http://blogs.forum.nokia.com//data/blogs/resources/300003/compo-11.png]
+
 == Rapid prototyping declarative GUIs with QML (and Pyside) ==
 
 The overarching design goal of this application is to use "Qt Quick" to
-create this application using both "rapid prototyping" while also employing
+create this application using "rapid prototyping" while also employing
 visually-rich&dynamic, touch&gesture capable interfaces that can be
 accomplished in QML.
 
