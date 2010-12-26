@@ -139,7 +139,31 @@ framework provides the following features to the handset platform:
 
 == Declarative GUIs and QML ==
 
-Introduce strategy of mostly QML with a C++ for heavy lifting and QtMobility functionality.
+Introduce strategy of mostly QML with a C++ or Pyside for heavy lifting and QtMobility functionality.
+
+The overarching design goal of this application is to use "Qt Quick" to
+create this application using both "rapid prototyping" while also employing
+visually-rich&dynamic, touch&gesture capable interfaces that can be
+accomplished in QML.
+
+This project's strategy is to reuse existing functionality and examples from
+!QtMobility to get the application running on Meego as quickly, reliably,
+and with least effort/code. Issues of efficiency will be considered
+"secondary" in that should performance issues arise in testing, they can be
+resolved by recoding prototype interpreted code (either Pyside or QML) into
+C++.
+
+One of the reasons for considering Pyside and not going directly to C++ is
+the comprehensive set of interfaces to QtMobility provided by Pyside. For example
+
+[http://www.pyside.org/docs/pyside-mobility/QtMobility/Location/QGeoPositionInfoSource.html]
+. Using Qt Quick
+
+== Details on Hybrid Programming in Pyside and QML ==
+
+http://developer.qt.nokia.com/wiki/Using_QtMobility_sensors_and_QML_from_PySide
+
+
 
 == Details on Hybrid Programming in C++ and QML == 
 
@@ -172,10 +196,263 @@ Mattila concludes with [http://zchydem.enume.net/2010/09/07/quickflickr-availabl
  * On N900 I have problems to make Image element to load images. Everything else seems to work over the network, but occasionally Images just don’t get loaded.
  * Use QML if you want to  do your UI quickly!
 
-== "Rapid prototyping" phase will attempt to do it all in QML ==
+== "Rapid prototyping" in QML, Pyside and eventually C++  ==
 
 Leaving stub implementations for parts that'll need to be done in C++ in a separate "making it real" phase.
 This includes camera control parts, etc.
+
+Consider also that some functionality might be available in python, and
+there is the possibility of substituting python for C++ as the "heavy
+lifting" programming language.
+
+== GUI Components in Qt Quick == 
+
+Qt Quick and QML don't provide a "widget" set in the traditional sense. If
+one wants to develop with a certain look and feel, that is to be embodied
+in the widget set itself, rather than being a part of Qt Quick or QML. This
+flexibility can be problematic for rapid prototyping because there's no
+"one right way to do things" and there are few reusable components or
+patterns to help developers started. Qt Quick however, makes it easier to
+implement UI designers Photoshop work and turn it into a real user
+interface: http://labs.qt.nokia.com/2010/10/19/exporting-qml-from-photoshop-and-gimp/ .
+
+However, with this flexibility, easy adherence to "user interface design
+guidelines" is pushed to the GUI components used. These components are
+manufacturer specific with Qt Quick, and embodied within separate
+public/open and private GUI components: Qt Quick Colibri and Qt Quick
+Compoents.
+
+A public project,
+[https://projects.forum.nokia.com/colibri Qt Quick Colibri]
+is designed to provide reusable UI components suitable for
+cross-platform use on Symbian, Maemo, Meego and Windows/Mac/Linux desktop
+environments. It is designed to get developers started
+with cross-platform Qt Quick / QML application development. Colibri
+currently includes basic components such as buttons, scrollbars, and
+sliders, and a few more advanced ones like histograms and album carousel.
+
+In the future, correct "native" and platform-specific look-and-feel will be
+provided by
+[http://developer.qt.nokia.com/wiki/Qt_Quick_Components Qt Quick Components],
+which will bring cross platform components to QML, as an official Nokia
+funded project to provide a consistent "native user experience" on Nokia
+mobile platforms.
+
+YTD-Meego will use whatever components, probably from Colibri, that will
+help get the project off the ground as rapidly as possible, with the least
+amount of code. The GUI needs of the YTD-Android application are
+rudimentary "data browsers" combined with the usual buttons, menus,
+etc. The data structures in YTD-Meego are designed to allow easy
+presentation via preexisting
+[http://doc.qt.nokia.com/4.7/qdeclarativemodels.html QML Declarative Data models],
+such as:
+
+ * [http://doc.qt.nokia.com/4.7/src-imports-folderlistmodel.html Folder List Model]
+
+ [http://doc.qt.nokia.com/4.7/images/declarative-folderlistmodel.png]
+
+ * [http://doc.qt.nokia.com/4.7/qml-xmllistmodel.html XML List Model]
+
+ [http://doc.qt.nokia.com/4.7/images/qml-xmllistmodel-example.png]
+
+ * [http://doc.qt.nokia.com/4.7/qml-listmodel.html List Model] and [http://doc.qt.nokia.com/4.7/qml-listelement.html List Element]
+
+ [http://doc.qt.nokia.com/4.7/images/listmodel.png]
+
+ * [http://doc.qt.nokia.com/4.7/qml-visualitemmodel.html Visual Item Model]
+
+ [http://doc.qt.nokia.com/4.7/images/visualitemmodel.png]
+
+== Browsing Captured Media in Meego Document Gallery ==
+
+The [http://projects.gnome.org/tracker/ Tracker Subsystem] in Meego
+provides
+[http://linux.die.net/man/5/tracker.cfg configurable]
+indexing, meta-data extraction, and search capabilities for a variety of
+data types. Tracker is a central repository for files and media, allowing data-sharing between applications,
+while enabling
+[http://en.wikipedia.org/wiki/Semantic_search "Semantic Search"]
+via
+[http://www.w3.org/RDF/ RDF]-based [http://en.wikipedia.org/wiki/Ontology ontologies].
+When storing captured media, Tracker is used for tagging media files with
+meta-data, including Geolocation data.
+
+The Meego Document Gallery, where videos and associated metadata are stored
+for use by applications, has a QML interface available in !QtMobility 1.2.  The
+[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/qml-gallery.html Gallery QML Plugin]
+from "preview release" !QtMobility 1.2 provides this functionality. The 
+[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/qml-documentgalleryitem.html QML DocumentGalleryItem Element]
+is where the file-type, e.g. video, is stored, the "progress" percentage in
+uploading/downloading, alongside other file metadata. In conjunction with a
+[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/qml-documentgallerymodel.html QML DocumentGalleryModel Element],
+the following QML browses image documents in the gallery using this functionality:
+{{{
+     import Qt 4.7
+     import QtMobility.gallery 1.1
+    
+     Rectangle {
+         width: 1024
+         height: 768
+    
+         GridView {
+             anchors.fill: parent
+             cellWidth: 128
+             cellHeight: 128
+    
+             model: DocumentGalleryModel {
+                 rootType: DocumentGallery.Image
+                 properties: [ "url" ]
+                 filter: GalleryWildcardFilter {
+                     property: "fileName";
+                     value: "*.jpg";
+                 }
+             }
+    
+             delegate: Image {
+                 source: url
+                 width: 128
+                 height: 128
+             }
+         }
+     }
+}}}
+
+[http://maemo.gitorious.org/maemo-af/libqttracker A Qt Tracker Library]
+allows access to Tracker at the C++ level for any Tracker API's not covered by QML.
+
+Note that Tracker is part of the not-yet-final Meego 1.2 Sharing Framework.
+Yet to be completed features -- "Transfer history preservation in Tracker;
+to ensure easy way to establish relationship between services and data." --
+indicate unimplemented functionality:
+ * [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
+ * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination].
+
+== !MeeGo !GeoClue Subsystem for Geolocation data ==
+
+!MeeGo provides [http://www.freedesktop.org/wiki/Software/GeoClue GeoClue] for location services such as GPS, GSM Cell and
+Wifi Network. The appropriate API for YTD-Meego is
+[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/location-overview.html Qt Mobility's Location API]
+which provides a C++ programming interface. A
+[http://wiki.forum.nokia.com/index.php/Qt_C%2B%2B_and_QML_integration,_context_properties_and_GPS_compass Hybrid C++/QML example of using GPS]
+provides examples showing how this functionality is coded with !QtMobility 1.0.
+
+YTD-Meego will seek to use the !QtMobility 1.2
+[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/qml-location-plugin.html QML
+Location Plugin] which provides high-level QML access to location data,
+hopefully at a sufficient level that further hybrid C++ coding will not be
+necessary. Unfortunately, this facility is not available, even in the just
+released [http://labs.qt.nokia.com/2010/12/24/qt-mobility-1-2-technology-preview/ QtMobility 1.2 technology preview]:
+"Location: Geoclue backend code is not enabled in TP package. (enabled in master code line)"
+
+Compared to the complexities of the hybrid programming needed with
+!QtMobilility 1.0, the QML-only approach of !QtMobility 1.2 is much more
+concise. The
+[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/qml-positionsource.html QML PositionSource Element]
+snippet below retrieves [http://en.wikipedia.org/wiki/NMEA NMEA] format GPS data entirely in QML:
+
+{{{
+     import Qt 4.7
+     import QtMobility.location 1.1
+    
+     Rectangle {
+             id: page
+             width: 350
+             height: 350
+             PositionSource {
+                 id: positionSource
+                 updateInterval: 1000
+                 active: true
+                 // nmeaSource: "nmealog.txt"
+             }
+             Column {
+                 Text {text: "<==== PositionSource ====>"}
+                 Text {text: "positioningMethod: "  + printableMethod(positionSource.positioningMethod)}
+                 Text {text: "nmeaSource: "         + positionSource.nmeaSource}
+                 Text {text: "updateInterval: "     + positionSource.updateInterval}
+                 Text {text: "active: "     + positionSource.active}
+                 Text {text: "<==== Position ====>"}
+                 Text {text: "latitude: "   + positionSource.position.coordinate.latitude}
+                 Text {text: "longitude: "   + positionSource.position.coordinate.longitude}
+                 Text {text: "altitude: "   + positionSource.position.coordinate.altitude}
+                 Text {text: "speed: " + positionSource.position.speed}
+                 Text {text: "timestamp: "  + positionSource.position.timestamp}
+                 Text {text: "altitudeValid: "  + positionSource.position.altitudeValid}
+                 Text {text: "longitudeValid: "  + positionSource.position.longitudeValid}
+                 Text {text: "latitudeValid: "  + positionSource.position.latitudeValid}
+                 Text {text: "speedValid: "     + positionSource.position.speedValid}
+             }
+             function printableMethod(method) {
+                 if (method == PositionSource.SatellitePositioningMethod)
+                     return "Satellite";
+                 else if (method == PositionSource.NoPositioningMethod)
+                     return "Not available"
+                 else if (method == PositionSource.NonSatellitePositioningMethod)
+                     return "Non-satellite"
+                 else if (method == PositionSource.AllPositioningMethods)
+                     return "All/multiple"
+                 return "source error";
+             }
+     }
+}}}
+
+== Reusing !QtMobility 1.2's "declarative camera" Example ==
+
+[http://doc.qt.nokia.com/qt-mobility/declarative-camera.html QtMobility's declarative camera demo]
+will form the basis for the "camera" parts of YTD-direct. Unfortunately,
+similar to the situation with GPS data above, the camera is not yet
+functional in the
+[http://labs.qt.nokia.com/2010/12/24/qt-mobility-1-2-technology-preview/ Qt Mobility 1.2 Technology Preview]:
+"qml_camera does not display an image." See the system architecture
+section, below, titled "!QtMobility 1.2 and the N900 Camera Component."
+
+However, the "declarative camera" example will be added to YTD-meego as a
+"stub" implementation, allowing prototyping of the GUI and the camera
+interface part of the application. The example would be modified so that
+the camera frame would come up when the application is put into
+video-shooting mode, and instead of quitting camera mode, the user would be
+returned to the application's top-level. The example
+[http://doc.qt.nokia.com/qt-mobility/declarative-camera-declarative-camera-qml.html QML-based GUI and code]
+creates a camera GUI like this:
+
+ [http://doc.qt.nokia.com/qt-mobility/images/qml-camera.png]
+
+Below, a snippet of code associated with the "declarative camera", to give
+an exampe of the high-level programming associated with QML:
+
+{{{
+     PhotoPreview {
+         id : photoPreview
+         anchors.fill : parent
+         onClosed: cameraUI.state = "PhotoCapture"
+         focus: visible
+
+         Keys.onPressed : {
+             //return to capture mode if the shutter button is touched
+             if (event.key == Qt.Key_CameraFocus) {
+                 cameraUI.state = "PhotoCapture"
+                 event.accepted = true;
+             }
+         }
+     }
+
+     Camera {
+         id: camera
+         x : 0
+         y : 0
+         width : 640
+         height : 480
+         focus : visible //to receive focus and capture key events
+         flashMode: stillControls.flashMode
+         whiteBalanceMode: stillControls.whiteBalance
+         exposureCompensation: stillControls.exposureCompensation
+
+         onImageCaptured : {
+             photoPreview.source = preview
+             stillControls.previewAvailable = true
+             cameraUI.state = "PhotoPreview"
+         }
+     }
+}}}
 
 == Authentication and Access Control in QML == 
  
@@ -364,123 +641,20 @@ suggests that each !WebKit instance adds about 10Mb to the application. And
 in most cases, the functionality is available natively in Qt, and much of
 it via QML.
 
-In many ways, it might be easiest to do  the "web" part of the app this way,
+It might be easiest to do  the "web" part of the app this way,
 and enable call-outs to QtMobility for playing or recording media,
 geotagging, etc. The existing !YouTube-Direct web-application (see
 [http://ytd-demo.appspot.com/test.html web Demo])
-could be dropped directly into a !WebKit frame inside the application 
+could be dropped directly into a !WebKit frame inside the application ...
 
-Such an implementation ends up being a more breakable, heavyweight app using
-!WebKit. On the other hand, perhaps such an approach will be needed anyways.
-For example: using existing browser-based authentication; cross-domain
-authentication from a main 'www' site to a separate 'ytd' site; and other
-instances where cross-application and cross-domain cookies need to be
-used by the custom handheld application.
+However,such an implementation ends up being a more breakable,
+hard-to-test, heavyweight app using !WebKit. On the other hand, perhaps
+such an approach will be needed anyways.  For example: using existing
+browser-based authentication; cross-domain authentication from a main 'www'
+site to a separate 'ytd' site; and other instances where cross-application
+and cross-domain cookies need to be used by the custom handheld
+application.
 
-== Reusing !QtMobility 1.2's "declarative camera" Example ==
-
-[http://doc.qt.nokia.com/qt-mobility/declarative-camera.html QtMobility's declarative camera demo]
-will form the basis for the "camera" parts of YTD-direct, when it is
-available for use (see below). The "camera" frame would come up when the application is
-put into video-shooting mode, which could be based on the declarative
-camera's [http://doc.qt.nokia.com/qt-mobility/declarative-camera-declarative-camera-qml.html QML-based GUI and code]:
-
- [http://doc.qt.nokia.com/qt-mobility/images/qml-camera.png]
-
-Below, a snippet of code associated with the "declarative camera", to give
-an exampe of the high-level programming associated with QML:
-
-{{{
-     PhotoPreview {
-         id : photoPreview
-         anchors.fill : parent
-         onClosed: cameraUI.state = "PhotoCapture"
-         focus: visible
-
-         Keys.onPressed : {
-             //return to capture mode if the shutter button is touched
-             if (event.key == Qt.Key_CameraFocus) {
-                 cameraUI.state = "PhotoCapture"
-                 event.accepted = true;
-             }
-         }
-     }
-
-     Camera {
-         id: camera
-         x : 0
-         y : 0
-         width : 640
-         height : 480
-         focus : visible //to receive focus and capture key events
-         flashMode: stillControls.flashMode
-         whiteBalanceMode: stillControls.whiteBalance
-         exposureCompensation: stillControls.exposureCompensation
-
-         onImageCaptured : {
-             photoPreview.source = preview
-             stillControls.previewAvailable = true
-             cameraUI.state = "PhotoPreview"
-         }
-     }
-}}}
-== GUI Components in Qt Quick == 
-
-Qt Quick and QML don't provide a "widget" set in the traditional sense. If
-one wants to develop with a certain look and feel, that is to be embodied
-in the widget set itself, rather than being a part of Qt Quick or QML. This
-flexibility can be problematic for rapid prototyping because there's no
-"one right way to do things" and there are few reusable components or
-patterns to help developers started. Qt Quick however, makes it easier to
-implement UI designers Photoshop work and turn it into a real user
-interface: http://labs.qt.nokia.com/2010/10/19/exporting-qml-from-photoshop-and-gimp/ .
-
-However, with this flexibility, easy adherence to "user interface design
-guidelines" is pushed to the GUI components used. These components are
-manufacturer specific with Qt Quick, and embodied within separate
-public/open and private GUI components: Qt Quick Colibri and Qt Quick
-Compoents.
-
-A public project,
-[https://projects.forum.nokia.com/colibri Qt Quick Colibri]
-is designed to provide reusable UI components suitable for
-cross-platform use on Symbian, Maemo, Meego and Windows/Mac/Linux desktop
-environments. It is designed to get developers started
-with cross-platform Qt Quick / QML application development. Colibri
-currently includes basic components such as buttons, scrollbars, and
-sliders, and a few more advanced ones like histograms and album carousel.
-
-In the future, correct "native" and platform-specific look-and-feel will be
-provided by
-[http://developer.qt.nokia.com/wiki/Qt_Quick_Components Qt Quick Components],
-which will bring cross platform components to QML, as an official Nokia
-funded project to provide a consistent "native user experience" on Nokia
-mobile platforms.
-
-YTD-Meego will use whatever components, probably from Colibri, that will
-help get the project off the ground as rapidly as possible, with the least
-amount of code. The GUI needs of the YTD-Android application are
-rudimentary "data browsers" combined with the usual buttons, menus,
-etc. The data structures in YTD-Meego are designed to allow easy
-presentation via preexisting
-[http://doc.qt.nokia.com/4.7/qdeclarativemodels.html QML Declarative Data models],
-such as:
-
- * [http://doc.qt.nokia.com/4.7/src-imports-folderlistmodel.html Folder List Model]
-
- [http://doc.qt.nokia.com/4.7/images/declarative-folderlistmodel.png]
-
- * [http://doc.qt.nokia.com/4.7/qml-xmllistmodel.html XML List Model]
-
- [http://doc.qt.nokia.com/4.7/images/qml-xmllistmodel-example.png]
-
- * [http://doc.qt.nokia.com/4.7/qml-listmodel.html QML List Model]
-
- [http://doc.qt.nokia.com/4.7/images/listmodel.png]
-
- * [http://doc.qt.nokia.com/4.7/qml-visualitemmodel.html Visual Item Model]
-
- [http://doc.qt.nokia.com/4.7/images/visualitemmodel.png]
 
 == !QtMobility 1.2 and the N900 Camera Component ==
 
@@ -538,8 +712,11 @@ include:
    * various resolutions
 
 [http://labs.qt.nokia.com/2010/12/24/qt-mobility-1-2-technology-preview/ Qt Mobility 1.2 Technology Preview]
-was just released December 24 2010, so it may be possible to develop and test for some of the camera functionality ahead of
-the !MeeGo 1.2 release. Unfortunately, although this will not result in a functional camera: qml_camera does not display an image." and developers are warned of the status of his code:
+was just released December 24 2010, so it may be possible to develop and
+test for some of the camera functionality ahead of the !MeeGo 1.2
+release. Unfortunately, this will not result in a functional camera:
+"qml_camera does not display an image." and developers are warned of the
+status of this code:
   We would like to share our source package of the Qt Mobility 1.2 APIs at a Technology Preview level of maturity and a set of RPM packages for MeeGo compatible devices. As we communicated earlier, the number one mission for Mobility 1.2 was to deliver backend support for MeeGo, so that has been the primary focus in this release. A lot of work is still on-going and there are known issues in this Technology preview. However, we want to obtain your feedback on the design of new APIs early before we mature the APIs to BETA and then ultimately finalize for our delivery to MeeGo 1.2 in early 2011.
 
 What is useful is that there is
@@ -603,40 +780,14 @@ while you're shooting video? What forms of notifications, or
 application-switching, are allowed while ytd-meego is being used? Will using
 !QtMobility API automatically make this application compliant?
 
-== Other Meego Platform "Middleware" ==
+Similar "Policy Framework" issues include preventing scheduling background tasks while
+capturing media. For example a typical
+[http://talk.maemo.org/showthread.php?t=61960 complaint over the Tracker subsystem]:
 
-=== Tracker Subsystem ===
-
-The Tracker Subsystem in Meego provides indexing, meta-data extraction, and
-search capabilities for a variety of data types, including media files, and
-document. This API should be used for storing captured media, as well
-tagging media files with meta-data, including Geolocation data.
-
-Note that the Tracker subsystem is also used by the upcoming Meego 1.2
-Sharing Framework: e.g. "Transfer history preservation in Tracker; to
-ensure easy way to establish relationship between services and data."
-
-For details, see
- * [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
- * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination].
-
-[http://maemo.gitorious.org/maemo-af/libqttracker A Qt Tracker Library]
-allows access to Tracker at the C++ level.  Therefore "Hybrid
-Programming" technique will be needed to provide high-level interfaces from
-QML to Tracker, via an API consisting of !JavaScript prototype methods.
-
-=== !GeoClue Subsystem for Geolocation data ===
-
-!MeeGo provides !GeoClue for location services such as GPS, GSM Cell and Wifi
-Network. However, the appropriate way to use these services in YTD-Meego is
-to use
-[http://doc.qt.nokia.com/qtmobility-1.1-tp/location-overview.html Qt Mobility's Location API]
-which provides a C++ programming interface. "Hybrid Programming" technique
-will be needed to interface GPS so that high-level, first-class data
-structures can be passed back from the C-level to the QML by invoking
-!JavaScript prototype methods as "callbacks" within the C++
-code. !JavaScript calls will allow high level control of GPS subsystem from
-within QML scripts, such as turning off GPS when not in use to save power.
+  I would like it to index the new pictures/videos AFTER I've shot them, after LEAVING the application that made them. Not during...
+  In general, while I'm doing the creation, I would want as little other system activity as possible. Real multi-tasking on a limited resource device only goes that far ... Ask Apple and Google.
+  So while doing time critical stuff, I ideally want all non-critical stuff frozen.
+  That would help the stuttering while filming.
 
 = Future work enabled by a "Video 2.0" platform =
 
