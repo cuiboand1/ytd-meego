@@ -157,11 +157,9 @@ possible with
 [http://www.pyside.org/docs/pyside-mobility/ Pyside's QtMobility] API. Eventually, high-level interfaces
 will exist in !QtMobility 1.2, but much is not yet functional at the QML level. For example, the article
 [http://developer.qt.nokia.com/wiki/Using_QtMobility_sensors_and_QML_from_PySide Using QtMobility sensors and QML from PySide]
-states:
-  In the future, Qt Mobility 1.2 (still not released as of December
-  2010) will have
-  [http://doc.qt.nokia.com/qt-mobility-snapshot/qml-plugins.html QML Plugins],
-  but right now we have to write some glue code in Python"
+states: "In the future, Qt Mobility 1.2 (still not released as of December 2010) will have
+[http://doc.qt.nokia.com/qt-mobility-snapshot/qml-plugins.html QML Plugins],
+but right now we have to write some glue code in Python"
 
 For more information on using Pyside and QML:
  * [http://developer.qt.nokia.com/wiki/PySideDocumentation Nokia PySide Documentation]
@@ -336,11 +334,12 @@ which provides a C++ programming interface. A
 provides examples showing how this functionality is coded with !QtMobility 1.0.
 
 YTD-Meego will seek to use the !QtMobility 1.2
-[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/qml-location-plugin.html QML
-Location Plugin] which provides high-level QML access to location data,
-hopefully at a sufficient level that further hybrid C++ coding will not be
+[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/qml-location-plugin.html QML Location Plugin]
+which provides high-level QML access to location data, hopefully at a
+sufficient level that further hybrid C++ coding will not be
 necessary. Unfortunately, this facility is not available, even in the just
-released [http://labs.qt.nokia.com/2010/12/24/qt-mobility-1-2-technology-preview/ QtMobility 1.2 technology preview]:
+released
+[http://labs.qt.nokia.com/2010/12/24/qt-mobility-1-2-technology-preview/ QtMobility 1.2 technology preview]:
 "Location: Geoclue backend code is not enabled in TP package. (enabled in master code line)"
 
 Compared to the complexities of the hybrid programming needed with
