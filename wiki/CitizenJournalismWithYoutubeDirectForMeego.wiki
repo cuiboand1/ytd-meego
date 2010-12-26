@@ -596,7 +596,7 @@ http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#upload
 
  While the actual video content is the most important component in an upload, video metadata is an integral part of the process since that metadata lets users locate videos in search and also enables other features described later in this article. In addition to common elements like a category, description, and title, mobile applications can easily include [http://code.google.com/apis/youtube/2.0/reference.html#GeoRSS_elements_reference geolocation] data from the phone’s GPS device. These data let you provide location-based search or to plot video locations on a map. For video upload applications seeking to minimize user interaction, zero-metadata uploads are another option and more information about that is available from this Google I/O [http://apiblog.youtube.com/2010/06/youtube-api-google-io-2010.html talk].
 
-== The road not taken: Hybrid !WebKit with !XQuery ==
+== The road not taken: Hybrid !WebKit with XQuery ==
 
 [http://qt.gitorious.org/qt-labs/graphics-dojo/trees/master/videofeed Nokia Qt Labs "videofeed"]
 application suggests an alternative implementation strategy that probably
@@ -714,12 +714,11 @@ was just released December 24 2010, so it may be possible to develop and
 test for some of the camera functionality ahead of the !MeeGo 1.2
 release. Unfortunately, this will not result in a functional camera:
 "qml_camera does not display an image." and developers are warned of the
-status of this code:
-  We would like to share our source package of the Qt Mobility 1.2 APIs at a Technology Preview level of maturity and a set of RPM packages for MeeGo compatible devices. As we communicated earlier, the number one mission for Mobility 1.2 was to deliver backend support for MeeGo, so that has been the primary focus in this release. A lot of work is still on-going and there are known issues in this Technology preview. However, we want to obtain your feedback on the design of new APIs early before we mature the APIs to BETA and then ultimately finalize for our delivery to MeeGo 1.2 in early 2011.
+status of the code.
 
-What is useful is that there is
-[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/ documentation on Qt Mobility 1.2]
-and that this is available for testing currently with a
+What is useful for this project is the updated
+[http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/ documentation on Qt Mobility 1.2]. The
+software is now available for testing currently with a
 [http://download.meego.com/live/devel:/qt-mtf:/qt-mobility:/1.2tp1/testing/ MeeGo repository]
 and packages 'qt-mobility' and 'qt-mobility-examples' available for install via zypper.
 
