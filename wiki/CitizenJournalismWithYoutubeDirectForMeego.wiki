@@ -573,11 +573,11 @@ an exampe of the high-level programming associated with QML:
 
 For details, see
 
-* [http://qt.gitorious.org/qt-mobility/qt-mobility/trees/master/examples/declarative-camera Declarative Camera Example Source]
-* [http://qt.gitorious.org/qt-mobility/qt-mobility/trees/master/examples/camera C++ Camera Example Source]
-* [http://doc.qt.nokia.com/qt-mobility/declarative-camera-capturecontrols-qml.html QML Camera Capture Controls]
-* [http://doc.qt.nokia.com/qt-mobility/declarative-camera-focusbutton-qml.html QML Camera Focus Button]
-* [http://doc.qt.nokia.com/qt-mobility/declarative-camera-photopreview-qml.html QML Camera Photo Preview]
+ * [http://qt.gitorious.org/qt-mobility/qt-mobility/trees/master/examples/declarative-camera Declarative Camera Example Source]
+ * [http://qt.gitorious.org/qt-mobility/qt-mobility/trees/master/examples/camera C++ Camera Example Source]
+ * [http://doc.qt.nokia.com/qt-mobility/declarative-camera-capturecontrols-qml.html QML Camera Capture Controls]
+ * [http://doc.qt.nokia.com/qt-mobility/declarative-camera-focusbutton-qml.html QML Camera Focus Button]
+ * [http://doc.qt.nokia.com/qt-mobility/declarative-camera-photopreview-qml.html QML Camera Photo Preview]
 
 == Authentication and Access Control in QML == 
  
