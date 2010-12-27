@@ -708,7 +708,7 @@ Library.prototype.loadMovies = function () {
  }
 }}}
 
-== Resumable Uploading == 
+== Resumable Uploading and network Bearer Management == 
 
 One of the issues with a youtube-direct client, noted in private comment by
 Jarek Wilkiewicz of !YouTube, is that the error&retry logic in resumable
@@ -737,8 +737,11 @@ One of the issues for Meego and this this project is how do these long uploads w
  for as long as clients have a registered interest in them while at the
  same time optimizing the interface's uptime.
 
-"Bearer Management" is integrated with [http://doc.qt.nokia.com/qtmobility-1.2/qtnetwork.html Qt 4.7 QtNetwork library] providing
-connection manager and roaming support for [http://qt.nokia.com/doc/4.7/qnetworkaccessmanager.html QNetworkAccessManager]. 
+Hopefully the integration is implicit at the QML level since "Bearer
+Management" is integrated with
+[http://doc.qt.nokia.com/qtmobility-1.2/qtnetwork.html Qt 4.7 QtNetwork library]
+providing connection manager and roaming support for
+[http://qt.nokia.com/doc/4.7/qnetworkaccessmanager.html QNetworkAccessManager]. 
 
 == The road not taken: Hybrid !WebKit with XQuery ==
 
