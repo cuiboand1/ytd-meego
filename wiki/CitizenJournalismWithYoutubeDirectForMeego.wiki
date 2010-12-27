@@ -56,7 +56,6 @@ Web Demo: http://ytd-demo.appspot.com/test.html
 
 [http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
 
-
 = Related Work = 
 
 The Maemo Linux platform for the Nokia N900 has several !YouTube uploader
@@ -366,19 +365,12 @@ presentation via preexisting
 such as:
 
  * [http://doc.qt.nokia.com/4.7/src-imports-folderlistmodel.html Folder List Model]
-
  [http://doc.qt.nokia.com/4.7/images/declarative-folderlistmodel.png]
-
  * [http://doc.qt.nokia.com/4.7/qml-xmllistmodel.html XML List Model]
-
  [http://doc.qt.nokia.com/4.7/images/qml-xmllistmodel-example.png]
-
  * [http://doc.qt.nokia.com/4.7/qml-listmodel.html List Model] and [http://doc.qt.nokia.com/4.7/qml-listelement.html List Element]
-
  [http://doc.qt.nokia.com/4.7/images/listmodel.png]
-
  * [http://doc.qt.nokia.com/4.7/qml-visualitemmodel.html Visual Item Model]
-
  [http://doc.qt.nokia.com/4.7/images/visualitemmodel.png]
 
 == Browsing Captured Media in Meego Document Gallery ==
@@ -444,6 +436,9 @@ to ensure easy way to establish relationship between services and data." --
 indicate unimplemented functionality:
  * [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
  * [http://bugs.meego.com/show_bug.cgi?id=8179 FEATURE: Share UI: Unified entry point to select a destination].
+
+An alternative, for the tags part, is to use the underlying gstreamer [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Multimedia_Domain#Decodebin2.2FTagreadBin Tagreadbin]:
+ Tracker ... can use high level GStreamer components ([http://maemo.org/api_refs/5.0/5.0-final/gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-tagreadbin.html decodebin2/tagreadbin]) to gather metadata from all supported media files. Tagreadbin can provide better performance than playbin2 by avoiding to plug decoders and utilize special codepath in parsers and demuxer for getting only metadata.
 
 == !MeeGo !GeoClue Subsystem for Geolocation data ==
 
@@ -828,32 +823,14 @@ The status of camera and GPS functionality on the n900 were discussed on
 The camera features needed by YTD-!MeeGo that are under implementation for !MeeGo 1.2
 include:
 
+ * [http://bugs.meego.com/show_bug.cgi?id=7623 FEATURE: camerabin support in GStreamer]
+  * See "GStreamer: Plugins for Video and Camera Subsystem" below.
  * [http://bugs.meego.com/show_bug.cgi?id=5461 FEATURE: Camera] 
   * A Camera application is required to capture still images and record videos with the device.  
-
  * [http://bugs.meego.com/show_bug.cgi?id=2743 FEATURE: Camera subsystem]
   * !MeeGo to provide [http://linux.bytesex.org/v4l2/ V4L2] for Camera subsystem  
-  * Components are required on the kernel side:
-   * Media controller core
-   * Primary and secondary sensor drivers (et8ek8 and smia-sensor)
-   * Flash and lens controller drivers (adp1653 and ad5820)
-   * OMAP3 ISP driver (isp-mod)
-   * OMAP34xx camera driver (omap34xxcam)
+  * Components are required on the kernel side: Media controller core, Primary and secondary sensor drivers (et8ek8 and smia-sensor), Flash and lens controller drivers (adp1653 and ad5820), OMAP3 ISP driver (isp-mod), OMAP34xx camera driver (omap34xxcam)
   * Available at http://gitorious.org/omap3camera/mainline
-
- * [http://bugs.meego.com/show_bug.cgi?id=7623 FEATURE: camerabin support in GStreamer]
-  * still image capture with
-   * arbitrary post processing
-   * zooming
-   * various resolutions
-  * 3A (autofocus, autowhitebalance and autoexposure)
-   * locking 3A settings
-  * viewfinder with
-   * arbitrary post processing
-  * videocapture with
-   * arbitrary post processing
-   * zooming
-   * various resolutions
 
 [http://labs.qt.nokia.com/2010/12/24/qt-mobility-1-2-technology-preview/ Qt Mobility 1.2 Technology Preview]
 was just released December 24 2010, so it may be possible to develop and
@@ -913,7 +890,7 @@ includes the following subsystems under "Media Services" part of Meego Middlewar
 
 The source code for these components is located at http://meego.gitorious.org/maemo-multimedia .
 
-== Audio Subsystem ==
+== Pulseaudio: Connecting Audio Subsystem, Microphone and Speakers ==
 
 The audio subsystem is depicted in the following diagram from
 [http://linuxplumbersconf.org/2009/slides/Jyri-Sarha-audio_miniconf_slides.pdf Jyri Sarha's presentation "Practical Experiences from Using Pulseaudio in Embedded Handheld Device"]
@@ -925,9 +902,30 @@ A lively thread on the role of pulseaudio in a handset was started on the [http:
  * Marco Ballesio (Nokia Multimedia Architect): [http://lalists.stanford.edu/lad/2010/12/0164.html LAD#1] [http://lalists.stanford.edu/lad/2010/12/0166.html LAD#2]
  * Kai Vehmanen (Nokia Meego Telephony (?) and [http://www.eca.cx/ecasound/ Ecasound] author): [http://lalists.stanford.edu/lad/2010/12/0168.html LAD#3] [http://lalists.stanford.edu/lad/2010/12/0167.html LAD#4 ] [http://lalists.stanford.edu/lad/2010/12/0170.html LAD#5]
 
-== Video and Camera Subsystem == 
+== GStreamer: Plugins for Video and Camera Subsystem Compression and Decompression == 
 
-The video subsystem, Gstreamer and Camera adaptation diagaram goes here.
+Dr. Stefan Kost, Nokia, presentation slides on the
+[http://elinux.org/images/d/d1/MeeGoMultimedia.pdf MeeGo Multimedia Stack]
+provides a good overview of the GStreamer framework, which enables
+[http://www.eetimes.com/design/signal-processing-dsp/4004620/DSP-video-processing-via-open-sourceAPIs DSP video processing via open-source APIs]:
+
+  [http://elinux.org/images/d/d1/MeeGoMultimedia.pdf http://nielsmayer.com/ytd/KostMeegoMultimediaGstreamer.png]
+
+Kost outlines, for still  and video capture via the camera, the GStreamer "camerabin"
+and "GStreamer elements for format conversion, metadata (XMP, EXIF), muxing, data routing."
+For video editing, e.g. so that YTD-meego uploads a clip from a longer video: GStreamer "gnonlin"
+and "GStreamer components for muxing, demuxing, format conversion."
+For metadata indexing and thumbnailing: "[http://maemo.org/api_refs/5.0/5.0-final/gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-tagreadbin.html Tagreadbin] (experimental)"
+and "GStreamer components for parsing, demuxing."
+
+Unfortunately, such GStreamer support is not yet avaible in Meego 1.1 and
+will appear with Qt Mobility 1.2 and Meego 1.2:
+
+ * [http://bugs.meego.com/show_bug.cgi?id=7623 FEATURE: camerabin support in GStreamer]
+  * still image capture with: arbitrary post processing, zooming, various resolutions.
+  * 3A (autofocus, autowhitebalance and autoexposure): locking 3A settings
+  * viewfinder with: arbitrary post processing
+  * videocapture with: arbitrary post processing, zooming, various resolutions
 
 == Meego Policy Framework ==
 
