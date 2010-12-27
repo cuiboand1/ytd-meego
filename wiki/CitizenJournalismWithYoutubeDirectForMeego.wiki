@@ -273,7 +273,7 @@ Switch.
      }
 }}}
 
-  [http://blogs.forum.nokia.com//data/blogs/resources/300003/compo-11.png]
+[http://blogs.forum.nokia.com//data/blogs/resources/300003/compo-11.png]
 
 So far, that is certainly not remarkable or innovative:
 [http://docs.hp.com/en/B1171-90145/ch04s01.html Motif's UIL] was doing this
