@@ -2,6 +2,9 @@
 
 **( nb: ROUGH DRAFT WORK IN PROGRESS)**
 
+<wiki:toc max_depth="2" />
+#sidebar
+
 = Overview  = 
 
 The
@@ -967,11 +970,12 @@ APIs for managing media files:
 = Future work enabled by a "Video 2.0" platform =
 
 The new generation of hybrid video/computing platform such as the Nokia
-N900 or N8 enable a whole different world of applications. Stanford
-University's
+N900 or N8 enable a whole different world of applications. For example the
+[http://vision.ece.ucsb.edu/~kleban/papers/translatAR.pdf "TranslatAR"
+project] which combines Optical Character Recognition with a computaitonal
+camera platform. Stanford University's
 [http://www-graphics.stanford.edu/papers/fcam/ FCam Project ]
-claims applications of "[http://www-graphics.stanford.edu/projects/camera-2.0/ Camera 2.0]"
-include:
+suggests other applications of "[http://www-graphics.stanford.edu/projects/camera-2.0/ Camera 2.0]":
  "high dynamic range imaging, flash-noflash imaging, coded aperture and coded exposure imaging, photography under structured illumination, multi-perspective and panoramic stitching, digital photomontage, all-focus imaging, and light field imaging."
 
 The !YouTube Direct Application on a handset represents the first steps
