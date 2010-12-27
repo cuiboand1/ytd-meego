@@ -60,14 +60,13 @@ The web interface consists of two components, an
 and an administrator-only moderation panel. The following diagram gives an
 overview of the [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview YTD architecture]:
 
-  <div class="image">
   [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
-  <div alignment="center">*Fig. 1 YTD Architecture*</div>
-  </div>
+
 
 For further details, see http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
 To support YTD on the !MeeGo handset, this project seeks to port the
+
 [http://ytd-android.googlecode.com YTD-Android Application],
 presented in the image below, on the right. The image on the left is an
 example of a customized web-application built on YTD for
@@ -76,7 +75,8 @@ Note in both interfaces, the "Submission Ideas" listing. This is
 implemented as a JSON "feed" (analogous to an RSS feed) where outgoing
 requests for new video stories are made, and a categorization system under
 which new stories can be submitted.
-[http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
+
+  [http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
 
 Porting YTD-Android to Meego consists of supporting the following major features from the Android reference:
 
@@ -138,13 +138,13 @@ The predecessor (an equivalent diagram couldn't be found for !MeeGo at time of w
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Imaging_and_Sharing Maemo Sharing Framework]
 provides media uploading to a variety of services:
 
- [http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
+  [http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
 
 The Maemo sharing GUI allows for any media captured on the device to be
 selected and reliably uploaded to any provider that implements a
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Using_Data_Sharing/Sharing_Plug-in sharing plugin]:
 
- [http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]
+  [http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]
 
 In the future, a well integrated youtube-direct "sharing plugin" written
 for the !MeeGo Sharing Framework could subsume the functionality of
@@ -392,7 +392,7 @@ manufacturer-specific with Qt Quick, and embodied within separate
 [http://developer.qt.nokia.com/wiki/QtQuickOpenComponents contributed, public/open and private GUI components].
 
 A public project,
-[https://projects.forum.nokia.com/colibri Qt Quick Colibri]
+[http://projects.forum.nokia.com/colibri Qt Quick Colibri]
 is designed to provide reusable UI components suitable for
 cross-platform use on Symbian, Maemo, Meego and Windows/Mac/Linux desktop
 environments. It is designed to get developers started
@@ -423,13 +423,13 @@ presentation via preexisting
 such as:
 
  * [http://doc.qt.nokia.com/4.7/src-imports-folderlistmodel.html Folder List Model]
- [http://doc.qt.nokia.com/4.7/images/declarative-folderlistmodel.png]
+  [http://doc.qt.nokia.com/4.7/images/declarative-folderlistmodel.png]
  * [http://doc.qt.nokia.com/4.7/qml-xmllistmodel.html XML List Model]
- [http://doc.qt.nokia.com/4.7/images/qml-xmllistmodel-example.png]
+  [http://doc.qt.nokia.com/4.7/images/qml-xmllistmodel-example.png]
  * [http://doc.qt.nokia.com/4.7/qml-listmodel.html List Model] and [http://doc.qt.nokia.com/4.7/qml-listelement.html List Element]
- [http://doc.qt.nokia.com/4.7/images/listmodel.png]
+  [http://doc.qt.nokia.com/4.7/images/listmodel.png]
  * [http://doc.qt.nokia.com/4.7/qml-visualitemmodel.html Visual Item Model]
- [http://doc.qt.nokia.com/4.7/images/visualitemmodel.png]
+  [http://doc.qt.nokia.com/4.7/images/visualitemmodel.png]
 
 == Browsing Captured Media in Meego Document Gallery ==
 
@@ -586,7 +586,7 @@ returned to the application's top-level. The example
 [http://doc.qt.nokia.com/qt-mobility/declarative-camera-declarative-camera-qml.html QML-based GUI and code]
 creates a camera GUI like this:
 
- [http://doc.qt.nokia.com/qt-mobility/images/qml-camera.png]
+  [http://doc.qt.nokia.com/qt-mobility/images/qml-camera.png]
 
 Below, a snippet of code associated with the "declarative camera", to give
 an exampe of the high-level programming associated with QML:
@@ -692,13 +692,13 @@ The above pattern is an example of how the interface to the YTD
 assignment feed in YTD-Meego could be implemented.  Essentially, an
 assignment feed is an RSS feed. An example of an Qt Quick application using
 such a feed is a
-[https://projects.forum.nokia.com/QtQuickTwitterExample Qt-Quick "twitter' client]
+[http://projects.forum.nokia.com/QtQuickTwitterExample Qt-Quick "twitter' client]
 .  This constructs a data model that can be browsed by the
 QML "XML List Model" introduced above:
-[https://projects.forum.nokia.com/QtQuickTwitterExample/browser/twitter/content/TwitterModel.qml QtQuickTwitterExample Data Model]
+[http://projects.forum.nokia.com/QtQuickTwitterExample/browser/twitter/content/TwitterModel.qml QtQuickTwitterExample Data Model]
 displaying the data present in the RSS in a GUI:
 
- [https://projects.forum.nokia.com/QtQuickTwitterExample/raw-attachment/wiki/WikiStart/Twitter-listview1.png]
+  [http://projects.forum.nokia.com/QtQuickTwitterExample/raw-attachment/wiki/WikiStart/Twitter-listview1.png]
 
 A similar integration of QML models and JSON/RPC data from a webserver is
 the XBMC Remote for the [http://xbmc.org/ X Box Media Center], which itself
@@ -707,7 +707,7 @@ has already been [http://www.madeo.co.uk/?page_id=605 ported to MeeGo]:
  * http://gitorious.org/xbmc-qml-remote 
  * http://gitorious.org/xbmc-qml-remote/pages/Home
 
- [http://web2.0-apps.de/fabian/xbmc/screenshot/album.jpeg]
+  [http://web2.0-apps.de/fabian/xbmc/screenshot/album.jpeg]
 
 Some code examples from that app doing JSON/RPC entirely within QML:
 
@@ -950,7 +950,7 @@ The following diagram describes the
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Multimedia_Domain Nokia n900 Maemo "Multimedia Domain"],
 and should translate, roughly, to !MeeGo on the same platform:
 
- [http://wiki.maemo.org/images/thumb/5/56/OMAP_architecture.png/800px-OMAP_architecture.png]
+  [http://wiki.maemo.org/images/thumb/5/56/OMAP_architecture.png/800px-OMAP_architecture.png]
 
 http://meego.com/developers/meego-architecture/meego-architecture-domain-view
 describes !MeeGo's "Multimedia domain": providing audio and video playback,
@@ -972,7 +972,7 @@ The audio subsystem is depicted in the following diagram from
 [http://linuxplumbersconf.org/2009/slides/Jyri-Sarha-audio_miniconf_slides.pdf Jyri Sarha's presentation "Practical Experiences from Using Pulseaudio in Embedded Handheld Device"]
 from the recent Linux Plumber's Conference:
 
- [http://nielsmayer.com/meego/N900-Pulseaudio-Configuration.png]
+  [http://nielsmayer.com/meego/N900-Pulseaudio-Configuration.png]
 
 A lively thread on the role of pulseaudio in a handset was started on the [http://lists.linuxaudio.org/listinfo/linux-audio-dev Linux Audio Developers] and [http://lists.meego.com/pipermail/meego-handset/ Meego Handset] Lists, with notable replies by:
  * Marco Ballesio (Nokia Multimedia Architect): [http://lalists.stanford.edu/lad/2010/12/0164.html LAD#1], [http://lalists.stanford.edu/lad/2010/12/0166.html LAD#2]
@@ -1003,7 +1003,7 @@ will appear with Qt Mobility 1.2 and Meego 1.2:
 
 == Meego Policy Framework ==
 
-[http://wiki.meego.com/images/Meego-policy-framework-developer-guide.pdf http://nielsmayer.com/ytd/meego-policy-framework.png]
+  [http://wiki.meego.com/images/Meego-policy-framework-developer-guide.pdf http://nielsmayer.com/ytd/meego-policy-framework.png]
 
 Marco Ballesio's,
 [http://conference2010.meego.com/session/policy-framework-flexible-way-orchestrate-multiple-functionalities-meego-devices Policy Framework: A Flexible Way To Orchestrate Multiple Functionalities On MeeGo Devices]
