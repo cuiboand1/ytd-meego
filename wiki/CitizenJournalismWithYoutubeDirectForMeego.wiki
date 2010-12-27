@@ -72,15 +72,34 @@ which new stories can be submitted.
 [http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
 
 Porting YTD-Android to Meego consists of supporting the following major features from the Android reference:
-  * [http://code.google.com/p/ytd-meego/issues/detail?id=2 Integration with Meego's Account Manager for ease of authentication (the application prompts the user to select a configured Google / Gmail account on the mobile device)]
-  * [http://code.google.com/p/ytd-meego/issues/detail?id=3 Automatic synchronization of assignment list (submission ideas) from the !YouTube-Direct JSON assignment feed]
-  * [http://code.google.com/p/ytd-meego/issues/detail?id=4 Notification display upon discovery of new assignments]
-  * [http://code.google.com/p/ytd-meego/issues/detail?id=5 Video recording and upload to a specific submission idea]
-  * [http://code.google.com/p/ytd-meego/issues/detail?id=6 Upload of a video selected from the gallery]
-  * [http://code.google.com/p/ytd-meego/issues/detail?id=7 Geolocation tagging of submitted videos]
 
-This remainder of this article seeks to answer how to implement these
-features on the !MeeGo Handset platform is.
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=2 Integration with Account Manager for ease of authentication (the application prompts the user to select a configured Google / Gmail account on the mobile device)]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/AndroidManifest.xml AndroidManifest.xml]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/Authorizer.java Authorizer.java]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/GlsAuthorizer.java GlsAuthorizer.java]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/Util.java Util.java]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/SubmitActivity.java SubmitActivity.java]
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=3 Automatic synchronization of assignment list (submission ideas) from the !YouTube-Direct JSON assignment feed]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/db/Assignment.java Assignment.java]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/AssignmentArrayAdapter.java AssignmentArrayAdapter]
+   * http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/AssignmentSyncService.java AssignmentSyncService]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/AlarmActionReceiver.java AlarmActionReceiver.java]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/res/layout/main.xml layout/main.xml]
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=4 Notification display upon discovery of new assignments]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/AlarmActionReceiver.java AlarmActionReceiver.java]
+   * http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/AssignmentSyncService.java AssignmentSyncService]
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=5 Video recording and upload to a specific submission idea]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/SubmitActivity.java SubmitActivity.java]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/res/layout/main.xml layout/main.xml]
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=6 Upload of a video selected from the gallery]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/DetailsActivity.java DetailsActivity.java]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/res/layout/details.xml layout/details.xml]
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=7 Geolocation tagging of submitted videos]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/src/com/google/ytd/SubmitActivity.java SubmitActivity.java]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/res/raw/gdata_geo.xml raw/gdata_geo.xml]
+   * [http://code.google.com/p/ytd-android/source/browse/trunk/res/layout/submit.xml layout/submit.xml]
+
+This remainder of this article seeks to answer how to implement these features on the !MeeGo Handset platform.
 
 = Related Work = 
 
@@ -948,8 +967,8 @@ from the recent Linux Plumber's Conference:
  [http://nielsmayer.com/meego/N900-Pulseaudio-Configuration.png]
 
 A lively thread on the role of pulseaudio in a handset was started on the [http://lists.linuxaudio.org/listinfo/linux-audio-dev Linux Audio Developers] and [http://lists.meego.com/pipermail/meego-handset/ Meego Handset] Lists, with notable replies by:
- * Marco Ballesio (Nokia Multimedia Architect): [http://lalists.stanford.edu/lad/2010/12/0164.html LAD#1] [http://lalists.stanford.edu/lad/2010/12/0166.html LAD#2]
- * Kai Vehmanen (Nokia Meego Telephony (?) and [http://www.eca.cx/ecasound/ Ecasound] author): [http://lalists.stanford.edu/lad/2010/12/0168.html LAD#3] [http://lalists.stanford.edu/lad/2010/12/0167.html LAD#4 ] [http://lalists.stanford.edu/lad/2010/12/0170.html LAD#5]
+ * Marco Ballesio (Nokia Multimedia Architect): [http://lalists.stanford.edu/lad/2010/12/0164.html LAD#1], [http://lalists.stanford.edu/lad/2010/12/0166.html LAD#2]
+ * [http://www.eca.cx/kv/ Kai Vehmanen] (Nokia Meego Telephony and [http://www.eca.cx/ecasound/ Ecasound] author): [http://lalists.stanford.edu/lad/2010/12/0168.html LAD#3], [http://lalists.stanford.edu/lad/2010/12/0167.html LAD#4 ], [http://lalists.stanford.edu/lad/2010/12/0170.html LAD#5]
 
 == GStreamer: Plugins for Video and Camera Subsystem Compression and Decompression == 
 
