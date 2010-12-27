@@ -54,13 +54,16 @@ multimedia applications with Qt Quick technology.
 = !YouTube Direct =
 
 !YouTube Direct (YTD) is an open source video submission platform using
-!YouTube API and Google App Engine.  The web interface consists of two
-components, an
+[http://code.google.com/apis/youtube YouTube API] and [http://code.google.com/appengine/ Google App Engine]. 
+The web interface consists of two components, an
 [http://ytd-demo.appspot.com/test.html 'iframe' based embeddable video uploader],
 and an administrator-only moderation panel. The following diagram gives an
 overview of the [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview YTD architecture]:
 
- [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
+<table class="image">
+<caption align="bottom">Fig. 1 YTD Architecture</caption>
+<tr><td>[http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]</td></tr>
+</table>
 
 For further details, see http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
@@ -646,9 +649,12 @@ to  obtain authentication tokens. An alternative and preferred standard is
 [http://code.google.com/apis/youtube/2.0/developers_guide_protocol_oauth.html OAuth]
 , for which http://gdata-java-client.googlecode.com/ is an example Java client.
 
+
+
 An example OAuth implementation using QML can be found at http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/twitter-oauth :
  * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.js
  * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.qml
+ * see also http://googlecodesamples.com/oauth_playground/
 
 == JSON RPC in QML ==
 
