@@ -593,8 +593,7 @@ to  obtain authentication tokens. An alternative and preferred standard is
 [http://code.google.com/apis/youtube/2.0/developers_guide_protocol_oauth.html OAuth]
 , for which http://gdata-java-client.googlecode.com/ is an example Java client.
 
-An example OAuth implementation using QML can be found at 
- * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/twitter-oauth for example:
+An example OAuth implementation using QML can be found at http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/twitter-oauth :
  * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.js
  * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.qml
 
