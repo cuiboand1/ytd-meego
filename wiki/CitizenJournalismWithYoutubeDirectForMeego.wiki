@@ -15,7 +15,7 @@ these sites to facilitate content collection from an increasing population
 of video-enabled smart-phone users.
 
 The [http://ytd-meego.googlecode.com YTD-Meego] project seeks to build a
-MeeGo application which represents an innovative use of the handheld
+!MeeGo application which represents an innovative use of the handheld
 platform as a computational video camera, performing a unique combination
 of functionality that wasn't possible prior to the confluence of cellular
 networking integrated with handheld/touchscreen computer and video camera.
@@ -128,7 +128,7 @@ framework provides the following features to the handset platform:
    # Metadata removal/replacement for images and videos
    # Upload recovery after crashes/restart of the device
    # Optional: video re-encoding
-  * Provides reference share plugins for Facebook, YouTube, Picasa and Email
+  * Provides reference share plugins for Facebook, !YouTube, Picasa and Email
   * Full integration with Accounts and Single Sign-on in !MeeGo.com
   * Process separation for upload plugins and integrated with Security Framework 
 
@@ -169,7 +169,7 @@ code follows. Below, we see QML's [http://en.wikipedia.org/wiki/JSON JSON]
 syntax [http://en.wikipedia.org/wiki/ECMAScript JavaScript] and some of the
 declarative aspects of QML.  JSON syntax is used to declare the UI
 hierarchy, such that the toplevel Page contains Flickable, which contains
-Column, which in turn contains Button, LineEdit, Button, CheckBox, and
+Column, which in turn contains Button, !LineEdit, Button, !CheckBox, and
 Switch. 
 
 {{{
@@ -289,7 +289,7 @@ delivery footprint. This is not optimal, strictly pragmatic: for one, it is
 wasteful to use two built-in interpreters and their associated overhead:
 QML and Python, when QML is a fully capable language in its own right.  As
 indicated above, the Pyside portions are also potentially just a stopgap
-until QtMobility 1.2's QML plugins provide needed functionality directly
+until !QtMobility 1.2's QML plugins provide needed functionality directly
 from QML.
 
 For more information on using Pyside and QML:
@@ -718,7 +718,7 @@ Library.prototype.loadMovies = function () {
 One of the issues with a youtube-direct client, noted in private comment by
 Jarek Wilkiewicz of !YouTube, is that the error&retry logic in resumable
 uploads need be robust: uploading large files while on the move, over flaky
-and shifting networks is nontrivial.  This is handled by the the
+and shifting networks is nontrivial.  This is handled by the
 [http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_resumable_uploads.html YouTube API for resumable uploads].
 YTD-meego must work with this API and provide the retry and
 partial-upload logic that is robust in the face of networking challenges.
@@ -753,7 +753,7 @@ providing connection manager and roaming support for
 application suggests an alternative implementation strategy that probably
 won't be used in this project, but is interesting to consider for this
 class of application. The Nokia demo states: "Various video websites like
-YouTube, Google Videos, TED provide the list of videos as RSS, Atom. The
+!YouTube, Google Videos, TED provide the list of videos as RSS, Atom. The
 demo extracts contents from the RSS using
 [http://doc.trolltech.com/4.7/xmlprocessing.html XQuery].
 The list of feeds and the
@@ -784,23 +784,31 @@ NPAPI to Flash just to display video; CSS transitions/animations are used
 for display instead of the functionality provided in a "Qt Quick
 Components" or "Qt Quick Colibri."  The above implementation also makes use
 of !WebKit for offline storage -- which is also an issue ytd-meego will
-face. Unfortunately, relying this much on !WebKit is a very high-overhead
-way of implementing this functionality. Online discussion on the subject
-suggests that each !WebKit instance adds about 10Mb to the application. And
-in most cases, the functionality is available natively in Qt, and much of
-it via QML.
+face.
+ 
+It might be easiest to do the "web" part of the app this way, and enable
+call-outs to QtMobility for playing or recording media, geotagging, etc. It
+would be "cheating" to just drop an existing
+[http://ytd-demo.appspot.com/test.html YouTube-Direct web-application]
+directly into a !WebKit 'iframe' inside the application, and then just
+intercept the file selection/uploading part with a media file chosen by the
+application. Of course, many a handheld "application" is just such a
+custom-purpose web browser these days, so this option shouldn't be totally
+ruled out as last resort. 
 
-It might be easiest to do  the "web" part of the app this way,
-and enable call-outs to QtMobility for playing or recording media,
-geotagging, etc. The existing !YouTube-Direct web-application (see
-[http://ytd-demo.appspot.com/test.html web Demo])
-could be dropped directly into a !WebKit frame inside the application ...
+The goal of this project, however, is to implement the functionality
+"natively" in QML, rather than deliver a site-specific, customized web
+browser. Furthermore, relying on !WebKit is a very high-overhead way of
+implementing the relatively trivial web interactions needed by this app,
+most of which are outlined in this paper.
+[http://lists.qt.nokia.com/pipermail/qt-qml/2010-December/001948.html Discussion on the Qt-QML list]
+suggest !WebKit addes about 10Mb to the application runtime, even when not
+instantiating an actual !WebView element.
 
-However,such an implementation ends up being a more breakable,
-hard-to-test, heavyweight app using !WebKit. On the other hand, perhaps
-such an approach will be needed anyways.  For example: using existing
-browser-based authentication; cross-domain authentication from a main 'www'
-site to a separate 'ytd' site; and other instances where cross-application
+On the other hand, perhaps such an approach will be needed anyways for
+pragmatic reasons.  For example: needing to reuse an existing browser-based
+authentication portal, such as cross-domain authentication from a main
+'www' site to a separate 'ytd' site, and to handle other cross-application
 and cross-domain cookies need to be used by the custom handheld
 application.
 
@@ -872,12 +880,21 @@ the functioning example will eventually yield functioning viewfinder and
 camera controls in YTD-meego.
 
 Actual capture and compression of video will require a working v4l2
-subsystem and OMAP DSP coprocessor support for on-the-fly video
+subsystem and GStreamer plugins for OMAP DSP support for on-the-fly video
 compression. Until then "canned" video files can be used.  Likewise,
 Geotagging support will require a working !GeoClue subsystem. Until then,
-"canned" GPS locations can be used.
+"canned" GPS locations can be used...
 
 = N900 Platform and Hardware Overview =
+
+In order to better understand the issues in building and porting multimedia
+applications to the !MeeGo Handset, we first need to understand the deep
+multimedia capabilities of the platform. The
+[http://www.nokiausa.com/find-products/phones/nokia-n900/specifications Nokia N900]
+is the
+[http://wiki.meego.com/ARM/N900 ARM reference platform for the Meego Handset], so below, are details on the hardware and
+system level interfaces provided by the current
+[http://meego.com/downloads/releases/1.1/meego-v1.1-handset MeeGo 1.1  Handset] and upcoming 1.2 releases.
 
 The following diagram describes the
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Multimedia_Domain Nokia n900 Maemo "Multimedia Domain"],
@@ -920,12 +937,10 @@ provides a good overview of the GStreamer framework, which enables
 
   [http://elinux.org/images/d/d1/MeeGoMultimedia.pdf http://nielsmayer.com/ytd/KostMeegoMultimediaGstreamer.png]
 
-Kost outlines, for still  and video capture via the camera, the GStreamer "camerabin"
-and "GStreamer elements for format conversion, metadata (XMP, EXIF), muxing, data routing."
-For video editing, e.g. so that YTD-meego uploads a clip from a longer video: GStreamer "gnonlin"
-and "GStreamer components for muxing, demuxing, format conversion."
-For metadata indexing and thumbnailing: "[http://maemo.org/api_refs/5.0/5.0-final/gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-tagreadbin.html Tagreadbin] (experimental)"
-and "GStreamer components for parsing, demuxing."
+Kost's presentation suggests the following subcomponents.
+ * For still  and video capture via the camera, the GStreamer "camerabin" and "GStreamer elements for format conversion, metadata (XMP, EXIF), muxing, data routing."
+ * For video editing, e.g. so that YTD-meego uploads a clip from a longer video: GStreamer "gnonlin" and "GStreamer components for muxing, demuxing, format conversion."
+ * For metadata indexing and thumbnailing: "[http://maemo.org/api_refs/5.0/5.0-final/gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-tagreadbin.html Tagreadbin] (experimental)" and "GStreamer components for parsing, demuxing."
 
 Unfortunately, such GStreamer support is not yet avaible in Meego 1.1 and
 will appear with Qt Mobility 1.2 and Meego 1.2:
@@ -969,11 +984,12 @@ APIs for managing media files:
 
 The new generation of hybrid video/computing platform such as the Nokia
 N900 or N8 enable a whole different world of applications. For example the
-[http://vision.ece.ucsb.edu/~kleban/papers/translatAR.pdf "TranslatAR"
-project] which combines Optical Character Recognition with a computaitonal
-camera platform. Stanford University's
+[http://vision.ece.ucsb.edu/~kleban/papers/translatAR.pdf "TranslatAR" project]
+which combines Optical Character Recognition with a computaitonal camera
+platform. Stanford University's
 [http://www-graphics.stanford.edu/papers/fcam/ FCam Project ]
-suggests other applications of "[http://www-graphics.stanford.edu/projects/camera-2.0/ Camera 2.0]":
+suggests other applications of
+"[http://www-graphics.stanford.edu/projects/camera-2.0/ Camera 2.0]":
  "high dynamic range imaging, flash-noflash imaging, coded aperture and coded exposure imaging, photography under structured illumination, multi-perspective and panoramic stitching, digital photomontage, all-focus imaging, and light field imaging."
 
 The !YouTube Direct Application on a handset represents the first steps
