@@ -594,9 +594,9 @@ to  obtain authentication tokens. An alternative and preferred standard is
 , for which http://gdata-java-client.googlecode.com/ is an example Java client.
 
 An example OAuth implementation using QML can be found at 
-http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/twitter-oauth for example:
-http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.js
-http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.qml
+ * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/twitter-oauth for example:
+ * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.js
+ * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.qml
 
 == JSON RPC in QML ==
 
@@ -907,7 +907,7 @@ A lively thread on the role of pulseaudio in a handset was started on the [http:
 
 == GStreamer: Plugins for Video and Camera Subsystem Compression and Decompression == 
 
-Dr. Stefan Kost, Nokia, presentation slides on the
+Dr. Stefan Kost's presentation on the
 [http://elinux.org/images/d/d1/MeeGoMultimedia.pdf MeeGo Multimedia Stack]
 provides a good overview of the GStreamer framework, which enables
 [http://www.eetimes.com/design/signal-processing-dsp/4004620/DSP-video-processing-via-open-sourceAPIs DSP video processing via open-source APIs]:
