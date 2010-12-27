@@ -59,7 +59,28 @@ http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
 Web Demo: http://ytd-demo.appspot.com/test.html
 
+To support !YouTube direct on the !MeeGo handset, this project seeks to
+port the
+[http://ytd-android.googlecode.com YouTube Direct Android Application],
+presented in the image below, on the right. The image on the left is an
+example of a customized web-application built on !YouTube direct for
+[http://ureport.abc7news.com ABC7 News].
+Note in both interfaces, the "Submission Ideas" listing. This is
+implemented as a JSON "feed" (analogous to an RSS feed) where outgoing
+requests for new video stories are made, and a categorization system under
+which new stories can be submitted.
 [http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
+
+Porting YTD-Android to Meego consists of supporting the following major features from the Android reference:
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=2 Integration with Meego's Account Manager for ease of authentication (the application prompts the user to select a configured Google / Gmail account on the mobile device)]
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=3 Automatic synchronization of assignment list (submission ideas) from the !YouTube-Direct JSON assignment feed]
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=4 Notification display upon discovery of new assignments]
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=5 Video recording and upload to a specific submission idea]
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=6 Upload of a video selected from the gallery]
+  * [http://code.google.com/p/ytd-meego/issues/detail?id=7 Geolocation tagging of submitted videos]
+
+This remainder of this article seeks to answer how to implement these
+features on the !MeeGo Handset platform is.
 
 = Related Work = 
 
@@ -802,7 +823,7 @@ The goal of this project, however, is to implement the functionality
 "natively" in QML, rather than deliver a site-specific, customized web
 browser. Furthermore, relying on !WebKit is a very high-overhead way of
 implementing the relatively trivial web interactions needed by this app,
-most of which are outlined in this paper.
+most of which are outlined in this article.
 [http://lists.qt.nokia.com/pipermail/qt-qml/2010-December/001948.html Discussion on the Qt-QML list]
 suggest !WebKit addes about 10Mb to the application runtime, even when not
 instantiating an actual !WebView element.
