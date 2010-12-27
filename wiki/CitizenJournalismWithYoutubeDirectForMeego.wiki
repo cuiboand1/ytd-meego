@@ -21,10 +21,10 @@ camera.
 The implementation of the application is innovative, utilizing "Qt Quick"
 technology for rapdid-prototyping dynamic, modern touch GUIs. Qt Quick and
 QML is used to implement most of the functionality of this project,
-utilizing prototype-based OOP in the !JavaScript language. However, there
+utilizing [http://en.wikipedia.org/wiki/JavaScript#Prototype-based prototype-based OOP] in the !JavaScript language. However, there
 are areas where plugins or native access to underlying platform
 functionality is not available in QML. In these cases, "hybrid programming"
-technique will be used, implemented in C++ using !QtMobility API, but
+technique will be used, implemented in C++ or Python using !QtMobility API, but
 providing high-level !JavaScript calls for use by QML files.
 
 This article describes the architecture and design decisions porting the
@@ -35,12 +35,16 @@ handheld application for the
 [http://ytd-android.googlecode.com Android] to
 [http://meego.com MeeGo], using
 Qt Quick/QML
-for the UI, and additional C++ extensions for
+for the UI, and additional C++ or Python extensions for
 handling HD video capture, geotagging, and uploading to a youtube-direct
 enabled website. 
+
 As http://ytd-meego.googlecode.com is a new project, part of the purpose of
-this article is to solicit feedback, contributors and domain-expertise on
-the architecture choices described.
+this article is to solicit feedback, project contributors and
+domain-expertise on the architecture choices described. This document thus
+serves as a detailed reference, with links, both for this project's
+contributors, as well and others interested in programming !MeeGo
+multimedia handheld applications.
 
 = !YouTube Direct =
 
@@ -135,9 +139,36 @@ framework provides the following features to the handset platform:
   * Transfer UI provides common actions for all types of transfers
   * Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
 
-= GUI Technology: Qt Quick and QML = 
+= New GUI Technology: Qt Quick and QML = 
 
-http://blogs.forum.nokia.com/blog/kate-alholas-forum-nokia-blog/2010/11/14/how-to-make-modern-mobile-applications-with-qt-quick-components
+YTD-Meego is an innovative project that uses the latest in dynamic touch interface technology:
+[http://en.wikipedia.org/wiki/QML QML] and [http://doc.qt.nokia.com/4.7/qtquick.html Qt Quick].
+
+Kate Alholla's
+"[http://blogs.forum.nokia.com/blog/kate-alholas-forum-nokia-blog/2010/11/14/how-to-make-modern-mobile-applications-with-qt-quick-components How to make modern Mobile applications with Qt Quick components]"
+is an excellent introduction to Qt Quick and how it fulfills the needs of
+touch interfaces beyond traditional "widget based" interfaces:
+
+ !MeeGo, was started from a clean sheet. Enhancing legacy toolkits,
+  GTK+/Hildon or QWidgets, were insufficient to implement leading edge
+  mobile user experience. The UI toolkit should be based on
+  QGraphicsView/QGraphicsItem rather than old QWidgets. The new approach
+  allowed us to take control of UI elements, transitions and animations
+  inside of the toolkit. Now we had a possibility for a lot more complex
+  animations in element level, animated dynamic layouts etc. ![...!]
+
+ Qt Quick was part of Qt4.7 released October 2010. The Qt Quick can be
+ considered revolutionary step in UI implementation, even complex UIs were
+ possible to implement with a few easy lines of Qml code. Qml is also easy
+ to learn for UI designers used to work with web UI tools.
+
+The article provides some example QML code and the screen-snapshot for the
+code follows. Below, we see QML's [http://en.wikipedia.org/wiki/JSON JSON]
+syntax [http://en.wikipedia.org/wiki/ECMAScript JavaScript] and some of the
+declarative aspects of QML.  JSON syntax is used to declare the UI
+hierarchy, such that the toplevel Page contains Flickable, which contains
+Column, which in turn contains Button, LineEdit, Button, CheckBox, and
+Switch. 
 
 {{{
      Component {
@@ -195,6 +226,28 @@ http://blogs.forum.nokia.com/blog/kate-alholas-forum-nokia-blog/2010/11/14/how-t
 
 [http://blogs.forum.nokia.com//data/blogs/resources/300003/compo-11.png]
 
+So far, that is certainly not remarkable or innovative:
+[http://docs.hp.com/en/B1171-90145/ch04s01.html Motif's UIL] was doing this
+back in the late 80's. What's different is that traditional "widget"
+interaction can be combined with "designed" photoshop-drawn interfaces, as
+well as more modern dynamic, animated, and gesture-recognizing interfaces
+appropriate to touch interfaces. Further, QML is a rich language and is
+already capable-enough to write fully functioning applications entirely in
+!JavaScript. As such, QML provides a dynamic, high-level, object-oriented
+language at the user-interface level, which was also observed as a good solution to 
+[http://nielsmayer.com/p45-mayer.pdf "declarative" GUI building with UIL in the late 80's].
+
+In the code example above, note the "declarative" aspects of the code,
+which are implicit in the sizing constraints: for example, "parent.width"
+sizes all the children to be the same size as their container, without
+requiring explicit procedural code.  The declarative style means one need
+not worry about the procedural order of creating the UI elements and their
+parentage.  With QML,
+[http://doc.qt.nokia.com/4.7/qdeclarativestates.html Application state]
+is handled declaratively, as is
+[http://doc.qt.nokia.com/4.7/qdeclarativefocus.html keyboard-focus]
+and dialog state.
+
 == Rapid prototyping declarative GUIs with QML (and Pyside) ==
 
 The overarching design goal of this application is to use "Qt Quick" to
@@ -212,26 +265,36 @@ into C++.
 One of the reasons for considering Pyside and not
 going directly to C++ is rapid-prototyping and higher-level coding made
 possible with
-[http://www.pyside.org/docs/pyside-mobility/ Pyside's QtMobility] API. Eventually, high-level interfaces
-will exist in !QtMobility 1.2, but much is not yet functional at the QML level. For example, the article
+[http://www.pyside.org/docs/pyside-mobility/ Pyside's QtMobility] API. Eventually, high-level QML interfaces
+will exist in !QtMobility 1.2: The article
 [http://developer.qt.nokia.com/wiki/Using_QtMobility_sensors_and_QML_from_PySide Using QtMobility sensors and QML from PySide]
 states: "In the future, Qt Mobility 1.2 (still not released as of December 2010) will have
 [http://doc.qt.nokia.com/qt-mobility-snapshot/qml-plugins.html QML Plugins],
-but right now we have to write some glue code in Python"
+but right now we have to write some glue code in Python."
+
+Thus, as part of the rapid prototyping, portions of YTD-meego may need
+coding in Pyside. The API that arises between QML and Pyside can be used to
+recode the Pyside portions in C++ should the need arise, e.g. for a smaller
+delivery footprint. This is not optimal, strictly pragmatic: for one, it is
+wasteful to use two built-in interpreters and their associated overhead:
+QML and Python, when QML is a fully capable language in its own right.  As
+indicated above, the Pyside portions are also potentially just a stopgap
+until QtMobility 1.2's QML plugins provide needed functionality directly
+from QML.
 
 For more information on using Pyside and QML:
  * [http://developer.qt.nokia.com/wiki/PySideDocumentation Nokia PySide Documentation]
  * [http://conference2010.meego.com/session/meego-development-python-qt-mobility-and-touch MeeGo Development With Python: Qt, Mobility, And Touch] ([http://conference2010.meego.com/sites/all/files/sessions/pyside-meegoconf_0.pdf presentation slides])
 
-== Details on Hybrid Programming in C++ and QML == 
+== A path we try not to take: Hybrid Programming in C++ and QML == 
 
-Marko Mattila has blogged about his
+Although this project is going to attempt to do as little C++ programming initially, good design observations are found in
+Marko Mattila's blog about his
 [http://zchydem.enume.net/2010/04/08/my-first-qt-quick-app-quickflickr/ experience in creating a hybrid QML/C++ application],
 [http://gitorious.org/quickflickr/quickflickr/trees/master quickflickr]
 which suggests the following architecture for a Qt Quick application:
  * "Heavy lifting" in C++ and w/ !QtMobility.
   * Not all !QtMobility facilities have QML counterparts so many will need to be "wrapped" in C++ and made available to the QML-level as a high-level call.
-  * Needed for  video recording and media capture since http://apidocs.meego.com/1.0/qtmobility/multimedia.html has no QML faciities for media capture.
  *  QML for eye candy:
   * "there are developers implementing the “difficult stuff” in C++ side and then the UI designers do the eye-candy UIs using QML. In my opinion, many of the QML examples and demos do little bit too much in the QML side, such as they implement too much stuff using the !JavaScript. On the other hand, I understand that the idea of demos is to demonstrate the power of QML, but I’m not sure how much designers would like work with !JavaScript."
  *  QML side only visualizes the data that comes from C++
@@ -284,7 +347,7 @@ sliders, and a few more advanced ones like histograms and album carousel.
 [http://developer.qt.nokia.com/wiki/Utilizing_Qt_Quick_Colibri_in_PySide Articke on Qt Quick Colibri through Pyside]
 shows the same interface done without and with Qt Quick Colibri, with code examples:
 
-[http://farm6.static.flickr.com/5043/5226958058_6b5b91d1a3.jpg] [http://farm6.static.flickr.com/5287/5229084500_da49bab19f.jpg]
+[http://farm6.static.flickr.com/5043/5226958058_6b5b91d1a3.jpg][http://farm6.static.flickr.com/5287/5229084500_da49bab19f.jpg]
 
 In the future, correct "native" and platform-specific look-and-feel will be
 provided by
@@ -509,6 +572,11 @@ an exampe of the high-level programming associated with QML:
          }
      }
 }}}
+
+For details, see
+
+  http://doc.qt.nokia.com/qt-mobility/declarative-camera-capturecontrols-qml.html
+  http://doc.qt.nokia.com/qt-mobility/declarative-camera-focusbutton-qml.html
 
 == Authentication and Access Control in QML == 
  
@@ -780,6 +848,22 @@ software is now available for testing currently with a
 [http://download.meego.com/live/devel:/qt-mtf:/qt-mobility:/1.2tp1/testing/ MeeGo repository]
 and packages 'qt-mobility' and 'qt-mobility-examples' available for install via zypper.
 
+== Prototyping Plan == 
+
+As the Camera subsystem, Tracker subsystem, and !GeoClue subsystems in
+Meego will not be fully functional until the 1.2 release, the project will
+focus on porting YTD-android's web-interactions using, at first, "test
+data" of manually tagged, geolocated, and separately captured/encoded
+video. While the missing !QtMobility 1.2 functionality is solidified, the
+project can make progress on login/authentication, resumable uploading, GUI
+for the story/assignments, notification and selection, etc. Although
+not-functional, the "declarative-camera" GUI can be integrated into the
+application "early."  This will allow design of modal camera vs. browsing
+activity intrinsic in the application. Since the idea is to extend the
+"declarative camera" application to encompass YTD-meego's functionality,
+the functioning example will eventually yield functioning viewfinder and
+camera controls in YTD-meego.
+
 = N900 Platform and Hardware Overview =
 
 The following diagram describes the
@@ -837,7 +921,10 @@ application-switching, are allowed while ytd-meego is being used? Will using
 
 Similar "Policy Framework" issues include preventing scheduling background tasks while
 capturing media. For example a typical
-[http://talk.maemo.org/showthread.php?t=61960 complaint over the Tracker subsystem]:
+[http://talk.maemo.org/showthread.php?t=61960 complaint over the Tracker subsystem] suggests,
+alongside the fact that it won't be availble until Meego 1.2, that
+this project might best work-around using Tracker and use more traditional
+APIs for managing media files:
 
   I would like it to index the new pictures/videos AFTER I've shot them, after LEAVING the application that made them. Not during...
   In general, while I'm doing the creation, I would want as little other system activity as possible. Real multi-tasking on a limited resource device only goes that far ... Ask Apple and Google.
