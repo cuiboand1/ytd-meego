@@ -4,28 +4,31 @@
 
 = Overview  = 
 
-The youtube-direct for meego application integrates a number of
-traditionally separate applications: a video recorder/still photo camera,
-GPS integration and geotagging, combined with managing/uploading captured
-media to Youtube-Direct sites. Organizations seeking public contribution by
+The
+[http://youtube-direct.googlecode.com Youtube-Direct]
+for !MeeGo application integrates a number of traditionally separate
+applications: a video recorder/still photo camera, GPS integration and
+geotagging, combined with managing/uploading captured media to
+Youtube-Direct sites. Organizations seeking public contribution by
 "[http://gigaom.com/video/youtube-direct-abc7/ citizen journalists]" use
 these sites to facilitate content collection from an increasing population
 of video-enabled smart-phone users.
 
-YTD-Meego represents an innovative use of the handheld platform as a
-computational video camera, performing a unique combination of
-functionality that wasn't possible prior to the confluence of cellular
-networking integrated with handheld/touchscreen computer and video
-camera. 
+The [http://ytd-meego.googlecode.com YTD-Meego] project seeks to build a
+MeeGo application which represents an innovative use of the handheld
+platform as a computational video camera, performing a unique combination
+of functionality that wasn't possible prior to the confluence of cellular
+networking integrated with handheld/touchscreen computer and video camera.
 
-The implementation of the application is innovative, utilizing "Qt Quick"
-technology for rapdid-prototyping dynamic, modern touch GUIs. Qt Quick and
-QML is used to implement most of the functionality of this project,
-utilizing [http://en.wikipedia.org/wiki/JavaScript#Prototype-based prototype-based OOP] in the !JavaScript language. However, there
-are areas where plugins or native access to underlying platform
-functionality is not available in QML. In these cases, "hybrid programming"
-technique will be used, implemented in C++ or Python using !QtMobility API, but
-providing high-level !JavaScript calls for use by QML files.
+The implementation uses "Qt Quick" technology for rapid-prototyping and
+delivering dynamic, modern touch GUIs. Qt Quick and QML is used to
+implement most of the functionality of this project, utilizing
+[http://en.wikipedia.org/wiki/JavaScript#Prototype-based prototype-based OOP]
+in the !JavaScript language. However, there are areas where plugins or
+native access to underlying platform functionality is not available in
+QML. In these cases, "hybrid programming" technique will be used,
+implemented in C++ or Python using !QtMobility API, but providing
+high-level !JavaScript calls for use by QML files.
 
 This article describes the architecture and design decisions porting the
 [http://youtube-direct.googlecode.com Youtube-Direct]
@@ -44,7 +47,7 @@ this article is to solicit feedback, project contributors and
 domain-expertise on the architecture choices described. This document thus
 serves as a detailed reference, with links, both for this project's
 contributors, as well and others interested in programming !MeeGo
-multimedia handheld applications.
+multimedia applications with Qt Quick technology.
 
 = !YouTube Direct =
 
@@ -138,15 +141,15 @@ framework provides the following features to the handset platform:
   * Transfer UI provides common actions for all types of transfers
   * Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
 
-= New GUI Technology: Qt Quick and QML = 
+= GUI Technology: Qt Quick and QML = 
 
-YTD-Meego is an innovative project that uses the latest in dynamic touch interface technology:
+YTD-Meego uses the latest in open-source dynamic touch interface technology:
 [http://en.wikipedia.org/wiki/QML QML] and [http://doc.qt.nokia.com/4.7/qtquick.html Qt Quick].
 
 Kate Alholla's
 "[http://blogs.forum.nokia.com/blog/kate-alholas-forum-nokia-blog/2010/11/14/how-to-make-modern-mobile-applications-with-qt-quick-components How to make modern Mobile applications with Qt Quick components]"
-is an excellent introduction to Qt Quick and how it fulfills the needs of
-touch interfaces beyond traditional "widget based" interfaces:
+is an excellent introduction to Qt Quick explaining the evolution of
+Nokia's touch interfaces beyond traditional "widget based" interfaces:
 
  !MeeGo, was started from a clean sheet. Enhancing legacy toolkits,
  GTK+/Hildon or QWidgets, were insufficient to implement leading edge
@@ -250,9 +253,9 @@ and dialog state.
 == Rapid prototyping declarative GUIs with QML (and Pyside) ==
 
 The overarching design goal of this application is to use "Qt Quick" to
-create this application using "rapid prototyping" while also employing
-visually-rich&dynamic, touch&gesture capable interfaces that can be
-accomplished in QML.
+create this application using "rapid prototyping" while also employing the
+best-available visually-rich&dynamic, touch&gesture capable interfaces. That is, as much of
+the prokect's programming will be attempted in QML.
 
 This project's strategy is to reuse existing functionality and examples
 from !QtMobility to get the application running on Meego as quickly,
@@ -271,7 +274,7 @@ states: "In the future, Qt Mobility 1.2 (still not released as of December 2010)
 [http://doc.qt.nokia.com/qt-mobility-snapshot/qml-plugins.html QML Plugins],
 but right now we have to write some glue code in Python."
 
-Thus, as part of the rapid prototyping, portions of YTD-meego may need
+Thus, as part of the rapid prototyping process, portions of YTD-meego may need
 coding in Pyside. The API that arises between QML and Pyside can be used to
 recode the Pyside portions in C++ should the need arise, e.g. for a smaller
 delivery footprint. This is not optimal, strictly pragmatic: for one, it is
@@ -703,7 +706,7 @@ Library.prototype.loadMovies = function () {
  }
 }}}
 
-== Resumable Uploading and network Bearer Management == 
+== Resumable Uploading and Network Bearer Management == 
 
 One of the issues with a youtube-direct client, noted in private comment by
 Jarek Wilkiewicz of !YouTube, is that the error&retry logic in resumable
@@ -982,9 +985,8 @@ telecommunication platform like Meego built into the "video camera"
 
 = Conclusion =
 
-Youtube-direct on Meego is cool and innovative. Please add your comments,
-in the comments section of this article, and if you have something to
-contribute to the project, please volunteer. There's a lot of code to write
-and a lot of different components to get working and test on this
-promising, but evolving platform.
+Please add your comments, in the comments section of this article, and if
+you have something to contribute to the project, please volunteer. There's
+a lot of code to write and a lot of different components to get working and
+test on this promising, but evolving platform.
 
