@@ -53,17 +53,22 @@ multimedia applications with Qt Quick technology.
 
 = !YouTube Direct =
 
+!YouTube Direct (YTD) is an open source video submission platform using
+!YouTube API and Google App Engine.  The web interface consists of two
+components, an
+[http://ytd-demo.appspot.com/test.html 'iframe' based embeddable video uploader],
+and an administrator-only moderation panel. The following diagram gives an
+overview of the [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview YTD architecture]:
+
  [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
 
-http://code.google.com/p/youtube-direct/wiki/GettingStarted
+For further details, see http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
-Web Demo: http://ytd-demo.appspot.com/test.html
+To support YTD on the !MeeGo handset, this project seeks to port the
 
-To support !YouTube direct on the !MeeGo handset, this project seeks to
-port the
-[http://ytd-android.googlecode.com YouTube Direct Android Application],
+[http://ytd-android.googlecode.com YTD-Android Application],
 presented in the image below, on the right. The image on the left is an
-example of a customized web-application built on !YouTube direct for
+example of a customized web-application built on YTD for
 [http://ureport.abc7news.com ABC7 News].
 Note in both interfaces, the "Submission Ideas" listing. This is
 implemented as a JSON "feed" (analogous to an RSS feed) where outgoing
@@ -678,7 +683,7 @@ model for QML suggests a "design pattern" as workaround:
      }
 }}}
 
-The above pattern is an example of how the interface to the !YouTube Direct
+The above pattern is an example of how the interface to the YTD
 assignment feed in YTD-Meego could be implemented.  Essentially, an
 assignment feed is an RSS feed. An example of an Qt Quick application using
 such a feed is a
@@ -829,7 +834,7 @@ face.
 It might be easiest to do the "web" part of the app this way, and enable
 call-outs to QtMobility for playing or recording media, geotagging, etc. It
 would be "cheating" to just drop an existing
-[http://ytd-demo.appspot.com/test.html YouTube-Direct web-application]
+[http://ytd-demo.appspot.com/test.html YTD web-application]
 directly into a !WebKit 'iframe' inside the application, and then just
 intercept the file selection/uploading part with a media file chosen by the
 application. Of course, many a handheld "application" is just such a
@@ -1032,7 +1037,7 @@ suggests other applications of
 "[http://www-graphics.stanford.edu/projects/camera-2.0/ Camera 2.0]":
  "high dynamic range imaging, flash-noflash imaging, coded aperture and coded exposure imaging, photography under structured illumination, multi-perspective and panoramic stitching, digital photomontage, all-focus imaging, and light field imaging."
 
-The !YouTube Direct Application on a handset represents the first steps
+The YTD Application on a handset represents the first steps
 towards "Video 2.0."  With the veracity of news and video footage always in
 question, such platforms can make use of existing platform cryptography
 libraries which can be applied to digitally signing an embedded timecode,
