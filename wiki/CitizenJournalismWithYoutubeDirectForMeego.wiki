@@ -401,10 +401,10 @@ currently includes basic components such as buttons, scrollbars, and
 sliders, and a few more advanced ones like histograms and album carousel.
 
 [http://thp.io/ Thomas Perl's]
-[http://developer.qt.nokia.com/wiki/Utilizing_Qt_Quick_Colibri_in_PySide Articke on Qt Quick Colibri through Pyside]
+[http://developer.qt.nokia.com/wiki/Utilizing_Qt_Quick_Colibri_in_PySide Article on Qt Quick Colibri through Pyside]
 shows the same interface done without and with Qt Quick Colibri, with code examples:
 
-[http://farm6.static.flickr.com/5043/5226958058_6b5b91d1a3.jpg][http://farm6.static.flickr.com/5287/5229084500_da49bab19f.jpg]
+  [http://farm6.static.flickr.com/5043/5226958058_6b5b91d1a3.jpg][http://farm6.static.flickr.com/5287/5229084500_da49bab19f.jpg]
 
 In the future, correct "native" and platform-specific look-and-feel will be
 provided by
