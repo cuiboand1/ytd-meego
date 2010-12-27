@@ -1,6 +1,6 @@
 **( nb: ROUGH DRAFT WORK IN PROGRESS TILL DEC 27 2010 )**
 
-#sidebar <wiki:toc max_depth="2" />
+<wiki:toc max_depth="2" />
 
 = Overview  = 
 
