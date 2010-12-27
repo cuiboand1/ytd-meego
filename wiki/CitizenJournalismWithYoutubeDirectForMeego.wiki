@@ -60,10 +60,10 @@ The web interface consists of two components, an
 and an administrator-only moderation panel. The following diagram gives an
 overview of the [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview YTD architecture]:
 
-<table class="image">
-<caption align="bottom">Fig. 1 YTD Architecture</caption>
-<tr><td>[http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]</td></tr>
-</table>
+  <div class="image">
+  [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
+  <div align="center">Fig. 1 YTD Architecture</div>
+  </div>
 
 For further details, see http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
