@@ -150,12 +150,12 @@ is an excellent introduction to Qt Quick and how it fulfills the needs of
 touch interfaces beyond traditional "widget based" interfaces:
 
  !MeeGo, was started from a clean sheet. Enhancing legacy toolkits,
-  GTK+/Hildon or QWidgets, were insufficient to implement leading edge
-  mobile user experience. The UI toolkit should be based on
-  QGraphicsView/QGraphicsItem rather than old QWidgets. The new approach
-  allowed us to take control of UI elements, transitions and animations
-  inside of the toolkit. Now we had a possibility for a lot more complex
-  animations in element level, animated dynamic layouts etc. ![...!]
+ GTK+/Hildon or QWidgets, were insufficient to implement leading edge
+ mobile user experience. The UI toolkit should be based on
+ QGraphicsView/QGraphicsItem rather than old QWidgets. The new approach
+ allowed us to take control of UI elements, transitions and animations
+ inside of the toolkit. Now we had a possibility for a lot more complex
+ animations in element level, animated dynamic layouts etc. (...)
 
  Qt Quick was part of Qt4.7 released October 2010. The Qt Quick can be
  considered revolutionary step in UI implementation, even complex UIs were
