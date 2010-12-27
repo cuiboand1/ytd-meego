@@ -62,13 +62,12 @@ overview of the [http://code.google.com/p/youtube-direct/wiki/ArchitectureOvervi
 
   <div class="image">
   [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
-  <div align="center">Fig. 1 YTD Architecture</div>
+  <div alignment="center">*Fig. 1 YTD Architecture*</div>
   </div>
 
 For further details, see http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
 To support YTD on the !MeeGo handset, this project seeks to port the
-
 [http://ytd-android.googlecode.com YTD-Android Application],
 presented in the image below, on the right. The image on the left is an
 example of a customized web-application built on YTD for
