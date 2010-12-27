@@ -1,9 +1,6 @@
-#Outline/Abstract of Article for http://appdeveloper.intel.com/en-us/node/2406
+**( nb: ROUGH DRAFT WORK IN PROGRESS TILL DEC 27 2010 )**
 
-**( nb: ROUGH DRAFT WORK IN PROGRESS)**
-
-<wiki:toc max_depth="2" />
-#sidebar
+#sidebar <wiki:toc max_depth="2" />
 
 = Overview  = 
 
