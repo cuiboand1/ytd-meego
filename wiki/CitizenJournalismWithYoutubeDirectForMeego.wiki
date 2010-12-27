@@ -224,7 +224,7 @@ Switch.
      }
 }}}
 
-[http://blogs.forum.nokia.com//data/blogs/resources/300003/compo-11.png]
+  [http://blogs.forum.nokia.com//data/blogs/resources/300003/compo-11.png]
 
 So far, that is certainly not remarkable or innovative:
 [http://docs.hp.com/en/B1171-90145/ch04s01.html Motif's UIL] was doing this
@@ -575,8 +575,11 @@ an exampe of the high-level programming associated with QML:
 
 For details, see
 
-  http://doc.qt.nokia.com/qt-mobility/declarative-camera-capturecontrols-qml.html
-  http://doc.qt.nokia.com/qt-mobility/declarative-camera-focusbutton-qml.html
+* [http://qt.gitorious.org/qt-mobility/qt-mobility/trees/master/examples/declarative-camera Declarative Camera Example Source]
+* [http://qt.gitorious.org/qt-mobility/qt-mobility/trees/master/examples/camera C++ Camera Example Source]
+* [http://doc.qt.nokia.com/qt-mobility/declarative-camera-capturecontrols-qml.html QML Camera Capture Controls]
+* [http://doc.qt.nokia.com/qt-mobility/declarative-camera-focusbutton-qml.html QML Camera Focus Button]
+* [http://doc.qt.nokia.com/qt-mobility/declarative-camera-photopreview-qml.html QML Camera Photo Preview]
 
 == Authentication and Access Control in QML == 
  
@@ -722,6 +725,21 @@ http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#upload
 
  While the actual video content is the most important component in an upload, video metadata is an integral part of the process since that metadata lets users locate videos in search and also enables other features described later in this article. In addition to common elements like a category, description, and title, mobile applications can easily include [http://code.google.com/apis/youtube/2.0/reference.html#GeoRSS_elements_reference geolocation] data from the phone’s GPS device. These data let you provide location-based search or to plot video locations on a map. For video upload applications seeking to minimize user interaction, zero-metadata uploads are another option and more information about that is available from this Google I/O [http://apiblog.youtube.com/2010/06/youtube-api-google-io-2010.html talk].
 
+One of the issues for Meego and this this project is how do these long uploads work alongside 
+[http://doc.qt.nokia.com/qtmobility-1.2/bearer-management.html "Bearer Management"]:
+
+ The Bearer Management API controls the system's connectivity state. This
+ incorporates simple information such as whether the device is online and
+ how many interfaces exist. It also gives the application developer the
+ ability to start and stop network interfaces and influences other
+ connections specific details. Depending on the platform's capabilities it
+ may even provide session management so that a network interface remains up
+ for as long as clients have a registered interest in them while at the
+ same time optimizing the interface's uptime.
+
+"Bearer Management" is integrated with [http://doc.qt.nokia.com/qtmobility-1.2/qtnetwork.html Qt 4.7 QtNetwork library] providing
+connection manager and roaming support for [http://qt.nokia.com/doc/4.7/qnetworkaccessmanager.html QNetworkAccessManager]. 
+
 == The road not taken: Hybrid !WebKit with XQuery ==
 
 [http://qt.gitorious.org/qt-labs/graphics-dojo/trees/master/videofeed Nokia Qt Labs "videofeed"]
@@ -778,7 +796,6 @@ browser-based authentication; cross-domain authentication from a main 'www'
 site to a separate 'ytd' site; and other instances where cross-application
 and cross-domain cookies need to be used by the custom handheld
 application.
-
 
 == !QtMobility 1.2 and the N900 Camera Component ==
 
@@ -850,19 +867,26 @@ and packages 'qt-mobility' and 'qt-mobility-examples' available for install via 
 
 == Prototyping Plan == 
 
-As the Camera subsystem, Tracker subsystem, and !GeoClue subsystems in
-Meego will not be fully functional until the 1.2 release, the project will
-focus on porting YTD-android's web-interactions using, at first, "test
-data" of manually tagged, geolocated, and separately captured/encoded
-video. While the missing !QtMobility 1.2 functionality is solidified, the
-project can make progress on login/authentication, resumable uploading, GUI
-for the story/assignments, notification and selection, etc. Although
+As detailed above, the Camera subsystem, Tracker subsystem, and !GeoClue
+subsystems in Meego will not be fully functional until the 1.2
+release. Therefore, the project will focus on porting YTD-android's
+web-interactions using, at first, "canned test data" of manually tagged,
+geolocated, and captured/encoded video. While the missing
+!QtMobility 1.2 functionality is solidified, the project can make progress
+on login/authentication, resumable uploading, GUI for the
+story/assignments, notification and selection, etc. Although
 not-functional, the "declarative-camera" GUI can be integrated into the
 application "early."  This will allow design of modal camera vs. browsing
 activity intrinsic in the application. Since the idea is to extend the
 "declarative camera" application to encompass YTD-meego's functionality,
 the functioning example will eventually yield functioning viewfinder and
 camera controls in YTD-meego.
+
+Actual capture and compression of video will require a working v4l2
+subsystem and OMAP DSP coprocessor support for on-the-fly video
+compression. Until then "canned" video files can be used.  Likewise,
+Geotagging support will require a working !GeoClue subsystem. Until then,
+"canned" GPS locations can be used.
 
 = N900 Platform and Hardware Overview =
 
