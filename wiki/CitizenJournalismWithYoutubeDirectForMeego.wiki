@@ -756,7 +756,7 @@ Library.prototype.loadMovies = function () {
 == Resumable Uploading and Network Bearer Management == 
 
 One of the issues with a youtube-direct client, noted in private comment by
-Jarek Wilkiewicz of !YouTube, is that the error&retry logic in resumable
+YTD-Android author Jarek Wilkiewicz ([http://www.slideshare.net/wjarek/building-video-applications-with-youtube-apis YouTube Developer Advocate at Google]), is that the error&retry logic in resumable
 uploads need be robust: uploading large files while on the move, over flaky
 and shifting networks is nontrivial.  This is handled by the
 [http://code.google.com/intl/ja/apis/youtube/2.0/developers_guide_protocol_resumable_uploads.html YouTube API for resumable uploads].
