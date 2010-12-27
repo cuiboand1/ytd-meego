@@ -60,11 +60,9 @@ The web interface consists of two components, an
 and an administrator-only moderation panel. The following diagram gives an
 overview of the [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview YTD architecture]:
 
-<p align=center>
  [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
 
- (Fig 1)
-</p>
+ *Figure 1: YTD Architecture*
 
 For further details, see http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
@@ -79,9 +77,9 @@ implemented as a JSON "feed" (analogous to an RSS feed) where outgoing
 requests for new video stories are made, and a categorization system under
 which new stories can be submitted.
 
-  [http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
+ [http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
 
-  (Fig 2, 3)
+ *Figure 2: ABC7 "ureport"; Figure 3: YTD-Android*
 
 Porting YTD-Android to Meego consists of supporting the following major features from the Android reference:
 
@@ -145,11 +143,15 @@ provides media uploading to a variety of services:
 
   [http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
 
+  *Figure 3: Maemo Sharing Accounts*
+
 The Maemo sharing GUI allows for any media captured on the device to be
 selected and reliably uploaded to any provider that implements a
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Using_Data_Sharing/Sharing_Plug-in sharing plugin]:
 
   [http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]
+
+  *Figure 3: Maemo Sharing Diaglog*
 
 In the future, a well integrated youtube-direct "sharing plugin" written
 for the !MeeGo Sharing Framework could subsume the functionality of
