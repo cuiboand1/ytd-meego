@@ -253,9 +253,10 @@ and dialog state.
 Declarative layout allows condional visibility coding, changing the
 visibility of elements depending on the screen size and application
 state/context. This can enable the same applicationm, and the same
-code-base, to support a wide range of device form factors and screen sizes
-by creating multiple QML layouts, and using conditional expressions to make
-the visibility of certain elements change depending on the screen size.
+code-base, to support a wide range of device form factors and screen sizes.
+This can be accomplished by creating multiple QML layouts, and using
+conditional expressions to make the visibility of certain elements change
+depending on the screen size.
 
 == Rapid prototyping declarative GUIs with QML (and Pyside) ==
 
