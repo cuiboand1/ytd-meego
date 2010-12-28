@@ -62,12 +62,11 @@ overview of the [http://code.google.com/p/youtube-direct/wiki/ArchitectureOvervi
 
  [http://code.google.com/p/youtube-direct/wiki/ArchitectureOverview http://youtube-direct.googlecode.com/files/ytd_architecture_diagram.png]
 
-*				Figure 1: YTD Architecture*
+ <p align="center">*Figure 1: YTD Architecture*</p>
 
 For further details, see http://code.google.com/p/youtube-direct/wiki/GettingStarted
 
 To support YTD on the !MeeGo handset, this project seeks to port the
-
 [http://ytd-android.googlecode.com YTD-Android Application],
 presented in the image below, on the right. The image on the left is an
 example of a customized web-application built on YTD for
@@ -79,7 +78,7 @@ which new stories can be submitted.
 
  [http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]
 
-*				Figure 2: ABC7 "ureport"; Figure 3: YTD-Android*
+ <p align="center">*Figure 2: ABC7 "ureport"; Figure 3: YTD-Android*</p>
 
 Porting YTD-Android to Meego consists of supporting the following major features from the [http://code.google.com/p/ytd-android/source/browse/trunk Android reference]:
 
@@ -143,7 +142,7 @@ provides media uploading to a variety of services:
 
   [http://wiki.maemo.org/images/0/0b/SharingAccounts.png]
 
-*			Figure 3: Maemo Sharing Accounts*
+  <p align="center">*Figure 3: Maemo Sharing Accounts*</p>
 
 The Maemo sharing GUI allows for any media captured on the device to be
 selected and reliably uploaded to any provider that implements a
@@ -151,7 +150,7 @@ selected and reliably uploaded to any provider that implements a
 
   [http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]
 
-*			Figure 4: Maemo Sharing Diaglog*
+  <p align="center">*Figure 4: Maemo Sharing Diaglog*</p>
 
 In the future, a well integrated youtube-direct "sharing plugin" written
 for the !MeeGo Sharing Framework could subsume the functionality of
