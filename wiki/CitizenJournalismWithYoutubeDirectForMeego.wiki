@@ -199,7 +199,7 @@ framework provides the following features to the handset platform:
 YTD-Meego uses the latest in open-source dynamic touch interface technology:
 [http://en.wikipedia.org/wiki/QML QML] and [http://doc.qt.nokia.com/4.7/qtquick.html Qt Quick].
 
-Kate Alholla's
+Kate Alhola's
 "[http://blogs.forum.nokia.com/blog/kate-alholas-forum-nokia-blog/2010/11/14/how-to-make-modern-mobile-applications-with-qt-quick-components How to make modern Mobile applications with Qt Quick components]"
 is an excellent introduction to Qt Quick explaining the evolution of
 Nokia's touch interfaces beyond traditional "widget based" interfaces:
@@ -281,7 +281,7 @@ Switch.
 
 [http://blogs.forum.nokia.com//data/blogs/resources/300003/compo-11.png]
 
-<p align="center">*Figure 6: GUI From Kate Alholla's example above*</p>
+<p align="center">*Figure 6: GUI From Kate Alhola's QML example*</p>
 
 So far, that is certainly not remarkable or innovative:
 [http://docs.hp.com/en/B1171-90145/ch04s01.html Motif's UIL] was doing this
@@ -412,12 +412,10 @@ sliders, and a few more advanced ones like histograms and album carousel.
 [http://developer.qt.nokia.com/wiki/Utilizing_Qt_Quick_Colibri_in_PySide Article on Qt Quick Colibri through Pyside]
 shows the same interface done without and with Qt Quick Colibri, with code examples:
 
-  [http://farm6.static.flickr.com/5043/5226958058_6b5b91d1a3.jpg]
-
+<p align="center">[http://farm6.static.flickr.com/5043/5226958058_6b5b91d1a3.jpg]</p>
 <p align="center">*Figure 7: Thomas Perl's plain QML example*</p>
 
-  [http://farm6.static.flickr.com/5287/5229084500_da49bab19f.jpg]
-
+<p align="center">[http://farm6.static.flickr.com/5287/5229084500_da49bab19f.jpg]</p>
 <p align="center">*Figure 8: Thomas Perl's example using Qt Quick Colibri*</p>
 
 In the future, correct "native" and platform-specific look-and-feel will be
@@ -437,20 +435,16 @@ presentation via preexisting
 such as:
 
  * [http://doc.qt.nokia.com/4.7/src-imports-folderlistmodel.html Folder List Model]
-  [http://doc.qt.nokia.com/4.7/images/declarative-folderlistmodel.png]
-
+<p align="center">[http://doc.qt.nokia.com/4.7/images/declarative-folderlistmodel.png]</p>
 <p align="center">*Figure 9: declarative folder list model*</p>
  * [http://doc.qt.nokia.com/4.7/qml-xmllistmodel.html XML List Model]
-  [http://doc.qt.nokia.com/4.7/images/qml-xmllistmodel-example.png]
-
+<p align="center">[http://doc.qt.nokia.com/4.7/images/qml-xmllistmodel-example.png]</p>
 <p align="center">*Figure 10: QML List Model*</p>
  * [http://doc.qt.nokia.com/4.7/qml-listmodel.html List Model] and [http://doc.qt.nokia.com/4.7/qml-listelement.html List Element]
-  [http://doc.qt.nokia.com/4.7/images/listmodel.png]
-
+<p align="center">[http://doc.qt.nokia.com/4.7/images/listmodel.png]</p>
 <p align="center">*Figure 11: List Model and List Element*</p>
  * [http://doc.qt.nokia.com/4.7/qml-visualitemmodel.html Visual Item Model]
-  [http://doc.qt.nokia.com/4.7/images/visualitemmodel.png]
-
+<p align="center">[http://doc.qt.nokia.com/4.7/images/visualitemmodel.png]</p>
 <p align="center">*Figure 12: Visual Item Model*</p>
 
 == Browsing Captured Media in Meego Document Gallery ==
