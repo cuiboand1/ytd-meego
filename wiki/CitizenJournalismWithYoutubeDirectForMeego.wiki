@@ -154,7 +154,7 @@ In the future, a well integrated youtube-direct "sharing plugin" written
 for the !MeeGo Sharing Framework could subsume the functionality of
 ytd-meego: allowing arbitrary camera/video apps to output media for
 sharing, and allowing the sharing framework to handle the particulars of
-uploading that media to a given internet sharing service.
+uploading that media to a given Internet sharing service.
 
 Perhaps a "2.0" version of YTD-!MeeGo could be implemented as a custom
 plugin for the !MeeGo Sharing Framework, assuming metadata such as
@@ -285,7 +285,7 @@ So far, that is certainly not remarkable or innovative:
 back in the late 80's. What's different is that traditional "widget"
 interaction can be combined with "designed" photoshop-drawn interfaces, as
 well as more modern dynamic, animated, and gesture-recognizing interfaces
-appropriate to touch interfaces. Further, QML is a rich language and is
+appropriate to touch devices. Further, QML is a rich language and is
 already capable-enough to write fully functioning applications entirely in
 !JavaScript. As such, QML provides a dynamic, high-level, object-oriented
 language at the user-interface level, which was also observed as a good solution to 
@@ -304,7 +304,7 @@ and dialog state.
 
 Declarative layout allows conditional visibility coding, changing the
 visibility of elements depending on the screen size and application
-state/context. This can enable the same applicationm, and the same
+state/context. This can enable the same application, and the same
 code-base, to support a wide range of device form factors and screen sizes.
 This can be accomplished by creating multiple QML layouts, and using
 conditional expressions to make the visibility of certain elements change
@@ -315,7 +315,7 @@ depending on the screen size.
 The overarching design goal of this application is to use "Qt Quick" to
 create this application using "rapid prototyping" while also employing the
 best-available visually-rich&dynamic, touch&gesture capable interfaces. That is, as much of
-the prokect's programming will be attempted in QML.
+the project's programming will be attempted in QML.
 
 This project's strategy is to reuse existing functionality and examples
 from !QtMobility to get the application running on Meego as quickly,
@@ -603,7 +603,7 @@ creates a camera GUI like this:
 <p align="center">*Figure 13: Reusing GUI of QML camera*</p>
 
 Below, a snippet of code associated with the "declarative camera", to give
-an exampe of the high-level programming associated with QML:
+an example of the high-level programming associated with QML:
 
 {{{
      PhotoPreview {
@@ -868,7 +868,7 @@ browser. Furthermore, relying on !WebKit is a very high-overhead way of
 implementing the relatively trivial web interactions needed by this app,
 most of which are outlined in this article.
 [http://lists.qt.nokia.com/pipermail/qt-qml/2010-December/001948.html Discussion on the Qt-QML list]
-suggest !WebKit addes about 10Mb to the application runtime, even when not
+suggest !WebKit adds about 10Mb to the application runtime, even when not
 instantiating an actual !WebView element.
 
 On the other hand, perhaps such an approach will be needed anyways for
@@ -1011,7 +1011,7 @@ Kost's presentation suggests the following subcomponents.
  * For video editing, e.g. so that YTD-meego uploads a clip from a longer video: GStreamer "gnonlin" and "GStreamer components for muxing, demuxing, format conversion."
  * For metadata indexing and thumbnailing: "[http://maemo.org/api_refs/5.0/5.0-final/gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-tagreadbin.html Tagreadbin] (experimental)" and "GStreamer components for parsing, demuxing."
 
-Unfortunately, such GStreamer support is not yet avaible in Meego 1.1 and
+Unfortunately, such GStreamer support is not yet available in Meego 1.1 and
 will appear with Qt Mobility 1.2 and Meego 1.2:
 
  * [http://bugs.meego.com/show_bug.cgi?id=7623 FEATURE: camerabin support in GStreamer]
@@ -1041,7 +1041,7 @@ application-switching, are allowed while ytd-meego is being used? Will using
 Similar "Policy Framework" issues include preventing scheduling background tasks while
 capturing media. For example a typical
 [http://talk.maemo.org/showthread.php?t=61960 complaint over the Tracker subsystem] suggests,
-alongside the fact that it won't be availble until Meego 1.2, that
+alongside the fact that it won't be available until Meego 1.2, that
 this project might best work-around using Tracker and use more traditional
 APIs for managing media files:
 
@@ -1055,7 +1055,7 @@ APIs for managing media files:
 The new generation of hybrid video/computing platform such as the Nokia
 N900 or N8 enable a whole different world of applications. For example the
 [http://vision.ece.ucsb.edu/~kleban/papers/translatAR.pdf "TranslatAR" project]
-which combines Optical Character Recognition with a computaitonal camera
+which combines Optical Character Recognition with a computational camera
 platform. Stanford University's
 [http://www-graphics.stanford.edu/papers/fcam/ FCam Project ]
 suggests other applications of
