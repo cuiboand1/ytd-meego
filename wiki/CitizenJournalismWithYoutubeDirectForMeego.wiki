@@ -655,18 +655,21 @@ For details, see
 
 == Authentication and Access Control in QML == 
  
-http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#security
-
-Video uploads as well as any other operations that modify or write data
+YTD Video uploads as well as any other operations that modify or write data
 require authorization, which is done through an authentication token
-submitted in the API request.
+submitted in the API request. For details, see:
+http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#security 
+
 [http://code.google.com/apis/youtube/2.0/developers_guide_protocol_clientlogin.html# ClientLogin]
 is the simplest method to use for mobile applications. For example, the YTD-Android application, uses the
 [http://developer.android.com/reference/android/accounts/AccountManager.html Android AccountManager]
-to  obtain authentication tokens. An alternative and preferred standard is
+to  obtain authentication tokens. In Qt, HTTP authentication is handled via 
+[http://doc.qt.nokia.com/stable/qnetworkaccessmanager.html QNetworkAccessManager]. An example
+[http://wiki.forum.nokia.com/index.php/HTTPAuthWithQNetMan shows how this is accomplished in a few lines of code in Qt].
+
+An alternative and preferred standard is
 [http://code.google.com/apis/youtube/2.0/developers_guide_protocol_oauth.html OAuth]
 , for which http://gdata-java-client.googlecode.com/ is an example Java client.
-
 An example OAuth implementation using QML can be found at http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/twitter-oauth :
  * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.js
  * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.qml
