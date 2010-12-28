@@ -14,7 +14,7 @@ Youtube-Direct sites. Organizations seeking public contribution by
 these sites to facilitate content collection from an increasing population
 of video-enabled smart-phone users.
 
-The [http://ytd-meego.googlecode.com YTD-!MeeGo] project seeks to build a
+The [http://ytd-meego.googlecode.com YTD-MeeGo] project seeks to build a
 !MeeGo application which represents an innovative use of the handheld
 platform as a computational video camera, performing a unique combination
 of functionality that wasn't possible prior to the confluence of cellular
