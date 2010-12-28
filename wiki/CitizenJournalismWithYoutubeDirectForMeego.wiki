@@ -1,5 +1,5 @@
 <wiki:toc max_depth="2" />
-<p align="center">=Citizen Journalism with !YouTube-Direct for Meego=</p>
+<p align="center"><h1>Citizen Journalism with !YouTube-Direct for Meego</h1></p>
 <p align="center">*Niels P. Mayer ( http://nielsmayer.com )*</p>
 <p align="center">*December 27, 2010*</p>
 
