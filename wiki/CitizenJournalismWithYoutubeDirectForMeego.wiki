@@ -1,10 +1,12 @@
-**( nb: ROUGH DRAFT WORK IN PROGRESS TILL DEC 27 2010 )**
-**( nb: This document contains included images from http://wiki.maemo.org which is experiencing downtime  )**
-**( nb: Try hitting shift-reload?  )**
+======NOTE: This document contains included images from http://wiki.maemo.org which is experiencing downtime ...======
+=======Attempting to find cached replacements for Figure 4: Maemo Sharing Accounts, Figure 5: Maemo Sharing Dialog, and Figure 16: N900 Multimedia Architecture....======
+=====NOTE: Try hitting shift-reload in your browser to update missing figures=====
 
 <wiki:toc max_depth="2" />
 
-= Overview  = 
+= Citizen Journalism with !YouTube-Direct for Meego  = 
+=== Niels P. Mayer ( http://nielsmayer.com ) ===
+=== December 27 2010 ===
 
 The
 [http://youtube-direct.googlecode.com Youtube-Direct]
@@ -67,7 +69,7 @@ For further details, see http://code.google.com/p/youtube-direct/wiki/GettingSta
 
 To support YTD on the !MeeGo handset, this project seeks to port the
 [http://ytd-android.googlecode.com YTD-Android Application],
-presented in the image below, on the right. The image on the left is an
+presented in Figure 3, on the right. Figure 2, on the left, is an
 example of a customized web-application built on YTD for
 [http://ureport.abc7news.com ABC7 News].
 Note in both interfaces, the "Submission Ideas" listing. This is
@@ -711,7 +713,7 @@ QML "XML List Model" introduced above:
 displaying the data present in the RSS in a GUI:
 
 <p align="center">[http://projects.forum.nokia.com/QtQuickTwitterExample/raw-attachment/wiki/WikiStart/Twitter-listview1.png]</p>
-<p align="center">*Figure 14: Reuse QtQuickTwitterExample GUI for displaying YTD Assignments*</p>
+<p align="center">*Figure 14: Reuse !QtQuickTwitterExample GUI for displaying YTD Assignments*</p>
 
 A similar integration of QML models and JSON/RPC data from a webserver is
 the XBMC Remote for the [http://xbmc.org/ X Box Media Center], which itself
