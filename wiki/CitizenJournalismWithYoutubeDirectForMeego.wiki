@@ -441,11 +441,13 @@ such as:
 <p align="center">[http://doc.qt.nokia.com/4.7/images/qml-xmllistmodel-example.png]</p>
 <p align="center">*Figure 10: QML List Model*</p>
  * [http://doc.qt.nokia.com/4.7/qml-listmodel.html List Model] and [http://doc.qt.nokia.com/4.7/qml-listelement.html List Element]
+  * Use a [http://wiki.forum.nokia.com/index.php/Using_QML_ListView ListView to display the ListModel]
 <p align="center">[http://doc.qt.nokia.com/4.7/images/listmodel.png]</p>
 <p align="center">*Figure 11: List Model and List Element*</p>
  * [http://doc.qt.nokia.com/4.7/qml-visualitemmodel.html Visual Item Model]
 <p align="center">[http://doc.qt.nokia.com/4.7/images/visualitemmodel.png]</p>
 <p align="center">*Figure 12: Visual Item Model*</p>
+ * For details, see [http://doc.qt.nokia.com/4.7/qml-view-elements.html QML View Elements]
 
 == Browsing Captured Media in Meego Document Gallery ==
 
@@ -664,8 +666,6 @@ is the simplest method to use for mobile applications. For example, the YTD-Andr
 to  obtain authentication tokens. An alternative and preferred standard is
 [http://code.google.com/apis/youtube/2.0/developers_guide_protocol_oauth.html OAuth]
 , for which http://gdata-java-client.googlecode.com/ is an example Java client.
-
-
 
 An example OAuth implementation using QML can be found at http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/trees/master/twitter-oauth :
  * http://gitorious.org/qt-qml-demo-playground/qt-qml-demo-playground/blobs/master/twitter-oauth/TwitterCore/OAuth.js
