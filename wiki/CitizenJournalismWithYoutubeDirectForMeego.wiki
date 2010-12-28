@@ -1,5 +1,5 @@
-======NOTE: This document contains included images from http://wiki.maemo.org which is experiencing downtime ...======
-=======Attempting to find cached replacements for Figure 4: Maemo Sharing Accounts, Figure 5: Maemo Sharing Dialog, and Figure 16: N900 Multimedia Architecture....======
+=====NOTE: This document contains included images from http://wiki.maemo.org which is experiencing downtime ...=====
+=====NOTE:Attempting to find cached replacements for Figure 4: Maemo Sharing Accounts, Figure 5: Maemo Sharing Dialog, and Figure 16: N900 Multimedia Architecture....=====
 =====NOTE: Try hitting shift-reload in your browser to update missing figures=====
 
 <wiki:toc max_depth="2" />
