@@ -1,12 +1,7 @@
-=====NOTE: This document contains included images from http://wiki.maemo.org which is experiencing downtime ...=====
-=====NOTE:Attempting to find cached replacements for Figure 4: Maemo Sharing Accounts, Figure 5: Maemo Sharing Dialog, and Figure 16: N900 Multimedia Architecture....=====
-=====NOTE: Try hitting shift-reload in your browser to update missing figures=====
-
 <wiki:toc max_depth="2" />
-
 = Citizen Journalism with !YouTube-Direct for Meego  = 
-=== Niels P. Mayer ( http://nielsmayer.com ) ===
-=== December 27, 2010 ===
+<p align="center">*Niels P. Mayer ( http://nielsmayer.com )*</p>
+<p align="center">*December 27, 2010*</p>
 
 The
 [http://youtube-direct.googlecode.com Youtube-Direct]
@@ -140,14 +135,16 @@ The predecessor (an equivalent diagram couldn't be found for !MeeGo at time of w
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Imaging_and_Sharing Maemo Sharing Framework]
 provides media uploading to a variety of services:
 
-<p align="center">[http://wiki.maemo.org/images/0/0b/SharingAccounts.png]</p>
+<wiki:comment><p align="center">[http://wiki.maemo.org/images/0/0b/SharingAccounts.png]</p></wiki:comment>
+<p align="center">[http://nielsmayer.com/ytd/SharingAccounts.png]</p>
 <p align="center">*Figure 4: Maemo Sharing Accounts*</p>
 
 The Maemo sharing GUI allows for any media captured on the device to be
 selected and reliably uploaded to any provider that implements a
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Using_Data_Sharing/Sharing_Plug-in sharing plugin]:
 
-<p align="center">[http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]</p>
+<wiki:comment><p align="center">[http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]</p></wiki:comment>
+<p align="center">[http://nielsmayer.com/ytd/SharingDialogInterface.png]</p>
 <p align="center">*Figure 5: Maemo Sharing Dialog*</p>
 
 In the future, a well integrated youtube-direct "sharing plugin" written
@@ -966,7 +963,8 @@ The following diagram describes the
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Architecture/Multimedia_Domain Nokia n900 Maemo "Multimedia Domain"],
 and should translate, roughly, to !MeeGo on the same platform:
 
-<p align="center">[http://wiki.maemo.org/images/thumb/5/56/OMAP_architecture.png/800px-OMAP_architecture.png]</p>
+<wiki:comment><p align="center">[http://wiki.maemo.org/images/thumb/5/56/OMAP_architecture.png/800px-OMAP_architecture.png]</p></wiki:comment>
+<p align="center">[http://nielsmayer.com/ytd/800px-OMAP_architecture.png]</p>
 <p align="center">*Figure 16: N900 Multimedia Architecture*</p>
 
 http://meego.com/developers/meego-architecture/meego-architecture-domain-view
