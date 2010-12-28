@@ -1,4 +1,4 @@
-<p align="center"><font size=5>*Citizen Journalism with !YouTube-Direct for Meego*</font></p>
+<p align="center"><font size=5>*Citizen Journalism with !YouTube-Direct for !MeeGo*</font></p>
 <p align="center">*Niels P. Mayer ( http://nielsmayer.com )*</p>
 <p align="center">*December 27, 2010*</p>
 
@@ -14,7 +14,7 @@ Youtube-Direct sites. Organizations seeking public contribution by
 these sites to facilitate content collection from an increasing population
 of video-enabled smart-phone users.
 
-The [http://ytd-meego.googlecode.com YTD-Meego] project seeks to build a
+The [http://ytd-meego.googlecode.com YTD-!MeeGo] project seeks to build a
 !MeeGo application which represents an innovative use of the handheld
 platform as a computational video camera, performing a unique combination
 of functionality that wasn't possible prior to the confluence of cellular
@@ -76,7 +76,7 @@ which new stories can be submitted.
 <p align="center">[http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]</p>
 <p align="center">*Figure 2: ABC7 "ureport"; Figure 3: YTD-Android*</p>
 
-Porting YTD-Android to Meego consists of supporting the following major features from the [http://code.google.com/p/ytd-android/source/browse/trunk Android reference]:
+Porting YTD-Android to !MeeGo consists of supporting the following major features from the [http://code.google.com/p/ytd-android/source/browse/trunk Android reference]:
 
   * [http://code.google.com/p/ytd-meego/issues/detail?id=2 Integration with Account Manager for ease of authentication (the application prompts the user to select a configured Google / Gmail account on the mobile device)]
    * [http://code.google.com/p/ytd-android/source/browse/trunk/AndroidManifest.xml AndroidManifest.xml]
@@ -192,7 +192,7 @@ framework provides the following features to the handset platform:
 
 = GUI Technology: Qt Quick and QML = 
 
-YTD-Meego uses the latest in open-source dynamic touch interface technology:
+YTD-!MeeGo uses the latest in open-source dynamic touch interface technology:
 [http://en.wikipedia.org/wiki/QML QML] and [http://doc.qt.nokia.com/4.7/qtquick.html Qt Quick].
 
 Kate Alhola's
@@ -320,7 +320,7 @@ best-available visually-rich&dynamic, touch&gesture capable interfaces. That is,
 the project's programming will be attempted in QML.
 
 This project's strategy is to reuse existing functionality and examples
-from !QtMobility to get the application running on Meego as quickly,
+from !QtMobility to get the application running on !MeeGo as quickly,
 reliably, and with least effort/code. Issues of efficiency will be
 considered "secondary" in that performance issues arising in testing, can
 be resolved by recoding prototype interpreted code (either [http://www.pyside.org/ Pyside] or QML)
@@ -402,7 +402,7 @@ manufacturer-specific with Qt Quick, and embodied within separate
 A public project,
 [http://projects.forum.nokia.com/colibri Qt Quick Colibri]
 is designed to provide reusable UI components suitable for
-cross-platform use on Symbian, Maemo, Meego and Windows/Mac/Linux desktop
+cross-platform use on Symbian, Maemo, !MeeGo and Windows/Mac/Linux desktop
 environments. It is designed to get developers started
 with cross-platform Qt Quick / QML application development. Colibri
 currently includes basic components such as buttons, scrollbars, and
@@ -425,11 +425,11 @@ which will bring cross platform components to QML, as an official Nokia
 funded project to provide a consistent "native user experience" on Nokia
 mobile platforms.
 
-YTD-Meego will use whatever components, probably from Colibri, that will
+YTD-!MeeGo will use whatever components, probably from Colibri, that will
 help get the project off the ground as rapidly as possible, with the least
 amount of code. The GUI needs of the YTD-Android application are
 rudimentary "data browsers" combined with the usual buttons, menus,
-etc. The data structures in YTD-Meego are designed to allow easy
+etc. The data structures in YTD-!MeeGo are designed to allow easy
 presentation via preexisting
 [http://doc.qt.nokia.com/4.7/qdeclarativemodels.html QML Declarative Data models],
 such as:
@@ -449,9 +449,9 @@ such as:
 <p align="center">*Figure 12: Visual Item Model*</p>
  * For details, see [http://doc.qt.nokia.com/4.7/qml-view-elements.html QML View Elements]
 
-== Browsing Captured Media in Meego Document Gallery ==
+== Browsing Captured Media in !MeeGo Document Gallery ==
 
-The [http://projects.gnome.org/tracker/ Tracker Subsystem] in Meego
+The [http://projects.gnome.org/tracker/ Tracker Subsystem] in !MeeGo
 provides
 [http://linux.die.net/man/5/tracker.cfg configurable]
 indexing, meta-data extraction, and search capabilities for a variety of
@@ -463,7 +463,7 @@ via
 When storing captured media, Tracker is used for tagging media files with
 meta-data, including Geolocation data.
 
-The Meego Document Gallery, where videos and associated metadata are stored
+The !MeeGo Document Gallery, where videos and associated metadata are stored
 for use by applications, has a QML interface available in !QtMobility 1.2.  The
 [http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/qml-gallery.html Gallery QML Plugin]
 from "preview release" !QtMobility 1.2 provides this functionality. The 
@@ -506,7 +506,7 @@ the following QML browses image documents in the gallery using this functionalit
 [http://maemo.gitorious.org/maemo-af/libqttracker A Qt Tracker Library]
 allows access to Tracker at the C++ level for any Tracker API's not covered by QML.
 
-Note that Tracker is part of the not-yet-final Meego 1.2 Sharing Framework.
+Note that Tracker is part of the not-yet-final !MeeGo 1.2 Sharing Framework.
 Yet to be completed features -- "Transfer history preservation in Tracker;
 to ensure easy way to establish relationship between services and data." --
 indicate unimplemented functionality:
@@ -519,13 +519,13 @@ An alternative, for the tags part, is to use the underlying gstreamer [http://wi
 == !MeeGo !GeoClue Subsystem for Geolocation data ==
 
 !MeeGo provides [http://www.freedesktop.org/wiki/Software/GeoClue GeoClue] for location services such as GPS, GSM Cell and
-Wifi Network. The appropriate API for YTD-Meego is
+Wifi Network. The appropriate API for YTD-!MeeGo is
 [http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/location-overview.html Qt Mobility's Location API]
 which provides a C++ programming interface. A
 [http://wiki.forum.nokia.com/index.php/Qt_C%2B%2B_and_QML_integration,_context_properties_and_GPS_compass Hybrid C++/QML example of using GPS]
 provides examples showing how this functionality is coded with !QtMobility 1.0.
 
-YTD-Meego will seek to use the !QtMobility 1.2
+YTD-!MeeGo will seek to use the !QtMobility 1.2
 [http://doc.qt.nokia.com/qtmobility-1.2.0-tp1/qml-location-plugin.html QML Location Plugin]
 which provides high-level QML access to location data, hopefully at a
 sufficient level that further hybrid C++ coding will not be
@@ -709,7 +709,7 @@ model for QML suggests a "design pattern" as workaround:
 }}}
 
 The above pattern is an example of how the interface to the YTD assignment
-feed in YTD-Meego could be implemented.  An assignment feed is similar to
+feed in YTD-!MeeGo could be implemented.  An assignment feed is similar to
 an RSS feed, except it uses JSON syntax rather than the more verbose and
 tedious XML. An example of an Qt Quick application using such a feed is a
 [http://projects.forum.nokia.com/QtQuickTwitterExample Qt-Quick "twitter' client]
@@ -801,7 +801,7 @@ http://code.google.com/apis/youtube/articles/youtube_mobileresources.html#upload
 
  While the actual video content is the most important component in an upload, video metadata is an integral part of the process since that metadata lets users locate videos in search and also enables other features described later in this article. In addition to common elements like a category, description, and title, mobile applications can easily include [http://code.google.com/apis/youtube/2.0/reference.html#GeoRSS_elements_reference geolocation] data from the phone’s GPS device. These data let you provide location-based search or to plot video locations on a map. For video upload applications seeking to minimize user interaction, zero-metadata uploads are another option and more information about that is available from this Google I/O [http://apiblog.youtube.com/2010/06/youtube-api-google-io-2010.html talk].
 
-One of the issues for Meego and this this project is how do these long uploads work alongside 
+One of the issues for !MeeGo and this this project is how do these long uploads work alongside 
 [http://doc.qt.nokia.com/qtmobility-1.2/bearer-management.html "Bearer Management"]:
 
  The Bearer Management API controls the system's connectivity state. This
@@ -937,7 +937,7 @@ and packages 'qt-mobility' and 'qt-mobility-examples' available for install via 
 == Prototyping Plan == 
 
 As detailed above, the Camera subsystem, Tracker subsystem, and !GeoClue
-subsystems in Meego will not be fully functional until the 1.2
+subsystems in !MeeGo will not be fully functional until the 1.2
 release. Therefore, the project will focus on porting YTD-android's
 web-interactions using, at first, "canned test data" of manually tagged,
 geolocated, and captured/encoded video. While the missing
@@ -980,7 +980,7 @@ http://meego.com/developers/meego-architecture/meego-architecture-domain-view
 describes !MeeGo's "Multimedia domain": providing audio and video playback,
 streaming, and imaging functionality to the system. It handles retrieval,
 demuxing, decoding and encoding, seeking of audio and video data. It
-includes the following subsystems under "Media Services" part of Meego Middleware:
+includes the following subsystems under "Media Services" part of !MeeGo Middleware:
 
  * Gstreamer provides cross platform, plugin-based framework for playback, streaming, and imaging. 
  * !PulseAudio handles audio inputs, post/pre processing, and outputs in a system.
@@ -1001,7 +1001,7 @@ from the recent Linux Plumber's Conference:
 
 A lively thread on the role of pulseaudio in a handset was started on the [http://lists.linuxaudio.org/listinfo/linux-audio-dev Linux Audio Developers] and [http://lists.meego.com/pipermail/meego-handset/ Meego Handset] Lists, with notable replies by:
  * Marco Ballesio (Nokia Multimedia Architect): [http://lalists.stanford.edu/lad/2010/12/0164.html LAD#1], [http://lalists.stanford.edu/lad/2010/12/0166.html LAD#2]
- * [http://www.eca.cx/kv/ Kai Vehmanen] (Nokia Meego Telephony and [http://www.eca.cx/ecasound/ Ecasound] author): [http://lalists.stanford.edu/lad/2010/12/0168.html LAD#3], [http://lalists.stanford.edu/lad/2010/12/0167.html LAD#4 ], [http://lalists.stanford.edu/lad/2010/12/0170.html LAD#5]
+ * [http://www.eca.cx/kv/ Kai Vehmanen] (Nokia !MeeGo Telephony and [http://www.eca.cx/ecasound/ Ecasound] author): [http://lalists.stanford.edu/lad/2010/12/0168.html LAD#3], [http://lalists.stanford.edu/lad/2010/12/0167.html LAD#4 ], [http://lalists.stanford.edu/lad/2010/12/0170.html LAD#5]
 
 == GStreamer: Plugins for Video and Camera Subsystem Compression and Decompression == 
 
@@ -1018,8 +1018,8 @@ Kost's presentation suggests the following subcomponents.
  * For video editing, e.g. so that YTD-meego uploads a clip from a longer video: GStreamer "gnonlin" and "GStreamer components for muxing, demuxing, format conversion."
  * For metadata indexing and thumbnailing: "[http://maemo.org/api_refs/5.0/5.0-final/gst-plugins-base-plugins-0.10/gst-plugins-base-plugins-tagreadbin.html Tagreadbin] (experimental)" and "GStreamer components for parsing, demuxing."
 
-Unfortunately, such GStreamer support is not yet available in Meego 1.1 and
-will appear with Qt Mobility 1.2 and Meego 1.2:
+Unfortunately, such GStreamer support is not yet available in !MeeGo 1.1 and
+will appear with Qt Mobility 1.2 and !MeeGo 1.2:
 
  * [http://bugs.meego.com/show_bug.cgi?id=7623 FEATURE: camerabin support in GStreamer]
   * still image capture with: arbitrary post processing, zooming, various resolutions.
@@ -1027,7 +1027,7 @@ will appear with Qt Mobility 1.2 and Meego 1.2:
   * viewfinder with: arbitrary post processing
   * videocapture with: arbitrary post processing, zooming, various resolutions
 
-== Meego Policy Framework ==
+== !MeeGo Policy Framework ==
 
 <p align="center">[http://wiki.meego.com/images/Meego-policy-framework-developer-guide.pdf http://nielsmayer.com/ytd/meego-policy-framework.png]</p>
 <p align="center">*Figure 19: !MeeGo Policy Framework Architecture*</p>
@@ -1048,7 +1048,7 @@ application-switching, are allowed while ytd-meego is being used? Will using
 Similar "Policy Framework" issues include preventing scheduling background tasks while
 capturing media. For example a typical
 [http://talk.maemo.org/showthread.php?t=61960 complaint over the Tracker subsystem] suggests,
-alongside the fact that it won't be available until Meego 1.2, that
+alongside the fact that it won't be available until !MeeGo 1.2, that
 this project might best work-around using Tracker and use more traditional
 APIs for managing media files:
 
@@ -1081,7 +1081,7 @@ watermarking digital signatures of GPS geotags and a monotonically
 increasing timecode into the video, edits, photoshopping and omissions to
 that video become "provable." These are innovative uses of video that can
 only be enabled by having a complete and robust mobile computing and
-telecommunication platform like Meego built into the "video camera"
+telecommunication platform like !MeeGo built into the "video camera"
 
 = Conclusion =
 
