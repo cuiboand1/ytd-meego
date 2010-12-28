@@ -5,11 +5,11 @@
 <wiki:toc max_depth="2" />
 
 The
-[http://youtube-direct.googlecode.com Youtube-Direct]
+[http://youtube-direct.googlecode.com YouTube-Direct]
 for !MeeGo application integrates a number of traditionally separate
 applications: a video recorder/still photo camera, GPS integration and
 geotagging, combined with managing/uploading captured media to
-Youtube-Direct sites. Organizations seeking public contribution by
+!YouTube-Direct sites. Organizations seeking public contribution by
 "[http://gigaom.com/video/youtube-direct-abc7/ citizen journalists]" use
 these sites to facilitate content collection from an increasing population
 of video-enabled smart-phone users.
@@ -31,7 +31,7 @@ implemented in C++ or Python using !QtMobility API, but providing
 high-level !JavaScript calls for use by QML files.
 
 This article describes the architecture and design decisions porting the
-[http://youtube-direct.googlecode.com Youtube-Direct]
+[http://youtube-direct.googlecode.com YouTube-Direct]
 handheld application for the
 [http://ytd-iphone.googlecode.com Iphone]
 /
@@ -677,7 +677,7 @@ An example OAuth implementation using QML can be found at http://gitorious.org/q
 
 == JSON RPC in QML ==
 
-The web component of the app will be implemented entirely in QML, using Youtube-Direct's JSON API: 
+The web component of the app will be implemented entirely in QML, using !YouTube-Direct's JSON API: 
  * http://code.google.com/p/youtube-direct/wiki/YTDAdminJSONAPI
   * In YTD v2.0, the admin backend is complemented with a JSON-RPC API that enables you to fetch all the data relating to assignments, submissions and configuration programmatically.
   * The admin API is based on the JSON-RPC protocol format. It is essentially a REST-ful POST request with a JSON payload. For more information on JSON-RPC - http://en.wikipedia.org/wiki/JSON-RPC.
