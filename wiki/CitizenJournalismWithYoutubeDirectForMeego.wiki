@@ -379,9 +379,17 @@ Mattila concludes with [http://zchydem.enume.net/2010/09/07/quickflickr-availabl
  * On N900 I have problems to make Image element to load images. Everything else seems to work over the network, but occasionally Images just don’t get loaded.
  * Use QML if you want to  do your UI quickly!
 
-For further details, see [http://doc.trolltech.com/4.7/index.html The latest documentation on Qt]; 
-[http://doc.qt.nokia.com/4.7/qml-extending.html "Extending QML in C++"], which has special section on calling qtscript back out of C++  [http://doc.qt.nokia.com/4.7/scripting.html#reacting-to-c-objects-signals-in-scripts "Reacting to C++ Objects Signals in Scripts"].
-Xizhi (Steven) Zhu's article [http://xizhizhu.blogspot.com/2010/10/hybrid-application-using-qml-and-qt-c.html Hybrid application using QML and Qt C++] is further helpful reading on this technique.
+For further details, see
+[http://doc.trolltech.com/4.7/index.html The latest documentation on Qt]; 
+[http://doc.qt.nokia.com/4.7/qml-extending.html "Extending QML in C++"],
+which has special section on calling qtscript back out of C++
+[http://doc.qt.nokia.com/4.7/scripting.html#reacting-to-c-objects-signals-in-scripts "Reacting to C++ Objects Signals in Scripts"].
+Xizhi (Steven) Zhu's article
+[http://xizhizhu.blogspot.com/2010/10/hybrid-application-using-qml-and-qt-c.html Hybrid application using QML and Qt C++]
+is further helpful reading on this technique. Finally, regarding the above suggestion of using 
+[http://doc.qt.nokia.com/4.7/qabstractitemmodel.html QAbstractItemModel],
+a simpler approach for integrating C++ models with QML GUI code
+[http://wiki.forum.nokia.com/index.php/Using_QStandardItemModel_in_QML is to use RoleItemModel].
 
 == GUI Components in Qt Quick == 
 
