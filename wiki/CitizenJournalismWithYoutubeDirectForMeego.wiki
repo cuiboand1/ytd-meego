@@ -6,7 +6,7 @@
 
 = Citizen Journalism with !YouTube-Direct for Meego  = 
 === Niels P. Mayer ( http://nielsmayer.com ) ===
-=== December 27 2010 ===
+=== December 27, 2010 ===
 
 The
 [http://youtube-direct.googlecode.com Youtube-Direct]
@@ -302,7 +302,7 @@ is handled declaratively, as is
 [http://doc.qt.nokia.com/4.7/qdeclarativefocus.html keyboard-focus]
 and dialog state.
 
-Declarative layout allows condional visibility coding, changing the
+Declarative layout allows conditional visibility coding, changing the
 visibility of elements depending on the screen size and application
 state/context. This can enable the same applicationm, and the same
 code-base, to support a wide range of device form factors and screen sizes.
