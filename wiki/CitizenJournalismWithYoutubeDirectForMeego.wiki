@@ -292,21 +292,25 @@ language at the user-interface level, which was also observed as a good solution
 In the code example above, note the "declarative" aspects of the code,
 which are implicit in the sizing constraints: for example, "parent.width"
 sizes all the children to be the same size as their container, without
-requiring explicit procedural code.  The declarative style means one need
+requiring explicit procedural code. The declarative style means one need
 not worry about the procedural order of creating the UI elements and their
 parentage.  With QML,
-[http://doc.qt.nokia.com/4.7/qdeclarativestates.html Application state]
-is handled declaratively, as is
-[http://doc.qt.nokia.com/4.7/qdeclarativefocus.html keyboard-focus]
-and dialog state.
+[http://doc.qt.nokia.com/4.7/qdeclarativestates.html Application state] is
+handled declaratively, as is
+[http://doc.qt.nokia.com/4.7/qdeclarativefocus.html keyboard-focus] and
+dialog state.
 
 Declarative layout allows conditional visibility coding, changing the
 visibility of elements depending on the screen size and application
 state/context. This can enable the same application, and the same
 code-base, to support a wide range of device form factors and screen sizes.
-This can be accomplished by creating multiple QML layouts, and using
-conditional expressions to make the visibility of certain elements change
-depending on the screen size.
+Sizing of GUI elements can be declared relative to the toplevel window's size, which
+[http://wiki.forum.nokia.com/index.php/Device_Independent_Layout_for_QML enables screen-size and resolution independent layout].
+Should the application need to target all manner of screen sizes from
+desktop to handheld, very different GUI designs are needed: this can be
+accomplished by creating multiple QML layouts, and using conditional
+expressions to make the visibility of certain elements change depending on
+the screen size.
 
 == Rapid prototyping declarative GUIs with QML (and Pyside) ==
 
@@ -345,6 +349,7 @@ from QML.
 For more information on using Pyside and QML:
  * [http://developer.qt.nokia.com/wiki/PySideDocumentation Nokia PySide Documentation]
  * [http://conference2010.meego.com/session/meego-development-python-qt-mobility-and-touch MeeGo Development With Python: Qt, Mobility, And Touch] ([http://conference2010.meego.com/sites/all/files/sessions/pyside-meegoconf_0.pdf presentation slides])
+ * [http://wiki.forum.nokia.com/index.php/Python_Harness_for_QML Run Custom QML Apps in your own Python-based "qmlviewer"]
 
 == A path we try not to take: Hybrid Programming in C++ and QML == 
 
