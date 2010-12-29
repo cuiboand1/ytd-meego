@@ -26,14 +26,14 @@ implement most of the functionality of this project, utilizing
 [http://en.wikipedia.org/wiki/JavaScript#Prototype-based prototype-based OOP]
 in the !JavaScript language. However, there are areas where plugins or
 native access to underlying platform functionality is not available in
-QML. In these cases, "hybrid programming" technique will be used,
+QML. In these cases a "hybrid programming" technique will be used,
 implemented in C++ or Python using !QtMobility API, but providing
 high-level !JavaScript calls for use by QML files.
 
 This article describes the architecture and design decisions porting the
 [http://youtube-direct.googlecode.com YouTube-Direct]
 handheld application for the
-[http://ytd-iphone.googlecode.com Iphone]
+[http://ytd-iphone.googlecode.com iPhone]
 /
 [http://ytd-android.googlecode.com Android] to
 [http://meego.com MeeGo], using
@@ -68,7 +68,7 @@ To support YTD on the !MeeGo handset, this project seeks to port the
 presented in Figure 3, on the right. Figure 2, on the left, is an
 example of a customized web-application built on YTD for
 [http://ureport.abc7news.com ABC7 News].
-Note in both interfaces, the "Submission Ideas" listing. This is
+Note in both interfaces the "Submission Ideas" listing: this is
 implemented as a JSON "feed" (analogous to an RSS feed) where outgoing
 requests for new video stories are made, and a categorization system under
 which new stories can be submitted.
@@ -184,9 +184,9 @@ framework provides the following features to the handset platform:
  * [http://bugs.meego.com/show_bug.cgi?id=8181 FEATURE: Transfer UI: Common transfer management]
   * Transfer UI that provides integrated transfer visualization for all types of transfers:
    # Uploading content to social networks (such as Facebook)
-   # Sharing to other devices (e.g. via Bluetooth)
-   # Downloading content via different applications (e.g. Browser, Feeds)
-   # Synchronizations (e.g. email, contacts, calendar)
+   # Sharing to other devices (e.g., via Bluetooth)
+   # Downloading content via different applications (e.g., Browser, Feeds)
+   # Synchronizations (e.g., email, contacts, calendar)
   * Transfer UI provides common actions for all types of transfers
   * Transfer history preservation in Tracker; to ensure easy way to establish relationship between services and data and enablers for relevancy tracking
 
@@ -209,7 +209,7 @@ Nokia's touch interfaces beyond traditional "widget based" interfaces:
  animations in element level, animated dynamic layouts etc. (...)
 
  Qt Quick was part of Qt4.7 released October 2010. The Qt Quick can be
- considered revolutionary step in UI implementation, even complex UIs were
+ considered a revolutionary step in UI implementation, even complex UIs were
  possible to implement with a few easy lines of Qml code. Qml is also easy
  to learn for UI designers used to work with web UI tools.
 
@@ -336,10 +336,12 @@ states: "In the future, Qt Mobility 1.2 (still not released as of December 2010)
 [http://doc.qt.nokia.com/qt-mobility-snapshot/qml-plugins.html QML Plugins],
 but right now we have to write some glue code in Python."
 
-Thus, as part of the rapid prototyping process, portions of YTD-meego may need
-coding in Pyside. The API that arises between QML and Pyside can be used to
-recode the Pyside portions in C++ should the need arise, e.g. for a smaller
-delivery footprint. This is not optimal, strictly pragmatic: for one, it is
+Thus, as part of the rapid prototyping process, portions of YTD-meego may
+need coding in Pyside. The API that arises between QML and Pyside can be
+used to recode the Pyside portions in C++ should the need arise, for
+example, to deliver a smaller application footprint, or to create an
+application with fewer dependencies to maintain over time. The use of
+Python in this project is not optimal, strictly pragmatic: for one, it is
 wasteful to use two built-in interpreters and their associated overhead:
 QML and Python, when QML is a fully capable language in its own right.  As
 indicated above, the Pyside portions are also potentially just a stopgap
