@@ -867,7 +867,7 @@ of !WebKit for offline storage -- which is also an issue ytd-meego will
 face.
  
 It might be easiest to do the "web" part of the app this way, and enable
-call-outs to QtMobility for playing or recording media, geotagging, etc. It
+call-outs to !QtMobility for playing or recording media, geotagging, etc. It
 would be "cheating" to just drop an existing
 [http://ytd-demo.appspot.com/test.html YTD web-application]
 directly into a !WebKit 'iframe' inside the application, and then just
