@@ -889,7 +889,7 @@ On the other hand, perhaps such an approach will be needed anyways for
 pragmatic reasons.  For example: needing to reuse an existing browser-based
 authentication portal, such as cross-domain authentication from a main
 'www' site to a separate 'ytd' site, and to handle other cross-application
-and cross-domain cookies need to be used by the custom handheld
+and cross-domain cookies that need to be used by the custom handheld
 application.
 
 == !QtMobility 1.2 and the N900 Camera Component ==
