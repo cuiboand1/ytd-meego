@@ -40,32 +40,76 @@
 ****************************************************************************/
 
 import QtQuick 1.0
+// import Qt.multimedia 1.0
 
 Item {
-    id: delegate
-    height: column.height + 40
-    width: delegate.ListView.view.width
+    id:		delegate;
+    height:	column.height + 40;
+    width:	delegate.ListView.view.width
 
     Column {
-        id: column
-        x: 20; y: 20
-        width: parent.width - 40
+        id:	column;
+	x:	20;
+	y:	20;
+        width:	parent.width - 40;
 
+        Image {
+	    id:		thumbnailImage;
+	    width:	parent.width;
+	    source:	thumbnail;
+	    smooth:	true;   
+            fillMode:	Image.PreserveAspectFit;
+        }
         Text {
-            id: titleText
-            text: title; width: parent.width; wrapMode: Text.WordWrap
+            id:		titleText;
+            text:	title;
+	    width:	parent.width;
+	    wrapMode:	Text.WordWrap;
             font { bold: true; family: "Helvetica"; pointSize: 16 }
         }
-
         Text {
-            id: descriptionText
-            width: parent.width; text: description
-            wrapMode: Text.WordWrap; font.family: "Helvetica"
+            id:		descriptionText;
+            width:	parent.width;
+	    text:	description;
+            wrapMode:	Text.WordWrap;
+            font { family:"Helvetica"; }
+        }
+        Text {
+            id:		durationText;
+            width:	parent.width;
+	    text:	duration + " s.";
+            font { family:"Courier"; pointSize: 8; }
+        }
+        Text {
+            id:		numLikesText;
+            width:	parent.width;
+	    text: numLikes + " likes.";
+            font { family:"Courier"; pointSize: 8; }
+        }
+        Text {
+            id:		authorText;
+            width:	parent.width;
+	    text:	author;
+            font { family:"Courier"; pointSize: 8; }
+        }
+        Text {
+            id:		 publishedText;
+	    width:	 parent.width;
+	    text:	 published;
+            font { family:"Courier"; pointSize: 8; }
         }
     }
-
     Rectangle {
-        width: parent.width; height: 1; color: "#cccccc"
-        anchors.bottom: parent.bottom
+        width:		parent.width;
+	height:		1;
+	color:		"#cccccc";
+        anchors.bottom:	parent.bottom;
     }
+    MouseArea {
+        anchors.fill:	parent;
+        onClicked:	{ console.log("clicked on " + link);
+			Qt.openUrlExternally ( link );
+	}
+        onPressAndHold:	{ console.log("longtouch on " + link); }            
+   }
 }
