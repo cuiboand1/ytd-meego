@@ -47,7 +47,7 @@ ListModel {
     // NPM: see http://code.google.com/apis/youtube/2.0/developers_guide_protocol_video_feeds.html#Standard_feeds
     ListElement { name: "Top Rated"; feed: "top_rated" }
     ListElement { name: "Top Favorites"; feed: "top_favorites" }
-    ListElement { name: "Most Vieweed"; feed: "most_viewed" }
+    ListElement { name: "Most Viewed"; feed: "most_viewed" }
     ListElement { name: "Most popular"; feed: "most_popular" }
     ListElement { name: "Most recent"; feed: "most_recent" }
     ListElement { name: "Most discussed"; feed: "most_discussed" }
