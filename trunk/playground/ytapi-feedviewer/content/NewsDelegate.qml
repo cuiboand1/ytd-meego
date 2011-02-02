@@ -105,10 +105,23 @@ Item {
 	color:		"#cccccc";
         anchors.bottom:	parent.bottom;
     }
+
+// to play the video file in external player, use Qt.openUrlExternally(mediafile)
+// however, 'link' is itself a feed e.g.
+// http://gdata.youtube.com/feeds/api/standardfeeds/us/top_rated/v/dMH0bHeiRNg?v=2
+// within this feed is the link to the URL to display in a browser, e.g.
+//   <link rel='alternate' type='text/html' href='http://www.youtube.com/watch?v=dMH0bHeiRNg&amp;feature=youtube_gdata'/>
+// as well as other formats, e.g.:
+//   <media:content url='http://www.youtube.com/v/dMH0bHeiRNg?f=standard&amp;app=youtube_gdata' type='application/x-shockwave-flash' medium='video' isDefault='true' expression='full' duration='360' yt:format='5'/>
+//   <media:content url='rtsp://v5.cache7.c.youtube.com/CiQLENy73wIaGwnYRKJ3bPTBdBMYDSANFEgGUghzdGFuZGFyZAw=/0/0/0/video.3gp' type='video/3gpp' medium='video' expression='full' duration='360' yt:format='1'/><media:content url='rtsp://v3.cache8.c.youtube.com/CiQLENy73wIaGwnYRKJ3bPTBdBMYESARFEgGUghzdGFuZGFyZAw=/0/0/0/video.3gp' type='video/3gpp' medium='video' expression='full' duration='360' yt:format='6'/>
+// Need to choose correct one and pass on to Qt.openUrlExternally().
+//
+// Perhaps initially, have single click render HTML URL containing flash or
+// HTML5 YT webpage, and have long click render in media player.
     MouseArea {
         anchors.fill:	parent;
         onClicked:	{ console.log("clicked on " + link);
-			Qt.openUrlExternally ( link );
+//			  Qt.openUrlExternally(link);
 	}
         onPressAndHold:	{ console.log("longtouch on " + link); }            
    }
