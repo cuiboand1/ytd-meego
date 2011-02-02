@@ -51,7 +51,11 @@ Rectangle {
 
     RssFeeds { id: rssFeeds }
 
-
+    // NPM: use XmlListModel using relative XPath ( http://www.w3.org/TR/xpath20/ )
+    // expression queries to retrieve feed information from YT 2.0 Feed
+    // see http://code.google.com/apis/youtube/2.0/developers_guide_protocol_video_feeds.html
+    // and http://doc.qt.nokia.com/latest/qml-xmllistmodel.html
+    // and http://doc.qt.nokia.com/latest/qml-xmlrole.html
     XmlListModel {
             id: feedModel
             source: "http://gdata.youtube.com/feeds/api/standardfeeds/" + window.currentFeed + "?v=2&alt=atom"
@@ -61,7 +65,9 @@ Rectangle {
                 declare namespace media='http://search.yahoo.com/mrss/';"
             XmlRole { name: "title"; query: "title/string()" }
             XmlRole { name: "link"; query: "link[4]/@href/string()" }
-            XmlRole { name: "published"; query: "published/string()" }
+	    // NPM: note 'isKey: true' for future incremental reloading,
+	    // see http://doc.qt.nokia.com/latest/qml-xmllistmodel.html#using-key-xml-roles
+            XmlRole { name: "published"; query: "published/string()"; isKey: true; }
             XmlRole { name: "description"; query: "media:group/media:description/string()" }
             XmlRole { name: "thumbnail"; query: "media:group/media:thumbnail[5]/@url/string()" }
             XmlRole { name: "duration"; query: "media:group/yt:duration/@seconds/string()" }
