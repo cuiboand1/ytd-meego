@@ -112,7 +112,7 @@ Item {
         Text {
             id:		descriptionText;
 	    text:	description;
-	    textFormat: Text.RichText;
+	    textFormat: Text.AutoText;
 	    clip:	true;
 	    elide:	Text.ElideRight;
 	    wrapMode:   Text.WordWrap
@@ -121,17 +121,20 @@ Item {
 	    anchors.left:	parent.left;
 	    anchors.leftMargin: 5;
 	    anchors.right:	parent.right;
+	    anchors.rightMargin: 5;
 	    anchors.bottom:	parent.bottom;
-	    anchors.bottomMargin: 20;
+	    anchors.bottomMargin: 2;
         }
 	Rectangle {
-	    width:		parent.width;
-	    height:		1;
 	    color:		"#cccccc";
+	    anchors.top:	descriptionText.bottom;
+	    anchors.left:	parent.left;
+	    anchors.leftMargin: 1;
+	    anchors.right:	parent.right;
+	    anchors.rightMargin: 1;
 	    anchors.bottom:	parent.bottom;
+	    anchors.bottomMargin: 0;
     }
-
-
 
 // to play the video file in external player, use Qt.openUrlExternally(mediafile)
 // however, 'link' is itself a feed e.g.
@@ -147,9 +150,91 @@ Item {
 // HTML5 YT webpage, and have long click render in media player.
     MouseArea {
         anchors.fill:	parent;
-        onClicked:	{ console.log("clicked on " + link);
-//			  Qt.openUrlExternally(link);
+        onClicked:	{ //NPM-TODO: consolidate with onPressAndHold: code below....
+	    console.log("onClicked: -------------" + link + "-------------");
+	    var doc = new XMLHttpRequest();
+	    doc.onreadystatechange = function() {
+		if (doc.readyState == XMLHttpRequest.HEADERS_RECEIVED) {
+		    console.log("onClicked: HEADERS_RECEIVED");
+		} else if (doc.readyState == XMLHttpRequest.DONE
+			   && (doc.responseXML != null)) {
+		    var a = doc.responseXML.documentElement;
+		    var externalViewerCalled = false;
+		    if ((a != null) && a.childNodes != null) {
+			for (var i = 0; i < a.childNodes.length; ++i) {
+			    if (a.childNodes[i].attributes != null) {
+				var b = a.childNodes[i].attributes;
+				for (var j = 0; j < b.length; ++j) {
+				    if ((b[j] != null) && (b[j].value != null)
+					&& ((b[j].value.indexOf("watch") != -1)
+//					    || (b[j].value.indexOf("www.youtube.com/v") != -1)
+					    )
+					) {
+					if (!externalViewerCalled) {
+					    console.log("onClicked: calling Qt.openUrlExternally('" + a.childNodes[i].attributes[j].value + "')");
+					    Qt.openUrlExternally(a.childNodes[i].attributes[j].value);
+					    externalViewerCalled = true;
+					}
+					else {
+					    console.log("onClicked: skipped opening" + a.childNodes[i].attributes[j].value);
+					}
+					break;
+				    }
+				    else { console.log("onClicked: skipped " + b[j].name + '=' + b[j].value); }
+				}
+			    }
+			}
+		    }
+		}
+		else if (doc.readyState == XMLHttpRequest.DONE) { // FAIL AND PUNT: open 'link' directly
+		    console.log("onClicked: punting and calling Qt.openUrlExternally('" + link + "')");
+		    Qt.openUrlExternally(link);
+		}
+	    }
+	    doc.open("GET", link);
+	    doc.send();
 	}
-        onPressAndHold:	{ console.log("longtouch on " + link); }            
-   }
+        onPressAndHold:	{ //NPM-TODO: consolidate with onClicked: code above
+	    console.log("onPressAndHold: -------------" + link + "-------------");
+	    var doc = new XMLHttpRequest();
+	    doc.onreadystatechange = function() {
+		if (doc.readyState == XMLHttpRequest.HEADERS_RECEIVED) {
+		    console.log("onPressAndHold: HEADERS_RECEIVED");
+		} else if ((doc.readyState == XMLHttpRequest.DONE)
+			   && (doc.responseXML != null)) {
+		    var a = doc.responseXML.documentElement;
+		    var externalViewerCalled = false;
+		    if ((a != null) && a.childNodes != null) {
+			for (var i = 0; i < a.childNodes.length; ++i) {
+			    if (a.childNodes[i].attributes != null) {
+				var b = a.childNodes[i].attributes;
+				for (var j = 0; (j < b.length); ++j) {
+				    if ((b[j] != null) && (b[j].value != null)
+					&& (b[j].value.indexOf(".3gp") != -1)
+					) {
+					if (!externalViewerCalled) {
+					    console.log("onPressAndHold: calling Qt.openUrlExternally('" + a.childNodes[i].attributes[j].value + "')");
+					    Qt.openUrlExternally(a.childNodes[i].attributes[j].value);
+					    externalViewerCalled = true;
+					}
+					else {
+					    console.log("onPressAndHold: skipped opening" + a.childNodes[i].attributes[j].value);
+					}
+					break;
+				    }
+				    else { console.log("onPressAndHold: skipped " + b[j].name + '=' + b[j].value); }
+				}
+			    }
+			}
+		    }
+		}
+		else if (doc.readyState == XMLHttpRequest.DONE) { // FAIL AND PUNT: open 'link' directly
+		    console.log("onPressAndHold: punting abd calling Qt.openUrlExternally('" + link + "')");
+		    Qt.openUrlExternally(link);
+		}
+	    }
+	    doc.open("GET", link);
+	    doc.send();
+	}            
+    }
 }
