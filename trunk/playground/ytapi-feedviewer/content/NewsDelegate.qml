@@ -40,71 +40,98 @@
 ****************************************************************************/
 
 import QtQuick 1.0
-// import Qt.multimedia 1.0
 
 Item {
     id:		delegate;
-    height:	column.height + 40;
-    width:	delegate.ListView.view.width
-
-    Column {
-        id:	column;
-	x:	20;
-	y:	20;
-        width:	parent.width - 40;
+    width:	delegate.ListView.view.width;
+    height:	delegate.ListView.view.height/2;
 
         Image {
 	    id:		thumbnailImage;
-	    width:	parent.width;
 	    source:	thumbnail;
-	    smooth:	true;   
+//	    smooth:	true;   
             fillMode:	Image.PreserveAspectFit;
+	    anchors.top:	parent.top;
+	    anchors.topMargin:	5;
+	    anchors.left:	parent.left;
+	    anchors.leftMargin: 5;
+	    anchors.right:	parent.horizontalCenter;
+        }
+        Text {
+            id:		durationText;
+	    text:	" Duration: " + duration + " s.";
+	    clip:	false;
+            font { family:"Courier"; pointSize: 10; }
+	    anchors.top:	thumbnailImage.top;
+	    anchors.left:	parent.horizontalCenter;
+	    anchors.right:	parent.right;
+	    anchors.rightMargin: 5;
+        }
+        Text {
+            id:		numLikesText;
+	    text: " Likes: " + numLikes + " people."
+	    clip:	false;
+            font { family:"Courier"; pointSize: 10; }
+	    anchors.top:	durationText.bottom;
+	    anchors.left:	parent.horizontalCenter;
+	    anchors.right:	parent.right;
+	    anchors.rightMargin: 5;
+        }
+        Text {
+            id:		authorText;
+	    text:	" Posted By: " + author;
+	    clip:	false;
+            font { family:"Courier"; pointSize: 10; }
+	    anchors.top:	numLikesText.bottom;
+	    anchors.left:	parent.horizontalCenter;
+	    anchors.right:	parent.right;
+	    anchors.rightMargin: 5;
+        }
+        Text {
+            id:		 publishedText;
+	    text:	 " Published: " + published;
+	    clip:	false;
+            font { family:"Courier"; pointSize: 10; }
+	    anchors.top:	authorText.bottom;
+	    anchors.left:	parent.horizontalCenter;
+	    anchors.right:	parent.right;
+	    anchors.rightMargin: 5;
         }
         Text {
             id:		titleText;
             text:	title;
-	    width:	parent.width;
-	    wrapMode:	Text.WordWrap;
+	    clip:	false;
+	    wrapMode:   Text.WordWrap
             font { bold: true; family: "Helvetica"; pointSize: 16 }
+	    anchors.top:	thumbnailImage.bottom;
+	    anchors.left:	parent.left;
+	    anchors.leftMargin: 5;
+	    anchors.right:	parent.right;
+	    anchors.rightMargin: 5;
         }
         Text {
             id:		descriptionText;
-            width:	parent.width;
 	    text:	description;
-            wrapMode:	Text.WordWrap;
+	    textFormat: Text.RichText;
+	    clip:	true;
+	    elide:	Text.ElideRight;
+	    wrapMode:   Text.WordWrap
             font { family:"Helvetica"; }
+	    anchors.top:	titleText.bottom;
+	    anchors.left:	parent.left;
+	    anchors.leftMargin: 5;
+	    anchors.right:	parent.right;
+	    anchors.bottom:	parent.bottom;
+	    anchors.bottomMargin: 20;
         }
-        Text {
-            id:		durationText;
-            width:	parent.width;
-	    text:	duration + " s.";
-            font { family:"Courier"; pointSize: 8; }
-        }
-        Text {
-            id:		numLikesText;
-            width:	parent.width;
-	    text: numLikes + " likes.";
-            font { family:"Courier"; pointSize: 8; }
-        }
-        Text {
-            id:		authorText;
-            width:	parent.width;
-	    text:	author;
-            font { family:"Courier"; pointSize: 8; }
-        }
-        Text {
-            id:		 publishedText;
-	    width:	 parent.width;
-	    text:	 published;
-            font { family:"Courier"; pointSize: 8; }
-        }
+	Rectangle {
+	    width:		parent.width;
+	    height:		1;
+	    color:		"#cccccc";
+	    anchors.bottom:	parent.bottom;
     }
-    Rectangle {
-        width:		parent.width;
-	height:		1;
-	color:		"#cccccc";
-        anchors.bottom:	parent.bottom;
-    }
+
+
 
 // to play the video file in external player, use Qt.openUrlExternally(mediafile)
 // however, 'link' is itself a feed e.g.
