@@ -20,10 +20,11 @@ function onClicked(videoid) {
     download_p = false;		//on webPageLoaded(), don't download
     window.loading = true;
     var episode = 
-	"http://www.youtube.com/watch?v="
+	"http://www.youtube.com/watch_popup?v="
 	+ videoid;
     console.log("onClicked: viewing ('" + episode + "')");
     video.url = episode; // display URL in WebView
+    tabs.current = 2;    // switch to tab showing WebView (TODO, make this a constant/enum?)
 //    QT.openUrlExternally(episode);
     window.loading = false;
 
