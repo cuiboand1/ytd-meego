@@ -99,6 +99,7 @@ function showFeed(feedName) {
 					 });
 	    }
 	    window.loading = false; // stop the spinner at request completion ...
+	    tabs.current = 1; // switch to tab showing Feed (TODO, make this a constant/enum?)
 	}
     }
 

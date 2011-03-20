@@ -27,7 +27,7 @@ import "jsoncontent"
 import "ytjson.js" as YTJSON
 import "jsoncontent/script.js" as Script
 
-Rectangle { id: window; width: 1440; height: 480;
+Rectangle { id: window; width: 640; height: 480;
     
     // window.currentFeed: set to selected Feed category by MouseArea in
     // CategoryDelegate of "categories" ListView.
@@ -36,30 +36,33 @@ Rectangle { id: window; width: 1440; height: 480;
     // BusyIndicator, in CategoryDelegate of "categories" ListView.
     property bool	loading:	true; 
 
-    JsonFeeds { id: jsonFeeds }
+    TabWidget { id: tabs; width: parent.width; height: parent.height;
 
-    // JSON Model should be built-in but following hack is required,
-    // see http://bugreports.qt.nokia.com/browse/QTBUG-1211
-    // http://mobilephonedevelopment.com/qt-qml-tips/#Consuming%20JSON%20Data
-    ListModel {			// http://doc.qt.nokia.com/4.7-snapshot/qml-listmodel.html
-	id: jsonModel;
-	signal loadCompleted();
-
-	Component.onCompleted: { // http://doc.qt.nokia.com/latest/qml-component.html
-	    YTJSON.showFeed(window.currentFeed);
-	    jsonModel.loadCompleted();
-	}
-    }
-
-    Row {
+        /******** INDEX0 in TabWidget /********/
         Rectangle {
-            width: 180; height: window.height
+	    property string title: "Select Feed";
+	    anchors.fill: parent; anchors.margins: 2;
+//          width: parent.width; height: parent.height;
             color: "#efefef"
 
-            ListView {
+            JsonFeeds { id: jsonFeeds }
+
+           // JSON Model should be built-in but following hack is required,
+           // see http://bugreports.qt.nokia.com/browse/QTBUG-1211
+           // http://mobilephonedevelopment.com/qt-qml-tips/#Consuming%20JSON%20Data
+           ListModel {			// http://doc.qt.nokia.com/4.7-snapshot/qml-listmodel.html
+               	id: jsonModel;
+               	signal loadCompleted();
+              	Component.onCompleted: { // http://doc.qt.nokia.com/latest/qml-component.html
+               	    YTJSON.showFeed(window.currentFeed);
+               	    jsonModel.loadCompleted();
+                }
+           }
+           ListView {
                 focus: true;
                 id: categories;
                 anchors.fill: parent;
+        		clip: true; //suggested by 'alterego' on #meego 3/19/11
                 model: jsonFeeds;
                 footer: quitButtonDelegate;
                 delegate: CategoryDelegate {}
@@ -68,72 +71,62 @@ Rectangle { id: window; width: 1440; height: 480;
             }
             ScrollBar {
                 scrollArea: categories;
-		height: categories.height;
-		width: 8
-                anchors.right:
-		categories.right
+        		height: categories.height;
+        		width: 8;
+                anchors.right: categories.right
+            }
+            Component {
+                id: quitButtonDelegate
+                Item {
+                    width: categories.width; height: 60
+                    Text {
+                        text:		"Quit"
+                        font { family: "Helvetica"; pixelSize: 16; bold: true }
+                        anchors {
+                            left:	parent.left;
+                		    leftMargin:	15;
+                            verticalCenter: parent.verticalCenter;
+                        }
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: Qt.quit()
+                    }
+                }
             }
         }
-//	Video {
-//	    id: video
-//		width : 640
-//		height : 480
-//		source: "/home/npm/Download/CaptainBeefheartDocumentary-2of4.flv"
-//
-//		MouseArea {
-//		anchors.fill: parent
-//		    onClicked: {
-//		    video.play()
-//			}
-//	    }
-//
-//	    focus: true
-//		Keys.onSpacePressed: video.paused = !video.paused
-//		Keys.onLeftPressed: video.position -= 5000
-//		Keys.onRightPressed: video.position += 5000
-//		}
-	WebView {
-	    id: video;
-	    url: "";
-	    width: 640;
-	    height: 480;
-        scale: 1.0;
-	    settings.privateBrowsingEnabled: true;
-	    settings.autoLoadImages: true;
-	    settings.javascriptEnabled: true;
-	    settings.javaEnabled: false;
-	    settings.pluginsEnabled: true;
-	    settings.javascriptCanOpenWindows: false;
-	    settings.javascriptCanAccessClipboard: false;
-	    onLoadFinished: Script.webPageLoaded();
-	    onAlert: function (msg) { console.log("WebView alert() signal: " + msg); }
-	}
+
+        /******** INDEX1 in TabWidget /********/
         ListView {
+	    property string title: "Feed Contents";
             id: list;
-            width: window.width - 820; height: window.height;
+    	    anchors.fill: parent; anchors.margins: 2;
+//          width: parent.width; height: parent.height;
+        	clip: true; //suggested by 'alterego' on #meego 3/19/11
             model: jsonModel;
             delegate: NewsDelegate {}
         }
-    }
-    Component {
-        id: quitButtonDelegate
-        Item {
-            width: categories.width; height: 60
-            Text {
-                text:		"Quit"
-                font { family: "Helvetica"; pixelSize: 16; bold: true }
-                anchors {
-                    left:	parent.left;
-		    leftMargin:	15;
-                    verticalCenter: parent.verticalCenter;
-                }
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: Qt.quit()
-            }
-        }
+
+        /******** INDEX2 in TabWidget /********/
+    	WebView {
+//	    property string title: "Viewer";
+    	    id: video;
+    	    url: "";
+            // anchors.fill: parent; anchors.margins: 2;
+            width: parent.width; height: parent.height;
+            scale: 1.0;
+    	    settings.privateBrowsingEnabled: true;
+    	    settings.autoLoadImages: true;
+    	    settings.javascriptEnabled: true;
+    	    settings.javaEnabled: false;
+    	    settings.pluginsEnabled: true;
+    	    settings.javascriptCanOpenWindows: false;
+    	    settings.javascriptCanAccessClipboard: false;
+    	    onLoadFinished: Script.webPageLoaded();
+    	    onAlert: function (msg) { console.log("WebView alert() signal: " + msg); }
+    	}
+
     }
     ScrollBar { scrollArea: list; height: list.height; width: 8; anchors.right: window.right }
-    Rectangle { x: 180; height: window.height; width: 1; color: "#cccccc" }
+//    Rectangle { x: 0; height: parent.height; width: 1; color: "#cccccc" }
 }
