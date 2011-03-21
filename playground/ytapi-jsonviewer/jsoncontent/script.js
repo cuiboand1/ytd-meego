@@ -15,7 +15,7 @@
 
 var download_p = false;	 //on webPageLoaded(), don't download, unless true.
 
-//on click browse selected feed episode, attempt html5 version first.
+//on click browse selected feed episode; TODO: attempt html5 version first.
 function onClicked(videoid) {
     download_p = false;		//on webPageLoaded(), don't download
     window.loading = true;
@@ -24,8 +24,7 @@ function onClicked(videoid) {
 	+ videoid;
     console.log("onClicked: viewing ('" + episode + "')");
     video.url = episode; // display URL in WebView
-    tabs.current = 2;    // switch to tab showing WebView (TODO, make this a constant/enum?)
-//    QT.openUrlExternally(episode);
+//  QT.openUrlExternally(episode);
     window.loading = false;
 
 //     var self_feed =
@@ -129,6 +128,9 @@ var download_p = false;
 var scrollX = null;
 var scrollY = null;
 function webPageLoaded() {
+    // after WebView loaded with new video, switch to tab showing WebView
+    tabs.current = 2;	  // (TODO, make this a constant/enum?)
+    //get rid of searchbox and youtube banner at top.
     scrollX = video.evaluateJavaScript("window.scrollX");
     scrollY = video.evaluateJavaScript("window.scrollY");
     console.log("scrollX ='" + scrollX + "' scrollY='" + scrollY + "'");

@@ -109,7 +109,7 @@ Rectangle { id: window; width: 640; height: 480;
 
         /******** INDEX2 in TabWidget /********/
     	WebView {
-//	    property string title: "Viewer";
+//	        property string title: "Viewer";
     	    id: video;
     	    url: "";
             // anchors.fill: parent; anchors.margins: 2;
@@ -128,5 +128,5 @@ Rectangle { id: window; width: 640; height: 480;
 
     }
     ScrollBar { scrollArea: list; height: list.height; width: 8; anchors.right: window.right }
-//    Rectangle { x: 0; height: parent.height; width: 1; color: "#cccccc" }
+//  Rectangle { x: 0; height: parent.height; width: 1; color: "#cccccc" }
 }
