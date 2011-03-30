@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/qmltube">
+        <file>Book.qml</file>
+        <file>BookBehavior.qml</file>
+        <file>HorizontalGradient.qml</file>
+        <file>Page.qml</file>
+    </qresource>
+</RCC>

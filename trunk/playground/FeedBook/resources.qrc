@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>TubeModel.qml</file>
+        <file>qt.svg</file>
+    </qresource>
+</RCC>
