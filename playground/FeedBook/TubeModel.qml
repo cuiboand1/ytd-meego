@@ -133,7 +133,7 @@ import Qt 4.7
        }
 
        Component.onCompleted: { // http://doc.qt.nokia.com/latest/qml-component.html
-           showFeed("recently_featured"); //feed name from http://code.google.com/apis/youtube/2.0/developers_guide_protocol_video_feeds.html
+           showFeed("on_the_web"); //feed name from http://code.google.com/apis/youtube/2.0/developers_guide_protocol_video_feeds.html
            jsonModel.loadCompleted();
        }
    }
