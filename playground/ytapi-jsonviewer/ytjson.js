@@ -98,16 +98,18 @@ function showFeed(feedName) {
 					 catch(e) { return (""); }})()
 					 });
 	    }
-	    window.loading = false; // stop the spinner at request completion ...
+	    maintab.loading = false; // stop the spinner at request completion ...
 	    tabs.current = 1; // switch to tab showing Feed (TODO, make this a constant/enum?)
 	}
     }
 
-    window.loading = true;	// start the spinner at request start ...
+    maintab.loading = true;	// start the spinner at request start ...
+    maintab.currentFeed = feedName;
+    feedtab.title = "Feed: " + feedName;
 
     // Send request, onreadystatechange above processes result
     // asynchronously on receipt.
-    console.log("showFeed(): Calling GET http://gdata.youtube.com/feeds/api/standardfeeds/" + feedName + "?v=2&alt=jsonc");
+    console.log("showFeed(): Calling GET http://gdata.youtube.com/feeds/api/standardfeeds/" + feedName + "?v=2&alt=json");
     xhr.open("GET", "http://gdata.youtube.com/feeds/api/standardfeeds/" + feedName + "?v=2&alt=json");
     xhr.send();
 }

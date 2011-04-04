@@ -25,7 +25,7 @@ Item {
 	    id:		thumbnailImage;
 	    source:	thumbnail
 //	    smooth:	true;   
-        fillMode:	Image.PreserveAspectFit;
+	    fillMode:	Image.PreserveAspectFit;
 	    anchors {
         top:	parent.top;
         topMargin:	5;
@@ -35,10 +35,10 @@ Item {
 	    }
     }
         Text {
-            id:         durationText;
+            id:     durationText;
     	    text:	"Duration:  " + duration;
 	        clip:	false;
-            font { family:"Courier"; pointSize: 10; }
+            font {  family:"Courier"; pointSize: 10; }
     	    anchors {
             top:	thumbnailImage.top;
             left:	parent.horizontalCenter;
@@ -47,10 +47,10 @@ Item {
     	    }
         }
         Text {
-            id:         numLikesText;
-    	    text: "Likes/Dis: " + numLikes + " / " + numDislikes;
-	    clip:	false;
-            font { family:"Courier"; pointSize: 10; }
+            id:     numLikesText;
+    	    text:	"Likes/Dis: " + numLikes + " / " + numDislikes;
+            clip:	false;
+            font {  family:"Courier"; pointSize: 10; }
     	    anchors {
             top:	durationText.bottom;
             left:	parent.horizontalCenter;
@@ -59,10 +59,10 @@ Item {
     	    }
         }
         Text {
-            id:         favoriteText;
-	    text:	"Fav/Views: " + favoriteCount + " / " + viewCount;
-	    clip:	false;
-            font { family:"Courier"; pointSize: 10; }
+            id:     favoriteText;
+	        text:	"Fav/Views: " + favoriteCount + " / " + viewCount;
+	        clip:	false;
+            font {  family:"Courier"; pointSize: 10; }
     	    anchors {
             top:	numLikesText.bottom;
             left:	parent.horizontalCenter;
@@ -71,10 +71,10 @@ Item {
     	    }
         }
         Text {
-            id:         authorText;
+            id:     authorText;
     	    text:	"Posted By: " + author;
 	        clip:	false;
-            font { family:"Courier"; pointSize: 10; }
+            font {  family:"Courier"; pointSize: 10; }
     	    anchors {
             top:	favoriteText.bottom;
             left:	parent.horizontalCenter;
@@ -83,10 +83,10 @@ Item {
     	    }
         }
         Text {
-            id:          publishedText;
-	    text:	 "Published: " + published;
-	    clip:	false;
-            font { family:"Courier"; pointSize: 10; }
+            id:     publishedText;
+	        text:	"Published: " + published;
+	        clip:	false;
+            font {  family:"Courier"; pointSize: 10; }
     	    anchors {
             top:	authorText.bottom;
             left:	parent.horizontalCenter;
@@ -95,11 +95,11 @@ Item {
     	    }
         }
         Text {
-            id:         titleText;
+            id:		titleText;
             text:	title;
-	    clip:	false;
-	    wrapMode:   Text.WordWrap;
-            font { bold: true; family: "Helvetica"; pointSize: 16 }
+	        clip:	false;
+	        wrapMode:Text.WordWrap;
+            font {  bold: true; family: "Helvetica"; pointSize: 16 }
     	    anchors {
             top:	thumbnailImage.bottom;
             left:	parent.left;
@@ -112,8 +112,8 @@ Item {
             id:         descriptionText;
     	    text:	    description;
     	    textFormat: Text.AutoText;
-    	    clip:	true;
-    	    elide:	Text.ElideRight;
+    	    clip:		true;
+    	    elide:		Text.ElideRight;
     	    wrapMode:   Text.WordWrap;
             font { family:"Helvetica"; }
     	    anchors {
@@ -124,7 +124,7 @@ Item {
             rightMargin: 5;
             bottom:	parent.bottom;
             bottomMargin: 2;
-	        }
+            }
         }
 	Rectangle {
 	    color:            "#cccccc";

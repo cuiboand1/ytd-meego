@@ -19,6 +19,8 @@ ListModel {
     id: jsonFeeds
 
     // NPM: see http://code.google.com/apis/youtube/2.0/developers_guide_protocol_video_feeds.html#Standard_feeds
+    ListElement { name: "Trending"; feed: "on_the_web" }
+    ListElement { name: "Most shared"; feed: "most_shared" }
     ListElement { name: "Top Rated"; feed: "top_rated" }
     ListElement { name: "Top Favorites"; feed: "top_favorites" }
     ListElement { name: "Most Viewed"; feed: "most_viewed" }
@@ -27,5 +29,5 @@ ListModel {
     ListElement { name: "Most discussed"; feed: "most_discussed" }
     ListElement { name: "Most responded"; feed: "most_responded" }
     ListElement { name: "Recently featured"; feed: "recently_featured" }
-    ListElement { name: "For mobile"; feed: "watch_on_mobile" }
+//  ListElement { name: "For mobile"; feed: "watch_on_mobile" }
 }
