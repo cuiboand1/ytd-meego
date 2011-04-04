@@ -13,19 +13,21 @@
 **
 ****************************************************************************/
 
+// See http://code.google.com/apis/youtube/player_parameters.html#Parameters
+var ytplayer_url    = "http://www.youtube.com/watch_popup?v=";
+var ytplayer_params = "&fs=1&autoplay=1&loop=0&showsearch=0&rel=0&cc_load_policy=1#t=0m01s";
+
 var download_p = false;	 //on webPageLoaded(), don't download, unless true.
 
 //on click browse selected feed episode; TODO: attempt html5 version first.
 function onClicked(videoid) {
     download_p = false;		//on webPageLoaded(), don't download
-    window.loading = true;
-    var episode = 
-	"http://www.youtube.com/watch_popup?v="
-	+ videoid;
+    feedtab.loading = true;
+    var episode = ytplayer_url + videoid + ytplayer_params;
     console.log("onClicked: viewing ('" + episode + "')");
-    video.url = episode; // display URL in WebView
+    videotab.url = episode; // display URL in WebView
 //  QT.openUrlExternally(episode);
-    window.loading = false;
+    feedtab.loading = false;
 
 //     var self_feed =
 //       "http://gdata.youtube.com/feeds/api/videos/"
@@ -52,8 +54,8 @@ function onClicked(videoid) {
 //  		if (url.indexOf(".3gp") == (url.length - 4)) {
 //  		    console.log("onClicked: mobile video entry " + i + "\n" + url);
 //  //		    Qt.openUrlExternally(url);
-//  //		    video.source = url;
-//  		    video.url = url; // display URL in WebView
+//  //		    videotab.source = url;
+//  		    videotab.url = url; // display URL in WebView
 //  		    break;
 //  		}
 //  	    }
@@ -62,8 +64,8 @@ function onClicked(videoid) {
 //  //		url = url.substring(0, url.indexOf('?f=')) + '.flv'; // + url.substring(url.indexOf('?f='));
 //  		console.log("onClicked: flash video entry" + url + "\n");
 //  //		Qt.openUrlExternally(url);
-//  //		video.source = url;
-//  		video.url = url; // display URL in WebView
+//  //		videotab.source = url;
+//  		videotab.url = url; // display URL in WebView
 //  
 //  //		var doc = new XMLHttpRequest();
 //  //		doc.onreadystatechange = function() {
@@ -124,34 +126,32 @@ function onClicked(videoid) {
 //      xhr.send();
 }
 
-var download_p = false;
 var scrollX = null;
 var scrollY = null;
 function webPageLoaded() {
     // after WebView loaded with new video, switch to tab showing WebView
     tabs.current = 2;	  // (TODO, make this a constant/enum?)
-    //get rid of searchbox and youtube banner at top.
-    scrollX = video.evaluateJavaScript("window.scrollX");
-    scrollY = video.evaluateJavaScript("window.scrollY");
-    console.log("scrollX ='" + scrollX + "' scrollY='" + scrollY + "'");
-    video.evaluateJavaScript('window.scrollX = 50; window.scrollY = -100;');
-    // video.heuristicZoom (100, -100, 1.0);
+//no need for this, just use watch_popup?v param showsearch=0&rel=0
+//    //get rid of searchbox and youtube banner at top. --> 
+//    scrollX = videotab.evaluateJavaScript("window.scrollX");
+//    scrollY = videotab.evaluateJavaScript("window.scrollY");
+//    console.log("scrollX ='" + scrollX + "' scrollY='" + scrollY + "'");
+//    videotab.evaluateJavaScript('window.scrollX = 50; window.scrollY = -100;');
+//    // videotab.heuristicZoom (100, -100, 1.0);
     if (download_p) {
 	//NB: the following line of magic was stolen from the internets, actual copyright unknown (public domain??)
 	//it saves the flv file playing in the Flash browser. Will break if HTML5??
-	video.evaluateJavaScript('swfHTML=document.getElementById("movie_player").getAttribute("flashvars");w=swfHTML.split("&"); for(i=0;i<=w.length-1;i++) if(w[i].split("=")[0] == "fmt_url_map"){links=unescape(w[i].split("=")[1]);break;}abc = links.split(",");for(i=0;i<=abc.length-1;i++){fmt=abc[i].split("|")[0];if(fmt==5){url = abc[i].split("|")[1];window.location.href = url;}}'); 
+	videotab.evaluateJavaScript('swfHTML=document.getElementById("movie_player").getAttribute("flashvars");w=swfHTML.split("&"); for(i=0;i<=w.length-1;i++) if(w[i].split("=")[0] == "fmt_url_map"){links=unescape(w[i].split("=")[1]);break;}abc = links.split(",");for(i=0;i<=abc.length-1;i++){fmt=abc[i].split("|")[0];if(fmt==5){url = abc[i].split("|")[1];window.location.href = url;}}'); 
     }
 }
 
 //on longclick, browse related feeds list
 function onPressAndHold(videoid) {
+    var episode = ytplayer_url + videoid + ytplayer_params;
 
-    var episode = 
-	"http://www.youtube.com/watch?v="
-	+ videoid;
     console.log("onClicked: viewing ('" + episode + "')");
     download_p = true;
-    video.url = episode; // display URL in WebView
+    videotab.url = episode; // display URL in WebView
 
 //    var related_feed =
 //	"http://gdata.youtube.com/feeds/api/videos/"
@@ -240,11 +240,11 @@ function onPressAndHold(videoid) {
 //					 catch(e) { return (""); }})()
 //					 });
 //	    }
-//	    window.loading = false; // stop the spinner at request completion ...
+//	    feedtab.loading = false; // stop the spinner at request completion ...
 //	}
 //    }
 //
-//    window.loading = true;	// start the spinner at request start ...
+//    feedtab.loading = true;	// start the spinner at request start ...
 //
 //    // Send request, onreadystatechange above processes result
 //    // asynchronously on receipt.

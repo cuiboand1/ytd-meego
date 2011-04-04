@@ -33,7 +33,7 @@ Item {
 
     BusyIndicator {
         scale: 0.6
-        on: delegate.ListView.isCurrentItem && window.loading
+        on: delegate.ListView.isCurrentItem && maintab.loading
         anchors { right: parent.right; rightMargin: 10; verticalCenter: parent.verticalCenter }
     }
 
@@ -51,7 +51,6 @@ Item {
         anchors.fill: delegate;
         onClicked: {
 	    YTJSON.showFeed(feed);
-            window.currentFeed = feed;
             delegate.ListView.view.currentIndex = index;
         }
     }
