@@ -2,10 +2,9 @@
 Encoding=UTF-8
 Version=1.0
 Type=Application
+Categories=Application;Utility;
 Terminal=false
 Name=cuteTube-QML
-Exec=/opt/usr/bin/qmltube
-Icon=qmltube
-X-Window-Icon=
-X-HildonDesk-ShowInToolbar=true
-X-Osso-Type=application/x-executable
+Exec=/opt/qmltube/bin/qmltube
+Icon=/usr/share/icons/hicolor/64x64/apps/qmltube.png
+Categories=AudioVideo;Audio;Video;Player;TV;
