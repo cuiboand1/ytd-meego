@@ -22,10 +22,9 @@ symbian:TARGET.UID3 = 0xE2644EFA
 # the following lines and add the respective components to the 
 # MOBILITY variable.
 QT += sql \
-    network
-maemo5 {
-    QT += dbus
-}
+    network \
+    opengl \
+    dbus
 
 # The .cpp file which was generated for your project. Feel free to hack it.
 SOURCES += main.cpp \

@@ -13,10 +13,38 @@
 //#include <QtOpenGL/QGLWidget>
 //#endif
 
+#ifdef Q_WS_X11		// NPM: aka, MeeGo 
+#include <QtOpenGL/QGLWidget>	// needed for viewer.setViewport(new QGLWidget()) below.
+#include <QtOpenGL/QGLFormat>
+//QmlApplicationViewer viewer;
+//void doSwitchToGLRendering() {
+//  QGLFormat format = QGLFormat::defaultFormat();
+//  format.setSampleBuffers(false);
+//  viewer.setViewport(new QGLWidget(format));
+//
+//  // each time we create a new viewport widget, we must redo our optimisations
+//  viewer.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+//  viewer.viewport()->setAttribute(Qt::WA_OpaquePaintEvent);
+//  viewer.viewport()->setAttribute(Qt::WA_NoSystemBackground);
+//  //m_usingGl = true;
+//}
+//
+//// Switch to GL rendering if it's available
+//void switchToGLRendering(QmlApplicationViewer v) {
+//  viewer = v;
+//  //go once around event loop to avoid crash in egl
+//  QTimer::singleShot(0, v, SLOT(doSwitchToGLRendering()));
+//}
+#endif /* Q_WS_X11 */
+
 int main(int argc, char *argv[])
 {
 #ifdef Q_WS_MAEMO_5
-    QApplication::setApplicationName(QString("FMRadio"));
+    QApplication::setApplicationName(QString("cutetube"));
+#endif
+#ifdef Q_WS_X11		// NPM: aka, MeeGo 
+    QApplication::setApplicationName(QString("cutetube"));
+    QApplication::setGraphicsSystem("raster"); // actually, this gets overriden by using viewer.setViewport(new QGLWidget()) below
 #endif
 
     QApplication app(argc, argv);   
@@ -63,24 +91,18 @@ int main(int argc, char *argv[])
             path.mkpath("/home/user/MyDocs/.cutetube");
         }
 #elif defined(Q_WS_X11)		// NPM: aka, MeeGo 
-	/*
-	 * NPM: TODO: below, note badness w/ using /home/meego, which works
-	 * for tablet, but not for netbook UX after vfirstboot allows user
-	 * to be set changed from default 'meego'
-	 */
 //      viewer.addImportPath(QString("/opt/qtm12/imports")); 
 //      viewer.addPluginPath(QString("/opt/qtm12/plugins"));
-        viewer.engine()->setOfflineStoragePath("/home/meego/.config/cutetube");
-        //        viewer.setViewport(new QGLWidget());
+        viewer.engine()->setOfflineStoragePath(QDir::homePath() + "/.config/cutetube");
 
         QDir path;
-        path.setPath("/home/meego/.config/cutetube");
+        path.setPath(QDir::homePath() + "/.config/cutetube");
         if (!path.exists()) {
-            path.mkpath("/home/meego/.config/cutetube");
+            path.mkpath(QDir::homePath() + "/.config/cutetube");
         }
-        path.setPath("/home/meego/.cutetube");
+        path.setPath(QDir::homePath() + "/.cutetube");
         if (!path.exists()) {
-            path.mkpath("/home/meego/.cutetube");
+            path.mkpath(QDir::homePath() + "/.cutetube");
         }
 #endif /* Q_WS_MAEMO_5 */
         QStringList proxyList = ct.getProxyFromDB();
@@ -110,6 +132,17 @@ int main(int argc, char *argv[])
         if (translator.load(languagePath)) {
             app.installTranslator(&translator);
         }
+
+#ifdef Q_WS_X11		// NPM: aka, MeeGo 
+	// Switch to GL rendering if it's available
+	QGLFormat format = QGLFormat::defaultFormat();
+	format.setSampleBuffers(false);
+	viewer.setViewport(new QGLWidget(format));
+	// each time we create a new viewport widget, we must redo our optimisations
+	viewer.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+	viewer.viewport()->setAttribute(Qt::WA_OpaquePaintEvent);
+	viewer.viewport()->setAttribute(Qt::WA_NoSystemBackground);
+#endif /* Q_WS_X11 */
 
         viewer.setMainQmlFile(QLatin1String("qml/qmltube/main.qml"));
         viewer.showExpanded();
