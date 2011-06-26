@@ -42,6 +42,7 @@ public slots:
     void convertToAudio(const QString &input);
     QString archiveFileExists(const QString &filePath, const QString &archivePath) const;
     bool pathExists(const QString &path);
+    QString homePath() const;		/* NPM */
     void copyToClipboard(const QString &url);
 
 private slots:

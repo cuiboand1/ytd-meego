@@ -380,6 +380,15 @@ void Controller::conversionFinished(int exitCode, QProcess::ExitStatus exitStatu
     }
 }
 
+// NPM replace 'folder: Controller.isSymbian ? "E:/" : "/home/meego/"' in FileChooserDialog.qml
+QString Controller::homePath() const {
+#ifdef Q_OS_SYMBIAN
+  return ("E:/");
+#else
+  return QDir::homePath();
+#endif
+}
+
 void Controller::copyToClipboard(const QString &url) {
     QApplication::clipboard()->setText(url);
     emit alert(tr("Copied to clipboard"));

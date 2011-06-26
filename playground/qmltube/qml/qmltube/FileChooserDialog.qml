@@ -61,7 +61,7 @@ Item {
             nameFilters: [ "*.ogv", "*.avi", "*.divx", "*.flv", "*.mp4", "*.mkv", "*.mpg", "*.wmv" ]
             showDotAndDotDot: !Controller.isSymbian
             showFiles: true
-            folder: Controller.isSymbian ? "E:/" : "/home/meego/"
+            folder: Controller.homePath //NPM: was 'folder: Controller.isSymbian ? "E:/" : "/home/meego/"'
         }
 
         header: Item {
