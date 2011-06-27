@@ -15,26 +15,7 @@
 
 #ifdef Q_WS_X11		// NPM: aka, MeeGo 
 #include <QtOpenGL/QGLWidget>	// needed for viewer.setViewport(new QGLWidget()) below.
-#include <QtOpenGL/QGLFormat>
-//QmlApplicationViewer viewer;
-//void doSwitchToGLRendering() {
-//  QGLFormat format = QGLFormat::defaultFormat();
-//  format.setSampleBuffers(false);
-//  viewer.setViewport(new QGLWidget(format));
-//
-//  // each time we create a new viewport widget, we must redo our optimisations
-//  viewer.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-//  viewer.viewport()->setAttribute(Qt::WA_OpaquePaintEvent);
-//  viewer.viewport()->setAttribute(Qt::WA_NoSystemBackground);
-//  //m_usingGl = true;
-//}
-//
-//// Switch to GL rendering if it's available
-//void switchToGLRendering(QmlApplicationViewer v) {
-//  viewer = v;
-//  //go once around event loop to avoid crash in egl
-//  QTimer::singleShot(0, v, SLOT(doSwitchToGLRendering()));
-//}
+//#include <QtOpenGL/QGLFormat>
 #endif /* Q_WS_X11 */
 
 int main(int argc, char *argv[])
@@ -44,17 +25,41 @@ int main(int argc, char *argv[])
 #endif
 #ifdef Q_WS_X11		// NPM: aka, MeeGo 
     QApplication::setApplicationName(QString("cutetube"));
-    QApplication::setGraphicsSystem("raster"); // actually, this gets overriden by using viewer.setViewport(new QGLWidget()) below
+    // NPM: unless '--raster' command-line option given, this gets
+    // overriden by using viewer.setViewport(new QGLWidget()) below
+    QApplication::setGraphicsSystem("raster"); 
 #endif
 
     QApplication app(argc, argv);   
     Controller ct;
     YouTube yt;
+    bool browser_mode = true;	// NPM
+    bool opengl_mode  = true;	// NPM
 
     QStringList args = app.arguments();
     args.takeFirst();
-    if (args.isEmpty()) {
+    if (!args.isEmpty()) {
+      QString arrrh = args.first();
+      if (arrrh == ("--play")) {
+	browser_mode = false;
+	args.takeFirst();
+	if (!arrrh.isEmpty()) {
+	  arrrh = args.first();
+	  if (arrrh == ("--raster")) {
+	    opengl_mode = false;
+	  }
+	}
+      }
+      else if (arrrh == ("--raster")) {
+	opengl_mode = false;
+      }
+      else {
+	qWarning() << "Invalid arguments";
+	exit(1);
+      }
+    }
 
+    if (browser_mode) {
         QmlApplicationViewer viewer;
 	viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
         viewer.setAttribute(Qt::WA_NoSystemBackground);
@@ -95,6 +100,45 @@ int main(int argc, char *argv[])
 //      viewer.addPluginPath(QString("/opt/qtm12/plugins"));
         viewer.engine()->setOfflineStoragePath(QDir::homePath() + "/.config/cutetube");
 
+	if (opengl_mode) {
+	  // NPM: trying to understand what these all do as suggested by
+	  // http://doc.qt.nokia.com/latest/qt-embeddedlinux-opengl.html
+	  // and http://meego.gitorious.org/meego-ux/meego-qml-launcher/blobs/master/src/launcherwindow.cpp#line355
+	  // --> LauncherWindow::doSwitchToGLRendering()
+	  //
+	  // http://doc.qt.nokia.com/latest/qglformat.html#defaultFormat
+	  // "Returns the default QGLFormat for the application. All QGLWidget objects that are created use this format unless another format is specified, e.g. when they are constructed."
+	  QGLFormat format = QGLFormat::defaultFormat();
+	  // http://doc.qt.nokia.com/latest/qglformat.html#setSampleBuffers
+	  // "If enable is true, a GL context with multisample buffer support is picked; otherwise ignored."
+	  format.setSampleBuffers(false);
+	  // http://doc.qt.nokia.com/latest/qglwidget.html#QGLWidget-3
+	  // "The format argument specifies the desired rendering options. If the underlying OpenGL/Window system cannot satisfy all the features requested in format, the nearest subset of features will be used. After creation, the format() method will return the actual format obtained. The widget will be invalid if the system has no OpenGL support."
+	  QGLWidget* glw = new QGLWidget(format);
+	  if (glw->isValid()) {
+	    viewer.setViewport(glw);
+	    // http://doc.qt.nokia.com/latest/qabstractscrollarea.html#setHorizontalScrollBarPolicy
+	    viewer.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	    // http://doc.qt.nokia.com/latest/qabstractscrollarea.html#verticalScrollBarPolicy-prop
+	    viewer.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+	    // http://doc.qt.nokia.com/latest/qgraphicsview.html#ViewportUpdateMode-enum
+	    // "When any visible part of the scene changes or is reexposed, QGraphicsView will update the entire viewport. This approach is fastest when QGraphicsView spends more time figuring out what to draw than it would spend drawing (e.g., when very many small items are repeatedly updated). This is the preferred update mode for viewports that do not support partial updates, such as QGLWidget, and for viewports that need to disable scroll optimization."
+	    viewer.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+
+	    // http://doc.qt.nokia.com/latest/qt.html#WidgetAttribute-enum
+	    // Qt::WA_OpaquePaintEvent -- "The use of WA_OpaquePaintEvent provides a small optimization by helping to reduce flicker on systems that do not support double buffering and avoiding computational cycles necessary to erase the background prior to painting. Note: Unlike WA_NoSystemBackground, WA_OpaquePaintEvent makes an effort to avoid transparent window backgrounds. This flag is set or cleared by the widget's author."
+	    viewer.viewport()->setAttribute(Qt::WA_OpaquePaintEvent);
+	    // http://doc.qt.nokia.com/latest/qt.html#WidgetAttribute-enum
+	    // Qt::WA_NoSystemBackground -- "Indicates that the widget has no background, i.e. when the widget receives paint events, the background is not automatically repainted. Note: Unlike WA_OpaquePaintEvent, newly exposed areas are never filled with the background (e.g., after showing a window for the first time the user can see "through" it until the application processes the paint events). This flag is set or cleared by the widget's author."
+	    viewer.viewport()->setAttribute(Qt::WA_NoSystemBackground);
+	    // http://doc.qt.nokia.com/latest/qframe.html#setFrameStyle
+	    viewer.setFrameStyle(QFrame::NoFrame); //QFrame draws nothing
+	  }
+	  else {
+	    qWarning() << "Unable to create QGLWidget: suggest trying '--raster' command-line option.";
+	  }
+	}
+
         QDir path;
         path.setPath(QDir::homePath() + "/.config/cutetube");
         if (!path.exists()) {
@@ -104,7 +148,7 @@ int main(int argc, char *argv[])
         if (!path.exists()) {
             path.mkpath(QDir::homePath() + "/.cutetube");
         }
-#endif /* Q_WS_MAEMO_5 */
+#endif /* defined(Q_WS_X11) */
         QStringList proxyList = ct.getProxyFromDB();
         QString proxyHost = proxyList.first();
         if (!proxyHost.isEmpty()) {
@@ -133,24 +177,12 @@ int main(int argc, char *argv[])
             app.installTranslator(&translator);
         }
 
-#ifdef Q_WS_X11		// NPM: aka, MeeGo 
-	// Switch to GL rendering if it's available
-	QGLFormat format = QGLFormat::defaultFormat();
-	format.setSampleBuffers(false);
-	viewer.setViewport(new QGLWidget(format));
-	// each time we create a new viewport widget, we must redo our optimisations
-	viewer.setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
-	viewer.viewport()->setAttribute(Qt::WA_OpaquePaintEvent);
-	viewer.viewport()->setAttribute(Qt::WA_NoSystemBackground);
-#endif /* Q_WS_X11 */
-
         viewer.setMainQmlFile(QLatin1String("qml/qmltube/main.qml"));
         viewer.showExpanded();
 
         return app.exec();
     }
-
-    else if (args.first() == ("--play")) {
+    else { //NPM: else play mode
         /* Get the video URL and play the video */
 
         QString playerUrl = args.at(1);
@@ -169,9 +201,5 @@ int main(int argc, char *argv[])
         yt.getVideoUrl(videoId);
 
         return app.exec();
-    }
-    else {
-        qWarning() << "Invalid arguments";
-        exit(1);
     }
 }

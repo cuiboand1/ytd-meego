@@ -303,7 +303,7 @@ void Controller::playVideo(const QString &url) {
     else {
         QDesktopServices::openUrl(QUrl::fromLocalFile(url));
     }
-#else // fallback for neither Q_WS_X11 nor Q_WS_MAEMO_5 (the orig cutetube code, not sure of purpose, perhaps for testing on windows??)
+#else // from the orig cutetube code, probably for fallthrough for Q_OS_SYMBIAN
     if (url.startsWith("http://")) {
         QFile ytlink("E:/Videos/cutetube/cutetube.ram");
         ytlink.open(QIODevice::WriteOnly);
