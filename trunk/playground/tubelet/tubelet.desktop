@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Categories=Application;Utility;
+Terminal=false
+Name=tubelet
+Exec=/opt/tubelet/bin/tubelet
+Icon=/usr/share/icons/hicolor/64x64/apps/tubelet.png
+Categories=AudioVideo;Audio;Video;Player;TV;

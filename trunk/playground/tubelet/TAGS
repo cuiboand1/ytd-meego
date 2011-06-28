@@ -1,0 +1,541 @@
+
+qml/qmltube/UserVideosView.qml,404
+    function setVideoFeed(21,516
+    function getUserProfile(35,913
+    function showUserInfoDialog(73,2524
+    function onMenuButtonOneClicked(87,2997
+    function onMenuButtonTwoClicked(102,3359
+    function onMenuButtonThreeClicked(108,3487
+    function onMenuButtonFourClicked(114,3634
+    function onMenuButtonFiveClicked(123,3850
+                function addOrRemoveFromCheckList(312,9866
+
+qml/qmltube/AccountsDialog.qml,67
+    function getAccounts(9,102
+    function deleteAccount(25,638
+
+qml/qmltube/ChangeUserDialog.qml,33
+    function getAccounts(11,140
+
+qml/qmltube/SettingsDialog.qml,311
+    function getSettings(60,2475
+    function saveSettings(85,4001
+    function showDownloadPathDialog(130,6178
+    function showProxyDialog(140,6578
+    function showSettingsList(147,6802
+    function changeSetting(162,7302
+    function clearSearches(218,9305
+    function deleteFacebookToken(229,9656
+
+qml/qmltube/WebDialog.qml,32
+    function setWebPage(10,122
+
+qml/qmltube/VideoInfoView.qml,213
+    function setVideo(31,845
+    function onMenuButtonOneClicked(61,1665
+    function onMenuButtonTwoClicked(71,1917
+    function onMenuButtonThreeClicked(80,2135
+    function onMenuButtonFourClicked(84,2223
+
+qml/qmltube/HomeView.qml,256
+    function showNoAccountDialog(20,551
+    function onMenuButtonOneClicked(30,890
+    function onMenuButtonTwoClicked(42,1280
+    function onMenuButtonThreeClicked(54,1655
+    function showConfirmExitDialog(66,2034
+    function closeDialogs(77,2402
+
+qml/qmltube/OAuthDialog.qml,70
+    function setService(14,245
+    function checkUrlForToken(18,315
+
+qml/qmltube/XtubeInfoView.qml,232
+    function setVideo(24,620
+    function setYouPornVideo(42,1028
+    function setPornHubVideo(71,2138
+    function setTubeEightVideo(94,2975
+    function setRedTubeVideo(115,3706
+                function loadVideos(451,15543
+
+qml/qmltube/InboxModel.qml,58
+    function setXml(9,565
+    function appendXml(17,873
+
+qml/qmltube/VideoListView.qml,323
+    function setVideoFeed(15,320
+    function onMenuButtonOneClicked(34,1088
+    function onMenuButtonTwoClicked(49,1450
+    function onMenuButtonThreeClicked(60,1721
+    function onMenuButtonFourClicked(66,1868
+    function onMenuButtonFiveClicked(75,2084
+                function addOrRemoveFromCheckList(166,4819
+
+qml/qmltube/DownloadList.qml,88
+    function indexInCheckList(8,90
+        function addToOrRemoveFromCheckList(35,902
+
+qml/qmltube/InboxDialog.qml,30
+    function getInbox(10,140
+
+qml/qmltube/UploadProgressDialog.qml,32
+    function setDetails(12,184
+
+qml/qmltube/NotificationArea.qml,166
+    function addTitle(15,365
+    function removeTitle(21,491
+    function showSearchBar(27,609
+    function closeSearchBar(36,835
+    function sortNumber(41,934
+
+qml/qmltube/SubscriptionsView.qml,118
+    function showUserInfoDialog(11,215
+    function closeDialogs(25,762
+    function onMenuButtonOneClicked(33,971
+
+qml/qmltube/CommentsModel.qml,58
+    function setXml(9,565
+    function appendXml(17,873
+
+qml/qmltube/SettingsListDialog.qml,37
+    function setSettingsList(12,174
+
+qml/qmltube/VideoListModel.qml,58
+    function setXml(9,565
+    function appendXml(17,873
+
+qml/qmltube/SearchDelegate.qml,16
+Rectangle 3,20
+
+qml/qmltube/VideoListDialog.qml,30
+    function setVideo(13,194
+
+qml/qmltube/PlaybackDelegate.qml,33
+    function getDuration(12,193
+
+qml/qmltube/AddCommentDialog.qml,32
+    function setService(12,166
+
+qml/qmltube/PlaylistVideosView.qml,474
+    function setPlaylist(16,350
+    function setVideoFeed(22,569
+    function setPlaylistXml(37,1036
+    function onMenuButtonOneClicked(47,1370
+    function onMenuButtonTwoClicked(62,1732
+    function onMenuButtonThreeClicked(66,1820
+    function onMenuButtonFourClicked(70,1913
+    function onMenuButtonFiveClicked(79,2129
+    function showPlaylistInfoDialog(83,2222
+    function playPlaylist(94,2738
+                function addOrRemoveFromCheckList(330,10726
+
+qml/qmltube/AddToPlaylistDialog.qml,11
+Item 3,20
+
+qml/qmltube/CommentsDelegate.qml,11
+Item 3,20
+
+qml/qmltube/SettingsDelegate.qml,11
+Item 3,20
+
+qml/qmltube/SubscriptionsModel.qml,58
+    function setXml(9,399
+    function appendXml(17,707
+
+qml/qmltube/PlaylistsView.qml,153
+    function showPlaylistDialog(11,201
+    function playPlaylist(22,679
+    function onMenuButtonOneClicked(28,803
+    function closeDialogs(38,1139
+
+qml/qmltube/AccountDetailsDialog.qml,105
+    function getAccountDetails(12,175
+    function resetDialog(22,493
+    function saveAccount(33,775
+
+qml/qmltube/FileChooserDelegate.qml,11
+Item 3,20
+
+qml/qmltube/XtubeListView.qml,145
+    function setSearchQuery(14,292
+    function youpornSearch(28,648
+    function pornhubSearch(41,1022
+    function tubeEightSearch(57,1485
+
+qml/qmltube/XtubeVideoList.qml,67
+    function setVideoFeed(17,364
+    function getVideoUrl(32,760
+
+qml/qmltube/UploadDialog.qml,251
+    function getCategory(12,130
+    function showCategoryList(22,391
+    function showFileChooser(34,818
+    function setFilename(40,1008
+    function startUpload(50,1272
+    function showUploadProgress(60,1664
+    function setCategory(67,1919
+
+qml/qmltube/CuteTubePage.qml,812
+    function userIsSignedIn(75,4401
+    function toggleBusy(89,4768
+    function toggleControls(93,4851
+    function setCategoryFeeds(105,5146
+    function createDownloadItem(189,8417
+    function addDownload(222,9754
+                function addAudioDownload(236,10240
+                                function appendDownload(380,18537
+                                function resumeDownload(391,19217
+                                function pauseDownload(395,19407
+                                function cancelDownload(404,19911
+                                function deleteDownload(413,20386
+                                function getNextDownload(431,21468
+                                function markItemAsOld(449,22388
+                                function displayMessage(556,28324
+
+qml/qmltube/PlaylistDialog.qml,113
+    function setPlaylist(18,366
+    function appendPlaylistVideos(39,1205
+    function setPlaylistXml(52,1792
+
+qml/qmltube/ArchiveListView.qml,592
+    function getArchiveVideos(17,414
+    function onMenuButtonOneClicked(30,961
+    function onMenuButtonTwoClicked(45,1323
+    function onMenuButtonThreeClicked(54,1506
+    function onMenuButtonFourClicked(61,1660
+    function onMenuButtonFiveClicked(70,1831
+    function playArchiveVideos(74,1902
+    function showDeleteDialog(100,3015
+    function deleteFromArchive(115,3543
+    function deleteFromDevice(135,4297
+    function sortByDate(155,5046
+    function sortByTitle(174,5532
+    function closeDialogs(193,6028
+                function addOrRemoveFromCheckList(250,7658
+
+qml/qmltube/VideoPlaybackView.qml,360
+    function setPlaylist(20,570
+    function setDoNotDisturb(38,1118
+    function getTime(47,1404
+    function previous(64,1933
+    function next(72,2098
+        function setVideo(164,4717
+        function getLikeIcon(223,6739
+                            function loadComments(1108,42274
+                            function appendComments(1126,43201
+
+qml/qmltube/ProxyDialog.qml,30
+    function setProxy(10,138
+
+qml/qmltube/MyAccountView.qml,163
+    function changeCurrentUser(15,337
+    function onMenuButtonOneClicked(27,751
+    function onMenuButtonTwoClicked(39,1137
+    function closeDialogs(53,1636
+
+qml/qmltube/SearchBar.qml,145
+    function getVideo(15,291
+    function parseSearchQuery(93,4379
+    function getSearches(109,4908
+    function changeSearchOrder(120,5276
+
+qml/qmltube/UserInfoDialog.qml,36
+    function getUserProfile(22,453
+
+qml/qmltube/PlaylistModel.qml,66
+        function setXml(9,411
+        function appendXml(17,747
+
+qmlapplicationviewer/qmlapplicationviewer.cpp,658
+struct QmlJsDebuggingEnabler34,1032
+    QmlJsDebuggingEnabler(QmlJsDebuggingEnabler::QmlJsDebuggingEnabler36,1063
+static QmlJsDebuggingEnabler enableDebuggingHelper;43,1238
+class QmlApplicationViewerPrivate47,1316
+    QString mainQmlFile;QmlApplicationViewerPrivate::mainQmlFile49,1352
+QString QmlApplicationViewerPrivate::adjustPath(54,1472
+QmlApplicationViewer::QmlApplicationViewer(74,2094
+QmlApplicationViewer::~QmlApplicationViewer(88,2579
+void QmlApplicationViewer::setMainQmlFile(93,2646
+void QmlApplicationViewer::addImportPath(99,2838
+void QmlApplicationViewer::setOrientation(104,2981
+void QmlApplicationViewer::showExpanded(147,4491
+
+main.cpp,17
+int main(21,511
+
+folderlistmodel.cpp,2462
+class QDeclarativeFolderListModelPrivate49,2104
+    QDeclarativeFolderListModelPrivate(QDeclarativeFolderListModelPrivate::QDeclarativeFolderListModelPrivate52,2155
+    void updateSorting(QDeclarativeFolderListModelPrivate::updateSorting57,2334
+    QDirModel model;QDeclarativeFolderListModelPrivate::model83,3047
+    QUrl folder;QDeclarativeFolderListModelPrivate::folder84,3068
+    QStringList nameFilters;QDeclarativeFolderListModelPrivate::nameFilters85,3085
+    QModelIndex folderIndex;QDeclarativeFolderListModelPrivate::folderIndex86,3114
+    QDeclarativeFolderListModel::SortField sortField;QDeclarativeFolderListModelPrivate::sortField87,3143
+    bool sortReversed;QDeclarativeFolderListModelPrivate::sortReversed88,3197
+    int count;QDeclarativeFolderListModelPrivate::count89,3220
+QDeclarativeFolderListModel::QDeclarativeFolderListModel(120,4216
+QDeclarativeFolderListModel::~QDeclarativeFolderListModel(140,5192
+QVariant QDeclarativeFolderListModel::data(145,5271
+int QDeclarativeFolderListModel::rowCount(158,5762
+QUrl QDeclarativeFolderListModel::folder(171,6102
+void QDeclarativeFolderListModel::setFolder(176,6178
+QUrl QDeclarativeFolderListModel::parentFolder(189,6581
+QStringList QDeclarativeFolderListModel::nameFilters(224,7500
+void QDeclarativeFolderListModel::setNameFilters(229,7593
+void QDeclarativeFolderListModel::classBegin(235,7750
+void QDeclarativeFolderListModel::componentComplete(239,7802
+QDeclarativeFolderListModel::SortField QDeclarativeFolderListModel::sortField(248,8115
+void QDeclarativeFolderListModel::setSortField(253,8231
+bool QDeclarativeFolderListModel::sortReversed(261,8397
+void QDeclarativeFolderListModel::setSortReversed(266,8485
+bool QDeclarativeFolderListModel::isFolder(280,8799
+void QDeclarativeFolderListModel::refresh(290,9046
+void QDeclarativeFolderListModel::inserted(307,9528
+void QDeclarativeFolderListModel::removed(316,9804
+void QDeclarativeFolderListModel::dataChanged(325,10079
+bool QDeclarativeFolderListModel::showDirs(338,10476
+void  QDeclarativeFolderListModel::setShowDirs(343,10578
+bool QDeclarativeFolderListModel::showFiles(353,10888
+void QDeclarativeFolderListModel::setShowFiles(358,10989
+bool QDeclarativeFolderListModel::showDotAndDotDot(375,11473
+void  QDeclarativeFolderListModel::setShowDotAndDotDot(380,11593
+bool QDeclarativeFolderListModel::showOnlyReadable(397,12054
+void QDeclarativeFolderListModel::setShowOnlyReadable(402,12165
+
+downloadmanager.cpp,562
+DownloadManager::DownloadManager(11,189
+void DownloadManager::setNetworkAccessManager(22,487
+void DownloadManager::setDownloadQuality(26,589
+void DownloadManager::getVideoUrl(30,706
+void DownloadManager::parseVideoPage(38,1147
+void DownloadManager::pauseDownload(80,2548
+void DownloadManager::cancelDownload(84,2619
+void DownloadManager::startDownload(90,2759
+void DownloadManager::performDownload(118,3636
+void DownloadManager::updateProgress(134,4324
+void DownloadManager::downloadFinished(151,4839
+void DownloadManager::downloadReadyRead(190,6283
+
+sharing.cpp,182
+Sharing::Sharing(7,128
+void Sharing::setNetworkAccessManager(12,240
+void Sharing::setFacebookToken(16,334
+void Sharing::postToFacebook(26,594
+void Sharing::postFinished(62,2110
+
+controller.cpp,962
+Controller::Controller(28,662
+void Controller::setView(40,1049
+void Controller::toggleState(44,1126
+bool Controller::osIsSymbian(53,1287
+void Controller::keepDisplayOn(57,1351
+void Controller::doNotDisturb(83,2463
+QString Controller::getLanguage(115,3433
+void Controller::setOrientation(135,4035
+void Controller::minimize(147,4469
+void Controller::setMediaPlayer(160,4854
+bool Controller::widgetInstalled(164,4967
+void Controller::getMediaPlayerFromDB(185,5780
+QStringList Controller::getProxyFromDB(207,6477
+bool Controller::xTubeInstalled(234,7292
+QStringList Controller::getInstalledMediaPlayers(253,8098
+void Controller::playVideo(271,8743
+void Controller::deleteVideo(321,10646
+QString Controller::archiveFileExists(335,10997
+bool Controller::pathExists(350,11409
+void Controller::convertToAudio(355,11508
+void Controller::conversionFinished(366,11838
+QString Controller::homePath(384,12401
+void Controller::copyToClipboard(392,12521
+
+youtube.cpp,1129
+YouTube::YouTube(13,262
+void YouTube::setNetworkAccessManager(22,578
+void YouTube::setPlaybackQuality(26,672
+void YouTube::login(30,781
+void YouTube::checkLogin(39,1356
+void YouTube::setCurrentUser(63,2051
+void YouTube::setAccessToken(68,2161
+void YouTube::uploadVideo(73,2287
+void YouTube::setUploadUrl(119,4748
+void YouTube::performVideoUpload(137,5399
+void YouTube::resumeVideoUpload(151,6077
+void YouTube::abortVideoUpload(180,7348
+void YouTube::uploadFinished(186,7484
+void YouTube::postRequest(212,8285
+void YouTube::postFinished(226,8978
+void YouTube::deleteRequest(250,9885
+void YouTube::addToFavourites(263,10489
+void YouTube::deleteFromFavourites(274,11038
+void YouTube::addToPlaylist(280,11317
+void YouTube::deleteFromPlaylist(291,11889
+void YouTube::createNewPlaylist(297,12192
+void YouTube::deletePlaylist(313,13087
+void YouTube::subscribeToChannel(319,13352
+void YouTube::unsubscribeToChannel(332,14071
+void YouTube::rateVideo(338,14351
+void YouTube::addComment(350,15013
+void YouTube::replyToComment(361,15646
+void YouTube::getVideoUrl(374,16519
+void YouTube::parseVideoPage(383,16971
+
+controller.h,490
+#define CONTROLLER_H2,21
+class Controller 12,156
+    Q_PROPERTY(Controller::Q_PROPERTY15,206
+    QString getMediaPlayer(Controller::getMediaPlayer33,695
+    QmlApplicationViewer *m_view;Controller::m_view52,1391
+    QString mediaPlayer;Controller::mediaPlayer53,1425
+    QProcess *converter;Controller::converter54,1450
+    QString inputFile;Controller::inputFile55,1475
+    QString outputFile;Controller::outputFile56,1498
+    bool isSymbian;Controller::isSymbian57,1522
+
+qmlapplicationviewer/qmlapplicationviewer.h,562
+#define QMLAPPLICATIONVIEWER_H12,440
+class QmlApplicationViewer 16,515
+    enum ScreenOrientation QmlApplicationViewer::ScreenOrientation21,592
+        ScreenOrientationLockPortrait,QmlApplicationViewer::ScreenOrientation::ScreenOrientationLockPortrait22,621
+        ScreenOrientationLockLandscape,QmlApplicationViewer::ScreenOrientation::ScreenOrientationLockLandscape23,660
+        ScreenOrientationAutoQmlApplicationViewer::ScreenOrientation::ScreenOrientationAuto24,700
+    class QmlApplicationViewerPrivate *m_d;QmlApplicationViewer::m_d39,1089
+
+youtube.h,841
+#define YouTube_H2,18
+class YouTube 13,206
+    Q_PROPERTY(YouTube::Q_PROPERTY15,252
+    QString getCurrentUser(YouTube::getCurrentUser25,594
+    QString getAccessToken(YouTube::getAccessToken26,653
+    QNetworkAccessManager *nam;YouTube::nam60,2303
+    QFile *fileToBeUploaded;YouTube::fileToBeUploaded61,2335
+    QUrl uploadUrl;YouTube::uploadUrl62,2364
+    int uploadRetries;YouTube::uploadRetries63,2384
+    QNetworkReply *uploadReply;YouTube::uploadReply64,2407
+    QByteArray developerKey;YouTube::developerKey65,2439
+    QString accessToken;YouTube::accessToken66,2468
+    QString currentUser;YouTube::currentUser67,2493
+    int playbackFormat;YouTube::playbackFormat68,2518
+    QHash<YouTube::QHash69,2542
+    QHash<QString, int> pbMap;YouTube::pbMap69,2542
+    QString message;YouTube::message70,2573
+
+sharing.h,369
+#define SHARING_H2,18
+class Sharing 13,213
+    Q_PROPERTY(Sharing::Q_PROPERTY15,259
+    QString getFacebookToken(Sharing::getFacebookToken24,534
+    QString getFacebookId(Sharing::getFacebookId27,612
+    QNetworkAccessManager *nam;Sharing::nam37,966
+    QString facebookId;Sharing::facebookId38,998
+    QString facebookToken;Sharing::facebookToken39,1022
+
+folderlistmodel.h,1162
+#define QDECLARATIVEFOLDERLISTMODEL_H43,2016
+QT_MODULE(54,2192
+class QDeclarativeFolderListModel 61,2306
+    Q_INTERFACES(64,2416
+    enum Roles 81,3268
+    enum Roles { FileNameRole 81,3268
+    enum Roles { FileNameRole = Qt::UserRole+QDeclarativeFolderListModel::Roles::Qt::UserRole81,3268
+    enum Roles { FileNameRole = Qt::UserRole+1, FilePathRole QDeclarativeFolderListModel::Roles::FilePathRole81,3268
+    enum Roles { FileNameRole = Qt::UserRole+1, FilePathRole = Qt::UserRole+QDeclarativeFolderListModel::Roles::Qt::UserRole81,3268
+    int count(QDeclarativeFolderListModel::count86,3463
+    enum SortField QDeclarativeFolderListModel::SortField96,3711
+    enum SortField { Unsorted,QDeclarativeFolderListModel::SortField::Unsorted96,3711
+    enum SortField { Unsorted, Name,QDeclarativeFolderListModel::SortField::Name96,3711
+    enum SortField { Unsorted, Name, Time,QDeclarativeFolderListModel::SortField::Time96,3711
+    enum SortField { Unsorted, Name, Time, Size,QDeclarativeFolderListModel::SortField::Size96,3711
+    enum SortField { Unsorted, Name, Time, Size, Type QDeclarativeFolderListModel::SortField::Type96,3711
+
+downloadmanager.h,716
+#define DOWNLOADMANAGER_H2,26
+class DownloadManager 16,273
+    Q_PROPERTY(DownloadManager::Q_PROPERTY19,328
+    bool isDownloading(DownloadManager::isDownloading27,565
+    void setIsDownloading(DownloadManager::setIsDownloading44,1084
+    QNetworkAccessManager *nam;DownloadManager::nam47,1206
+    int downloadFormat;DownloadManager::downloadFormat48,1238
+    QHash<DownloadManager::QHash49,1262
+    QHash<QString, int> dlMap;DownloadManager::dlMap49,1262
+    QFile output;DownloadManager::output50,1293
+    QNetworkReply *downloadReply;DownloadManager::downloadReply51,1311
+    QTime downloadTime;DownloadManager::downloadTime52,1345
+    bool downloading;DownloadManager::downloading53,1369
+
+tubelet.pro,30
+folder_01.source source2,54
+
+tubelet.desktop,246
+Encoding=2,16
+Categories=Application;Utility;5,60
+Terminal=6,92
+Categories=AudioVideo;Audio;10,208
+Categories=AudioVideo;Audio;Video;10,208
+Categories=AudioVideo;Audio;Video;Player;10,208
+Categories=AudioVideo;Audio;Video;Player;TV;10,208
+
+qml/qmltube/ListFilter.qml,0
+
+qml/qmltube/BusyDialog.qml,0
+
+qml/qmltube/VideoListDelegate.qml,0
+
+qml/qmltube/XListDelegate.qml,0
+
+qml/qmltube/TextEntryButton.qml,0
+
+qml/qmltube/MenuBar.qml,0
+
+qml/qmltube/PlaylistDelegate.qml,0
+
+qml/qmltube/MenuButton.qml,0
+
+qml/qmltube/MessageBanner.qml,0
+
+qml/qmltube/CheckBox.qml,0
+
+qml/qmltube/CloseButton.qml,0
+
+qml/qmltube/PushButton.qml,0
+
+qml/qmltube/LabelBox.qml,0
+
+qml/qmltube/ArchiveDelegate.qml,0
+
+qml/qmltube/AboutDialog.qml,0
+
+qml/qmltube/AccountDelegate.qml,0
+
+qml/qmltube/SubscriptionDelegate.qml,0
+
+qml/qmltube/ScrollBar.qml,0
+
+qml/qmltube/InboxDelegate.qml,0
+
+qml/qmltube/NoAccountDialog.qml,0
+
+qml/qmltube/HelpDialog.qml,0
+
+qml/qmltube/ConfirmExitDialog.qml,0
+
+qml/qmltube/ToolButton.qml,0
+
+qml/qmltube/FileChooserDialog.qml,0
+
+qml/qmltube/ProgressBar.qml,0
+
+qml/qmltube/main.qml,0
+
+qml/qmltube/ConfirmDeleteDialog.qml,0
+
+qml/qmltube/DownloadListDelegate.qml,0
+
+qml/qmltube/ValueButton.qml,0
+
+qml/qmltube/NewPlaylistDialog.qml,0
+
+qml/qmltube/LineEdit.qml,0
+
+qml/qmltube/ExpandingImage.qml,0
+
+qml/qmltube/ListHighlight.qml,0
