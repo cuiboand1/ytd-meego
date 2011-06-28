@@ -186,30 +186,29 @@ Item {
         }        
     }
 
-    Media.MediaToolbar {	// NPM
-            id: playbar;
-            visible: true
-            width: videoPlayer.width
-            anchors.horizontalCenter: videoPlayer.horizontalCenter
-            anchors.verticalCenter: videoPlayer.verticalCenter
-            height: 55
-            showplay: true
-            ispause: videoPlayer.paused
-            showprev: true
-            shownext: true
-//	    showfavourite: true
-//	    showunfavourite: false
-//	    showrmfromqueue: true
-//	    showrmfromplaylist: true
-//	    showaddtoqueue: true
-//	    showaddtoplaylist: true
-//	    showdelete: true
-            onPlayPressed: videoPlayer.paused = false
-            onPausePressed:videoPlayer.paused = true
-            onPrevPressed: videoPlayer.position -= 5000;
-            onNextPressed: videoPlayer.position += 5000;
-    }
-
+//    Media.MediaToolbar {	// NPM
+//            id: playbar;
+//            visible: true
+//            width: videoPlayer.width
+//            anchors.horizontalCenter: videoPlayer.horizontalCenter
+//            anchors.verticalCenter: videoPlayer.verticalCenter
+//            height: 55
+//            showplay: true
+//            ispause: videoPlayer.paused
+//            showprev: true
+//            shownext: true
+////	    showfavourite: true
+////	    showunfavourite: false
+////	    showrmfromqueue: true
+////	    showrmfromplaylist: true
+////	    showaddtoqueue: true
+////	    showaddtoplaylist: true
+////	    showdelete: true
+//            onPlayPressed: videoPlayer.paused = false
+//            onPausePressed:videoPlayer.paused = true
+//            onPrevPressed: videoPlayer.position -= 5000;
+//            onNextPressed: videoPlayer.position += 5000;
+//    }
 
     Item {
         id: controls
