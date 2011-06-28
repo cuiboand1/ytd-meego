@@ -178,7 +178,8 @@ int main(int argc, char *argv[])
         }
 
         viewer.setMainQmlFile(QLatin1String("qml/qmltube/main.qml"));
-        viewer.showExpanded();
+	//viewer.showExpanded();
+	viewer.showFullScreen();
 
         return app.exec();
     }
