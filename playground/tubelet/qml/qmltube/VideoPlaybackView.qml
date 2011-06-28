@@ -15,8 +15,6 @@ Item {
 
     signal playbackStopped
 
-    MeeGo.Theme { id: theme }
-
     function setPlaylist(videoList) {
         for (var i = 0; i < videoList.length; i++) {
             playbackModel.append(videoList[i]);
