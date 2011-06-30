@@ -63,10 +63,11 @@ void Controller::keepDisplayOn() {
                                           systemDbusConnection, this);
     mceConnectionInterface.call("req_display_blanking_pause");
 #elif defined(Q_WS_X11)		// NPM: aka, MeeGo 
-    //NPM: suggested by meego-qml-launcher/src/launcherwindow.cpp to
-    //inhibit screensaver in meego-ux. ... it's not freedesktop.org
-    //standard and is meego specific, but there's no Q_WS_MEEGO to help
-    //differentiate between generic X11 and Meego.
+    //NPM: suggested by LauncherWindow::setInhibitScreenSaver (
+    //http://meego.gitorious.org/meego-ux/meego-qml-launcher/blobs/master/src/launcherwindow.cpp#line355 ).
+    //Alas, it is not a freedesktop.org standard and is meego specific,
+    //but there's no Q_WS_MEEGO to help differentiate between generic X11
+    //and Meego cavalier abuse of established standards...
     bool m_inhibitScreenSaver = true;
     Atom inhibitAtom = XInternAtom(QX11Info::display(), "_MEEGO_INHIBIT_SCREENSAVER", false);
     XChangeProperty(QX11Info::display(),
