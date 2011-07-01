@@ -26,7 +26,6 @@ ListView {
     highlightRangeMode: ListView.StrictlyEnforceRange
     cacheBuffer: 2500
     interactive: (downloadList.height) > (downloadList.parent.height - 10)
-
     model: downloadModel
 
     delegate: DownloadListDelegate {

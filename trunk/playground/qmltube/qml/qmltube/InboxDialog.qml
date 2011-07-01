@@ -22,7 +22,7 @@ Item {
         }
 
         doc.open("GET", "http://gdata.youtube.com/feeds/api/users/default/inbox?v=2&max-results=50");
-        doc.setRequestHeader("Authorization", "GoogleLogin auth=" + YouTube.accessToken);
+        doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
         doc.send();
     }
 

@@ -8,7 +8,10 @@ function initialize() {
                 function(tx) {
                     // Create the settings table if it doesn't already exist
                     // If the table exists, this is skipped
-                    tx.executeSql('CREATE TABLE IF NOT EXISTS accounts(username TEXT UNIQUE, password TEXT, isDefault INTEGER)');
+                    tx.executeSql('DROP TABLE IF EXISTS accounts');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS youtubeAccounts(username TEXT UNIQUE, accessToken TEXT, isDefault INTEGER)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS dailymotionAccounts(username TEXT UNIQUE, accessToken TEXT, refreshToken TEXT, tokenExpiry INTEGER, isDefault INTEGER)');
+                    tx.executeSql('CREATE TABLE IF NOT EXISTS vimeoAccounts(username TEXT UNIQUE, accessToken TEXT, tokenSecret TEXT, isDefault INTEGER)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS settings(setting TEXT UNIQUE, value TEXT)');
                     tx.executeSql('CREATE TABLE IF NOT EXISTS searches(searchterm TEXT UNIQUE)');
                     tx.executeSql('DROP TABLE IF EXISTS downloads');
@@ -26,22 +29,33 @@ function initialize() {
                 });
 }
 
-function addOrEditAccount(username, password, isDefault) {
+function getAccountTable(site) {
+    var table;
+    if (site == "YouTube") {
+        table = "youtubeAccounts";
+    }
+    else if (site == "Dailymotion") {
+        table = "dailymotionAccounts";
+    }
+    else if (site == "vimeo") {
+        table = "vimeoAccounts";
+    }
+    return table;
+}
+
+function addYouTubeAccount(username, accessToken, isDefault) {
     /* Add a new account to the database, or replace exitsing one if key (username) exists */
 
     var db = getDatabase();
-    var res = "";
+    var res = false;
     db.transaction(function(tx) {
                        if (isDefault == 1) {
                            // If new/edited account is set as default, set all other isDefault to 0
-                           tx.executeSql('UPDATE accounts SET isDefault = 0;');
+                           tx.executeSql('UPDATE youtubeAccounts SET isDefault = 0;');
                        }
-                       var rs = tx.executeSql('INSERT OR REPLACE INTO accounts VALUES (?,?,?);', [ username, password, isDefault ]);
+                       var rs = tx.executeSql('INSERT OR REPLACE INTO youtubeAccounts VALUES (?,?,?);', [ username, accessToken, isDefault ]);
                        if (rs.rowsAffected > 0) {
-                           res = "OK";
-                       }
-                       else {
-                           res = "Error";
+                           res = true;
                        }
                    }
                    );
@@ -49,18 +63,53 @@ function addOrEditAccount(username, password, isDefault) {
     return res;
 }
 
-function deleteAccount(username) {
+function addDailymotionAccount(username, accessToken, refreshToken, tokenExpiry, isDefault) {
+    var db = getDatabase();
+    var res = false;
+    db.transaction(function(tx) {
+                       if (isDefault == 1) {
+                           // If new/edited account is set as default, set all other isDefault to 0
+                           tx.executeSql('UPDATE dailymotionAccounts SET isDefault = 0;');
+                       }
+                       var rs = tx.executeSql('INSERT OR REPLACE INTO dailymotionAccounts VALUES (?,?,?,?,?);', [ username, accessToken, refreshToken, tokenExpiry, isDefault ]);
+                       if (rs.rowsAffected > 0) {
+                           res = true;
+                       }
+                   }
+                   );
+    //console.log(res);
+    return res;
+}
+
+function addVimeoAccount(username, accessToken, tokenSecret, isDefault) {
+    var db = getDatabase();
+    var res = false;
+    db.transaction(function(tx) {
+                       if (isDefault == 1) {
+                           // If new/edited account is set as default, set all other isDefault to 0
+                           tx.executeSql('UPDATE vimeoAccounts SET isDefault = 0;');
+                       }
+                       var rs = tx.executeSql('INSERT OR REPLACE INTO vimeoAccounts VALUES (?,?,?,?);', [ username, accessToken, tokenSecret, isDefault ]);
+                       if (rs.rowsAffected > 0) {
+                           res = true;
+                       }
+                   }
+                   );
+    //console.log(res);
+    return res;
+}
+
+function deleteAccount(username, site) {
     /* Delete the account with matching username from the database */
 
+    var table = getAccountTable(site);
+
     var db = getDatabase();
-    var res = "";
+    var res = false;
     db.transaction(function(tx) {
-                       var rs = tx.executeSql('DELETE FROM accounts WHERE username = ?;', [ username ]);
+                       var rs = tx.executeSql('DELETE FROM ' + table + ' WHERE username = ?;', [ username ]);
                        if (rs.rowsAffected > 0) {
-                           res = "OK";
-                       }
-                       else {
-                           res = "Error";
+                           res = true;
                        }
                    }
                    );
@@ -68,15 +117,18 @@ function deleteAccount(username) {
     return res;
 }
 
-function getAccount(username) {
+function getAccount(username, site) {
     /* Retreive an existing account */
+
+    var table = getAccountTable(site);
 
     var db = getDatabase();
     var res = [];
     db.transaction(function(tx) {
-                       var rs = tx.executeSql('SELECT * FROM accounts WHERE username = ?;', [ username ]);
+                       var rs = tx.executeSql('SELECT * FROM ' + table + ' WHERE username = ?;', [ username ]);
                        if (rs.rows.length > 0) {
-                           res = [ rs.rows.item(0).username, rs.rows.item(0).password, rs.rows.item(0).isDefault ];
+                           res = rs.rows.item(0);
+                           res["site"] = site;
                        }
                        else {
                            res = "unknown";
@@ -87,21 +139,25 @@ function getAccount(username) {
     return res
 }
 
-function getDefaultAccount() {
-    /* Retrieve the default account username and password */
+function getDefaultAccount(site) {
+    /* Retrieve the default account */
+
+    var table = getAccountTable(site);
 
     var db = getDatabase();
     var res = "unknown";
     db.transaction(function(tx) {
-                       var rs = tx.executeSql('SELECT username, password FROM accounts WHERE isDefault = 1;');
+                       var rs = tx.executeSql('SELECT * FROM ' + table + ' WHERE isDefault = 1;');
                        if (rs.rows.length > 0) {
-                           res = [ rs.rows.item(0).username, rs.rows.item(0).password ];
+                           res = rs.rows.item(0);
+                           res["site"] = site;
                        }
                        else {
                            // Fallback if no account is set as default
-                           var accounts = getAllAccounts();
+                           var accounts = getAllAccounts(site);
                            if (accounts.length > 0) {
-                               res = [ accounts[0][0], accounts[0][1] ];
+                               res = accounts[0];
+                               res["site"] = site;
                            }
                        }
                    });
@@ -109,16 +165,19 @@ function getDefaultAccount() {
     return res
 }
 
-function getAllAccounts() {
+function getAllAccounts(site) {
     /* Retrieve all accounts from the database */
+
+    var table = getAccountTable(site);
 
     var db = getDatabase();
     var res = [];
     db.transaction(function(tx) {
-                       var rs = tx.executeSql('SELECT * FROM accounts;');
+                       var rs = tx.executeSql('SELECT * FROM ' + table + ';');
                        if (rs.rows.length > 0) {
                            for(var i = 0; i < rs.rows.length; i++) {
-                               res[i] = [ rs.rows.item(i).username, rs.rows.item(i).password, rs.rows.item(i).isDefault ];
+                               res[i] = rs.rows.item(i);
+                               res[i]["site"] = site;
                            }
                        }
                    }
@@ -138,9 +197,11 @@ function setDefaultSettings() {
                     [ "categoryFeedTwo", "MostViewed"],
                     [ "categoryOrder", "relevance"],
                     [ "safeSearch", "none" ],
+                    [ "familyFilter", "false"],
                     [ "screenOrientation", "automatic" ],
                     [ "mediaPlayer", "cuteTube Player" ],
                     [ "searchOrder", "relevance" ],
+                    [ "searchSite", "YouTube" ],
                     [ "theme", "nightred" ],
                     [ "language", "en" ],
                     [ "proxy", ":"],
@@ -164,14 +225,11 @@ function setSetting(setting, value) {
     /* Add a new (setting, value) or replace if key (setting) exists */
 
     var db = getDatabase();
-    var res= "";
+    var res = false;
     db.transaction(function(tx) {
                        var rs = tx.executeSql('INSERT OR REPLACE INTO settings VALUES (?,?);', [ setting, value ]);
                        if (rs.rowsAffected > 0) {
-                           res = "OK";
-                       }
-                       else {
-                           res = "Error";
+                           res = true;
                        }
                    }
                    );
@@ -220,14 +278,11 @@ function addSearchTerm(searchterm) {
     /* Add a new search term if it does not already exist */
 
     var db = getDatabase();
-    var res = "";
+    var res = false;
     db.transaction(function(tx) {
                        var rs = tx.executeSql('INSERT OR REPLACE INTO searches VALUES (?);', [ searchterm ]);
                        if (rs.rowsAffected > 0) {
-                           res = "OK";
-                       }
-                       else {
-                           res = "Error";
+                           res = true;
                        }
                    }
                    );
@@ -239,14 +294,11 @@ function clearSearches() {
     /* Delete all saved searches from the database */
 
     var db = getDatabase();
-    var res = "";
+    var res = false;
     db.transaction(function(tx) {
                        var rs = tx.executeSql('DELETE FROM searches;');
                        if (rs.rowsAffected > 0) {
-                           res = "OK";
-                       }
-                       else {
-                           res = "Error";
+                           res = true;
                        }
                    }
                    );
@@ -258,15 +310,12 @@ function addVideoToArchive(video) {
     /* Add a new video to the archive */
 
     var db = getDatabase();
-    var res = "";
+    var res = false;
     db.transaction(function(tx) {
                        var rs = tx.executeSql('INSERT OR REPLACE INTO archive VALUES (?, ?, ?, ?, ?, ?);', [ video.filePath, video.title,
-                                                                                                         video.thumbnail, video.quality, video.isNew, video.date ]);
+                                                                                                            video.thumbnail, video.quality, video.isNew, video.date ]);
                        if (rs.rowsAffected > 0) {
-                           res = "OK";
-                       }
-                       else {
-                           res = "Error";
+                           res = true;
                        }
                    }
                    );
@@ -345,14 +394,11 @@ function deleteVideoFromArchive(filePath) {
     /* Delete the video with matching filePath from the archive */
 
     var db = getDatabase();
-    var res = "";
+    var res = false;
     db.transaction(function(tx) {
                        var rs = tx.executeSql('DELETE FROM archive WHERE filePath = ?;', [ filePath ]);
                        if (rs.rowsAffected > 0) {
-                           res = "OK";
-                       }
-                       else {
-                           res = "Error";
+                           res = true;
                        }
                    }
                    );
@@ -365,15 +411,12 @@ function storeDownload(video) {
 
     var convert = video.convert ? 1 : 0;
     var db = getDatabase();
-    var res = "";
+    var res = false;
     db.transaction(function(tx) {
                        var rs = tx.executeSql('INSERT OR REPLACE INTO savedDownloads VALUES (?, ?, ?, ?, ?);', [ video.filePath, video.playerUrl,
                                                                                                                 video.title, video.thumbnail, convert ]);
                        if (rs.rowsAffected > 0) {
-                           res = "OK";
-                       }
-                       else {
-                           res = "Error";
+                           res = true;
                        }
                    }
                    );
@@ -385,14 +428,11 @@ function removeStoredDownload(filePath) {
     /* Delete the video with matching filePath from the stored downloads */
 
     var db = getDatabase();
-    var res = "";
+    var res = false;
     db.transaction(function(tx) {
                        var rs = tx.executeSql('DELETE FROM savedDownloads WHERE filePath = ? OR filePath = ?;', [ filePath, "" ]);
                        if (rs.rowsAffected > 0) {
-                           res = "OK";
-                       }
-                       else {
-                           res = "Error";
+                           res = true;
                        }
                    }
                    );
@@ -414,7 +454,7 @@ function restoreDownloads() {
                                    thumbnail: rs.rows.item(i).thumbnail,
                                    playerUrl: rs.rows.item(i).playerUrl,
                                    status: "paused",
-                               }
+                           }
                                removeStoredDownload(rs.rows.item(i).filePath);
                                if (rs.rows.item(i).convert == 1) {
                                    addAudioDownload(downloadItem);
@@ -444,7 +484,7 @@ function saveAccessToken(service, token, secret) {
                         }
                     }
                 });
-//    console.log(result);
+    //    console.log(result);
     return result;
 }
 
@@ -463,7 +503,7 @@ function getAccessToken(service) {
                         }
                     }
                 });
-//    console.log(accessToken);
+    //    console.log(accessToken);
     return accessToken;
 }
 
@@ -471,14 +511,11 @@ function deleteAccessToken(service) {
     /* Delete the access token for the service */
 
     var db = getDatabase();
-    var res = "";
+    var res = false;
     db.transaction(function(tx) {
                        var rs = tx.executeSql('DELETE FROM oauth WHERE service = ?;', [ service ]);
                        if (rs.rowsAffected > 0) {
-                           res = "OK";
-                       }
-                       else {
-                           res = "Error";
+                           res = true;
                        }
                    }
                    );

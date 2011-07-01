@@ -17,9 +17,9 @@ Item {
         font.pixelSize: _SMALL_FONT_SIZE
         color: _TEXT_COLOR
         text: mouseArea.pressed ? qsTr("By ") + "<font color='" + _ACTIVE_COLOR_HIGH + "'>"
-                                  + author + "</font>" + qsTr(" on ") + date.split("T")[0]
+                                  + author + "</font>" + qsTr(" on ") + date.split(/\s|T/)[0]
                                 : qsTr("By ") + "<font color='" + _ACTIVE_COLOR_LOW + "'>"
-                                  + author + "</font>" + qsTr(" on ") + date.split("T")[0]
+                                  + author + "</font>" + qsTr(" on ") + date.split(/\s|T/)[0]
 
         MouseArea {
             id: mouseArea

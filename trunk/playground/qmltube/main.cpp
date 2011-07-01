@@ -1,6 +1,8 @@
 #include "qmlapplicationviewer.h"
 #include "controller.h"
 #include "youtube.h"
+#include "dailymotion.h"
+#include "vimeo.h"
 #include "sharing.h"
 #include "downloadmanager.h"
 #include "folderlistmodel.h"
@@ -20,21 +22,21 @@
 
 int main(int argc, char *argv[])
 {
-#ifdef Q_WS_MAEMO_5
-    QApplication::setApplicationName(QString("cutetube"));
-#endif
+    QApplication app(argc, argv);   
+    QApplication::setApplicationName(QString("cuteTube"));
+    Controller ct;
+    YouTube yt;
+    DailyMotion daily;
+    Vimeo vimeo;
+
+    bool browser_mode = true;	// NPM
+    bool opengl_mode  = true;	// NPM
+
 #ifdef Q_WS_X11		// NPM: aka, MeeGo 
-    QApplication::setApplicationName(QString("cutetube"));
     // NPM: unless '--raster' command-line option given, this gets
     // overriden by using viewer.setViewport(new QGLWidget()) below
     QApplication::setGraphicsSystem("raster"); 
 #endif
-
-    QApplication app(argc, argv);   
-    Controller ct;
-    YouTube yt;
-    bool browser_mode = true;	// NPM
-    bool opengl_mode  = true;	// NPM
 
     QStringList args = app.arguments();
     args.takeFirst();
@@ -72,11 +74,15 @@ int main(int argc, char *argv[])
         yt.setNetworkAccessManager(manager);
         dm.setNetworkAccessManager(manager);
         sh.setNetworkAccessManager(manager);
+        daily.setNetworkAccessManager(manager);
+        vimeo.setNetworkAccessManager(manager);
 
         context->setContextProperty("Controller", &ct);
         context->setContextProperty("DownloadManager", &dm);
         context->setContextProperty("YouTube", &yt);
         context->setContextProperty("Sharing", &sh);
+        context->setContextProperty("DailyMotion", &daily);
+        context->setContextProperty("Vimeo", &vimeo);
 
         qmlRegisterType<QDeclarativeFolderListModel>("Models",1,0,"FolderListModel");
 
@@ -176,7 +182,6 @@ int main(int argc, char *argv[])
         if (translator.load(languagePath)) {
             app.installTranslator(&translator);
         }
-
         viewer.setMainQmlFile(QLatin1String("qml/qmltube/main.qml"));
         viewer.showExpanded();
 
@@ -185,20 +190,37 @@ int main(int argc, char *argv[])
     else { //NPM: else play mode
         /* Get the video URL and play the video */
 
-        QString playerUrl = args.at(1);
-        QString videoId = playerUrl.split("v=").at(1).split("&").at(0);
-        QString quality = "hq";
-        if (args.length() > 2) {
-            if (args.at(2) == "m") {
-                quality = "mobile";
-            }
-        }
         ct.getMediaPlayerFromDB();
-        QObject::connect(&yt, SIGNAL(gotVideoUrl(QString)), &ct, SLOT(playVideo(QString)));
-        QObject::connect(&yt, SIGNAL(videoUrlError()), &app, SLOT(quit()));
         QObject::connect(&ct, SIGNAL(playbackStarted(QString)), &app, SLOT(quit()));
-        yt.setPlaybackQuality(quality);
-        yt.getVideoUrl(videoId);
+
+        QString playerUrl = args.at(1);
+        QString videoId;
+        if (playerUrl.contains("youtube")) {
+
+            QString quality = "hq";
+            if (args.length() > 2) {
+                if (args.at(2) == "m") {
+                    quality = "mobile";
+                }
+            }
+            videoId = playerUrl.split("v=").at(1).split("&").at(0);
+            yt.setPlaybackQuality(quality);
+            yt.getVideoUrl(videoId);
+            QObject::connect(&yt, SIGNAL(gotVideoUrl(QString)), &ct, SLOT(playVideo(QString)));
+            QObject::connect(&yt, SIGNAL(videoUrlError()), &app, SLOT(quit()));
+        }
+        else if (playerUrl.contains("dailymotion")) {
+            videoId = playerUrl.split("/").last();
+            daily.getVideoUrl(videoId);
+            QObject::connect(&daily, SIGNAL(gotVideoUrl(QString)), &ct, SLOT(playVideo(QString)));
+            QObject::connect(&daily, SIGNAL(videoUrlError()), &app, SLOT(quit()));
+        }
+        else if (playerUrl.contains("vimeo")) {
+            videoId = playerUrl.split("/").last();
+            vimeo.getVideoUrl(videoId);
+            QObject::connect(&vimeo, SIGNAL(gotVideoUrl(QString)), &ct, SLOT(playVideo(QString)));
+            QObject::connect(&vimeo, SIGNAL(videoUrlError()), &app, SLOT(quit()));
+        }
 
         return app.exec();
     }

@@ -7,6 +7,15 @@ function getDate(milliseconds) {
     return dateString;
 }
 
+function getDMDate(milliseconds) {
+    /* Convert the date to a string */
+
+    var date = new Date();
+    date.setTime(date.getTime() - milliseconds);
+    var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    return dateString;
+}
+
 function getYTDuration(secs) {
     /* Converts seconds to HH:MM:SS format. */
     var hours = Math.floor(secs / 3600);

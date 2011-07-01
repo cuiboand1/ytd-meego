@@ -3,6 +3,7 @@ import QtQuick 1.0
 Item {
     id: dialog
 
+    property string site : "YouTube"
     signal playlistClicked(string playlistId)
     signal close
 
@@ -56,13 +57,19 @@ Item {
         snapMode: ListView.SnapToItem
         interactive: visibleArea.heightRatio < 1
 
-        model: playlistModel
+        model: (site == "YouTube") ? playlistModel : vimeoPlaylistModel
 
         delegate: PlaylistDelegate {
             id: delegate
 
             onDelegateClicked: {
-                var playlistId = playlistModel.get(index).playlistId;
+                var playlistId;
+                if (site == "YouTube") {
+                    playlistId = playlistModel.get(index).playlistId;
+                }
+                else if (site == "vimeo") {
+                    playlistId = vimeoPlaylistModel.get(index).id;
+                }
                 playlistClicked(playlistId);
             }
         }
@@ -79,9 +86,11 @@ Item {
 
         width: (dialog.width > dialog.height) ? 150 : dialog.width - 20
         anchors { bottom: dialog.bottom; right: dialog.right; margins: 10 }
-        icon: "ui-images/addicon.png"
+        icon: (cuteTubeTheme == "light") ? "ui-images/addiconlight.png" : "ui-images/addicon.png"
+        visible: site == "YouTube"
         onButtonClicked: {
             playlistLoader.source = "NewPlaylistDialog.qml";
+            playlistLoader.item.site = site;
             dialog.state = "showChild";
         }
     }

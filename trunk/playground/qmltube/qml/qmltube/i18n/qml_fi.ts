@@ -76,27 +76,26 @@
         <translation type="obsolete">cuteTube-QML - 0.9.6 - Suomennos: d-iivil</translation>
     </message>
     <message>
-        <location filename="../AboutDialog.qml" line="56"/>
-        <source>cuteTube - 1.0</source>
-        <translation type="unfinished"></translation>
+        <source>cuteTube-QML - 0.9.8</source>
+        <translation type="obsolete">cuteTube-QML - 0.9.8 - Suomennos: d-iivil</translation>
     </message>
     <message>
         <location filename="../AboutDialog.qml" line="56"/>
-        <source>cuteTube-QML - 0.9.8</source>
-        <translation type="unfinished">cuteTube-QML - 0.9.8 - Suomennos: d-iivil</translation>
+        <source>cuteTube - 1.0.0</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../AboutDialog.qml" line="68"/>
-        <source>A feature-rich YouTube client enabling browsing, playback and download of videos, plus account management. &lt;br&gt;&lt;br&gt; &amp;copy; Stuart Howarth 2011</source>
+        <source>A feature-rich client for YouTube, vimeo and Dailymotion providing playback, uploading and downloading of videos, plus access to your accounts. &lt;br&gt;&lt;br&gt; &amp;copy; Stuart Howarth 2011</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AboutDialog.qml" line="87"/>
+        <location filename="../AboutDialog.qml" line="88"/>
         <source>Hints and tips</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AboutDialog.qml" line="100"/>
+        <location filename="../AboutDialog.qml" line="101"/>
         <source>Donate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -104,33 +103,88 @@
 <context>
     <name>AccountDetailsDialog</name>
     <message>
-        <location filename="../AccountDetailsDialog.qml" line="10"/>
-        <location filename="../AccountDetailsDialog.qml" line="26"/>
+        <location filename="../AccountDetailsDialog.qml" line="18"/>
+        <location filename="../AccountDetailsDialog.qml" line="32"/>
         <source>New Account</source>
         <translation>Uusi tili</translation>
     </message>
     <message>
-        <location filename="../AccountDetailsDialog.qml" line="15"/>
+        <location filename="../AccountDetailsDialog.qml" line="23"/>
         <source>Edit Account</source>
         <translation>Muokkaa tiliä</translation>
     </message>
     <message>
-        <location filename="../AccountDetailsDialog.qml" line="46"/>
-        <source>Database error. Unable to save account</source>
-        <translation>Tietokantavirhe. Tilin tallennus epäonnistui</translation>
+        <location filename="../AccountDetailsDialog.qml" line="64"/>
+        <source>Unable to obtain YouTube session token</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AccountDetailsDialog.qml" line="82"/>
+        <location filename="../AccountDetailsDialog.qml" line="84"/>
+        <source>YouTube account added</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountDetailsDialog.qml" line="89"/>
+        <location filename="../AccountDetailsDialog.qml" line="136"/>
+        <location filename="../AccountDetailsDialog.qml" line="204"/>
+        <source>Database error - unable to save account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountDetailsDialog.qml" line="106"/>
+        <source>Unable to obtain Dailymotion access token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountDetailsDialog.qml" line="131"/>
+        <source>Dailymotion account added</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountDetailsDialog.qml" line="153"/>
+        <source>Unable to obtain vimeo request token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountDetailsDialog.qml" line="177"/>
+        <source>Unable to obtain vimeo access token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountDetailsDialog.qml" line="199"/>
+        <source>Vimeo account added</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountDetailsDialog.qml" line="225"/>
+        <source>Choose Site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountDetailsDialog.qml" line="275"/>
+        <source>Site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountDetailsDialog.qml" line="367"/>
+        <source>Saving</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Database error. Unable to save account</source>
+        <translation type="obsolete">Tietokantavirhe. Tilin tallennus epäonnistui</translation>
+    </message>
+    <message>
+        <location filename="../AccountDetailsDialog.qml" line="298"/>
         <source>Username</source>
         <translation>Käyttäjätunnus</translation>
     </message>
     <message>
-        <location filename="../AccountDetailsDialog.qml" line="94"/>
         <source>Password</source>
-        <translation>Salasana</translation>
+        <translation type="obsolete">Salasana</translation>
     </message>
     <message>
-        <location filename="../AccountDetailsDialog.qml" line="107"/>
+        <location filename="../AccountDetailsDialog.qml" line="330"/>
         <source>Default?</source>
         <translation>Oletus?</translation>
     </message>
@@ -138,14 +192,48 @@
 <context>
     <name>AccountsDialog</name>
     <message>
-        <location filename="../AccountsDialog.qml" line="35"/>
+        <location filename="../AccountsDialog.qml" line="50"/>
+        <source>Vimeo account deleted. Visit vimeo website to revoke access</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountsDialog.qml" line="55"/>
         <source>Database error. Unable to delete account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../AccountsDialog.qml" line="74"/>
+        <location filename="../AccountsDialog.qml" line="65"/>
+        <source>Access to your YouTube account has been revoked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountsDialog.qml" line="68"/>
+        <source>Unable to revoke access to your YouTube account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountsDialog.qml" line="83"/>
+        <source>Access to your Dailymotion account has been revoked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountsDialog.qml" line="86"/>
+        <source>Unable to revoke access to your Dailymotion account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../AccountsDialog.qml" line="133"/>
+        <source>Accounts</source>
+        <translation type="unfinished">Tilit</translation>
+    </message>
+    <message>
+        <location filename="../AccountsDialog.qml" line="193"/>
+        <source>No accounts found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>YouTube Accounts</source>
-        <translation>YouTube -tilit</translation>
+        <translation type="obsolete">YouTube -tilit</translation>
     </message>
 </context>
 <context>
@@ -156,7 +244,7 @@
         <translation>Lisää kommentti</translation>
     </message>
     <message>
-        <location filename="../AddCommentDialog.qml" line="15"/>
+        <location filename="../AddCommentDialog.qml" line="16"/>
         <source>Share Via </source>
         <translation>Jaa</translation>
     </message>
@@ -179,7 +267,7 @@
 <context>
     <name>AddToPlaylistDialog</name>
     <message>
-        <location filename="../AddToPlaylistDialog.qml" line="46"/>
+        <location filename="../AddToPlaylistDialog.qml" line="47"/>
         <source>Add To Playlist</source>
         <translation>Lisää soittolistalle</translation>
     </message>
@@ -199,13 +287,13 @@
         <translation type="obsolete">Poista laitteesta</translation>
     </message>
     <message>
-        <location filename="../ArchiveListView.qml" line="123"/>
+        <location filename="../ArchiveListView.qml" line="116"/>
         <source>Video(s) deleted from archive</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ArchiveListView.qml" line="126"/>
-        <location filename="../ArchiveListView.qml" line="146"/>
+        <location filename="../ArchiveListView.qml" line="119"/>
+        <location filename="../ArchiveListView.qml" line="139"/>
         <source>Unable to delete video(s) from archive</source>
         <translation type="unfinished"></translation>
     </message>
@@ -213,7 +301,7 @@
 <context>
     <name>BusyDialog</name>
     <message>
-        <location filename="../BusyDialog.qml" line="45"/>
+        <location filename="../BusyDialog.qml" line="48"/>
         <source>Loading...</source>
         <translation>Ladataan...</translation>
     </message>
@@ -221,9 +309,14 @@
 <context>
     <name>ChangeUserDialog</name>
     <message>
-        <location filename="../ChangeUserDialog.qml" line="50"/>
+        <location filename="../ChangeUserDialog.qml" line="89"/>
         <source>Change Current User</source>
         <translation>Vaihda käyttäjätiliä</translation>
+    </message>
+    <message>
+        <location filename="../ChangeUserDialog.qml" line="235"/>
+        <source>No accounts found</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -318,24 +411,198 @@
         <translation type="obsolete">Videon poisto epäonnistui</translation>
     </message>
     <message>
-        <location filename="../../../controller.cpp" line="257"/>
+        <location filename="../../../controller.cpp" line="260"/>
         <source>Video(s) deleted from device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../controller.cpp" line="260"/>
+        <location filename="../../../controller.cpp" line="263"/>
         <source>Unable to delete video(s) from device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../controller.cpp" line="264"/>
+        <location filename="../../../controller.cpp" line="267"/>
         <source>Video not found</source>
         <translation>Videota ei löytynyt</translation>
     </message>
     <message>
-        <location filename="../../../controller.cpp" line="318"/>
+        <location filename="../../../controller.cpp" line="321"/>
         <source>Copied to clipboard</source>
         <translation>Kopioitu leikepöydälle</translation>
+    </message>
+</context>
+<context>
+    <name>DMInfoView</name>
+    <message>
+        <location filename="../DMInfoView.qml" line="22"/>
+        <source>No description</source>
+        <translation type="unfinished">Ei kuvausta</translation>
+    </message>
+    <message>
+        <location filename="../DMInfoView.qml" line="191"/>
+        <source>Info</source>
+        <translation type="unfinished">Tietoa</translation>
+    </message>
+    <message>
+        <location filename="../DMInfoView.qml" line="191"/>
+        <source>Related</source>
+        <translation type="unfinished">Liittyvät</translation>
+    </message>
+    <message>
+        <location filename="../DMInfoView.qml" line="299"/>
+        <location filename="../DMInfoView.qml" line="301"/>
+        <source>By </source>
+        <translation type="unfinished">Kirjoittaja: </translation>
+    </message>
+    <message>
+        <location filename="../DMInfoView.qml" line="347"/>
+        <source>Views</source>
+        <translation type="unfinished">Katseluja</translation>
+    </message>
+    <message>
+        <location filename="../DMInfoView.qml" line="360"/>
+        <source>Description</source>
+        <translation type="unfinished">Kuvaus</translation>
+    </message>
+    <message>
+        <location filename="../DMInfoView.qml" line="376"/>
+        <source>Tags</source>
+        <translation type="unfinished">Tagit</translation>
+    </message>
+    <message>
+        <location filename="../DMInfoView.qml" line="386"/>
+        <source>No tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DMInfoView.qml" line="484"/>
+        <source>No related videos</source>
+        <translation type="unfinished">Ei liittyviä videoita</translation>
+    </message>
+</context>
+<context>
+    <name>DMListDelegate</name>
+    <message>
+        <location filename="../DMListDelegate.qml" line="43"/>
+        <source>By </source>
+        <translation type="unfinished">Kirjoittaja: </translation>
+    </message>
+    <message>
+        <location filename="../DMListDelegate.qml" line="89"/>
+        <source>Views</source>
+        <translation type="unfinished">Katseluja</translation>
+    </message>
+</context>
+<context>
+    <name>DMListView</name>
+    <message>
+        <location filename="../DMListView.qml" line="51"/>
+        <source>Video(s) deleted from favourites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DMListView.qml" line="147"/>
+        <source>No videos found</source>
+        <translation type="unfinished">Ei videoita</translation>
+    </message>
+</context>
+<context>
+    <name>DMPlaylistDialog</name>
+    <message>
+        <location filename="../DMPlaylistDialog.qml" line="84"/>
+        <source>Playlist Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DMPlaylistDialog.qml" line="134"/>
+        <source>Title</source>
+        <translation type="unfinished">Otsikko</translation>
+    </message>
+    <message>
+        <location filename="../DMPlaylistDialog.qml" line="140"/>
+        <source>Videos</source>
+        <translation type="unfinished">Videot</translation>
+    </message>
+    <message>
+        <location filename="../DMPlaylistDialog.qml" line="160"/>
+        <source>Updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DMPlaylistDialog.qml" line="190"/>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DMPlaylistDialog.qml" line="213"/>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DMPlaylistVideosView</name>
+    <message>
+        <location filename="../DMPlaylistVideosView.qml" line="115"/>
+        <source>No videos found</source>
+        <translation type="unfinished">Ei videoita</translation>
+    </message>
+    <message>
+        <location filename="../DMPlaylistVideosView.qml" line="166"/>
+        <location filename="../DMPlaylistVideosView.qml" line="227"/>
+        <source>Loading playlist videos. Please wait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DMPlaylistVideosView.qml" line="181"/>
+        <source>Videos</source>
+        <translation type="unfinished">Videot</translation>
+    </message>
+    <message>
+        <location filename="../DMPlaylistVideosView.qml" line="195"/>
+        <source>Updated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../DMPlaylistVideosView.qml" line="218"/>
+        <source>Play all</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DMPlaylists</name>
+    <message>
+        <location filename="../DMPlaylists.qml" line="43"/>
+        <source>No playlists found</source>
+        <translation type="unfinished">Ei soittolistoja</translation>
+    </message>
+</context>
+<context>
+    <name>DMSubscriptionsList</name>
+    <message>
+        <location filename="../DMSubscriptionsList.qml" line="46"/>
+        <source>No subscriptions found</source>
+        <translation type="unfinished">Ei syötteitä</translation>
+    </message>
+</context>
+<context>
+    <name>DMUserVideosView</name>
+    <message>
+        <location filename="../DMUserVideosView.qml" line="69"/>
+        <source>No videos found</source>
+        <translation type="unfinished">Ei videoita</translation>
+    </message>
+</context>
+<context>
+    <name>DailyMotion</name>
+    <message>
+        <location filename="../../../dailymotion.cpp" line="66"/>
+        <source>Error - Dailymotion server unreachable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../dailymotion.cpp" line="77"/>
+        <source>Error - </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -433,7 +700,7 @@
         <translation type="obsolete">Tietoja</translation>
     </message>
     <message>
-        <location filename="../HomeView.qml" line="115"/>
+        <location filename="../HomeView.qml" line="126"/>
         <source>My Channel</source>
         <translation>Oma kanavani</translation>
     </message>
@@ -446,7 +713,7 @@
         <translation type="obsolete">Katsotuimmat</translation>
     </message>
     <message>
-        <location filename="../HomeView.qml" line="185"/>
+        <location filename="../HomeView.qml" line="196"/>
         <source>Archive</source>
         <translation>Kirjasto</translation>
     </message>
@@ -491,6 +758,22 @@
     </message>
 </context>
 <context>
+    <name>LiveVideoListDelegate</name>
+    <message>
+        <location filename="../LiveVideoListDelegate.qml" line="51"/>
+        <source>Live</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LiveVideoListView</name>
+    <message>
+        <location filename="../LiveVideoListView.qml" line="62"/>
+        <source>No live streams found</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MenuBar</name>
     <message>
         <source>Menu</source>
@@ -505,7 +788,7 @@
         <translation type="obsolete">Poistu</translation>
     </message>
     <message>
-        <location filename="../MenuBar.qml" line="152"/>
+        <location filename="../MenuBar.qml" line="156"/>
         <source>Sort</source>
         <translation type="unfinished"></translation>
     </message>
@@ -517,60 +800,64 @@
         <translation type="obsolete">Lataa video</translation>
     </message>
     <message>
-        <location filename="../MyAccountView.qml" line="91"/>
+        <location filename="../MyAccountView.qml" line="101"/>
         <source>My Uploads</source>
         <translation>Omat lataukset</translation>
     </message>
     <message>
-        <location filename="../MyAccountView.qml" line="97"/>
+        <location filename="../MyAccountView.qml" line="108"/>
         <source>Uploads</source>
         <translation>Lataukset</translation>
     </message>
     <message>
-        <location filename="../MyAccountView.qml" line="115"/>
+        <location filename="../MyAccountView.qml" line="130"/>
         <source>My Favourites</source>
         <translation>Omat suosikit</translation>
     </message>
     <message>
-        <location filename="../MyAccountView.qml" line="121"/>
+        <location filename="../MyAccountView.qml" line="137"/>
         <source>Favourites</source>
         <translation>Suosikit</translation>
     </message>
     <message>
-        <location filename="../MyAccountView.qml" line="145"/>
+        <location filename="../MyAccountView.qml" line="161"/>
         <source>Playlists</source>
         <translation>Soittolistat</translation>
     </message>
     <message>
-        <location filename="../MyAccountView.qml" line="169"/>
+        <location filename="../MyAccountView.qml" line="185"/>
         <source>Subscriptions</source>
         <translation>Syötteet</translation>
     </message>
     <message>
-        <location filename="../MyAccountView.qml" line="184"/>
+        <location filename="../MyAccountView.qml" line="201"/>
+        <source>Signed in as: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Signed in as:</source>
-        <translation>Kirjautunut:</translation>
+        <translation type="obsolete">Kirjautunut:</translation>
     </message>
 </context>
 <context>
     <name>NewPlaylistDialog</name>
     <message>
-        <location filename="../NewPlaylistDialog.qml" line="34"/>
+        <location filename="../NewPlaylistDialog.qml" line="36"/>
         <source>New Playlist</source>
         <translation>Uusi soittolista</translation>
     </message>
     <message>
-        <location filename="../NewPlaylistDialog.qml" line="46"/>
+        <location filename="../NewPlaylistDialog.qml" line="48"/>
         <source>Title</source>
         <translation>Otsikko</translation>
     </message>
     <message>
-        <location filename="../NewPlaylistDialog.qml" line="59"/>
+        <location filename="../NewPlaylistDialog.qml" line="61"/>
         <source>Description (optional)</source>
         <translation>Kuvasu (valinnainen)</translation>
     </message>
     <message>
-        <location filename="../NewPlaylistDialog.qml" line="71"/>
+        <location filename="../NewPlaylistDialog.qml" line="73"/>
         <source>Private?</source>
         <translation>Yksityinen?</translation>
     </message>
@@ -583,9 +870,13 @@
         <translation>Terve!</translation>
     </message>
     <message>
-        <location filename="../NoAccountDialog.qml" line="71"/>
         <source>My name&apos;s Cutey. My buddy Clippy tells me it&apos;s the first time you&apos;ve used cuteTube. Would you like to add a YouTube account?</source>
-        <translation>Nimeni on Cutey. Kaverini Clippy kertoi että tämä on eka kerta kun käytät cuteTubea. Haluaisitko lisätä YouTube -tilin?</translation>
+        <translation type="obsolete">Nimeni on Cutey. Kaverini Clippy kertoi että tämä on eka kerta kun käytät cuteTubea. Haluaisitko lisätä YouTube -tilin?</translation>
+    </message>
+    <message>
+        <location filename="../NoAccountDialog.qml" line="71"/>
+        <source>My name&apos;s Cutey. Would you like to add an account for YouTube, Dailymotion or vimeo?</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../NoAccountDialog.qml" line="84"/>
@@ -601,12 +892,12 @@
 <context>
     <name>NotificationArea</name>
     <message>
-        <location filename="../NotificationArea.qml" line="68"/>
+        <location filename="../NotificationArea.qml" line="70"/>
         <source>No active downloads</source>
         <translation>Ei aktiivisia latauksia</translation>
     </message>
     <message>
-        <location filename="../NotificationArea.qml" line="166"/>
+        <location filename="../NotificationArea.qml" line="176"/>
         <source>Downloads</source>
         <translation>Lataukset</translation>
     </message>
@@ -619,12 +910,13 @@
         <translation>Vahvistus: </translation>
     </message>
     <message>
-        <location filename="../OAuthDialog.qml" line="27"/>
+        <location filename="../OAuthDialog.qml" line="48"/>
         <source>Error obtaining facebook authorisation</source>
         <translation>Virhe vahvistettaessa facebook -tiliä</translation>
     </message>
     <message>
-        <location filename="../OAuthDialog.qml" line="117"/>
+        <location filename="../OAuthDialog.qml" line="175"/>
+        <location filename="../OAuthDialog.qml" line="176"/>
         <source>Enter pin code</source>
         <translation>Syötä salasana</translation>
     </message>
@@ -640,47 +932,47 @@
 <context>
     <name>PlaylistDialog</name>
     <message>
-        <location filename="../PlaylistDialog.qml" line="94"/>
+        <location filename="../PlaylistDialog.qml" line="102"/>
         <source>Playlist Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="140"/>
+        <location filename="../PlaylistDialog.qml" line="148"/>
         <source>Title</source>
         <translation type="unfinished">Otsikko</translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="146"/>
+        <location filename="../PlaylistDialog.qml" line="154"/>
         <source>Videos</source>
         <translation type="unfinished">Videot</translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="166"/>
+        <location filename="../PlaylistDialog.qml" line="174"/>
         <source>Created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="172"/>
+        <location filename="../PlaylistDialog.qml" line="180"/>
         <source>Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="200"/>
+        <location filename="../PlaylistDialog.qml" line="208"/>
         <source>Description</source>
         <translation type="unfinished">Kuvaus</translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="218"/>
+        <location filename="../PlaylistDialog.qml" line="226"/>
         <source>No description</source>
         <translation type="unfinished">Ei kuvausta</translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="237"/>
+        <location filename="../PlaylistDialog.qml" line="245"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="260"/>
+        <location filename="../PlaylistDialog.qml" line="268"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -712,33 +1004,33 @@
         <translation type="obsolete">Kopioi leikepöydälle</translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="115"/>
+        <location filename="../PlaylistVideosView.qml" line="102"/>
         <source>Video(s) deleted from playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="143"/>
+        <location filename="../PlaylistVideosView.qml" line="130"/>
         <source>No videos found</source>
         <translation>Ei videoita</translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="209"/>
+        <location filename="../PlaylistVideosView.qml" line="196"/>
         <source>Videos</source>
         <translation type="unfinished">Videot</translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="223"/>
+        <location filename="../PlaylistVideosView.qml" line="210"/>
         <source>Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="246"/>
+        <location filename="../PlaylistVideosView.qml" line="233"/>
         <source>Play all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="194"/>
-        <location filename="../PlaylistVideosView.qml" line="255"/>
+        <location filename="../PlaylistVideosView.qml" line="181"/>
+        <location filename="../PlaylistVideosView.qml" line="242"/>
         <source>Loading playlist videos. Please wait</source>
         <translation type="unfinished"></translation>
     </message>
@@ -754,9 +1046,8 @@
         <translation type="obsolete">Uusi soittolista</translation>
     </message>
     <message>
-        <location filename="../PlaylistsView.qml" line="74"/>
         <source>No playlists found</source>
-        <translation>Ei soittolistoja</translation>
+        <translation type="obsolete">Ei soittolistoja</translation>
     </message>
 </context>
 <context>
@@ -796,9 +1087,23 @@
         <translation type="obsolete">Katseluja</translation>
     </message>
     <message>
-        <location filename="../SearchBar.qml" line="185"/>
         <source>Order by:</source>
-        <translation>Järjestä: </translation>
+        <translation type="obsolete">Järjestä: </translation>
+    </message>
+    <message>
+        <location filename="../SearchBar.qml" line="134"/>
+        <source>This video cannot be played or downloaded</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SearchBar.qml" line="249"/>
+        <source>Site:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SearchBar.qml" line="294"/>
+        <source>Order:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -889,8 +1194,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="192"/>
-        <location filename="../SettingsDialog.qml" line="344"/>
+        <location filename="../SettingsDialog.qml" line="209"/>
+        <location filename="../SettingsDialog.qml" line="398"/>
+        <source>YouTube Playback Quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="212"/>
+        <location filename="../SettingsDialog.qml" line="407"/>
+        <source>YouTube Download Quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="236"/>
+        <location filename="../SettingsDialog.qml" line="388"/>
         <source>Media Player</source>
         <translation>Mediasoitin</translation>
     </message>
@@ -974,265 +1291,269 @@
         <translation type="obsolete">Pysäytetty</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="126"/>
+        <location filename="../SettingsDialog.qml" line="156"/>
         <source>Your settings have been saved</source>
         <translation>Asetukset tallennettu</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="131"/>
-        <location filename="../SettingsDialog.qml" line="174"/>
+        <location filename="../SettingsDialog.qml" line="161"/>
+        <location filename="../SettingsDialog.qml" line="218"/>
         <source>Download Path</source>
         <translation>Latauspolku</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="133"/>
+        <location filename="../SettingsDialog.qml" line="163"/>
         <source>Download Location</source>
         <translation>Lataussijainti</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="141"/>
-        <location filename="../SettingsDialog.qml" line="201"/>
+        <location filename="../SettingsDialog.qml" line="171"/>
+        <location filename="../SettingsDialog.qml" line="245"/>
         <source>Network Proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="165"/>
-        <location filename="../SettingsDialog.qml" line="354"/>
         <source>Playback Quality</source>
-        <translation>Toistolaatu</translation>
+        <translation type="obsolete">Toistolaatu</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="168"/>
-        <location filename="../SettingsDialog.qml" line="363"/>
         <source>Download Quality</source>
-        <translation>Latauksen laatu</translation>
+        <translation type="obsolete">Latauksen laatu</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="171"/>
-        <location filename="../SettingsDialog.qml" line="327"/>
+        <location filename="../SettingsDialog.qml" line="215"/>
+        <location filename="../SettingsDialog.qml" line="371"/>
         <source>Start Downloads</source>
         <translation>Käynnistä lataukset</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="177"/>
-        <location filename="../SettingsDialog.qml" line="379"/>
+        <location filename="../SettingsDialog.qml" line="221"/>
+        <location filename="../SettingsDialog.qml" line="423"/>
         <source>Category Feed One</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="180"/>
-        <location filename="../SettingsDialog.qml" line="388"/>
+        <location filename="../SettingsDialog.qml" line="224"/>
+        <location filename="../SettingsDialog.qml" line="432"/>
         <source>Category Feed Two</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="183"/>
-        <location filename="../SettingsDialog.qml" line="397"/>
+        <location filename="../SettingsDialog.qml" line="227"/>
+        <location filename="../SettingsDialog.qml" line="441"/>
         <source>Order Category Videos By</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="186"/>
-        <location filename="../SettingsDialog.qml" line="413"/>
+        <location filename="../SettingsDialog.qml" line="230"/>
+        <location filename="../SettingsDialog.qml" line="457"/>
         <source>Safe Search</source>
         <translation>Turvallinen Haku</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="189"/>
-        <location filename="../SettingsDialog.qml" line="492"/>
+        <location filename="../SettingsDialog.qml" line="233"/>
+        <location filename="../SettingsDialog.qml" line="537"/>
         <source>Screen Orientation</source>
         <translation>Käyttöliittymän suunta</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="195"/>
-        <location filename="../SettingsDialog.qml" line="456"/>
-        <location filename="../SettingsDialog.qml" line="458"/>
+        <location filename="../SettingsDialog.qml" line="239"/>
+        <location filename="../SettingsDialog.qml" line="500"/>
+        <location filename="../SettingsDialog.qml" line="502"/>
         <source>Theme</source>
         <translation>Teema</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="198"/>
-        <location filename="../SettingsDialog.qml" line="465"/>
-        <location filename="../SettingsDialog.qml" line="467"/>
+        <location filename="../SettingsDialog.qml" line="242"/>
+        <location filename="../SettingsDialog.qml" line="509"/>
+        <location filename="../SettingsDialog.qml" line="512"/>
         <source>Language</source>
         <translation>Kieli</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="204"/>
-        <location filename="../SettingsDialog.qml" line="516"/>
+        <location filename="../SettingsDialog.qml" line="248"/>
+        <location filename="../SettingsDialog.qml" line="561"/>
         <source>Widget Feed One</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="207"/>
-        <location filename="../SettingsDialog.qml" line="525"/>
+        <location filename="../SettingsDialog.qml" line="251"/>
+        <location filename="../SettingsDialog.qml" line="570"/>
         <source>Widget Feed Two</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="210"/>
-        <location filename="../SettingsDialog.qml" line="534"/>
+        <location filename="../SettingsDialog.qml" line="254"/>
+        <location filename="../SettingsDialog.qml" line="579"/>
         <source>Widget Feed Three</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="213"/>
-        <location filename="../SettingsDialog.qml" line="543"/>
+        <location filename="../SettingsDialog.qml" line="257"/>
+        <location filename="../SettingsDialog.qml" line="588"/>
         <source>Widget Feed Four</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="222"/>
+        <location filename="../SettingsDialog.qml" line="266"/>
         <source>Your saved searches have been cleared</source>
         <translation>Tallennetut hakusanat on tyhjennetty</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="225"/>
+        <location filename="../SettingsDialog.qml" line="269"/>
         <source>Database error. Unable to clear searches</source>
         <translation>Tietokantavirhe. Hakuja ei tyhjennetty</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="234"/>
+        <location filename="../SettingsDialog.qml" line="278"/>
         <source>Your facebook token has been deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="237"/>
+        <location filename="../SettingsDialog.qml" line="281"/>
         <source>Database error. Unable to delete facebook token</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="284"/>
+        <location filename="../SettingsDialog.qml" line="328"/>
         <source>Settings</source>
         <translation>Asetukset</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="308"/>
+        <location filename="../SettingsDialog.qml" line="352"/>
         <source>Network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="316"/>
+        <location filename="../SettingsDialog.qml" line="360"/>
         <source>Network proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="333"/>
+        <location filename="../SettingsDialog.qml" line="377"/>
         <source>Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="351"/>
         <source>Playback quality</source>
-        <translation>Toistolaatu</translation>
+        <translation type="obsolete">Toistolaatu</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="361"/>
         <source>Download quality</source>
-        <translation>Latauksien laatu</translation>
+        <translation type="obsolete">Latauksien laatu</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="369"/>
-        <source>YouTube categories</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="377"/>
+        <location filename="../SettingsDialog.qml" line="421"/>
         <source>Category feed one</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="386"/>
+        <location filename="../SettingsDialog.qml" line="430"/>
         <source>Category feed two</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="395"/>
+        <location filename="../SettingsDialog.qml" line="439"/>
         <source>Order category videos by</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="429"/>
-        <source>Social networks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="440"/>
-        <source>Delete facebook token</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="506"/>
-        <source>Widget</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="514"/>
-        <source>Feed one</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="523"/>
-        <source>Feed two</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="532"/>
-        <source>Feed three</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="541"/>
-        <source>Feed four</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="325"/>
-        <source>Start downloads</source>
-        <translation>Aloita lataukset</translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="403"/>
-        <source>YouTube searches</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="448"/>
-        <source>Appearance</source>
+        <location filename="../SettingsDialog.qml" line="447"/>
+        <source>Searches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="473"/>
+        <source>Social networks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="484"/>
+        <source>Delete facebook token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="551"/>
+        <source>Widget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="559"/>
+        <source>Feed one</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="568"/>
+        <source>Feed two</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="577"/>
+        <source>Feed three</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="586"/>
+        <source>Feed four</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="369"/>
+        <source>Start downloads</source>
+        <translation>Aloita lataukset</translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="492"/>
+        <source>Appearance</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="518"/>
         <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="481"/>
+        <location filename="../SettingsDialog.qml" line="526"/>
         <source>Download location</source>
         <translation>Latauskansio</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="411"/>
+        <location filename="../SettingsDialog.qml" line="455"/>
         <source>Safe search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="490"/>
+        <location filename="../SettingsDialog.qml" line="535"/>
         <source>Screen orientation</source>
         <translation>Käyttöliittymän suunta</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="341"/>
+        <location filename="../SettingsDialog.qml" line="385"/>
         <source>Media player</source>
         <translation>Mediasoitin</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="317"/>
+        <location filename="../SettingsDialog.qml" line="361"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="422"/>
+        <location filename="../SettingsDialog.qml" line="395"/>
+        <source>YouTube playback quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="405"/>
+        <source>YouTube download quality</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="413"/>
+        <source>Homescreen categories</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="466"/>
         <source>Clear saved searches</source>
         <translation>Tyhjennä hakusanat</translation>
     </message>
@@ -1240,7 +1561,7 @@
 <context>
     <name>Sharing</name>
     <message>
-        <location filename="../../../sharing.cpp" line="78"/>
+        <location filename="../../../sharing.cpp" line="83"/>
         <source>Error - Server repsonse is: </source>
         <translation>Virhe - Palvelin vastasi: </translation>
     </message>
@@ -1248,13 +1569,8 @@
 <context>
     <name>SubscriptionsView</name>
     <message>
-        <location filename="../SubscriptionsView.qml" line="34"/>
+        <location filename="../SubscriptionsView.qml" line="43"/>
         <source>Latest Subscriptions Videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SubscriptionsView.qml" line="41"/>
-        <source>You have unsubscribed to this channel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1266,133 +1582,122 @@
         <translation type="obsolete">Viimeisimmät videot syötteestä</translation>
     </message>
     <message>
-        <location filename="../SubscriptionsView.qml" line="85"/>
         <source>No subscriptions found</source>
-        <translation>Ei syötteitä</translation>
+        <translation type="obsolete">Ei syötteitä</translation>
     </message>
 </context>
 <context>
     <name>UploadDialog</name>
     <message>
-        <location filename="../UploadDialog.qml" line="75"/>
         <source>Cars &amp; Vehicles</source>
-        <translation>Autot &amp; Kulkuneuvot</translation>
+        <translation type="obsolete">Autot &amp; Kulkuneuvot</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="75"/>
         <source>Comedy</source>
-        <translation>Komedia</translation>
+        <translation type="obsolete">Komedia</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="76"/>
         <source>Education</source>
-        <translation>Koulutus</translation>
+        <translation type="obsolete">Koulutus</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="13"/>
-        <location filename="../UploadDialog.qml" line="76"/>
         <source>Entertainment</source>
-        <translation>Viihde</translation>
+        <translation type="obsolete">Viihde</translation>
     </message>
     <message>
         <source>Film and Animation</source>
         <translation type="obsolete">Elokuvat ja animaatiot</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="77"/>
         <source>Gaming</source>
-        <translation>Pelit</translation>
+        <translation type="obsolete">Pelit</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="77"/>
-        <source>Film &amp; Animation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../UploadDialog.qml" line="78"/>
         <source>Howto &amp; Style</source>
-        <translation>Ohjeet ja tyylit</translation>
+        <translation type="obsolete">Ohjeet ja tyylit</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="78"/>
         <source>Music</source>
-        <translation>Musiikki</translation>
+        <translation type="obsolete">Musiikki</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="78"/>
         <source>News &amp; Politics</source>
-        <translation>Uutiset ja politiikka</translation>
+        <translation type="obsolete">Uutiset ja politiikka</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="79"/>
         <source>Non-profits &amp; Activism</source>
-        <translation>Aktivismi &amp; Anarkia</translation>
+        <translation type="obsolete">Aktivismi &amp; Anarkia</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="79"/>
         <source>People &amp; Blogs</source>
-        <translation>Ihmiset ja blogit</translation>
+        <translation type="obsolete">Ihmiset ja blogit</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="80"/>
         <source>Pets &amp; Animals</source>
-        <translation>Eläimet</translation>
+        <translation type="obsolete">Eläimet</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="80"/>
         <source>Science &amp; Technology</source>
-        <translation>Tiede ja teknologia</translation>
+        <translation type="obsolete">Tiede ja teknologia</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="81"/>
         <source>Sport</source>
-        <translation>Urheilu</translation>
+        <translation type="obsolete">Urheilu</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="81"/>
         <source>Travel &amp; Events</source>
-        <translation>Matkustus</translation>
+        <translation type="obsolete">Matkustus</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="29"/>
-        <location filename="../UploadDialog.qml" line="228"/>
+        <location filename="../UploadDialog.qml" line="40"/>
+        <location filename="../UploadDialog.qml" line="270"/>
         <source>Category</source>
         <translation>Kategoria</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="123"/>
+        <location filename="../UploadDialog.qml" line="90"/>
+        <source>Choose Site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UploadDialog.qml" line="141"/>
         <source>Upload Video</source>
         <translation>Lataa video</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="147"/>
+        <location filename="../UploadDialog.qml" line="165"/>
         <source>File</source>
         <translation>Tiedosto</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="157"/>
-        <location filename="../UploadDialog.qml" line="160"/>
-        <location filename="../UploadDialog.qml" line="236"/>
+        <location filename="../UploadDialog.qml" line="175"/>
+        <location filename="../UploadDialog.qml" line="178"/>
+        <location filename="../UploadDialog.qml" line="278"/>
         <source>None chosen</source>
         <translation>Ei valittuja</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="176"/>
+        <location filename="../UploadDialog.qml" line="194"/>
+        <source>Site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UploadDialog.qml" line="218"/>
         <source>Title</source>
         <translation>Otsikko</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="189"/>
+        <location filename="../UploadDialog.qml" line="231"/>
         <source>Description (optional)</source>
         <translation>Kuvaus (valinnainen)</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="201"/>
+        <location filename="../UploadDialog.qml" line="243"/>
         <source>Tags (seperated by commas)</source>
         <translation>Tagit (eroittele pilkulla)</translation>
     </message>
     <message>
-        <location filename="../UploadDialog.qml" line="214"/>
+        <location filename="../UploadDialog.qml" line="256"/>
         <source>Private?</source>
         <translation>Yksityinen?</translation>
     </message>
@@ -1400,57 +1705,67 @@
 <context>
     <name>UploadProgressDialog</name>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="21"/>
+        <location filename="../UploadProgressDialog.qml" line="24"/>
         <source>Starting upload</source>
         <translation>Aloitetaan lataus</translation>
     </message>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="22"/>
+        <location filename="../UploadProgressDialog.qml" line="25"/>
         <source>Upload interrupted - attempting to resume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="22"/>
+        <location filename="../UploadProgressDialog.qml" line="25"/>
         <source>Upload aborted</source>
         <translation type="unfinished">Lataus keskeytetty</translation>
     </message>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="23"/>
+        <location filename="../UploadProgressDialog.qml" line="26"/>
         <source>Upload completed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="23"/>
+        <location filename="../UploadProgressDialog.qml" line="26"/>
         <source>Upload failed</source>
         <translation type="unfinished">Lataus epäonnistui</translation>
     </message>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="45"/>
+        <location filename="../UploadProgressDialog.qml" line="48"/>
         <source>Upload Progress</source>
         <translation>Lataus käynnissä</translation>
     </message>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="57"/>
+        <location filename="../UploadProgressDialog.qml" line="60"/>
+        <source>Site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UploadProgressDialog.qml" line="75"/>
         <source>Filename</source>
         <translation>Tiedosto</translation>
     </message>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="72"/>
+        <location filename="../UploadProgressDialog.qml" line="90"/>
         <source>Title</source>
         <translation>Otsikko</translation>
     </message>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="21"/>
+        <location filename="../UploadProgressDialog.qml" line="24"/>
         <source>Upload is in progress</source>
         <translation>Lataus on käynnissä</translation>
     </message>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="106"/>
+        <location filename="../UploadProgressDialog.qml" line="105"/>
+        <source>Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../UploadProgressDialog.qml" line="141"/>
         <source>Abort</source>
         <translation>Keskeytä</translation>
     </message>
     <message>
-        <location filename="../UploadProgressDialog.qml" line="106"/>
+        <location filename="../UploadProgressDialog.qml" line="141"/>
         <source>Close</source>
         <translation>Sulje</translation>
     </message>
@@ -1537,12 +1852,12 @@
 <context>
     <name>UserVideosView</name>
     <message>
-        <location filename="../UserVideosView.qml" line="132"/>
+        <location filename="../UserVideosView.qml" line="119"/>
         <source>You have subscribed to &apos;</source>
         <translation>Olet tilannut syötteen: </translation>
     </message>
     <message>
-        <location filename="../UserVideosView.qml" line="136"/>
+        <location filename="../UserVideosView.qml" line="123"/>
         <source>You have unsubscribed to &apos;</source>
         <translation>Olet perunut syötteen: </translation>
     </message>
@@ -1571,27 +1886,27 @@
         <translation type="obsolete">Kopioi leikepöydälle</translation>
     </message>
     <message>
-        <location filename="../UserVideosView.qml" line="156"/>
+        <location filename="../UserVideosView.qml" line="143"/>
         <source>No videos found</source>
         <translation>Ei videoita</translation>
     </message>
     <message>
-        <location filename="../UserVideosView.qml" line="214"/>
+        <location filename="../UserVideosView.qml" line="201"/>
         <source>Subscribers</source>
         <translation>Tilaajat</translation>
     </message>
     <message>
-        <location filename="../UserVideosView.qml" line="228"/>
+        <location filename="../UserVideosView.qml" line="215"/>
         <source>Videos</source>
         <translation>Videot</translation>
     </message>
     <message>
-        <location filename="../UserVideosView.qml" line="251"/>
+        <location filename="../UserVideosView.qml" line="238"/>
         <source>Unsubscribe</source>
         <translation>Peru tilaus</translation>
     </message>
     <message>
-        <location filename="../UserVideosView.qml" line="251"/>
+        <location filename="../UserVideosView.qml" line="238"/>
         <source>Subscribe</source>
         <translation>Tilaa</translation>
     </message>
@@ -1599,7 +1914,7 @@
 <context>
     <name>VideoInfoView</name>
     <message>
-        <location filename="../VideoInfoView.qml" line="15"/>
+        <location filename="../VideoInfoView.qml" line="22"/>
         <source>No description</source>
         <translation>Ei kuvausta</translation>
     </message>
@@ -1636,64 +1951,64 @@
         <translation type="obsolete">Et ole kirjautunut YouTubeen</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="250"/>
+        <location filename="../VideoInfoView.qml" line="255"/>
         <source>Info</source>
         <translation>Tietoa</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="288"/>
+        <location filename="../VideoInfoView.qml" line="255"/>
         <source>Comments</source>
         <translation>Kommentit</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="326"/>
+        <location filename="../VideoInfoView.qml" line="255"/>
         <source>Related</source>
         <translation>Liittyvät</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="411"/>
-        <location filename="../VideoInfoView.qml" line="414"/>
+        <location filename="../VideoInfoView.qml" line="366"/>
+        <location filename="../VideoInfoView.qml" line="369"/>
         <source>By </source>
         <translation>Kirjoittaja: </translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="413"/>
-        <location filename="../VideoInfoView.qml" line="416"/>
+        <location filename="../VideoInfoView.qml" line="368"/>
+        <location filename="../VideoInfoView.qml" line="371"/>
         <source> on </source>
         <translation> milloin: </translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="462"/>
+        <location filename="../VideoInfoView.qml" line="417"/>
         <source>Views</source>
         <translation>Katseluja</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="476"/>
+        <location filename="../VideoInfoView.qml" line="431"/>
         <source>Description</source>
         <translation>Kuvaus</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="492"/>
+        <location filename="../VideoInfoView.qml" line="447"/>
         <source>Tags</source>
         <translation>Tagit</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="502"/>
+        <location filename="../VideoInfoView.qml" line="457"/>
         <source>No tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="574"/>
+        <location filename="../VideoInfoView.qml" line="529"/>
         <source>No comments</source>
         <translation>Ei kommentteja</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="574"/>
+        <location filename="../VideoInfoView.qml" line="529"/>
         <source> comments</source>
         <translation>kommentit</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="689"/>
+        <location filename="../VideoInfoView.qml" line="644"/>
         <source>No related videos</source>
         <translation>Ei liittyviä videoita</translation>
     </message>
@@ -1711,7 +2026,7 @@
         <translation>milloin: </translation>
     </message>
     <message>
-        <location filename="../VideoListDelegate.qml" line="96"/>
+        <location filename="../VideoListDelegate.qml" line="97"/>
         <source>Views</source>
         <translation>Katseluja</translation>
     </message>
@@ -1743,14 +2058,8 @@
         <translation type="obsolete">Kopioi leikepöydälle</translation>
     </message>
     <message>
-        <location filename="../VideoListView.qml" line="84"/>
-        <source>Video(s) deleted from favourites</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../VideoListView.qml" line="106"/>
         <source>No videos found</source>
-        <translation>Ei videoita</translation>
+        <translation type="obsolete">Ei videoita</translation>
     </message>
 </context>
 <context>
@@ -1760,66 +2069,350 @@
         <translation type="obsolete">Virhe: videon lataus epäonnistui</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="248"/>
-        <location filename="../VideoPlaybackView.qml" line="438"/>
-        <location filename="../VideoPlaybackView.qml" line="1066"/>
+        <location filename="../VideoPlaybackView.qml" line="374"/>
+        <location filename="../VideoPlaybackView.qml" line="528"/>
+        <location filename="../VideoPlaybackView.qml" line="1064"/>
         <source>Loading...</source>
         <translation type="unfinished">Ladataan...</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="742"/>
+        <location filename="../VideoPlaybackView.qml" line="786"/>
         <source>Info</source>
         <translation type="unfinished">Tietoa</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="780"/>
+        <location filename="../VideoPlaybackView.qml" line="786"/>
         <source>Comments</source>
         <translation type="unfinished">Kommentit</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="818"/>
+        <location filename="../VideoPlaybackView.qml" line="786"/>
         <source>Playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="903"/>
+        <location filename="../VideoPlaybackView.qml" line="902"/>
+        <location filename="../VideoPlaybackView.qml" line="905"/>
         <source>By </source>
         <translation type="unfinished">Kirjoittaja: </translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="903"/>
+        <location filename="../VideoPlaybackView.qml" line="902"/>
         <source> on </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="906"/>
+        <location filename="../VideoPlaybackView.qml" line="908"/>
         <source>Added on </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="975"/>
+        <location filename="../VideoPlaybackView.qml" line="970"/>
         <source>Views</source>
         <translation type="unfinished">Katseluja</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="989"/>
+        <location filename="../VideoPlaybackView.qml" line="984"/>
         <source>Description</source>
         <translation type="unfinished">Kuvaus</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="997"/>
+        <location filename="../VideoPlaybackView.qml" line="992"/>
         <source>No description</source>
         <translation type="unfinished">Ei kuvausta</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="1041"/>
+        <location filename="../VideoPlaybackView.qml" line="1039"/>
         <source>No comments</source>
         <translation type="unfinished">Ei kommentteja</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="1041"/>
+        <location filename="../VideoPlaybackView.qml" line="1039"/>
         <source> comments</source>
         <translation type="unfinished">kommentit</translation>
+    </message>
+</context>
+<context>
+    <name>Vimeo</name>
+    <message>
+        <location filename="../../../vimeo.cpp" line="103"/>
+        <source>Error - Vimeo server unreachable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../../vimeo.cpp" line="113"/>
+        <source>Error - </source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VimeoInfoView</name>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="23"/>
+        <source>No description</source>
+        <translation type="unfinished">Ei kuvausta</translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="240"/>
+        <source>Info</source>
+        <translation type="unfinished">Tietoa</translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="240"/>
+        <source>Comments</source>
+        <translation type="unfinished">Kommentit</translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="348"/>
+        <location filename="../VimeoInfoView.qml" line="351"/>
+        <source>By </source>
+        <translation type="unfinished">Kirjoittaja: </translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="350"/>
+        <location filename="../VimeoInfoView.qml" line="353"/>
+        <source> on </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="370"/>
+        <source>Likes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="382"/>
+        <source>Views</source>
+        <translation type="unfinished">Katseluja</translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="395"/>
+        <source>Description</source>
+        <translation type="unfinished">Kuvaus</translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="411"/>
+        <source>Tags</source>
+        <translation type="unfinished">Tagit</translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="421"/>
+        <source>No tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="492"/>
+        <source>No comments</source>
+        <translation type="unfinished">Ei kommentteja</translation>
+    </message>
+    <message>
+        <location filename="../VimeoInfoView.qml" line="492"/>
+        <source> comments</source>
+        <translation type="unfinished">kommentit</translation>
+    </message>
+</context>
+<context>
+    <name>VimeoListDelegate</name>
+    <message>
+        <location filename="../VimeoListDelegate.qml" line="43"/>
+        <source>By </source>
+        <translation type="unfinished">Kirjoittaja: </translation>
+    </message>
+    <message>
+        <location filename="../VimeoListDelegate.qml" line="43"/>
+        <source> on </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoListDelegate.qml" line="61"/>
+        <source>Likes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoListDelegate.qml" line="73"/>
+        <source>Views</source>
+        <translation type="unfinished">Katseluja</translation>
+    </message>
+</context>
+<context>
+    <name>VimeoListView</name>
+    <message>
+        <location filename="../VimeoListView.qml" line="139"/>
+        <source>No videos found</source>
+        <translation type="unfinished">Ei videoita</translation>
+    </message>
+</context>
+<context>
+    <name>VimeoPlaylistDialog</name>
+    <message>
+        <location filename="../VimeoPlaylistDialog.qml" line="87"/>
+        <source>Playlist Info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistDialog.qml" line="137"/>
+        <source>Title</source>
+        <translation type="unfinished">Otsikko</translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistDialog.qml" line="143"/>
+        <source>Videos</source>
+        <translation type="unfinished">Videot</translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistDialog.qml" line="163"/>
+        <source>Created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistDialog.qml" line="191"/>
+        <source>Description</source>
+        <translation type="unfinished">Kuvaus</translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistDialog.qml" line="209"/>
+        <source>No description</source>
+        <translation type="unfinished">Ei kuvausta</translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistDialog.qml" line="228"/>
+        <source>Play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistDialog.qml" line="251"/>
+        <source>Download</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VimeoPlaylistVideosView</name>
+    <message>
+        <location filename="../VimeoPlaylistVideosView.qml" line="119"/>
+        <source>No videos found</source>
+        <translation type="unfinished">Ei videoita</translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistVideosView.qml" line="170"/>
+        <location filename="../VimeoPlaylistVideosView.qml" line="231"/>
+        <source>Loading playlist videos. Please wait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistVideosView.qml" line="185"/>
+        <source>Videos</source>
+        <translation type="unfinished">Videot</translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistVideosView.qml" line="199"/>
+        <source>Created</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoPlaylistVideosView.qml" line="222"/>
+        <source>Play all</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>VimeoPlaylists</name>
+    <message>
+        <location filename="../VimeoPlaylists.qml" line="43"/>
+        <source>No playlists found</source>
+        <translation type="unfinished">Ei soittolistoja</translation>
+    </message>
+</context>
+<context>
+    <name>VimeoSubscriptionsList</name>
+    <message>
+        <location filename="../VimeoSubscriptionsList.qml" line="13"/>
+        <source>You have unsubscribed to this channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoSubscriptionsList.qml" line="55"/>
+        <source>No subscriptions found</source>
+        <translation type="unfinished">Ei syötteitä</translation>
+    </message>
+</context>
+<context>
+    <name>VimeoUserInfoDialog</name>
+    <message>
+        <location filename="../VimeoUserInfoDialog.qml" line="68"/>
+        <source>Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserInfoDialog.qml" line="114"/>
+        <source>Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserInfoDialog.qml" line="120"/>
+        <source>Uploads</source>
+        <translation type="unfinished">Lataukset</translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserInfoDialog.qml" line="140"/>
+        <source>Location</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserInfoDialog.qml" line="153"/>
+        <source>None</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserInfoDialog.qml" line="168"/>
+        <source>About</source>
+        <translation type="unfinished">Tietoja</translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserInfoDialog.qml" line="186"/>
+        <source>No info</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserInfoDialog.qml" line="201"/>
+        <source>Unsubscribe</source>
+        <translation type="unfinished">Peru tilaus</translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserInfoDialog.qml" line="201"/>
+        <source>Subscribe</source>
+        <translation type="unfinished">Tilaa</translation>
+    </message>
+</context>
+<context>
+    <name>VimeoUserVideosView</name>
+    <message>
+        <location filename="../VimeoUserVideosView.qml" line="103"/>
+        <source>You have subscribed to &apos;</source>
+        <translation type="unfinished">Olet tilannut syötteen: </translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserVideosView.qml" line="107"/>
+        <source>You have unsubscribed to &apos;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserVideosView.qml" line="127"/>
+        <source>No videos found</source>
+        <translation type="unfinished">Ei videoita</translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserVideosView.qml" line="184"/>
+        <source>Videos</source>
+        <translation type="unfinished">Videot</translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserVideosView.qml" line="207"/>
+        <source>Unsubscribe</source>
+        <translation type="unfinished">Peru tilaus</translation>
+    </message>
+    <message>
+        <location filename="../VimeoUserVideosView.qml" line="207"/>
+        <source>Subscribe</source>
+        <translation type="unfinished">Tilaa</translation>
     </message>
 </context>
 <context>
@@ -1878,66 +2471,61 @@
 <context>
     <name>XtubeInfoView</name>
     <message>
-        <location filename="../XtubeInfoView.qml" line="13"/>
-        <location filename="../XtubeInfoView.qml" line="16"/>
-        <source>N/A</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../XtubeInfoView.qml" line="256"/>
         <source>Info</source>
-        <translation type="unfinished">Tietoa</translation>
+        <translation type="obsolete">Tietoa</translation>
     </message>
     <message>
-        <location filename="../XtubeInfoView.qml" line="294"/>
         <source>Related</source>
-        <translation type="unfinished">Liittyvät</translation>
+        <translation type="obsolete">Liittyvät</translation>
     </message>
     <message>
-        <location filename="../XtubeInfoView.qml" line="374"/>
-        <source>Uploaded</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../XtubeInfoView.qml" line="389"/>
         <source>Views</source>
-        <translation type="unfinished">Katseluja</translation>
+        <translation type="obsolete">Katseluja</translation>
     </message>
     <message>
-        <location filename="../XtubeInfoView.qml" line="404"/>
         <source>Tags</source>
-        <translation type="unfinished">Tagit</translation>
-    </message>
-    <message>
-        <location filename="../XtubeInfoView.qml" line="414"/>
-        <source>No tags</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>XtubeListView</name>
-    <message>
-        <location filename="../XtubeListView.qml" line="86"/>
-        <source>YouPorn</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../XtubeListView.qml" line="86"/>
-        <source>PornHub</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../XtubeListView.qml" line="86"/>
-        <source>tube8</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Tagit</translation>
     </message>
 </context>
 <context>
     <name>XtubeVideoList</name>
     <message>
-        <location filename="../XtubeVideoList.qml" line="85"/>
+        <source>No videos found</source>
+        <translation type="obsolete">Ei videoita</translation>
+    </message>
+</context>
+<context>
+    <name>YTListView</name>
+    <message>
+        <location filename="../YTListView.qml" line="57"/>
+        <source>Video(s) deleted from favourites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../YTListView.qml" line="155"/>
         <source>No videos found</source>
         <translation type="unfinished">Ei videoita</translation>
+    </message>
+</context>
+<context>
+    <name>YTPlaylists</name>
+    <message>
+        <location filename="../YTPlaylists.qml" line="36"/>
+        <source>No playlists found</source>
+        <translation type="unfinished">Ei soittolistoja</translation>
+    </message>
+</context>
+<context>
+    <name>YTSubscriptionsList</name>
+    <message>
+        <location filename="../YTSubscriptionsList.qml" line="14"/>
+        <source>You have unsubscribed to this channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../YTSubscriptionsList.qml" line="56"/>
+        <source>No subscriptions found</source>
+        <translation type="unfinished">Ei syötteitä</translation>
     </message>
 </context>
 <context>
@@ -1981,23 +2569,20 @@
 <context>
     <name>YouTube</name>
     <message>
-        <location filename="../../../youtube.cpp" line="43"/>
         <source>Error obtaining access token</source>
-        <translation>Virhe haettaessa varmennetta</translation>
+        <translation type="obsolete">Virhe haettaessa varmennetta</translation>
     </message>
     <message>
-        <location filename="../../../youtube.cpp" line="54"/>
         <source>Authentication failed</source>
-        <translation>Varmennus epäonnistui</translation>
+        <translation type="obsolete">Varmennus epäonnistui</translation>
     </message>
     <message>
-        <location filename="../../../youtube.cpp" line="58"/>
         <source>You are signed in to YouTube as &apos;</source>
-        <translation>Olet kirjautunut YouTubeen tilillä: </translation>
+        <translation type="obsolete">Olet kirjautunut YouTubeen tilillä: </translation>
     </message>
     <message>
-        <location filename="../../../youtube.cpp" line="125"/>
-        <location filename="../../../youtube.cpp" line="236"/>
+        <location filename="../../../youtube.cpp" line="96"/>
+        <location filename="../../../youtube.cpp" line="225"/>
         <source>Error - Server repsonse is: </source>
         <translation>Virhe - Palvelin vastasi: </translation>
     </message>
@@ -2018,12 +2603,13 @@
         <translation type="obsolete">Lataus valmistui</translation>
     </message>
     <message>
-        <location filename="../../../youtube.cpp" line="222"/>
+        <location filename="../../../youtube.cpp" line="211"/>
         <source>Error - YouTube server unreachable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../../youtube.cpp" line="407"/>
+        <location filename="../../../youtube.cpp" line="396"/>
+        <location filename="../../../youtube.cpp" line="427"/>
         <source>Error: Unable to retrieve video</source>
         <translation>Virhe: videon lataus epäonnistui</translation>
     </message>
@@ -2043,17 +2629,17 @@
         <translation type="obsolete">Video(t) lisätty latausjonoon</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="468"/>
+        <location filename="../main.qml" line="687"/>
         <source>Video(s) already in download queue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="469"/>
+        <location filename="../main.qml" line="688"/>
         <source>Audio track(s) added to download queue</source>
         <translation>Audio(t) lisätty latausjonoon</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="470"/>
+        <location filename="../main.qml" line="689"/>
         <source>Audio track(s) already in download queue</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2066,192 +2652,199 @@
         <translation type="obsolete">Video lisätty soittolistalle</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="464"/>
+        <location filename="../main.qml" line="683"/>
         <source>New playlist created</source>
         <translation>Uusi soittolista luotu</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="297"/>
+        <location filename="../main.qml" line="427"/>
         <source>Converting</source>
         <translation>Muunnetaan</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="282"/>
+        <location filename="../main.qml" line="61"/>
+        <source>Film</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.qml" line="63"/>
+        <source>Style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.qml" line="67"/>
+        <source>People</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.qml" line="412"/>
         <source>Conversion of &apos;</source>
         <translation>Muunto: </translation>
     </message>
     <message>
-        <location filename="../main.qml" line="458"/>
+        <location filename="../main.qml" line="677"/>
         <source>Your rating has been added</source>
         <translation type="unfinished">Arviosi tallennettiin</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="460"/>
+        <location filename="../main.qml" line="679"/>
         <source>Your comment has been added</source>
         <translation type="unfinished">Kommenttisi tallennettiin</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="466"/>
+        <location filename="../main.qml" line="685"/>
         <source>Video shared on facebook</source>
         <translation type="unfinished">Video jaettu facebookkiin</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="467"/>
+        <location filename="../main.qml" line="686"/>
         <source>Videos(s) added to download queue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="471"/>
         <source>You are not signed in to a YouTube account</source>
-        <translation type="unfinished">Et ole kirjautunut YouTubeen</translation>
+        <translation type="obsolete">Et ole kirjautunut YouTubeen</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="472"/>
-        <source>No YouTube account found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../main.qml" line="473"/>
+        <location filename="../main.qml" line="691"/>
         <source>Use the cuteTube Player to access this feature</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="34"/>
+        <location filename="../main.qml" line="57"/>
         <source>Cars &amp; Vehicles</source>
         <translation type="unfinished">Autot &amp; Kulkuneuvot</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="34"/>
+        <location filename="../main.qml" line="58"/>
         <source>Comedy</source>
         <translation type="unfinished">Komedia</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="35"/>
+        <location filename="../main.qml" line="59"/>
         <source>Education</source>
         <translation type="unfinished">Koulutus</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="35"/>
+        <location filename="../main.qml" line="60"/>
         <source>Entertainment</source>
         <translation type="unfinished">Viihde</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="36"/>
-        <source>Film &amp; Animation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../main.qml" line="36"/>
+        <location filename="../main.qml" line="62"/>
         <source>Gaming</source>
         <translation type="unfinished">Pelit</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="37"/>
         <source>Howto &amp; Style</source>
-        <translation type="unfinished">Ohjeet ja tyylit</translation>
+        <translation type="obsolete">Ohjeet ja tyylit</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="37"/>
+        <location filename="../main.qml" line="64"/>
         <source>Music</source>
         <translation type="unfinished">Musiikki</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="37"/>
+        <location filename="../main.qml" line="65"/>
         <source>News &amp; Politics</source>
         <translation type="unfinished">Uutiset ja politiikka</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="38"/>
+        <location filename="../main.qml" line="66"/>
         <source>Non-profits &amp; Activism</source>
         <translation type="unfinished">Aktivismi &amp; Anarkia</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="38"/>
         <source>People &amp; Blogs</source>
-        <translation type="unfinished">Ihmiset ja blogit</translation>
+        <translation type="obsolete">Ihmiset ja blogit</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="39"/>
+        <location filename="../main.qml" line="68"/>
         <source>Pets &amp; Animals</source>
         <translation type="unfinished">Eläimet</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="39"/>
+        <location filename="../main.qml" line="69"/>
         <source>Science &amp; Technology</source>
         <translation type="unfinished">Tiede ja teknologia</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="40"/>
+        <location filename="../main.qml" line="70"/>
         <source>Sport</source>
         <translation type="unfinished">Urheilu</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="40"/>
+        <location filename="../main.qml" line="71"/>
         <source>Travel &amp; Events</source>
         <translation type="unfinished">Matkustus</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="42"/>
+        <location filename="../main.qml" line="76"/>
         <source>Relevance</source>
         <translation type="unfinished">Sopivuus</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="42"/>
+        <location filename="../main.qml" line="76"/>
         <source>Date</source>
         <translation type="unfinished">Pvm</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="42"/>
+        <location filename="../main.qml" line="76"/>
         <source>Views</source>
         <translation type="unfinished">Katseluja</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="42"/>
+        <location filename="../main.qml" line="76"/>
         <source>Rating</source>
         <translation type="unfinished">Arvio</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="245"/>
+        <location filename="../main.qml" line="375"/>
         <source>Download of</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="245"/>
+        <location filename="../main.qml" line="375"/>
         <source>completed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="459"/>
+        <location filename="../main.qml" line="678"/>
         <source>You cannot rate your own videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="461"/>
+        <location filename="../main.qml" line="680"/>
         <source>Video(s) added to favourites</source>
         <translation>Video(t) lisätty suosikkeihin</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="462"/>
+        <location filename="../main.qml" line="681"/>
         <source>Video already in favourites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="463"/>
+        <location filename="../main.qml" line="682"/>
         <source>Video(s) added to playlist</source>
         <translation>Video(t) lisätty soittolistalle</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="465"/>
+        <location filename="../main.qml" line="684"/>
         <source>Playlist deleted</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="474"/>
+        <location filename="../main.qml" line="690"/>
+        <source>You are not signed in to an account</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.qml" line="692"/>
         <source>Unable to play videos at 360p quality or higher</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="282"/>
+        <location filename="../main.qml" line="412"/>
         <source>&apos; failed</source>
         <translation> epäonnistui</translation>
     </message>
@@ -2260,32 +2853,36 @@
         <translation type="obsolete">Mobiili</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="297"/>
+        <location filename="../main.qml" line="427"/>
         <source>Queued</source>
         <translation>Jonossa</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="297"/>
+        <location filename="../main.qml" line="427"/>
         <source>Paused</source>
         <translation>Keskeytetty</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="297"/>
+        <location filename="../main.qml" line="427"/>
         <source>Downloading</source>
         <translation>Ladataan</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="297"/>
+        <location filename="../main.qml" line="427"/>
         <source>Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="41"/>
+        <location filename="../main.qml" line="72"/>
+        <location filename="../main.qml" line="114"/>
+        <location filename="../main.qml" line="137"/>
         <source>Most Recent</source>
         <translation>Tuoreimmat</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="41"/>
+        <location filename="../main.qml" line="73"/>
+        <location filename="../main.qml" line="118"/>
+        <location filename="../main.qml" line="141"/>
         <source>Most Viewed</source>
         <translation>Katsotuimmat</translation>
     </message>

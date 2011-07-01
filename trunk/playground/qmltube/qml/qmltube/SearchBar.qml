@@ -1,18 +1,22 @@
 import QtQuick 1.0
 import "scripts/settings.js" as Settings
+import "scripts/OAuth.js" as OAuth
 
 Item {
     id: searchItem
 
     property alias searchText : searchInput.text
     property string searchOrder
+    property string site : "YouTube"
 
-    signal search(string query, string order)
+    signal search(string query, string order, string site)
     signal video(variant video)
+    signal dmVideo(variant video)
+    signal vimeoVideo(variant video)
 
     Component.onCompleted: getSearches()
 
-    function getVideo(id) {
+    function getYouTubeVideo(id) {
         /* Get video data */
 
         var videoObject = {};
@@ -90,17 +94,76 @@ Item {
         request.send();
     }
 
+    function getDailymotionVideo(id) {
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+            if (doc.readyState == XMLHttpRequest.DONE) {
+                var res = eval("(" + doc.responseText + ")");
+
+                dmVideo({ "playerUrl": "http://iphone.dailymotion.com/video/" + res.id, "id": res.id, "title": res.title,
+                        "description": res.description, "author": res.owner, "rating": res.rating,
+                        "views": res.views_total, "duration": res.duration, "tags": res.tags.toString(),
+                        "thumbnail": res.thumbnail_medium_url,
+                        "largeThumbnail": res.thumbnail_large_url, "dailymotion": true });
+            }
+        }
+        doc.open("GET", "https://api.dailymotion.com/video/" + id + "&fields=" + _DM_FIELDS);
+        doc.send();
+    }
+
+    function getVimeoVideo(id) {
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+            if (doc.readyState == XMLHttpRequest.DONE) {
+                var res = eval("(" + doc.responseText + ")").video[0];
+//                            console.log(doc.responseText)
+
+                var tags = "";
+                for (var i = 0; i < res.tags.tag.length; i++) {
+                    tags += res.tags.tag[i]._content + ", ";
+                }
+                vimeoVideo({ "playerUrl": res.urls.url[0]._content,
+                           "id": res.id, "title": res.title,
+                           "description": res.description, "author": res.owner.display_name,
+                           "authorId": res.owner.id, "uploadDate": res.upload_date, "likes": res.number_of_likes,
+                           "views": res.number_of_plays, "comments": res.number_of_comments,
+                           "duration": res.duration, "tags": tags, "thumbnail": res.thumbnails.thumbnail[1]._content,
+                           "largeThumbnail": res.thumbnails.thumbnail[2]._content, "vimeo": true });
+
+                if (res.urls.url.length < 2) {
+                    messages.displayMessage(qsTr("This video cannot be played or downloaded"));
+                }
+            }
+        }
+        var params = [["format", "json"], ["method", "vimeo.videos.getInfo"], ["video_id", id]];
+        var oauthData = OAuth.createOAuthHeader("GET", "http://vimeo.com/api/rest/v2/", undefined, undefined, params);
+        doc.open("GET", oauthData.url);
+        doc.setRequestHeader("Authorization", oauthData.header);
+        doc.send();
+    }
+
     function parseSearchQuery() {
 
         var query = searchInput.text;
-        var pattern = /youtu.be|watch\?v=/; // Check if user entered a direct link to a video
-        if (pattern.test(query)) {
+        var youtube = /youtu.be|watch\?v=/; // Check if user entered a direct link to a video
+        var dailymotion = /dailymotion.com\/video/;
+        var vimeo = /vimeo.com/;
+        if (youtube.test(query)) {
             var videoId = query.split("&")[0].slice(-11); // Extract videoId from link
-            getVideo(videoId);
+            getYouTubeVideo(videoId);
+        }
+        else if (dailymotion.test(query)) {
+            var videoId = query.split("/").pop().split("_")[0];
+            getDailymotionVideo(videoId);
+        }
+        else if (vimeo.test(query)) {
+            var videoId = query.split("/").pop().split("_")[0];
+            getVimeoVideo(videoId);
         }
         else {
-            search(query, searchItem.searchOrder);
+            search(query, searchItem.searchOrder, searchItem.site);
             Settings.setSetting("searchOrder", searchItem.searchOrder);
+            Settings.setSetting("searchSite", searchItem.site);
             Settings.addSearchTerm(query);
 
         }
@@ -111,6 +174,7 @@ Item {
           populate the model */
 
         searchItem.searchOrder = Settings.getSetting("searchOrder");
+        searchItem.site = Settings.getSetting("searchSite");
         var searches = Settings.getSearches();
         for (var i = 0; i < searches.length; i++) {
             searchModel.insert(0, { "searchterm": searches[i] });
@@ -177,31 +241,67 @@ Item {
         }
 
         Text {
-            anchors { top: searchBar.top; topMargin: 55; right: searchBar.horizontalCenter }
+            anchors { top: searchBar.top; topMargin: 55; left: searchBar.left; leftMargin: 10 }
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.pixelSize: _STANDARD_FONT_SIZE
             smooth: true
-            text: qsTr("Order by:")
+            text: qsTr("Site:")
 
             Text {
                 anchors { left: parent.right; leftMargin: 10 }
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: _STANDARD_FONT_SIZE
-                color: orderMouseArea.pressed ? _ACTIVE_COLOR_HIGH : _ACTIVE_COLOR_LOW
+                color: siteMouseArea.pressed ? _ACTIVE_COLOR_HIGH : _ACTIVE_COLOR_LOW
                 smooth: true
-                text: _ORDER_BY_DICT[searchItem.searchOrder]
+                text: searchItem.site
+
+                MouseArea {
+                    id: siteMouseArea
+
+                    anchors.fill: parent
+                    onClicked: {
+                        if (searchItem.site == "YouTube") {
+                            searchItem.site = "Dailymotion";
+                        }
+                        else if (searchItem.site == "Dailymotion") {
+                            searchItem.site = "vimeo";
+                        }
+                        else {
+                            searchItem.site = "YouTube";
+                        }
+                    }
+                }
             }
         }
 
-        MouseArea {
-            id: orderMouseArea
+        Text {
+            anchors { top: searchBar.top; topMargin: 55; right: searchBar.right; rightMargin: 10 }
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.pixelSize: _STANDARD_FONT_SIZE
+            color: orderMouseArea.pressed ? _ACTIVE_COLOR_HIGH : _ACTIVE_COLOR_LOW
+            smooth: true
+            text: _ORDER_BY_DICT[searchItem.searchOrder]
 
-            width: searchBar.width
-            height: 45
-            anchors { top: searchBar.top; topMargin: 55; horizontalCenter: searchBar.horizontalCenter }
-            onClicked: changeSearchOrder()
+            Text {
+                anchors { right: parent.left; rightMargin: 10 }
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                font.pixelSize: _STANDARD_FONT_SIZE
+                smooth: true
+                text: qsTr("Order:")
+            }
+
+            MouseArea {
+                id: orderMouseArea
+
+                width: Math.floor(searchBar.width / 2)
+                height: 45
+                anchors.fill: parent
+                onClicked: changeSearchOrder()
+            }
         }
 
         ListView {
@@ -221,8 +321,9 @@ Item {
 
                 Connections {
                     onDelegateClicked: {
-                        search(searchterm, searchItem.searchOrder);
+                        search(searchterm, searchItem.searchOrder, searchItem.site);
                         Settings.setSetting("searchOrder", searchItem.searchOrder);
+                        Settings.setSetting("searchSite", searchItem.site)
                         Settings.addSearchTerm(searchterm);
                     }
                 }

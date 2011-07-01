@@ -1,6 +1,9 @@
 /* Main view functions */
 
 var xTubeInstalled = false;
+Qt.include("youtube.js");
+Qt.include("dailymotion.js");
+Qt.include("vimeo.js");
 
 function restoreSettings() {
     /* Restore the user's settings from the database */
@@ -25,7 +28,7 @@ function restoreSettings() {
     YouTube.setPlaybackQuality(Settings.getSetting("playbackQuality"));
     DownloadManager.setDownloadQuality(Settings.getSetting("downloadQuality"));
     Sharing.setFacebookToken(Settings.getAccessToken("Facebook"));
-    signInToDefaultAccount();
+    getDefaultAccounts("YouTube");
     getArchiveVideos();
     Settings.restoreDownloads();
 }
@@ -51,81 +54,6 @@ function moveToArchive(video) {
     downloadModel.getNextDownload();
 }
 
-function signInToDefaultAccount() {
-    var defaultAccount = Settings.getDefaultAccount();
-    if (defaultAccount != "unknown") {
-        var username = defaultAccount[0];
-        var password = defaultAccount[1];
-        toggleBusy(true);
-        YouTube.login(username, password);
-    }
-    else if (Settings.getSetting("noAccountDialog") != "raised") {
-        homeView.showNoAccountDialog();
-    }
-}
-
-function getSubscriptions() {
-    /* Retrieve the user's subscriptions and
-      populate the model */
-
-    var doc = new XMLHttpRequest();
-    doc.onreadystatechange = function() {
-        if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            subscriptionsModel.setXml(xml);
-        }
-    }
-    doc.open("GET", _SUBSCRIPTIONS_FEED);
-    doc.setRequestHeader("Authorization", "GoogleLogin auth=" + YouTube.accessToken);
-    doc.send();
-}
-
-function appendSubscriptions() {
-    /* Append subscriptions to the model */
-
-    var doc = new XMLHttpRequest();
-    doc.onreadystatechange = function() {
-        if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            subscriptionsModel.appendXml(xml);
-        }
-    }
-    doc.open("GET", _SUBSCRIPTIONS_FEED + "&start-index=" + (subscriptionsModel.count + 1).toString());
-    doc.setRequestHeader("Authorization", "GoogleLogin auth=" + YouTube.accessToken);
-    doc.send();
-}
-
-function getPlaylists() {
-    /* Retrieve the user's playlists and
-      populate the model */
-
-    var doc = new XMLHttpRequest();
-    doc.onreadystatechange = function() {
-        if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            playlistModel.setXml(xml);
-        }
-    }
-    doc.open("GET", _PLAYLISTS_FEED);
-    doc.setRequestHeader("Authorization", "GoogleLogin auth=" + YouTube.accessToken);
-    doc.send();
-}
-
-function appendPlaylists() {
-    /* Append playlists to the model */
-
-    var doc = new XMLHttpRequest();
-    doc.onreadystatechange = function() {
-        if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            playlistModel.appendXml(xml);
-        }
-    }
-    doc.open("GET", _PLAYLISTS_FEED + "&start-index=" + (playlistModel.count + 1).toString());
-    doc.setRequestHeader("Authorization", "GoogleLogin auth=" + YouTube.accessToken);
-    doc.send();
-}
-
 function goHome() {
     windowView.currentIndex = 0;
     notificationArea.titleList = ["cuteTube"];
@@ -142,8 +70,25 @@ function goToPreviousView() {
     toggleBusy(false);
 }
 
-function loadAccountView() {
+function getDefaultAccounts() {
+    var ytAcc = Settings.getDefaultAccount("YouTube");
+    var dmAcc = Settings.getDefaultAccount("Dailymotion");
+    var vAcc = Settings.getDefaultAccount("vimeo");
+    if (!(ytAcc == "unknown")) {
+        YouTube.setUserCredentials(ytAcc.username, ytAcc.accessToken);
+    }
+    if (!(dmAcc == "unknown")) {
+        refreshDailymotionAccessToken(dmAcc);
+    }
+    if (!(vAcc == "unknown")) {
+        Vimeo.setUserCredentials(vAcc.username, vAcc.accessToken, vAcc.tokenSecret);
+    }
+    if (!((userIsSignedIn()) || (Settings.getSetting("noAccountDialog") == "raised"))) {
+        homeView.showNoAccountDialog();
+    }
+}
 
+function loadAccountView() {
     if (userIsSignedIn()) {
         var loader = viewsModel.children[windowView.currentIndex + 1];
         windowView.currentItem.opacity = 0;
@@ -158,28 +103,22 @@ function loadAccountView() {
         windowView.incrementCurrentIndex();
     }
     else {
-        messages.displayMessage(messages._NO_ACCOUNT_FOUND);
+        messages.displayMessage(messages._NOT_SIGNED_IN);
     }
 }
 
-function loadArchiveView() {
-    /* Loads the view of previously downloaded videos */
-
-    var loader = viewsModel.children[windowView.currentIndex + 1];
-    windowView.currentItem.opacity = 0;
-    loader.source = "ArchiveListView.qml";
-    loader.item.playVideos.connect(loadPlaybackView);
-    notificationArea.addTitle(qsTr("Archive"));
-    windowView.incrementCurrentIndex();
-}
-
-function loadVideos(feed, title) {
+function loadVideos(feeds, title, site) {
     var loader = viewsModel.children[windowView.currentIndex + 1];
     windowView.currentItem.opacity = 0;
     loader.source = "VideoListView.qml";
-    loader.item.goToVideo.connect(loadVideoInfo);
+    loader.item.goToYTVideo.connect(loadVideoInfo);
+    loader.item.goToDMVideo.connect(loadDMVideoInfo);
+    loader.item.goToVimeoVideo.connect(loadVimeoVideoInfo);
     loader.item.playVideos.connect(loadPlaybackView);
-    loader.item.setVideoFeed(feed);
+    if (!site) {
+        site = _DEFAULT_SITE;
+    }
+    loader.item.setVideoFeeds(feeds, site);
     notificationArea.addTitle(title);
     windowView.incrementCurrentIndex();
 }
@@ -214,11 +153,49 @@ function loadPlaylistVideos(playlist) {
     windowView.incrementCurrentIndex();
 }
 
+function loadDMPlaylistVideos(playlist) {
+    var loader = viewsModel.children[windowView.currentIndex + 1];
+    windowView.currentItem.opacity = 0;
+    windowView.currentItem.visible = false;
+    loader.source = "DMPlaylistVideosView.qml";
+    loader.item.goToVideo.connect(loadDMVideoInfo);
+    loader.item.playVideos.connect(loadPlaybackView);
+    if (playlist.videos) {
+        loader.item.setPlaylistVideos(playlist);
+        notificationArea.addTitle(playlist.info.title);
+    }
+    else {
+        loader.item.setPlaylist(playlist);
+        notificationArea.addTitle(playlist.title);
+    }
+    windowView.incrementCurrentIndex();
+}
+
+function loadVimeoPlaylistVideos(playlist) {
+    var loader = viewsModel.children[windowView.currentIndex + 1];
+    windowView.currentItem.opacity = 0;
+    windowView.currentItem.visible = false;
+    loader.source = "VimeoPlaylistVideosView.qml";
+    loader.item.goToVideo.connect(loadVimeoVideoInfo);
+    loader.item.playVideos.connect(loadPlaybackView);
+    if (playlist.videos) {
+        loader.item.setPlaylistVideos(playlist);
+        notificationArea.addTitle(playlist.info.title);
+    }
+    else {
+        loader.item.setPlaylist(playlist);
+        notificationArea.addTitle(playlist.title);
+    }
+    windowView.incrementCurrentIndex();
+}
+
 function loadPlaylists() {
     var loader = viewsModel.children[windowView.currentIndex + 1];
     windowView.currentItem.opacity = 0;
     loader.source = "PlaylistsView.qml";
-    loader.item.goToPlaylist.connect(loadPlaylistVideos);
+    loader.item.goToYTPlaylist.connect(loadPlaylistVideos);
+    loader.item.goToDMPlaylist.connect(loadDMPlaylistVideos);
+    loader.item.goToVimeoPlaylist.connect(loadVimeoPlaylistVideos);
     loader.item.playVideos.connect(loadPlaybackView);
     notificationArea.addTitle(qsTr("My Playlists"));
     windowView.incrementCurrentIndex();
@@ -229,6 +206,8 @@ function loadSubscriptions() {
     windowView.currentItem.opacity = 0;
     loader.source = "SubscriptionsView.qml";
     loader.item.goToUserVideos.connect(loadUserVideos);
+    loader.item.goToDMUserVideos.connect(loadDMUserVideos);
+    loader.item.goToVimeoUserVideos.connect(loadVimeoUserVideos);
     loader.item.goToNewSubVideos.connect(loadVideos);
     notificationArea.addTitle(qsTr("My Subscriptions"));
     windowView.incrementCurrentIndex();
@@ -241,9 +220,79 @@ function loadVideoInfo(video) {
     loader.item.playVideo.connect(loadPlaybackView);
     loader.item.goToVideo.connect(loadVideoInfo);
     loader.item.authorClicked.connect(loadUserVideos);
-    loader.item.search.connect(search);
+    loader.item.searchYouTube.connect(search);
     loader.item.setVideo(video);
     notificationArea.addTitle(qsTr("Video Info"));
+    windowView.incrementCurrentIndex();
+}
+
+function loadDMVideoInfo(video) {
+    var loader = viewsModel.children[windowView.currentIndex + 1];
+    windowView.currentItem.opacity = 0;
+    loader.source = "DMInfoView.qml";
+    loader.item.playVideo.connect(loadPlaybackView);
+    loader.item.goToVideo.connect(loadDMVideoInfo);
+    loader.item.authorClicked.connect(loadDMUserVideos);
+    loader.item.searchDailymotion.connect(search);
+    loader.item.setVideo(video);
+    notificationArea.addTitle(qsTr("Video Info"));
+    windowView.incrementCurrentIndex();
+}
+
+function loadVimeoVideoInfo(video) {
+    var loader = viewsModel.children[windowView.currentIndex + 1];
+    windowView.currentItem.opacity = 0;
+    loader.source = "VimeoInfoView.qml";
+    loader.item.playVideo.connect(loadPlaybackView);
+    loader.item.goToVideo.connect(loadVideoInfo);
+    loader.item.authorClicked.connect(loadVimeoUserVideos);
+    loader.item.searchVimeo.connect(search);
+    loader.item.setVideo(video);
+    notificationArea.addTitle(qsTr("Video Info"));
+    windowView.incrementCurrentIndex();
+}
+
+function loadDMUserVideos(username) {
+    var loader = viewsModel.children[windowView.currentIndex + 1];
+    windowView.currentItem.opacity = 0;
+    windowView.currentItem.visible = false;
+    loader.source = "DMUserVideosView.qml";
+    loader.item.goToVideo.connect(loadDMVideoInfo);
+    loader.item.playVideos.connect(loadPlaybackView);
+    loader.item.setVideoFeed(username);
+    notificationArea.addTitle(username);
+    windowView.incrementCurrentIndex();
+}
+
+function loadVimeoUserVideos(user) {
+    var loader = viewsModel.children[windowView.currentIndex + 1];
+    windowView.currentItem.opacity = 0;
+    windowView.currentItem.visible = false;
+    loader.source = "VimeoUserVideosView.qml";
+    loader.item.goToVideo.connect(loadVimeoVideoInfo);
+    loader.item.playVideos.connect(loadPlaybackView);
+    loader.item.setUserProfile(user);
+    notificationArea.addTitle(user.title);
+    windowView.incrementCurrentIndex();
+}
+
+function loadArchiveView() {
+    /* Loads the view of previously downloaded videos */
+
+    var loader = viewsModel.children[windowView.currentIndex + 1];
+    windowView.currentItem.opacity = 0;
+    loader.source = "ArchiveListView.qml";
+    loader.item.playVideos.connect(loadPlaybackView);
+    notificationArea.addTitle(qsTr("Archive"));
+    windowView.incrementCurrentIndex();
+}
+
+function loadLiveVideos() {
+    var loader = viewsModel.children[windowView.currentIndex + 1];
+    windowView.currentItem.opacity = 0;
+    loader.source = "LiveVideoListView.qml";
+    loader.item.playVideos.connect(loadPlaybackView);
+    notificationArea.addTitle(qsTr("YouTube Live"));
     windowView.incrementCurrentIndex();
 }
 
@@ -268,23 +317,30 @@ function loadPlaybackView(videoList) {
         else if (video.xtube) {
             Controller.playVideo(video.url);
         }
+        else if (video.dailymotion) {
+            DailyMotion.getVideoUrl(video.id);
+        }
+        else if (video.vimeo) {
+            Vimeo.getVideoUrl(video.id);
+        }
+        else if (video.live) {
+            YouTube.getLiveVideoUrl(video.videoId);
+        }
         else {
             YouTube.getVideoUrl(video.videoId);
         }
     }
 }
 
-function youtubeSearch(query, order) {
-    /* Perform a YouTube search and open video list window */
-
-    var encodedQuery = encodeURIComponent(query.replace(/\s.\s/gi, " "));
-    var safe = Settings.getSetting("safeSearch");
-    var videoFeed = ("http://gdata.youtube.com/feeds/api/videos?v=2&max-results=50&safeSearch=" + safe + "&q=%22"
-                     + encodedQuery + "%22%7C" + encodedQuery.replace(/\s/g, "+") + "&orderby=" + order);
-    loadVideos(videoFeed, qsTr("Search ") + "('" + query + "')");
+function stopPlaying() {
+    toggleControls(true);
+    _VIDEO_PLAYING = false;
+    Controller.setOrientation(Settings.getSetting("screenOrientation"));
+    Controller.doNotDisturb(false);
+    goToPreviousView();
 }
 
-function search(query, order) {
+function search(query, order, site) {
     /* Check if xTube is installed and parse the search query */
 
     if (xTubeInstalled) {
@@ -301,18 +357,22 @@ function search(query, order) {
             loadXtubeVideos("pornhub", query.slice(3), order);
         }
         else {
-            youtubeSearch(query, order);
+            var feeds = getSearches(query, order);
+            var title = qsTr("Search ") + "('" + query + "')"
+            loadVideos(feeds, title, site);
         }
     }
     else {
-        youtubeSearch(query, order);
+        var feeds = getSearches(query, order);
+        var title = qsTr("Search ") + "('" + query + "')"
+        loadVideos(feeds, title, site);
     }
 }
 
-function stopPlaying() {
-    toggleControls(true);
-    _VIDEO_PLAYING = false;
-    Controller.setOrientation(Settings.getSetting("screenOrientation"));
-    Controller.doNotDisturb(false);
-    goToPreviousView();
+function getSearches(query, order) {
+    var ytFeed = getYouTubeSearch(query, order);
+    var dmFeed = getDailymotionSearch(query, order);
+    var vimeoFeed = getVimeoSearch(query, order);
+    var feeds = { "youtube": ytFeed, "dailymotion": dmFeed, "vimeo": vimeoFeed };
+    return feeds;
 }

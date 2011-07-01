@@ -10,30 +10,86 @@ Item {
         /* Retrieve the user's accounts and populate the model */
 
         accountsModel.clear();
-        var accounts = Settings.getAllAccounts();
-        if (accounts != "unknown") {
-            for (var i = 0; i < accounts.length; i++) {
-                var username = accounts[i][0];
-                accountsModel.append({ "username": username });
-                if (username == YouTube.currentUser) {
-                    accountsList.currentIndex = i;
+        var sites = ["YouTube", "Dailymotion", "vimeo"];
+        var accounts = [];
+        var acc = [];
+        for (var i = 0; i < sites.length; i++) {
+            acc = Settings.getAllAccounts(sites[i]);
+            if (acc.length > 0) {
+                for (var ii = 0; ii < acc.length; ii++) {
+                    accounts.push(acc[ii]);
                 }
             }
+        }
+        for (var i = 0; i < accounts.length; i++) {
+            var username = accounts[i].username;
+            var site = accounts[i].site;
+            var accessToken = accounts[i].accessToken
+            accountsModel.append({ "username": username, "site": site, "accessToken": accessToken });
         }
     }
 
     function deleteAccount() {
-        /* Delete the account from the database and the list */
+        /* Delete the account from the database and revoke access */
 
-        var username = accountsModel.get(accountsList.currentIndex).username;
-        var result = Settings.deleteAccount(username);
-        if (result == "OK") {
+        var account = accountsModel.get(accountsList.currentIndex);
+        var username = account.username;
+        var site = account.site;
+        var accessToken = account.accessToken;
+        if (Settings.deleteAccount(username, site)) {
             accountsModel.remove(accountsList.currentIndex);
-            messages.displayMessage("Account '" + username + "' deleted");
+            if (site == "YouTube") {
+                revokeYouTubeAccess(accessToken);
+                YouTube.setUserCredentials("", "");
+            }
+            else if (site == "Dailymotion") {
+                revokeDailymotionAccess(accessToken);
+                DailyMotion.setUserCredentials("", "", "", 0);
+            }
+            else if (site == "vimeo") {
+                messages.displayMessage(qsTr("Vimeo account deleted. Visit vimeo website to revoke access"));
+                Vimeo.setUserCredentials("", "", "");
+            }
         }
         else {
             messages.displayMessage(qsTr("Database error. Unable to delete account"));
         }
+    }
+
+    function revokeYouTubeAccess(accessToken) {
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+            if (doc.readyState == XMLHttpRequest.DONE) {
+                var response = doc.status;
+                if (response == 200) {
+                    messages.displayMessage(qsTr("Access to your YouTube account has been revoked"));
+                }
+                else {
+                    messages.displayMessage(qsTr("Unable to revoke access to your YouTube account"));
+                }
+            }
+        }
+        doc.open("GET", "https://www.google.com/accounts/AuthSubRevokeToken");
+        doc.setRequestHeader("Authorization", "AuthSub token=" + accessToken);
+        doc.send();
+    }
+
+    function revokeDailymotionAccess(accessToken) {
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+            if (doc.readyState == XMLHttpRequest.DONE) {
+                var response = doc.status;
+                if (response == 200) {
+                    messages.displayMessage(qsTr("Access to your Dailymotion account has been revoked"));
+                }
+                else {
+                    messages.displayMessage(qsTr("Unable to revoke access to your Dailymotion account"));
+                }
+            }
+        }
+        doc.open("GET", "https://api.dailymotion.com/logout");
+        doc.setRequestHeader("Authorization", "OAuth " + accessToken);
+        doc.send();
     }
 
     width: parent.width
@@ -59,7 +115,10 @@ Item {
         Connections {
             target: accountLoader.item
             onClose: dialog.state = "show"
-            onAccountSaved: getAccounts()
+            onAccountSaved: {
+                dialog.state = "show"
+                getAccounts();
+            }
         }
     }
 
@@ -71,7 +130,7 @@ Item {
 
     Text {
         anchors { horizontalCenter: dialog.horizontalCenter; top: dialog.top; topMargin: 10 }
-        text: qsTr("YouTube Accounts")
+        text: qsTr("Accounts")
         font.pixelSize: _SMALL_FONT_SIZE
         color: _TEXT_COLOR
     }
@@ -94,24 +153,11 @@ Item {
         }
 
         PushButton {
-            id: editButton
-
-            width: newButton.width
-            icon: (cuteTubeTheme == "light") ? "ui-images/penciliconlight.png" : "ui-images/pencilicon.png"
-            disabled: true
-            onButtonClicked: {
-                accountLoader.source = "AccountDetailsDialog.qml";
-                accountLoader.item.getAccountDetails(accountsModel.get(accountsList.currentIndex).username);
-                dialog.state = "showChild";
-            }
-        }
-
-        PushButton {
             id: deleteButton
 
             width: newButton.width
             icon: (cuteTubeTheme == "light") ? "ui-images/deleteiconlight.png" : "ui-images/deleteicon.png"
-            disabled: true
+            disabled: accountsList.count == 0
             onButtonClicked: deleteAccount()
         }
     }
@@ -131,14 +177,21 @@ Item {
         delegate: AccountDelegate {
             id: delegate
 
-            onDelegateClicked: {
-                accountsList.currentIndex = index;
-                editButton.disabled = false;
-                deleteButton.disabled = false;
-            }
+            onDelegateClicked: accountsList.currentIndex = index
         }
 
         ScrollBar {}
+    }
+
+    Text {
+        anchors.centerIn: dialog
+        font.pixelSize: _LARGE_FONT_SIZE
+        font.bold: true
+        color: "grey"
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        text: qsTr("No accounts found")
+        visible: accountsList.count == 0
     }
 
     CloseButton {

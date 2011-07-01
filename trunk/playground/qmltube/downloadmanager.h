@@ -36,7 +36,11 @@ public slots:
 
 private slots:
     void parseVideoPage();
+    void parseDMVideoPage();
+    void parseVimeoVideoPage();
     void getVideoUrl(const QString &playerUrl);
+    void getDMVideoUrl(const QString &link);
+    void getVimeoVideoUrl(const QString &link);
     void performDownload(const QUrl &videoUrl);
     void updateProgress(qint64 bytesReceived, qint64 bytesTotal);
     void downloadFinished();
@@ -55,7 +59,6 @@ private:
 signals:
     void alert(const QString &message);
     void gotVideoUrl(const QUrl &videoUrl);
-    void videoUrlError();
     void downloadCompleted(const QString &filename);
     void downloadCancelled();
     void statusChanged(const QString &status);

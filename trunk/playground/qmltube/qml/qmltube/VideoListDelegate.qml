@@ -69,7 +69,7 @@ Item {
             y: 5
             font.pixelSize: _SMALL_FONT_SIZE
             color: "grey"
-            text: (likes == "") ? 0 : likes
+            text: (likes == "") ? "0" : likes
         }
 
         Image {
@@ -86,7 +86,8 @@ Item {
             y: 5
             font.pixelSize: _SMALL_FONT_SIZE
             color: "grey"
-            text: (dislikes == "") ? 0 : dislikes
+            text: (dislikes == "") ? "0" : dislikes
+
         }
 
         Text {
@@ -120,13 +121,18 @@ Item {
             id: thumb
 
             anchors { fill: frame; margins: 1 }
-            source: thumb.status == Image.Error ? "ui-images/error.jpg" : thumbnail
+            source: thumbnail
             smooth: true
+            onStatusChanged: {
+                if (thumb.status == Image.Error) {
+                    thumb.source = "ui-images/error.jpg";
+                }
+            }
 
             Rectangle {
                 id: durationLabel
 
-                width: 50
+                width: durationText.width + 10
                 height: 22
                 anchors { bottom: thumb.bottom; right: thumb.right }
                 color: "black"
@@ -135,7 +141,9 @@ Item {
             }
 
             Text {
-                anchors.fill: durationLabel
+                id: durationText
+
+                anchors.centerIn: durationLabel
                 text: DT.getYTDuration(duration)
                 color: "white"
                 font.pixelSize: _SMALL_FONT_SIZE

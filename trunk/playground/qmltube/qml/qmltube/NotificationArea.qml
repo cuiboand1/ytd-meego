@@ -8,8 +8,10 @@ Item {
     property alias isBusy: busyIndicator.isBusy
     property bool searchBarOpen : (searchBar.source != "")
 
-    signal startSearch(string query, string order)
+    signal startSearch(string query, string order, string site)
     signal goToVideo(variant video)
+    signal goToDMVideo(variant video)
+    signal goToVimeoVideo(variant video)
     signal goToDownloads
 
     function addTitle(title) {
@@ -132,11 +134,19 @@ Item {
             target: searchBar.item
 
             onSearch: {
-                startSearch(query, order);
+                startSearch(query, order, site);
                 closeSearchBar();
             }
             onVideo: {
                 goToVideo(video);
+                closeSearchBar();
+            }
+            onDmVideo: {
+                goToDMVideo(video);
+                closeSearchBar();
+            }
+            onVimeoVideo: {
+                goToVimeoVideo(video);
                 closeSearchBar();
             }
         }
@@ -198,7 +208,6 @@ Item {
                     "";
                 }
             }
-
             onButtonClicked: {
                 var cl = downloadsLoader.item.checkList;
                 if (cl.length == 0) {

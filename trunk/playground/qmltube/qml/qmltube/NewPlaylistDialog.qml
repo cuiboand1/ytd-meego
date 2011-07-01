@@ -1,8 +1,10 @@
 import QtQuick 1.0
+import "scripts/vimeo.js" as VM
 
 Item {
     id: dialog
 
+    property string site : "YouTube"
     signal close
 
     width: parent.width
@@ -69,6 +71,7 @@ Item {
             font.pixelSize: _SMALL_FONT_SIZE
             color: "grey"
             text: qsTr("Private?")
+            visible: site == "YouTube"
 
             CheckBox {
                 id: checkbox
@@ -88,7 +91,12 @@ Item {
         onButtonClicked: {
             if (titleInput.text != "") {
                 toggleBusy(true);
-                YouTube.createNewPlaylist(titleInput.text, descriptionInput.text, checkbox.checked);
+                if (site == "YouTube") {
+                    YouTube.createNewPlaylist(titleInput.text, descriptionInput.text, checkbox.checked);
+                }
+                else if (site == "vimeo") {
+                    VM.createNewPlaylist(titleInput.text, descriptionInput.text);
+                }
                 close();
             }
         }

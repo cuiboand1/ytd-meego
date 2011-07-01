@@ -7,6 +7,9 @@ Item {
 
     width: message.width + 70
     height: 60
+    opacity: dialog.visible ? 1 : 0
+
+    Behavior on opacity { PropertyAnimation { properties: "opacity"; duration: 500 } }
 
     Image {
         id: border

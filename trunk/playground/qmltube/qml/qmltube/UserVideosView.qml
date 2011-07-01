@@ -1,9 +1,16 @@
 import QtQuick 1.0
 import "scripts/videolistscripts.js" as Scripts
 import "scripts/createobject.js" as ObjectCreator
+import "scripts/youtube.js" as YT
 
 Item {
     id: window
+
+    property bool showMenuButtonOne : true
+    property bool showMenuButtonTwo : true
+    property bool showMenuButtonThree : true
+    property bool showMenuButtonFour : !Controller.isSymbian
+    property bool showMenuButtonFive : true
 
     property string videoFeed
     property string username
@@ -18,25 +25,11 @@ Item {
     signal playVideos(variant videos)
     signal dialogClose
 
-    function setVideoFeed() {
-        var doc = new XMLHttpRequest();
-        doc.onreadystatechange = function() {
-            if (doc.readyState == XMLHttpRequest.DONE) {
-                var xml = doc.responseText;
-                videoListModel.setXml(xml);
-
-                videoListModel.loading = false;
-            }
-        }
-        doc.open("GET", videoFeed);
-        doc.send();
-    }
-
     function getUserProfile(user) {
         username = user;
         videoFeed = "http://gdata.YouTube.com/feeds/api/users/" + username  + "/uploads?v=2&max-results=50";
 
-        setVideoFeed();
+        YT.getYouTubeVideos();
 
         var i = 0;
         while ((!isSubscribed) && (i < subscriptionsModel.count)) {
@@ -80,7 +73,6 @@ Item {
             userDialog.close.connect(Scripts.closeDialogs);
             dimmer.state = "dim";
             userDialog.state = "show";
-            mouseArea.enabled = true;
         }
     }
 
@@ -102,22 +94,17 @@ Item {
     function onMenuButtonTwoClicked() {
         /* Add videos to favourites */
 
-        Scripts.addVideosToFavourites();
+        YT.addVideosToFavourites();
     }
 
     function onMenuButtonThreeClicked() {
         if (videoList.checkList.length > 0) {
-            Scripts.showPlaylistDialog();
+            YT.showPlaylistDialog();
         }
     }
 
     function onMenuButtonFourClicked() {
-        if (Controller.isSymbian) {
-            Scripts.addVideosToDownloads(false);
-        }
-        else {
-            Scripts.addVideosToPlaybackQueue();
-        }
+        Scripts.addVideosToPlaybackQueue(true);
     }
 
     function onMenuButtonFiveClicked() {
@@ -280,7 +267,7 @@ Item {
                 if ((videoList.count - videoList.currentIndex == 1)
                         && (videoList.count < videoListModel.totalResults)
                         && (videoListModel.status == XmlListModel.Ready)) {
-                    Scripts.appendVideoFeed();
+                    YT.appendYouTubeVideos();
                 }
             }
 
@@ -330,18 +317,14 @@ Item {
                     goToVideo(videoListModel.get(index));
                 }
                 onDelegatePressed: addOrRemoveFromCheckList()
-                onPlayClicked: playVideos([videoListModel.get(index)])
+                onPlayClicked: {
+                    var video = videoListModel.get(index);
+                    video["youtube"] = true;
+                    playVideos([video]);
+                }
             }
 
             ScrollBar {}
-        }
-
-        MouseArea {
-            id: mouseArea
-
-            anchors { fill: dimmer; topMargin: 50 }
-            enabled: false
-            onClicked: Scripts.closeDialogs()
         }
 
         states: State {

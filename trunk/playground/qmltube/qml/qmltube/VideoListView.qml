@@ -5,85 +5,109 @@ import "scripts/createobject.js" as ObjectCreator
 Item {
     id: window
 
-    property string videoFeed
-    property alias checkList: videoList.checkList
+    property bool showingFavourites : (youtubeList.videoFeed == _FAVOURITES_FEED)
+    property bool canLoadYouTube : false
+    property bool showMenuButtonOne : true
+    property bool showMenuButtonTwo : true
+    property bool showMenuButtonThree : !(tabView.currentIndex == 1)
+    property bool showMenuButtonFour : !Controller.isSymbian
+    property bool showMenuButtonFive : true
 
-    signal goToVideo(variant video)
+    property bool itemsSelected : tabView.currentItem.checkList.length > 0
+
+    signal goToYTVideo(variant video)
+    signal goToDMVideo(variant video)
+    signal goToVimeoVideo(variant video)
     signal playVideos(variant videos)
     signal dialogClose
 
-    function setVideoFeed(feed) {
-        videoFeed = feed;
-        var doc = new XMLHttpRequest();
-        doc.onreadystatechange = function() {
-            if (doc.readyState == XMLHttpRequest.DONE) {
-                var xml = doc.responseText;
-                videoListModel.setXml(xml);
-
-                videoListModel.loading = false;
-                videoList.positionViewAtIndex(0, ListView.Beginning);
-            }
+    function setVideoFeeds(feeds, site) {
+        youtubeList.videoFeed = feeds.youtube;
+        dailymotionList.videoFeed = feeds.dailymotion;
+        vimeoList.videoFeed = feeds.vimeo;
+        if (site == "YouTube") {
+            youtubeList.getYouTubeVideos();
         }
-        doc.open("GET", feed);
-        if ((feed == _FAVOURITES_FEED) || (feed == _UPLOADS_FEED) || (feed == _NEW_SUB_VIDEOS_FEED)) {
-            doc.setRequestHeader("Authorization", "GoogleLogin auth=" + YouTube.accessToken); // Set 'Authorization' header if viewing the favourites/uploads feed
+        else if (site == "Dailymotion") {
+            tabView.currentIndex = 1;
         }
-        doc.send();
+        else if (site == "vimeo") {
+            tabView.currentIndex = 2;
+        }
     }
 
     function onMenuButtonOneClicked() {
         /* Toggle select all/none */
 
-        var cl = videoList.checkList;
-        if (cl.length == 0) {
-            for (var i = 0; i < videoList.count; i++) {
-                cl.push(i);
-            }
-            videoList.checkList = cl;
+        if (tabView.currentIndex == 0) {
+            youtubeList.toggleSelect();
         }
-        else {
-            videoList.checkList = [];
+        else if (tabView.currentIndex == 1) {
+            dailymotionList.toggleSelect();
+        }
+        else if (tabView.currentIndex == 2) {
+            vimeoList.toggleSelect();
         }
     }
 
     function onMenuButtonTwoClicked() {
         /* Add/remove videos from favourites */
 
-        if (videoFeed == _FAVOURITES_FEED) {
-            Scripts.deleteVideosFromFavourites();
+        if ((tabView.currentIndex == 0)) {
+            if (youtubeList.videoFeed == _FAVOURITES_FEED) {
+                youtubeList.deleteVideosFromFavourites();
+            }
+            else {
+                youtubeList.addVideosToFavourites();
+            }
         }
-        else {
-            Scripts.addVideosToFavourites();
+        else if ((tabView.currentIndex == 1)) {
+            if (dailymotionList.videoFeed == _DM_FAVOURITES_FEED) {
+                dailymotionList.deleteVideosFromFavourites();
+            }
+            else {
+                dailymotionList.addVideosToFavourites();
+            }
+        }
+        else if ((tabView.currentIndex == 2)) {
+            if (youtubeList.videoFeed == _FAVOURITES_FEED) {
+                vimeoList.deleteVideosFromFavourites();
+            }
+            else {
+                vimeoList.addVideosToFavourites();
+            }
         }
     }
 
     function onMenuButtonThreeClicked() {
-        if (videoList.checkList.length > 0) {
-            Scripts.showPlaylistDialog();
+        if (tabView.currentIndex == 0)
+            youtubeList.showPlaylistDialog();
+        else if (tabView.currentIndex == 2) {
+            vimeoList.showPlaylistDialog();
         }
     }
 
     function onMenuButtonFourClicked() {
-        if (Controller.isSymbian) {
-            Scripts.addVideosToDownloads(false);
+        if (tabView.currentIndex == 0) {
+            youtubeList.addVideosToPlaybackQueue();
         }
-        else {
-            Scripts.addVideosToPlaybackQueue();
+        else if (tabView.currentIndex == 1) {
+            dailymotionList.addVideosToPlaybackQueue();
+        }
+        else if (tabView.currentIndex == 2) {
+            vimeoList.addVideosToPlaybackQueue();
         }
     }
 
     function onMenuButtonFiveClicked() {
-        Scripts.addVideosToDownloads(false);
-    }
-
-
-    Connections {
-        target: YouTube
-        onDeletedFromFavourites: {
-            if (videoFeed == _FAVOURITES_FEED) {
-                messages.displayMessage(qsTr("Video(s) deleted from favourites"));
-                setVideoFeed(videoFeed);
-            }
+        if (tabView.currentIndex == 0) {
+            youtubeList.addVideosToDownloads();
+        }
+        else if (tabView.currentIndex == 1) {
+            dailymotionList.addVideosToDownloads();
+        }
+        else if (tabView.currentIndex == 2) {
+            vimeoList.addVideosToDownloads();
         }
     }
 
@@ -94,113 +118,120 @@ Item {
 
         Behavior on opacity { PropertyAnimation { properties: "opacity"; duration: 500 } }
 
-        Text {
-            id: noResultsText
+        Item {
+            id: tabItem
 
-            anchors.centerIn: dimmer
-            font.pixelSize: _LARGE_FONT_SIZE
-            font.bold: true
-            color: "grey"
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            text: qsTr("No videos found")
-            visible: false
+            property variant sites : [ "YouTube", "Dailymotion", "vimeo" ]
 
-            Timer {
-                interval: 5000
-                running: (!videoListModel.loading) && (videoListModel.count == 0)
-                onTriggered: {
-                    if (videoListModel.count == 0) {
-                        noResultsText.visible = true;
-                    }
-                }
-            }
-        }
+            anchors { fill: dimmer; topMargin: 60 }
 
-        ListView {
-            id: videoList
+            Row {
+                id: tabRow
 
-            property variant checkList : []
+                Repeater {
+                    model: tabItem.sites
 
-            anchors { fill: dimmer; topMargin: 50 }
-            boundsBehavior: Flickable.DragOverBounds
-            highlightMoveDuration: 500
-            preferredHighlightBegin: 0
-            preferredHighlightEnd: 100
-            highlightRangeMode: ListView.StrictlyEnforceRange
-            cacheBuffer: 2500
-            interactive: visibleArea.heightRatio < 1
-            onCurrentIndexChanged: {
-                if ((videoList.count - videoList.currentIndex == 1)
-                        && (videoList.count < videoListModel.totalResults)
-                        && (videoListModel.status == XmlListModel.Ready)) {
-                    Scripts.appendVideoFeed();
-                }
-            }
+                    Item {
+                        width: tabItem.width / tabItem.sites.length
+                        height: 40
 
-            footer: Item {
-                id: footer
+                        BorderImage {
+                            anchors.fill: parent
+                            source: (cuteTubeTheme == "nightred") ? "ui-images/tabred.png" : "ui-images/tab.png"
+                            smooth: true
+                            visible: tabView.currentIndex == index
+                        }
 
-                width: videoList.width
-                height: 100
-                visible: ((videoListModel.loading) || (videoListModel.status == XmlListModel.Loading))
-                opacity: footer.visible ? 1 : 0
+                        Text {
+                            anchors.fill: parent
+                            font.pixelSize: _STANDARD_FONT_SIZE
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: tabView.currentIndex == index ? _TEXT_COLOR : "grey"
+                            text: modelData
+                        }
 
-                BusyDialog {
-                    anchors.centerIn: footer
-                    opacity: footer.opacity
-                }
-            }
+                        Rectangle {
+                            height: 1
+                            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+                            color: _ACTIVE_COLOR_HIGH
+                            opacity: 0.5
+                            visible: !(tabView.currentIndex == index)
+                        }
 
-            Behavior on opacity { PropertyAnimation { properties: "opacity"; duration: 500 } }
-
-            model: VideoListModel {
-                id: videoListModel
-
-                property bool loading : true
-            }
-
-            delegate: VideoListDelegate {
-                id: delegate
-
-                function addOrRemoveFromCheckList() {
-                    var cl = videoList.checkList;
-                    if (!delegate.checked) {
-                        cl.push(index);
-                    }
-                    else {
-                        for (var i = 0; i < cl.length; i++) {
-                            if (cl[i] == index) {
-                                cl.splice(i, 1);
-                            }
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: tabView.currentIndex = index
                         }
                     }
-                    videoList.checkList = cl;
                 }
-
-                checked: Scripts.indexInCheckList(index)
-                onDelegateClicked: {
-                    videoList.checkList = [];
-                    goToVideo(videoListModel.get(index));
-                }
-                onDelegatePressed: addOrRemoveFromCheckList(index)
-                onPlayClicked: playVideos([videoListModel.get(index)])
             }
 
-            ScrollBar {}
+            ListView {
+                id: tabView
+
+                anchors { left: tabItem.left; right: tabItem.right; top: tabRow.bottom; bottom: tabItem.bottom }
+                orientation: ListView.Horizontal
+                highlightMoveDuration: 200
+                highlightRangeMode: ListView.StrictlyEnforceRange
+                snapMode: ListView.SnapOneItem
+                flickDeceleration: 500
+                boundsBehavior: Flickable.StopAtBounds
+                model: tabModel
+                clip: true
+                onCurrentIndexChanged: {
+                    if (!(youtubeList.videoFeed == "none") && (tabView.currentIndex == 0) && (canLoadYouTube) && (!youtubeList.loaded)) {
+                        youtubeList.getYouTubeVideos();
+                    }
+                    else if (!(dailymotionList.videoFeed == "none") && (tabView.currentIndex == 1) && (!dailymotionList.loaded)) {
+                        canLoadYouTube = true;
+                        dailymotionList.getDailymotionVideos();
+                    }
+                    else if (!(vimeoList.videoFeed == "none") && (tabView.currentIndex == 2) && (!vimeoList.loaded)) {
+                        canLoadYouTube = true;
+                        vimeoList.getVimeoVideos();
+                    }
+                }
+            }
         }
 
-        MouseArea {
-            id: mouseArea
+        VisualItemModel {
+            id: tabModel
 
-            anchors { fill: dimmer; topMargin: 50 }
-            enabled: false
-            onClicked: Scripts.closeDialogs()
+            YTListView {
+                id: youtubeList
+
+                width: tabView.width
+                height: tabView.height
+                opacity: (tabView.currentIndex == 0) ? 1 : 0
+                onGoToVideo: goToYTVideo(video)
+                onPlay: playVideos(videos)
+            }
+
+            DMListView {
+                id: dailymotionList
+
+                width: tabView.width
+                height: tabView.height
+                opacity: (tabView.currentIndex == 1) ? 1 : 0
+                onGoToVideo: goToDMVideo(video)
+                onPlay: playVideos(videos)
+            }
+
+            VimeoListView {
+                id: vimeoList
+
+                width: tabView.width
+                height: tabView.height
+                opacity: (tabView.currentIndex == 2) ? 1 : 0
+                onGoToVideo: goToVimeoVideo(video)
+                onPlay: playVideos(videos)
+            }
         }
 
         states: State {
             name: "dim"
-            PropertyChanges { target: dimmer; opacity: 0.1}
+            PropertyChanges { target: dimmer; opacity: 0.1 }
         }
 
     }

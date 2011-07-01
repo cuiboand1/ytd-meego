@@ -68,7 +68,7 @@ Item {
             color: _TEXT_COLOR
             font.pixelSize: _STANDARD_FONT_SIZE
             wrapMode: TextEdit.WordWrap
-            text: qsTr("My name's Cutey. My buddy Clippy tells me it's the first time you've used cuteTube. Would you like to add a YouTube account?")
+            text: qsTr("My name's Cutey. Would you like to add an account for YouTube, Dailymotion or vimeo?")
         }
 
         Column {

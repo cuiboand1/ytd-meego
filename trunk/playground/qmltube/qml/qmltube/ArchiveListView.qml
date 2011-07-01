@@ -6,6 +6,12 @@ import "scripts/createobject.js" as ObjectCreator
 Item {
     id: window
 
+    property bool showMenuButtonOne : true
+    property bool showMenuButtonTwo : !Controller.isSymbian
+    property bool showMenuButtonThree : true
+    property bool showMenuButtonFour : true
+    property bool showMenuButtonFive : true
+
     property string orderColumn : "date"
     property string dateOrder : "ASC"
     property string titleOrder : "DESC"
@@ -43,28 +49,15 @@ Item {
     }
 
     function onMenuButtonTwoClicked() {
-        if (Controller.isSymbian) {
-            showDeleteDialog();
-        }
-        else {
-            playArchiveVideos();
-        }
+        playArchiveVideos();
     }
 
     function onMenuButtonThreeClicked() {
-        if (Controller.isSymbian) {
-            sortByDate();
-        }
-        else showDeleteDialog();
+        showDeleteDialog();
     }
 
     function onMenuButtonFourClicked() {
-        if(Controller.isSymbian) {
-            sortByTitle();
-        }
-        else {
-            sortByDate();
-        }
+        sortByDate();
     }
 
     function onMenuButtonFiveClicked() {

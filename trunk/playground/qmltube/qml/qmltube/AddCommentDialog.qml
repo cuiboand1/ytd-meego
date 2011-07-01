@@ -4,19 +4,19 @@ Item {
     id: dialog
 
     property string title : qsTr("Add Comment")
-    property string videoId
+    property variant video
     property string service
 
     signal close
 
-    function setService(name, video) {
-        dialog.service = name;
+    function setService(name, videoObject) {
+        service = name;
+        video = videoObject;
         if (name != "YouTube") {
-            dialog.title = qsTr("Share Via ") + name;
+            title = qsTr("Share Via ") + name;
             titleInput.text = video.title;
             descriptionEdit.text = video.description;
         }
-        dialog.videoId = video.videoId;
     }
 
     width: parent.width
@@ -151,8 +151,26 @@ Item {
         icon: (cuteTubeTheme == "light") ? "ui-images/ticklight.png" : "ui-images/tick.png"
 
         onButtonClicked: {
+            var site;
+            var thumbUrl;
+            var id;
             if (dialog.service == "Facebook") {
-                Sharing.postToFacebook(dialog.videoId, titleInput.text, descriptionEdit.text, commentEdit.text);
+                if (video.dailymotion) {
+                    site = "Dailymotion";
+                    thumbUrl = video.largeThumbnail;
+                    id = video.id;
+                }
+                else if (video.vimeo) {
+                    site = "vimeo";
+                    thumbUrl = video.largeThumbnail;
+                    id = video.id;
+                }
+                else {
+                    site = "YouTube";
+                    thumbUrl = video.largeThumbnail;
+                    id = video.videoId;
+                }
+                Sharing.postToFacebook(site, id, titleInput.text, descriptionEdit.text, commentEdit.text, thumbUrl);
             }
             else if (dialog.service == "Twitter") {
             }
