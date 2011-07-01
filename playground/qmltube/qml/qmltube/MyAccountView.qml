@@ -4,8 +4,14 @@ import "scripts/createobject.js" as ObjectCreator
 Item {
     id: window
 
-    signal uploads(string feed, string title)
-    signal favourites(string feed, string title)
+    property bool showMenuButtonOne : true
+    property bool showMenuButtonTwo : true
+    property bool showMenuButtonThree : false
+    property bool showMenuButtonFour : false
+    property bool showMenuButtonFive : false
+
+    signal uploads(variant feeds, string title)
+    signal favourites(variant feeds, string title)
     signal playlists
     signal subscriptions
     signal dialogClose
@@ -88,7 +94,12 @@ Item {
                     icon: (cuteTubeTheme == "light") ? "ui-images/uploadsiconlight.png" : "ui-images/uploadsicon.png"
                     iconWidth: 100
                     iconHeight: 100
-                    onButtonClicked: uploads(_UPLOADS_FEED, qsTr("My Uploads"))
+                    onButtonClicked: {
+                        var feeds = { "youtube": YouTube.currentUser == "" ? "none" : _UPLOADS_FEED,
+                                      "dailymotion": DailyMotion.currentUser == "" ? "none" : _DM_UPLOADS_FEED,
+                                      "vimeo": Vimeo.currentUser == "" ? "none" : _VM_UPLOADS_FEED };
+                        uploads(feeds, qsTr("My Uploads"));
+                    }
                 }
 
                 Text {
@@ -112,7 +123,12 @@ Item {
                     icon: (cuteTubeTheme == "light") ? "ui-images/favouritesiconlight.png" : "ui-images/favouritesicon.png"
                     iconWidth: 100
                     iconHeight: 100
-                    onButtonClicked: favourites(_FAVOURITES_FEED, qsTr("My Favourites"))
+                    onButtonClicked: {
+                        var feeds = { "youtube": YouTube.currentUser == "" ? "none" : _FAVOURITES_FEED,
+                                      "dailymotion": DailyMotion.currentUser == "" ? "none" : _DM_FAVOURITES_FEED,
+                                      "vimeo": Vimeo.currentUser == "" ? "none" : _VM_FAVOURITES_FEED };
+                        favourites(feeds, qsTr("My Favourites"));
+                    }
                 }
 
                 Text {
@@ -175,42 +191,46 @@ Item {
         }
 
         Row {
+            id: userRow
+
             anchors { bottom: dimmer.bottom; bottomMargin: 80; right: dimmer.right; rightMargin: 64 }
-            spacing: 5
 
             Text {
                 font.pixelSize: _SMALL_FONT_SIZE
                 color: _TEXT_COLOR
-                text: qsTr("Signed in as:")
-                visible: currentUserText.visible
+                text: qsTr("Signed in as: ")
+                visible: userIsSignedIn()
             }
 
             Text {
-                id: currentUserText
-
                 font.pixelSize: _SMALL_FONT_SIZE
                 color: userMouseArea.pressed ? _ACTIVE_COLOR_HIGH : _ACTIVE_COLOR_LOW
                 text: YouTube.currentUser
                 visible: !(YouTube.currentUser == "")
-
-                MouseArea {
-                    id: userMouseArea
-
-                    width: 200
-                    height: 70
-                    anchors.centerIn: currentUserText
-                    onClicked: changeCurrentUser()
-                }
             }
 
+            Text {
+                font.pixelSize: _SMALL_FONT_SIZE
+                color: userMouseArea.pressed ? _ACTIVE_COLOR_HIGH : _ACTIVE_COLOR_LOW
+                text: ", " + DailyMotion.currentUser
+                visible: !(DailyMotion.currentUser == "")
+            }
+
+            Text {
+                font.pixelSize: _SMALL_FONT_SIZE
+                color: userMouseArea.pressed ? _ACTIVE_COLOR_HIGH : _ACTIVE_COLOR_LOW
+                text: ", " + Vimeo.currentUser
+                visible: !(Vimeo.currentUser == "")
+            }
         }
 
         MouseArea {
-            id: mouseArea
+            id: userMouseArea
 
-            anchors.fill: dimmer
-            enabled: false
-            onClicked: closeDialogs()
+            anchors { bottom: dimmer.bottom; bottomMargin: 80; right: dimmer.right; rightMargin: 64 }
+            width: userRow.width
+            height: 70
+            onClicked: changeCurrentUser()
         }
 
         states: State {

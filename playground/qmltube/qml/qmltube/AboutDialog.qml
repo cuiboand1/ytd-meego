@@ -53,7 +53,7 @@ Item {
         anchors { top: icon.bottom; topMargin: 10; horizontalCenter: dialog.horizontalCenter }
         color: _TEXT_COLOR
         font { pixelSize: _LARGE_FONT_SIZE; bold: true }
-        text: Controller.isSymbian ? qsTr("cuteTube - 1.0") : qsTr("cuteTube-QML - 0.9.8")
+        text: qsTr("cuteTube - 1.0.0")
     }
 
     Text {
@@ -65,7 +65,7 @@ Item {
         wrapMode: TextEdit.WordWrap
         horizontalAlignment: TextEdit.AlignHCenter
         textFormat: Text.RichText
-        text: qsTr("A feature-rich YouTube client enabling browsing, playback and download of videos, plus account management. <br><br> &copy; Stuart Howarth 2011")
+        text: qsTr("A feature-rich client for YouTube, vimeo and Dailymotion providing playback, uploading and downloading of videos, plus access to your accounts. <br><br> &copy; Stuart Howarth 2011")
     }
 
     CloseButton {
@@ -77,6 +77,7 @@ Item {
 
         anchors { right: dialog.right; bottom: dialog.bottom; margins: 10 }
         spacing: 10
+        visible: !Controller.isSymbian
 
         PushButton {
             id: helpButton
@@ -98,7 +99,6 @@ Item {
             showIcon: false
             showText: true
             name: qsTr("Donate")
-            visible: !Controller.isSymbian
             onButtonClicked: {
                 childLoader.source = "WebDialog.qml";
                 childLoader.item.setWebPage(donateButton.name, decodeURIComponent("https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=stuhowarth77%40gmail%2ecom&lc=GB&item_name=cuteTube&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted"));

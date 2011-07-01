@@ -32,7 +32,7 @@ Item {
             }
         }
         doc.open("GET", "http://gdata.youtube.com/feeds/api/playlists/" + playlistId + "?v=2&max-results=50");
-        doc.setRequestHeader("Authorization", "GoogleLogin auth=" + YouTube.accessToken);
+        doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
         doc.send();
     }
 
@@ -45,7 +45,7 @@ Item {
             }
         }
         doc.open("GET", "http://gdata.youtube.com/feeds/api/playlists/" + playlistId + "?v=2&max-results=50&start-index=" + (playlistVideosModel.count + 1).toString());
-        doc.setRequestHeader("Authorization", "GoogleLogin auth=" + YouTube.accessToken);
+        doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
         doc.send();
     }
 
@@ -77,6 +77,14 @@ Item {
 
     VideoListModel {
         id: playlistVideosModel
+
+        onStatusChanged: {
+            if ((playlistVideosModel.status == XmlListModel.Ready) &&
+                    (playlistVideosModel.totalResults > 50) &&
+                    (playlistVideosModel.totalResults > playlistVideosModel.count)) {
+                appendPlaylistVideos();
+            }
+        }
     }
 
     Rectangle {

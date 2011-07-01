@@ -6,7 +6,7 @@
 
 Sharing::Sharing(QObject *parent) :
     QObject(parent), facebookId("175388745824052"), facebookToken("") {
-
+    emit facebookIdChanged();
 }
 
 void Sharing::setNetworkAccessManager(QNetworkAccessManager *manager) {
@@ -23,20 +23,26 @@ void Sharing::setFacebookToken(const QString &token) {
 //    twitterSecret = secret;
 //}
 
-void Sharing::postToFacebook(const QString &videoId, const QString &title, const QString &description, const QString &message) {
+void Sharing::postToFacebook(const QString &site, const QString &videoId, const QString &title, const QString &description, const QString &message, const QString &thumb) {
     /* Helper method that posts HTTP POST requests */
 
-    QByteArray id;
-    id = videoId.toAscii();
+    QByteArray id = videoId.toAscii();
 
     QByteArray playerUrl;
-    playerUrl = "http://www.youtube.com/watch?v=" + id;
-
     QByteArray embedUrl;
-    embedUrl = "http://www.youtube.com/e/" + id;
-
-    QByteArray thumbUrl;
-    thumbUrl = "http://i.ytimg.com/vi/" + id + "/hqdefault.jpg";
+    QByteArray thumbUrl = thumb.toAscii();
+    if (site == "YouTube") {
+        playerUrl = "http://www.youtube.com/watch?v=" + id;
+        embedUrl = "http://www.youtube.com/e/" + id;
+    }
+    else if (site == "Dailymotion") {
+        playerUrl = "http://www.dailymotion.com/video/" + id;
+        embedUrl = "http://www.dailymotion.com/embed/video/" + id;
+    }
+    else if (site == "vimeo") {
+        playerUrl = "http://vimeo.com/" + id;
+        embedUrl = "http://player.vimeo.com/video/" + id;
+    }
 
     QByteArray postData;
 
@@ -46,8 +52,7 @@ void Sharing::postToFacebook(const QString &videoId, const QString &title, const
             + "&source=" + embedUrl
             + "&picture=" + thumbUrl
             + "&name=" + title.toAscii().toPercentEncoding(" \n\t#[]{}=+$&*()<>@|',/!\":;?")
-            + "&description=" + description.toAscii().toPercentEncoding(" \n\t#[]{}=+$&*()<>@|',/!\":;?")
-            + "&attribution=via cuteTube on the Nokia N900";
+            + "&description=" + description.toAscii().toPercentEncoding(" \n\t#[]{}=+$&*()<>@|',/!\":;?");
 
 //    qDebug() << postData;
 

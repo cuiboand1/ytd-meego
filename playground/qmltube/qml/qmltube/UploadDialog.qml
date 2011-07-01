@@ -4,16 +4,22 @@ Item {
     id: dialog
 
     property string fileToUpload
-
-    property variant categoryDict
+    property string site : "YouTube"
+    property variant sites : ["YouTube", "Dailymotion"]
 
     signal close
 
     function getCategory() {
-        var category = qsTr("Entertainment");
-        for (var cat in categoryDict) {
-            if (categoryDict[cat] == categoryText.text) {
-                category = cat;
+        var category;
+        for (var i = 0; i < _CATEGORY_DICT.length; i++) {
+            category = _CATEGORY_DICT[i];
+            if (category.name == categoryText.text) {
+                if (site == "YouTube") {
+                    category = category.youtube;
+                }
+                else if (site == "Dailymotion") {
+                    category = category.dailymotion;
+                }
             }
         }
         return category;
@@ -21,8 +27,13 @@ Item {
 
     function showCategoryList() {
         var list = [];
-        for (var category in categoryDict) {
-            list.push(categoryDict[category]);
+        var category;
+        for (var i = 0; i < _CATEGORY_DICT.length; i++) {
+            category = _CATEGORY_DICT[i];
+            if (!(((category.youtube == "MostRecent") || (category.youtube == "MostViewed")) || ((site == "YouTube") && (category.youtube == "none"))
+                    || ((site == "Dailymotion") && (category.dailymotion == "none")))) {
+                list.push(category.name);
+            }
         }
         list.sort();
         dialogLoader.source = "SettingsListDialog.qml";
@@ -53,13 +64,19 @@ Item {
         var tags = tagInput.text;
         var category = getCategory();
         var isPrivate = checkbox.checked;
-        YouTube.uploadVideo(fileToUpload, title, description, tags, category, isPrivate);
-        showUploadProgress(fileToUpload.split("/").pop(), title);
+        var video = { "filename": fileToUpload.split("/").pop(), "title": title, "description": description, "tags": tags, "category": category, "isPrivate": isPrivate };
+        if (site == "YouTube") {
+            YouTube.uploadVideo(fileToUpload, title, description, tags, category, isPrivate);
+        }
+        else if (site == "Dailymotion") {
+            DailyMotion.uploadVideo(fileToUpload);
+        }
+        showUploadProgress(video, site);
     }
 
-    function showUploadProgress(filename, title) {
+    function showUploadProgress(video) {
         dialogLoader.source = "UploadProgressDialog.qml";
-        dialogLoader.item.setDetails(filename, title);
+        dialogLoader.item.setDetails(video);
         dialogLoader.item.close.connect(close);
         dialog.state = "showChild";
     }
@@ -68,18 +85,19 @@ Item {
         categoryText.text = category;
     }
 
+    function showSiteList() {
+        dialogLoader.source = "SettingsListDialog.qml";
+        dialogLoader.item.setSettingsList(qsTr("Choose Site"), sites, site);
+        dialogLoader.item.settingChosen.connect(setSite);
+        dialog.state = "showChild";
+    }
+
+    function setSite(siteName) {
+        site = siteName;
+    }
+
     width: parent.width
     anchors { right: parent.left; top: parent.top; bottom: parent.bottom }
-
-    Component.onCompleted: {
-        categoryDict = { "Autos": qsTr("Cars & Vehicles"), "Comedy": qsTr("Comedy"),
-                "Education": qsTr("Education"), "Entertainment": qsTr("Entertainment"),
-                "Film": qsTr("Film & Animation"), "Games": qsTr("Gaming"),
-                "Howto": qsTr("Howto & Style"), "Music": qsTr("Music"), "News": qsTr("News & Politics"),
-                "Nonprofit": qsTr("Non-profits & Activism"), "People": qsTr("People & Blogs"),
-                "Animals": qsTr("Pets & Animals"), "Tech": qsTr("Science & Technology"),
-                "Sports": qsTr("Sport"), "Travel": qsTr("Travel & Events") };
-    }
 
     Connections {
         target: dialog.parent
@@ -132,7 +150,7 @@ Item {
             clip: true
             flickableDirection: Flickable.VerticalFlick
             boundsBehavior: Flickable.DragOverBounds
-            interactive: (dialog.width > dialog.height) && (Controller.isSymbian)
+            interactive: (dialog.width > dialog.height)
 
             Column {
                 id: column
@@ -167,6 +185,30 @@ Item {
 
                         anchors.fill: parent
                         onClicked: showFileChooser()
+                    }
+                }
+
+                Text {
+                    font.pixelSize: _SMALL_FONT_SIZE
+                    color: "grey"
+                    text: qsTr("Site")
+                }
+
+                Text {
+                    id: siteText
+
+                    width: column.width
+                    wrapMode: Text.WordWrap
+                    font.pixelSize: _STANDARD_FONT_SIZE
+                    color: siteMouseArea.pressed ? _ACTIVE_COLOR_HIGH : _ACTIVE_COLOR_LOW
+                    text: site
+                    smooth: true
+
+                    MouseArea {
+                        id: siteMouseArea
+
+                        anchors.fill: parent
+                        onClicked: showSiteList()
                     }
                 }
 

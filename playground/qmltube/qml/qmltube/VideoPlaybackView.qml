@@ -2,11 +2,18 @@ import QtQuick 1.0
 import QtMultimediaKit 1.1
 import "scripts/settings.js" as Settings
 import "scripts/dateandtime.js" as GetDate
+import "scripts/vimeo.js" as VM
 
-Item {
+Rectangle {
     id: videoWindow
 
-    property variant currentVideo
+    property bool showMenuButtonOne : false
+    property bool showMenuButtonTwo : false
+    property bool showMenuButtonThree : false
+    property bool showMenuButtonFour : false
+    property bool showMenuButtonFive : false
+
+    property variant currentVideo : []
     property int playlistPosition : 0
     property bool gettingVideoUrl : false
     property string playbackQuality
@@ -26,7 +33,18 @@ Item {
         }
         else {
             gettingVideoUrl = true;
-            YouTube.getVideoUrl(currentVideo.videoId);
+            if (currentVideo.dailymotion) {
+                DailyMotion.getVideoUrl(currentVideo.id);
+            }
+            else if (currentVideo.vimeo) {
+                Vimeo.getVideoUrl(currentVideo.id);
+            }
+            else if (currentVideo.live) {
+                YouTube.getLiveVideoUrl(currentVideo.videoId);
+            }
+            else {
+                YouTube.getVideoUrl(currentVideo.videoId);
+            }
         }
         setDoNotDisturb();
     }
@@ -73,16 +91,71 @@ Item {
         }
     }
 
+    function addVideoToDownloads(convertToAudio) {
+        if (videoWindow.state == "") {
+            controls.showControls = false;
+        }
+        if (!currentVideo.videoDownload) {
+            var cv = currentVideo;
+            cv["status"] = "paused";
+            if (convertToAudio) {
+                cv["audioDownload"] = true;
+                addAudioDownload(cv);
+            }
+            else {
+                cv["videoDownload"] = true;
+                addDownload(cv);
+                currentVideo = cv;
+            }
+        }
+    }
+
+    function addVideoToFavourites() {
+        if (videoWindow.state == "") {
+            controls.showControls = false;
+        }
+        if (!currentVideo.favourite) {
+            if ((currentVideo.youtube) && !(YouTube.currentUser == "")) {
+                YouTube.addToFavourites(currentVideo.videoId);
+            }
+            else if ((currentVideo.dailymotion) && !(DailyMotion.currentUser == "")) {
+                DailyMotion.addToFavourites(currentVideo.id);
+            }
+            else if ((currentVideo.vimeo) && !(Vimeo.currentUser == "")) {
+                VM.setLike(true, currentVideo.id);
+            }
+        }
+    }
+
+    function rateVideo(likeOrDislike) {
+        if (videoWindow.state == "") {
+            controls.showControls = false;
+        }
+        if (!((currentVideo.rating) || (YouTube.currentUser == ""))) {
+            ytBar.likeOrDislike = likeOrDislike;
+            YouTube.rateVideo(currentVideo.videoId, likeOrDislike);
+        }
+    }
+
+    color: "black"
     onCurrentVideoChanged: {
         commentsList.loaded = false;
-        if ((tabView.currentIndex == 1) && (currentVideo.videoId)) {
-            commentsModel.loadComments();
+        if (tabView.currentIndex == 1) {
+            if (currentVideo.youtube) {
+                commentsModel.loadComments();
+            }
+            else {
+                commentsModel.xml = "";
+                commentsModel.reload;
+            }
+            if (currentVideo.vimeo) {
+                VM.getComments();
+            }
+            else {
+                vimeoCommentsModel.clear();
+            }
+            setDoNotDisturb();
         }
-        else {
-            commentsModel.xml = "";
-            commentsModel.reload;
-        }
-        setDoNotDisturb();
     }
     onPlaylistPositionChanged: {
         if (playlistPosition < playbackModel.count) {
@@ -98,7 +171,15 @@ Item {
             }
             else {
                 gettingVideoUrl = true;
-                YouTube.getVideoUrl(nextVideo.videoId);
+                if (nextVideo.dailymotion) {
+                    DailyMotion.getVideoUrl(nextVideo.id);
+                }
+                else if (nextVideo.vimeo) {
+                    Vimeo.getVideoUrl(nextVideo.id);
+                }
+                else {
+                    YouTube.getVideoUrl(nextVideo.videoId);
+                }
             }
             currentVideo = nextVideo;
             if (videoWindow.state == "audio") {
@@ -146,6 +227,52 @@ Item {
         }
     }
 
+    Connections {
+        target: DailyMotion
+        onGotVideoUrl: {
+            gettingVideoUrl = false;
+            videoPlayer.setVideo(videoUrl);
+            var cv = currentVideo;
+            cv["videoUrl"] = videoUrl;
+            currentVideo = cv;
+        }
+        onVideoUrlError: {
+            gettingVideoUrl = false;
+            playlistPosition++;
+        }
+        onAddedToFavourites: {
+            var cv = currentVideo;
+            cv["favourite"] = true;
+            currentVideo = cv;
+        }
+    }
+
+    Connections {
+        target: Vimeo
+        onGotVideoUrl: {
+            gettingVideoUrl = false;
+            videoPlayer.setVideo(videoUrl);
+            var cv = currentVideo;
+            cv["videoUrl"] = videoUrl;
+            currentVideo = cv;
+        }
+        onVideoUrlError: {
+            gettingVideoUrl = false;
+            playlistPosition++;
+        }
+        onAddedToFavourites: {
+            var cv = currentVideo;
+            cv["favourite"] = true;
+            currentVideo = cv;
+        }
+        onCommentAdded: {
+            var cv = currentVideo;
+            cv["commentAdded"] = true;
+            currentVideo = cv;
+            commentsModel.loadComments();
+        }
+    }
+
     Timer {
         id: controlsTimer
 
@@ -158,30 +285,33 @@ Item {
         id: videoPlayer
 
         function setVideo(videoUrl) {
+            if ((Controller.isSymbian) && (currentVideo.archive)) {
+                videoUrl = "file:///" + videoUrl;
+            }
             videoPlayer.source = videoUrl;
-            videoPlayer.play()
-            if (currentVideo.filePath) {
+            videoPlayer.play();
+            if (currentVideo.archive) {
                 archiveModel.markItemAsOld(currentVideo.filePath);
             }
         }
 
-        z: (currentVideo) && (seekBar.position > 0) && !((currentVideo.archive) && ((currentVideo.quality == "audio") || (currentVideo.filePath.slice(-4) == ".m4a"))) ? 0 : -1
+        z: (seekBar.position > 0) && !((currentVideo.archive) && ((currentVideo.quality == "audio") || (currentVideo.filePath.slice(-4) == ".m4a"))) ? 0 : -1
         anchors.fill: videoWindow
-        onPositionChanged: {
-            if (videoPlayer.position > 0) {
-                seekBar.position = videoPlayer.position;
+        onStatusChanged: {
+            if (videoPlayer.status == Video.EndOfMedia) {
+                playlistPosition++;
             }
-            if ((videoPlayer.duration > 0) && ((videoPlayer.duration - videoPlayer.position) < 500)) {
-                if (playlistPosition == (playbackModel.count - 1)) {
+        }
+        onPositionChanged: {
+            if (videoPlayer.position > 1000) {
+                seekBar.position = videoPlayer.position;
+                if ((playlistPosition == (playbackModel.count - 1)) && (videoPlayer.duration > 0) && ((videoPlayer.duration - videoPlayer.position) < 500)) {
                     videoPlayer.stop();
                     videoPlayer.source = "";
                     playbackStopped();
                 }
-                else {
-                    playlistPosition++;
-                }
             }
-        }        
+        }
     }
 
     Item {
@@ -190,10 +320,6 @@ Item {
         property bool showControls : false
         property bool showExtraControls : false
         property bool audioMode : false
-
-        function getLikeIcon() {
-
-        }
 
         anchors.fill: videoWindow
         onShowControlsChanged: {
@@ -256,7 +382,7 @@ Item {
 
             height: 50
             anchors { top: playlistView.top; left: playlistView.right; leftMargin: -1; right: titleBar.right }
-            opacity: (controls.showExtraControls) && (currentVideo) && (currentVideo.videoId) ? 1 : 0
+            opacity: (controls.showExtraControls) && !(currentVideo.archive) ? 1 : 0
 
             Rectangle {
                 anchors.fill: ytBar
@@ -274,24 +400,17 @@ Item {
 
                     width: ytBar.height
                     height: ytBar.height
-                    source: (likeMouseArea.pressed) || ((currentVideo) && (currentVideo.rating == "like")) ? (cuteTubeTheme == "nightred") ? "ui-images/likeiconred.png" : "ui-images/likeiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/likeiconlight.png" : "ui-images/likeicon.png"
+                    source: (likeMouseArea.pressed) || (currentVideo.rating == "like") ? (cuteTubeTheme == "nightred") ? "ui-images/likeiconred.png" : "ui-images/likeiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/likeiconlight.png" : "ui-images/likeicon.png"
                     sourceSize.width: likeButton.width
                     sourceSize.height: likeButton.height
                     smooth: true
+                    visible: currentVideo.youtube ? true : false
 
                     MouseArea {
                         id: likeMouseArea
 
                         anchors.fill: likeButton
-                        onClicked: {
-                            if (videoWindow.state == "") {
-                                controls.showControls = false;
-                            }
-                            if ((!currentVideo.rating) && (userIsSignedIn())) {
-                                ytBar.likeOrDislike = "like";
-                                YouTube.rateVideo(currentVideo.videoId, "like");
-                            }
-                        }
+                        onClicked: rateVideo("like")
                     }
                 }
 
@@ -300,24 +419,17 @@ Item {
 
                     width: ytBar.height
                     height: ytBar.height
-                    source: (dislikeMouseArea.pressed) || ((currentVideo) && (currentVideo.rating == "dislike")) ? (cuteTubeTheme == "nightred") ? "ui-images/dislikeiconred.png" : "ui-images/dislikeiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/dislikeiconlight.png" : "ui-images/dislikeicon.png"
+                    source: (dislikeMouseArea.pressed) || (currentVideo.rating == "dislike") ? (cuteTubeTheme == "nightred") ? "ui-images/dislikeiconred.png" : "ui-images/dislikeiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/dislikeiconlight.png" : "ui-images/dislikeicon.png"
                     sourceSize.width: dislikeButton.width
                     sourceSize.height: dislikeButton.height
                     smooth: true
+                    visible: currentVideo.youtube ? true : false
 
                     MouseArea {
                         id: dislikeMouseArea
 
                         anchors.fill: dislikeButton
-                        onClicked: {
-                            if (videoWindow.state == "") {
-                                controls.showControls = false;
-                            }
-                            if ((!currentVideo.rating) && (userIsSignedIn())) {
-                                ytBar.likeOrDislike = "dislike";
-                                YouTube.rateVideo(currentVideo.videoId, "dislike");
-                            }
-                        }
+                        onClicked: rateVideo("dislike")
                     }
                 }
 
@@ -326,23 +438,17 @@ Item {
 
                     width: ytBar.height
                     height: ytBar.height
-                    source: (favMouseArea.pressed) || ((currentVideo) && (currentVideo.favourite)) ? (cuteTubeTheme == "nightred") ? "ui-images/favouritesiconred.png" : "ui-images/favouritesiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/favouritesiconlight.png" : "ui-images/favouritesicon.png"
+                    source: (favMouseArea.pressed) || (currentVideo.favourite) ? (cuteTubeTheme == "nightred") ? "ui-images/favouritesiconred.png" : "ui-images/favouritesiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/favouritesiconlight.png" : "ui-images/favouritesicon.png"
                     sourceSize.width: favButton.width
                     sourceSize.height: favButton.height
                     smooth: true
+                    visible: (currentVideo.youtube) || (currentVideo.dailymotion) || (currentVideo.vimeo) ? true : false
 
                     MouseArea {
                         id: favMouseArea
 
                         anchors.fill: favButton
-                        onClicked: {
-                            if (videoWindow.state == "") {
-                                controls.showControls = false;
-                            }
-                            if ((!currentVideo.favourite) && (userIsSignedIn())) {
-                                YouTube.addToFavourites(currentVideo.videoId);
-                            }
-                        }
+                        onClicked: addVideoToFavourites()
                     }
                 }
 
@@ -351,7 +457,7 @@ Item {
 
                     width: ytBar.height
                     height: ytBar.height
-                    source: (videoDownloadMouseArea.pressed) || ((currentVideo) && (currentVideo.videoDownload)) ? (cuteTubeTheme == "nightred") ? "ui-images/videodownloadiconred.png" : "ui-images/videodownloadiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/videodownloadiconlight.png" : "ui-images/videodownloadicon.png"
+                    source: (videoDownloadMouseArea.pressed) || (currentVideo.videoDownload) ? (cuteTubeTheme == "nightred") ? "ui-images/videodownloadiconred.png" : "ui-images/videodownloadiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/videodownloadiconlight.png" : "ui-images/videodownloadicon.png"
                     sourceSize.width: videoDownloadButton.width
                     sourceSize.height: videoDownloadButton.height
                     smooth: true
@@ -360,18 +466,7 @@ Item {
                         id: videoDownloadMouseArea
 
                         anchors.fill: videoDownloadButton
-                        onClicked: {
-                            if (videoWindow.state == "") {
-                                controls.showControls = false;
-                            }
-                            if (!currentVideo.videoDownload) {
-                                var cv = currentVideo;
-                                cv["videoDownload"] = true;
-                                cv["status"] = "paused";
-                                addDownload(cv);
-                                currentVideo = cv;
-                            }
-                        }
+                        onClicked: addVideoToDownloads(false)
                     }
                 }
 
@@ -380,7 +475,7 @@ Item {
 
                     width: ytBar.height
                     height: ytBar.height
-                    source: (audioDownloadMouseArea.pressed) || ((currentVideo) && (currentVideo.audioDownload)) ? (cuteTubeTheme == "nightred") ? "ui-images/audiodownloadiconred.png" : "ui-images/audiodownloadiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/audiodownloadiconlight.png" : "ui-images/audiodownloadicon.png"
+                    source: (audioDownloadMouseArea.pressed) || (currentVideo.audioDownload) ? (cuteTubeTheme == "nightred") ? "ui-images/audiodownloadiconred.png" : "ui-images/audiodownloadiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/audiodownloadiconlight.png" : "ui-images/audiodownloadicon.png"
                     sourceSize.width: audioDownloadButton.width
                     sourceSize.height: audioDownloadButton.height
                     smooth: true
@@ -390,18 +485,7 @@ Item {
                         id: audioDownloadMouseArea
 
                         anchors.fill: audioDownloadButton
-                        onClicked: {
-                            if (videoWindow.state == "") {
-                                controls.showControls = false;
-                            }
-                            if (!currentVideo.audioDownload) {
-                                var cv = currentVideo;
-                                cv["audioDownload"] = true;
-                                cv["status"] = "paused";
-                                addAudioDownload(cv);
-                                currentVideo = cv;
-                            }
-                        }
+                        onClicked: addVideoToDownloads(true)
                     }
                 }
             }
@@ -426,6 +510,12 @@ Item {
                 sourceSize.width: coverArt.width
                 sourceSize.height: coverArt.height
                 smooth: true
+                visible: videoPlayer.z == -1
+                onStatusChanged: {
+                    if (coverArt.status == Image.Error) {
+                        coverArt.source = "ui-images/error.jpg";
+                    }
+                }
             }
 
             Text {
@@ -568,6 +658,7 @@ Item {
                 id: modeButton
 
                 anchors { left: titleBar.left; leftMargin: Controller.isSymbian ? 10 : 60; verticalCenter: titleBar.verticalCenter }
+                visible: !Controller.isSymbian
                 icon: controls.audioMode ? (cuteTubeTheme == "light") ? "ui-images/videosiconlight.png" : "ui-images/videosicon.png" :
                                                                                                         (cuteTubeTheme == "light") ? "ui-images/infoiconlight.png" : "ui-images/infoicon.png"
                 onButtonClicked: controls.audioMode = !controls.audioMode
@@ -576,16 +667,17 @@ Item {
             Text {
                 id: titleText
 
-                anchors { left: titleBar.left; leftMargin: Controller.isSymbian ? 60 : 110; right: titleBar.right; rightMargin: 200; verticalCenter: titleBar.verticalCenter }
+                anchors { left: titleBar.left; leftMargin: Controller.isSymbian ? 10 : 110; right: titleBar.right; rightMargin: 200; verticalCenter: titleBar.verticalCenter }
                 font.pixelSize: _STANDARD_FONT_SIZE
                 elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
                 color: _TEXT_COLOR
                 smooth: true
-                text: !currentVideo ? "" : currentVideo.title
+                text: !currentVideo.title ? "" : currentVideo.title
 
                 MouseArea {
                     id: titleMouseArea
+
                     z: 100
                     anchors.fill: titleText
                     onClicked: controls.showExtraControls = !controls.showExtraControls
@@ -653,11 +745,8 @@ Item {
                 width: parent.width
                 height: 50
                 anchors.bottom: parent.bottom
-                onClicked: {
-                    if (!((playbackQuality == "mobile") ||(currentVideo.quality == "mobile"))) {
-                        videoPlayer.position = Math.floor((mouseX / seekRect.width) * videoPlayer.duration);
-                    }
-                }
+                enabled: !(((currentVideo.youtube) && (playbackQuality == "mobile")) || (currentVideo.dailymotion) || (currentVideo.live))
+                onClicked: videoPlayer.position = Math.floor((mouseX / seekRect.width) * videoPlayer.duration);
             }
         }
 
@@ -671,48 +760,30 @@ Item {
             ToolButton {
                 id: favToolButton
 
-                icon: (currentVideo) && (currentVideo.favourite) ? (cuteTubeTheme == "nightred") ? "ui-images/favouritesiconred.png" : "ui-images/favouritesiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/favouritesiconlight.png" : "ui-images/favouritesicon.png"
-                onButtonClicked: {
-                    if ((!currentVideo.favourite) && (userIsSignedIn())) {
-                        YouTube.addToFavourites(currentVideo.videoId);
-                    }
-                }
+                icon: currentVideo.favourite ? (cuteTubeTheme == "nightred") ? "ui-images/favouritesiconred.png" : "ui-images/favouritesiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/favouritesiconlight.png" : "ui-images/favouritesicon.png"
+                onButtonClicked: addVideoToFavourites()
             }
 
             ToolButton {
                 id: videoDownloadToolButton
 
-                icon: (currentVideo) && (currentVideo.videoDownload) ? (cuteTubeTheme == "nightred") ? "ui-images/videodownloadiconred.png" : "ui-images/videodownloadiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/videodownloadiconlight.png" : "ui-images/videodownloadicon.png"
-                onButtonClicked: {
-                    if (!currentVideo.videoDownload) {
-                        var cv = currentVideo;
-                        cv["videoDownload"] = true;
-                        cv["status"] = "paused";
-                        addDownload(cv);
-                        currentVideo = cv;
-                    }
-                }
+                icon: currentVideo.videoDownload ? (cuteTubeTheme == "nightred") ? "ui-images/videodownloadiconred.png" : "ui-images/videodownloadiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/videodownloadiconlight.png" : "ui-images/videodownloadicon.png"
+                onButtonClicked: addVideoToDownloads(false)
             }
 
             ToolButton {
                 id: audioDownloadToolButton
 
-                icon: (currentVideo) && (currentVideo.audioDownload) ? (cuteTubeTheme == "nightred") ? "ui-images/audiodownloadiconred.png" : "ui-images/audiodownloadiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/audiodownloadiconlight.png" : "ui-images/audiodownloadicon.png"
+                icon: currentVideo.audioDownload ? (cuteTubeTheme == "nightred") ? "ui-images/audiodownloadiconred.png" : "ui-images/audiodownloadiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/audiodownloadiconlight.png" : "ui-images/audiodownloadicon.png"
                 visible: !Controller.isSymbian
-                onButtonClicked: {
-                    if (!currentVideo.audioDownload) {
-                        var cv = currentVideo;
-                        cv["audioDownload"] = true;
-                        cv["status"] = "paused";
-                        addAudioDownload(cv);
-                        currentVideo = cv;
-                    }
-                }
+                onButtonClicked: addVideoToDownloads(true)
             }
         }
 
         Item {
             id: tabItem
+
+            property variant tabs : [ qsTr("Info"), qsTr("Comments"), qsTr("Playlist") ]
 
             anchors { left: frame.right; leftMargin: 10; right: controls.right; rightMargin: 10; top: frame.top; bottom: frame.bottom }
             visible: false
@@ -720,117 +791,41 @@ Item {
             Row {
                 id: tabRow
 
-                Item {
-                    id: infoTab
+                Repeater {
+                    model: tabItem.tabs
 
-                    width: tabItem.width / 3
-                    height: 40
+                    Item {
+                        width: tabItem.width / tabItem.tabs.length
+                        height: 40
 
-                    BorderImage {
-                        anchors.fill: infoTab
-                        source: (cuteTubeTheme == "nightred") ? "ui-images/tabred.png" : "ui-images/tab.png"
-                        smooth: true
-                        visible: tabView.currentIndex == 0
-                    }
+                        BorderImage {
+                            anchors.fill: parent
+                            source: (cuteTubeTheme == "nightred") ? "ui-images/tabred.png" : "ui-images/tab.png"
+                            smooth: true
+                            visible: tabView.currentIndex == index
+                        }
 
-                    Text {
-                        anchors.fill: infoTab
-                        font.pixelSize: _STANDARD_FONT_SIZE
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        color: tabView.currentIndex == 0 ? _TEXT_COLOR : "grey"
-                        text: qsTr("Info")
-                    }
+                        Text {
+                            anchors.fill: parent
+                            font.pixelSize: _STANDARD_FONT_SIZE
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: tabView.currentIndex == index ? _TEXT_COLOR : "grey"
+                            text: modelData
+                        }
 
-                    Rectangle {
-                        height: 1
-                        anchors { bottom: infoTab.bottom; left: infoTab.left; right: infoTab.right }
-                        color: _ACTIVE_COLOR_HIGH
-                        opacity: 0.5
-                        visible: !(tabView.currentIndex == 0)
-                    }
+                        Rectangle {
+                            height: 1
+                            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+                            color: _ACTIVE_COLOR_HIGH
+                            opacity: 0.5
+                            visible: !(tabView.currentIndex == index)
+                        }
 
-                    MouseArea {
-                        id: infoMouseArea
-
-                        anchors.fill: infoTab
-                        onClicked: tabView.currentIndex = 0
-                    }
-                }
-
-                Item {
-                    id: commentsTab
-
-                    width: tabItem.width / 3
-                    height: 40
-
-                    BorderImage {
-                        anchors.fill: parent
-                        source: (cuteTubeTheme == "nightred") ? "ui-images/tabred.png" : "ui-images/tab.png"
-                        smooth: true
-                        visible: tabView.currentIndex == 1
-                    }
-
-                    Text {
-                        anchors.fill: commentsTab
-                        font.pixelSize: _STANDARD_FONT_SIZE
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        color: tabView.currentIndex == 1 ? _TEXT_COLOR : "grey"
-                        text: qsTr("Comments")
-                    }
-
-                    Rectangle {
-                        height: 1
-                        anchors { bottom: commentsTab.bottom; left: commentsTab.left; right: commentsTab.right }
-                        color: _ACTIVE_COLOR_HIGH
-                        opacity: 0.5
-                        visible: !(tabView.currentIndex == 1)
-                    }
-
-                    MouseArea {
-                        id: commentsMouseArea
-
-                        anchors.fill: commentsTab
-                        onClicked: tabView.currentIndex = 1
-                    }
-                }
-
-                Item {
-                    id: playlistTab
-
-                    width: tabItem.width / 3
-                    height: 40
-
-                    BorderImage {
-                        anchors.fill: parent
-                        source: (cuteTubeTheme == "nightred") ? "ui-images/tabred.png" : "ui-images/tab.png"
-                        smooth: true
-                        visible: tabView.currentIndex == 2
-                    }
-
-                    Text {
-                        anchors.fill: playlistTab
-                        font.pixelSize: _STANDARD_FONT_SIZE
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        color: tabView.currentIndex == 2 ? _TEXT_COLOR : "grey"
-                        text: qsTr("Playlist")
-                    }
-
-                    Rectangle {
-                        height: 1
-                        anchors { bottom: playlistTab.bottom; left: playlistTab.left; right: playlistTab.right }
-                        color: _ACTIVE_COLOR_HIGH
-                        opacity: 0.5
-                        visible: !(tabView.currentIndex == 2)
-                    }
-
-                    MouseArea {
-                        id: playlistMouseArea
-
-                        anchors.fill: playlistTab
-                        onClicked: tabView.currentIndex = 2
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: tabView.currentIndex = index
+                        }
                     }
                 }
             }
@@ -849,8 +844,13 @@ Item {
                 clip: true
 
                 onCurrentIndexChanged: {
-                    if ((tabView.currentIndex == 1) && (currentVideo) && (currentVideo.comments) && !(currentVideo.comments == "0") && (!commentsList.loaded)) {
-                        commentsModel.loadComments();
+                    if ((tabView.currentIndex == 1) && (currentVideo.comments) && !(currentVideo.comments == "0") && (!commentsList.loaded)) {
+                        if (currentVideo.youtube) {
+                            commentsModel.loadComments();
+                        }
+                        else if (currentVideo.vimeo) {
+                            VM.getComments();
+                        }
                     }
                 }
             }
@@ -883,7 +883,7 @@ Item {
                         id: tabTitleText
 
                         width: textColumn.width
-                        text: !currentVideo ? "" : !currentVideo.title ? "" : currentVideo.title
+                        text: !currentVideo.title ? "" : currentVideo.title
                         color: _TEXT_COLOR
                         font.pixelSize: _STANDARD_FONT_SIZE
                         wrapMode: TextEdit.WordWrap
@@ -898,13 +898,14 @@ Item {
                         textFormat: Text.StyledText
                         wrapMode: TextEdit.WordWrap
                         text: {
-                            if (currentVideo) {
-                                if (currentVideo.author) {
-                                    qsTr("By ") + currentVideo.author + qsTr(" on ") + currentVideo.uploadDate.split("T")[0];
-                                }
-                                else if (currentVideo.date) {
-                                    qsTr("Added on ") + GetDate.getDate(currentVideo.date);
-                                }
+                            if ((currentVideo.youtube) || (currentVideo.vimeo)) {
+                                qsTr("By ") + currentVideo.author + qsTr(" on ") + currentVideo.uploadDate.split(/\s|T/)[0];
+                            }
+                            else if (currentVideo.live) {
+                                qsTr("By ") + currentVideo.author;
+                            }
+                            else if (currentVideo.archive) {
+                                qsTr("Added on ") + GetDate.getDate(currentVideo.date);
                             }
                             else {
                                 "";
@@ -917,7 +918,7 @@ Item {
 
                         width: 50
                         height: 30
-                        source: !currentVideo ? "" : !currentVideo.quality ? "" : !(/[amh347]/.test(currentVideo.quality.charAt(0))) ? "" : (cuteTubeTheme == "light") ? "ui-images/" + currentVideo.quality + "iconlight.png" : "ui-images/" + currentVideo.quality + "icon.png";
+                        source: !currentVideo.quality ? "" : !(/[amh347]/.test(currentVideo.quality.charAt(0))) ? "" : (cuteTubeTheme == "light") ? "ui-images/" + currentVideo.quality + "iconlight.png" : "ui-images/" + currentVideo.quality + "icon.png";
                         sourceSize.width: qualityIcon.width
                         sourceSize.height: qualityIcon.height
                         smooth: true
@@ -928,58 +929,52 @@ Item {
                         id: infoButtonRow
                         x: 2
                         spacing: 10
-                        visible: (currentVideo) && (currentVideo.videoId) ? true : false
+                        visible: (currentVideo.youtube) || (currentVideo.dailymotion) || (currentVideo.vimeo) ? true : false
 
                         ToolButton {
                             id: likeToolButton
 
-                            icon: ((currentVideo) && (currentVideo.rating == "like")) ? (cuteTubeTheme == "nightred") ? "ui-images/likeiconred.png" : "ui-images/likeiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/likeiconlight.png" : "ui-images/likeicon.png"
-                            onButtonClicked: {
-                                if ((!currentVideo.rating) && (userIsSignedIn())) {
-                                    ytBar.likeOrDislike = "like";
-                                    YouTube.rateVideo(currentVideo.videoId, "like");
-                                }
-                            }
+                            icon: (currentVideo.rating == "like") ? (cuteTubeTheme == "nightred") ? "ui-images/likeiconred.png" : "ui-images/likeiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/likeiconlight.png" : "ui-images/likeicon.png"
+                            visible: currentVideo.youtube ? true : false
+                            onButtonClicked: rateVideo("like")
                         }
 
                         Text {
                             y: 20
                             font.pixelSize: _SMALL_FONT_SIZE
                             color: "grey"
-                            text: !currentVideo ? "" : !currentVideo.likes ? "0" : currentVideo.likes
+                            text: !currentVideo.likes ? "0" : currentVideo.likes
+                            visible: currentVideo.youtube ? true : false
                         }
 
                         ToolButton {
                             id: dislikeToolButton
 
-                            icon: (currentVideo) && (currentVideo.rating == "dislike") ? (cuteTubeTheme == "nightred") ? "ui-images/dislikeiconred.png" : "ui-images/dislikeiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/dislikeiconlight.png" : "ui-images/dislikeicon.png"
-                            onButtonClicked: {
-                                if ((!currentVideo.rating) && (userIsSignedIn())) {
-                                    ytBar.likeOrDislike = "dislike";
-                                    YouTube.rateVideo(currentVideo.videoId, "dislike");
-                                }
-                            }
+                            icon: (currentVideo.rating == "dislike") ? (cuteTubeTheme == "nightred") ? "ui-images/dislikeiconred.png" : "ui-images/dislikeiconblue.png" : (cuteTubeTheme == "light") ? "ui-images/dislikeiconlight.png" : "ui-images/dislikeicon.png"
+                            visible: currentVideo.youtube ? true : false
+                            onButtonClicked: rateVideo("dislike")
                         }
 
                         Text {
                             y: 20
                             font.pixelSize: _SMALL_FONT_SIZE
                             color: "grey"
-                            text: !currentVideo ? "" : !currentVideo.dislikes ? "0" : currentVideo.dislikes
+                            text: !currentVideo.dislikes ? "0" : currentVideo.dislikes
+                            visible: currentVideo.youtube ? true : false
                         }
 
                         Text {
-                            y: 20
+                            y: currentVideo.youtube ? 20 : 0
                             font.pixelSize: _SMALL_FONT_SIZE
                             color: _TEXT_COLOR
                             text: qsTr("Views")
                         }
 
                         Text {
-                            y: 20
+                            y: currentVideo.youtube ? 20 : 0
                             font.pixelSize: _SMALL_FONT_SIZE
                             color: "grey"
-                            text: !currentVideo ? "" : !currentVideo.views ? "0" : currentVideo.views
+                            text: !currentVideo.views ? "" : currentVideo.views
                         }
                     }
 
@@ -994,11 +989,11 @@ Item {
                         id: descriptionText
 
                         width: textColumn.width
-                        text: !currentVideo ? "" : (!currentVideo.description) || (currentVideo.description == "") ? qsTr("No description") : currentVideo.description
+                        text: (!currentVideo.description) || (currentVideo.description == "") ? qsTr("No description") : currentVideo.description
                         color: "grey"
                         font.pixelSize: _SMALL_FONT_SIZE
                         wrapMode: TextEdit.WordWrap
-                        visible: (currentVideo) && (currentVideo.videoId) ? true : false
+                        visible: (currentVideo.youtube) || (currentVideo.dailymotion) || (currentVideo.vimeo) ? true : false
                     }
                 }
             }
@@ -1023,11 +1018,14 @@ Item {
 
                             textEntryWidth: commentsList.width - 5
                             textEntryHeight: commentsList.height
-                            visible: (currentVideo) && (currentVideo.videoId) ? true : false
-                            icon: (currentVideo) && (currentVideo.commentAdded) ? (cuteTubeTheme == "nightred") ? "ui-images/commenticonred.png" : "ui-images/commenticonblue.png" : (cuteTubeTheme == "light") ? "ui-images/commenticonlight.png" : "ui-images/commenticon.png"
+                            visible: (currentVideo.youtube) || (currentVideo.vimeo) ? true : false
+                            icon: currentVideo.commentAdded ? (cuteTubeTheme == "nightred") ? "ui-images/commenticonred.png" : "ui-images/commenticonblue.png" : (cuteTubeTheme == "light") ? "ui-images/commenticonlight.png" : "ui-images/commenticon.png"
                             onSubmitText: {
-                                if (userIsSignedIn()) {
+                                if ((currentVideo.youtube) && !(YouTube.currentUser == "")) {
                                     YouTube.addComment(currentVideo.videoId, text);
+                                }
+                                else if ((currentVideo.vimeo) && !(Vimeo.currentUser == "")) {
+                                    VM.addComment(text, currentVideo.id)
                                 }
                             }
                         }
@@ -1038,16 +1036,16 @@ Item {
                             color: "grey"
                             horizontalAlignment: Text.AlignHCenter
                             verticalAlignment: Text.AlignVCenter
-                            text: !currentVideo ? "" : (!currentVideo.comments) || (currentVideo.comments == "0") ? qsTr("No comments") : currentVideo.comments + qsTr(" comments")
+                            text: (!currentVideo.comments) || (currentVideo.comments == "0") ? qsTr("No comments") : currentVideo.comments + qsTr(" comments")
                             visible: commentButton.state == ""
                         }
-                    }                    
+                    }
 
                     ListView {
                         id: commentsList
 
                         property bool loaded : false // True if comments have been loaded
-                        property string commentsFeed : !currentVideo ? "" : !currentVideo.videoId ? "" : "http://gdata.youtube.com/feeds/api/videos/" + currentVideo.videoId + "/comments?v=2&max-results=50"
+                        property string commentsFeed : !currentVideo.youtube ? "" : "http://gdata.youtube.com/feeds/api/videos/" + currentVideo.videoId + "/comments?v=2&max-results=50"
 
                         width: commentsItem.width
                         height: commentsItem.height - 40
@@ -1071,7 +1069,9 @@ Item {
                             id: commentDelegate
                         }
 
-                        model: CommentsModel {
+                        model: currentVideo.youtube ? commentsModel : vimeoCommentsModel
+
+                        CommentsModel {
                             id: commentsModel
 
                             property bool loading : false
@@ -1111,11 +1111,26 @@ Item {
                             }
                         }
 
+                        ListModel {
+                            id: vimeoCommentsModel
+
+                            property bool loading : false
+                            property bool moreResults : false
+                            property int page : 1
+                        }
+
                         onCurrentIndexChanged: {
-                            if ((commentsList.count - commentsList.currentIndex == 1)
-                                    && (commentsModel.count < commentsModel.totalResults)
-                                    && (commentsModel.status == XmlListModel.Ready)) {
-                                commentsModel.appendComments();
+                            if (commentsList.count - commentsList.currentIndex == 1) {
+                                if ((currentVideo.youtube)
+                                        && (commentsModel.count < commentsModel.totalResults)
+                                        && (commentsModel.status == XmlListModel.Ready)) {
+                                    commentsModel.appendComments();
+                                }
+                                else if ((currentVideo.vimeo)
+                                         && (vimeoCommentsModel.moreResults)
+                                         && (!vimeoCommentsModel.loading)) {
+                                    VM.getComments();
+                                }
                             }
                         }
                     }
@@ -1161,7 +1176,6 @@ Item {
                         onClicked: playlistPosition = index
                     }
                 }
-
                 model: playbackModel
             }
         }
@@ -1169,17 +1183,17 @@ Item {
 
     states: State {
         name: "audio"
-        when: (controls.audioMode) || ((currentVideo) && (currentVideo.archive) && ((currentVideo.quality == "audio") || (currentVideo.filePath.slice(-4) == ".m4a")))
+        when: (controls.audioMode) || ((currentVideo.archive) && ((currentVideo.quality == "audio") || (currentVideo.filePath.slice(-4) == ".m4a")))
         PropertyChanges { target: window; color: _BACKGROUND_COLOR }
         ParentChange { target: videoPlayer; parent: frame }
         PropertyChanges { target: videoPlayer; anchors { fill: frame; margins: 2 } }
         PropertyChanges { target: playlistView; visible: false }
-        PropertyChanges { target: titleText; anchors { leftMargin: Controller.isSymbian ? 10 : 60; rightMargin: 80 } }
+        PropertyChanges { target: titleText; anchors { leftMargin: 60; rightMargin: 80 } }
         PropertyChanges { target: modeButton; visible: false }
         PropertyChanges { target: ytBar; visible: false }
-        PropertyChanges { target: toolButtonRow; visible: (currentVideo) && (currentVideo.videoId) ? true : false }
+        PropertyChanges { target: toolButtonRow; visible: (currentVideo.youtube) || (currentVideo.dailymotion) || (currentVideo.vimeo)  ? true : false }
         PropertyChanges { target: tabItem; visible: true }
-        PropertyChanges { target: coverArt; source: !currentVideo ? "" : (currentVideo.archive) ? currentVideo.thumbnail.replace("default", "hqdefault") : "" }
+        PropertyChanges { target: coverArt; source: currentVideo.archive ? currentVideo.thumbnail.replace("default", "hqdefault") : "" }
         PropertyChanges { target: controlsMouseArea; enabled: false }
         PropertyChanges { target: titleMouseArea; enabled: false }
         PropertyChanges { target: controls; showControls: true; showExtraControls: true }
@@ -1191,7 +1205,7 @@ Item {
         AnchorChanges { target: seekRect; anchors { left: tabItem.left; right: tabItem.right; verticalCenter: buttonRow.verticalCenter; bottom: undefined } }
         AnchorChanges { target: time; anchors { right: controls.right; top: seekRect.bottom; verticalCenter: undefined } }
         PropertyChanges { target: time; anchors { topMargin: 10; rightMargin: 10 } }
-        PropertyChanges { target: frameMouseArea; enabled: (currentVideo) && (currentVideo.archive) && ((currentVideo.quality == "audio") || (currentVideo.filePath.slice(-4) == ".m4a")) ? false : true }
+        PropertyChanges { target: frameMouseArea; enabled: (currentVideo.archive) && ((currentVideo.quality == "audio") || (currentVideo.filePath.slice(-4) == ".m4a")) ? false : true }
     }
 }
 

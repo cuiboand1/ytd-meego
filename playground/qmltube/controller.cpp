@@ -196,7 +196,7 @@ void Controller::getMediaPlayerFromDB() {
         while (query.next()) {
             player = query.value(0).toString();
         }
-        //        qDebug() << player;
+                qDebug() << player;
     }
     if (player == "cuteTube Player") {
         player = "Media Player";
@@ -272,7 +272,6 @@ QStringList Controller::getInstalledMediaPlayers() const {
 void Controller::playVideo(const QString &url) {
     //    qDebug() << url;
 #ifdef Q_WS_MAEMO_5
-    minimize();
     if (mediaPlayer == "mplayer") {
         QStringList args;
         args << "-cache" << "4096" << "-fs" << url;
@@ -306,7 +305,7 @@ void Controller::playVideo(const QString &url) {
     }
 #else // from the orig cutetube code, probably for fallthrough for Q_OS_SYMBIAN
     if (url.startsWith("http://")) {
-        QFile ytlink("E:/Videos/cutetube/cutetube.ram");
+        QFile ytlink("/home/stuart/N900/cutetube.ram");
         ytlink.open(QIODevice::WriteOnly);
         ytlink.write(url.toAscii());
         ytlink.close();

@@ -6,12 +6,15 @@ Item {
     property variant uploadStatusDict
     property variant statusColorDict
     property string uploadStatus : "preparing"
+    property variant video
 
     signal close
 
-    function setDetails(filename, title) {
-        filenameText.text = filename;
-        titleText.text = title;
+    function setDetails(videoObject, site) {
+        video = videoObject;
+        siteText.text = site;
+        filenameText.text = video.filename;
+        titleText.text = video.title;
     }
 
     anchors.fill: parent
@@ -23,7 +26,7 @@ Item {
                 "completed": qsTr("Upload completed"), "failed": qsTr("Upload failed")
     }
         statusColorDict = {
-                "preparing": _TEXT_COLOR, "started": "#3d6be0",
+                "preparing": _TEXT_COLOR, "started": _ACTIVE_COLOR_LOW,
                 "interrupted": "yellow", "aborted": "yellow",
                 "completed": "green", "failed": "red"
     }
@@ -50,6 +53,21 @@ Item {
 
         anchors { left: dialog.left; leftMargin: 10; right: dialog.right; rightMargin: 180; top: dialog.top; topMargin: 50 }
         spacing: 10
+
+        Text {
+            font.pixelSize: _SMALL_FONT_SIZE
+            color: "grey"
+            text: qsTr("Site")
+        }
+
+        Text {
+            id: siteText
+
+            anchors { left: column.left; right: column.right; rightMargin: 10 }
+            font.pixelSize: _STANDARD_FONT_SIZE
+            elide: Text.ElideRight
+            color: _TEXT_COLOR
+        }
 
         Text {
             font.pixelSize: _SMALL_FONT_SIZE
@@ -82,21 +100,38 @@ Item {
         }
 
         Text {
+            font.pixelSize: _SMALL_FONT_SIZE
+            color: "grey"
+            text: qsTr("Status")
+        }
+
+        Text {
             id: resultText
 
             anchors.left: parent.left
             font.pixelSize: _SMALL_FONT_SIZE
             color: statusColorDict[uploadStatus]
             text:  uploadStatusDict[uploadStatus]
+
+            Text {
+                id: speedText
+
+                property string speed
+
+                anchors { left: resultText.right; leftMargin: 5 }
+                font.pixelSize: _SMALL_FONT_SIZE
+                color: resultText.color
+                text: "(" + speedText.speed + ")"
+                visible: uploadStatus == "started"
+            }
         }
-    }
 
-    ProgressBar {
-        id: progressBar
+        ProgressBar {
+            id: progressBar
 
-        height: 70
-        width: 420
-        anchors { left: dialog.left; bottom: dialog.bottom; margins: 10 }
+            height: 70
+            width: 420
+        }
     }
 
     PushButton {
@@ -126,13 +161,27 @@ Item {
 
     Connections {
         target: YouTube
-        onUpdateUploadProgress: {
-            progressBar.received = bytesSent;
+        onUploadProgressChanged: {
+            progressBar.sent = bytesSent;
             progressBar.total = bytesTotal;
+            speedText.speed = speed;
         }
         onUploadStatusChanged: {
             uploadStatus = status;
         }
+    }
+
+    Connections {
+        target: DailyMotion
+        onUploadProgressChanged: {
+            progressBar.received = bytesSent;
+            progressBar.total = bytesTotal;
+            speedText.speed = speed;
+        }
+        onUploadStatusChanged: uploadStatus = status
+        onWaitingForMetadata: DailyMotion.setUploadMetadata(id, video.title, video.description, video.tags, video.category, video.isPrivate)
+        onUploadCompleted: uploadStatus = "completed"
+        onUploadFailed: uploadStatus = "failed"
     }
 
     states: State {

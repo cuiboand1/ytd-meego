@@ -32,7 +32,9 @@ SOURCES += main.cpp \
     controller.cpp \
     downloadmanager.cpp \
     folderlistmodel.cpp \
-    sharing.cpp
+    sharing.cpp \
+    dailymotion.cpp \
+    vimeo.cpp
 
 # Please do not modify the following two lines. Required for deployment.
 include(qmlapplicationviewer/qmlapplicationviewer.pri)
@@ -50,4 +52,7 @@ HEADERS += \
     controller.h \
     downloadmanager.h \
     folderlistmodel.h \
-    sharing.h
+    sharing.h \
+    dailymotion.h \
+    vimeo.h \
+    cuteapp.h

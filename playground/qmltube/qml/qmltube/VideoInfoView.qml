@@ -2,9 +2,16 @@ import QtQuick 1.0
 import "scripts/videoinfoscripts.js" as Scripts
 import "scripts/settings.js" as Settings
 import "scripts/createobject.js" as ObjectCreator
+import "scripts/youtube.js" as YT
 
 Item {
     id: window
+
+    property bool showMenuButtonOne : true
+    property bool showMenuButtonTwo : true
+    property bool showMenuButtonThree : true
+    property bool showMenuButtonFour : true
+    property bool showMenuButtonFive : false
 
     property variant video
     property string videoId
@@ -25,11 +32,12 @@ Item {
     signal authorClicked(string username)
     signal playVideo(variant video)
     signal goToVideo(variant video)
-    signal search(string query, string order)
+    signal searchYouTube(string query, string order, string site)
     signal dialogClose
 
     function setVideo(videoObject) {
 
+        videoObject["youtube"] = true;
         video = videoObject;
         videoId = video.videoId;
         playerUrl = video.playerUrl;
@@ -59,7 +67,7 @@ Item {
     }
 
     function onMenuButtonOneClicked() {
-        if (userIsSignedIn()) {
+        if (!(YouTube.currentUser == "")) {
             toggleBusy(true);
             YouTube.addToFavourites(videoId);
         }
@@ -69,8 +77,8 @@ Item {
     }
 
     function onMenuButtonTwoClicked() {
-        if (userIsSignedIn()) {
-            Scripts.showPlaylistDialog();
+        if (!(YouTube.currentUser == "")) {
+            showPlaylistDialog();
         }
         else {
             messages.displayMessage(messages._NOT_SIGNED_IN);
@@ -83,6 +91,22 @@ Item {
 
     function onMenuButtonFourClicked() {
         Controller.copyToClipboard(playerUrl);
+    }
+
+    function showPlaylistDialog() {
+        if (dimmer.state == "") {
+            toggleControls(false);
+            var playlistDialog = ObjectCreator.createObject("AddToPlaylistDialog.qml", window);
+            playlistDialog.playlistClicked.connect(addVideoToPlaylist);
+            playlistDialog.close.connect(Scripts.closeDialogs);
+            dimmer.state = "dim";
+            playlistDialog.state = "show";
+        }
+    }
+
+    function addVideoToPlaylist(playlistId) {
+        Scripts.closeDialogs();
+        YouTube.addToPlaylist(videoId, playlistId);
     }
 
     Connections {
@@ -138,12 +162,17 @@ Item {
                 anchors { fill: frame; margins: 2 }
                 source: thumbnail
                 smooth: true
+                onStatusChanged: {
+                    if (thumb.status == Image.Error) {
+                        thumb.source = "ui-images/error.jpg";
+                    }
+                }
 
                 Rectangle {
                     id: durationLabel
 
-                    width: Math.floor(thumb.width / 2.5)
-                    height: Math.floor(durationLabel.width / 2.5)
+                    width: durationText.width + 30
+                    height: durationText.height + 10
                     anchors { bottom: thumb.bottom; right: thumb.right }
                     color: "black"
                     opacity: 0.5
@@ -153,7 +182,7 @@ Item {
                 Text {
                     id: durationText
 
-                    anchors.fill: durationLabel
+                    anchors.centerIn: durationLabel
                     text: duration
                     color: "white"
                     font.pixelSize: _STANDARD_FONT_SIZE
@@ -223,122 +252,48 @@ Item {
         Item {
             id: tabItem
 
+            property variant tabs : [ qsTr("Info"), qsTr("Comments"), qsTr("Related") ]
+
             anchors { fill: dimmer; leftMargin: frame.width + 20; rightMargin: 10; topMargin: 60; bottomMargin: 65 }
 
             Row {
                 id: tabRow
 
-                Item {
-                    id: infoTab
+                Repeater {
+                    model: tabItem.tabs
 
-                    width: tabItem.width / 3
-                    height: 40
+                    Item {
+                        width: tabItem.width / tabItem.tabs.length
+                        height: 40
 
-                    BorderImage {
-                        anchors.fill: infoTab
-                        source: (cuteTubeTheme == "nightred") ? "ui-images/tabred.png" : "ui-images/tab.png"
-                        smooth: true
-                        visible: tabView.currentIndex == 0
-                    }
+                        BorderImage {
+                            anchors.fill: parent
+                            source: (cuteTubeTheme == "nightred") ? "ui-images/tabred.png" : "ui-images/tab.png"
+                            smooth: true
+                            visible: tabView.currentIndex == index
+                        }
 
-                    Text {
-                        anchors.fill: infoTab
-                        font.pixelSize: _STANDARD_FONT_SIZE
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        color: tabView.currentIndex == 0 ? _TEXT_COLOR : "grey"
-                        text: qsTr("Info")
-                    }
+                        Text {
+                            anchors.fill: parent
+                            font.pixelSize: _STANDARD_FONT_SIZE
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: tabView.currentIndex == index ? _TEXT_COLOR : "grey"
+                            text: modelData
+                        }
 
-                    Rectangle {
-                        height: 1
-                        anchors { bottom: infoTab.bottom; left: infoTab.left; right: infoTab.right }
-                        color: _ACTIVE_COLOR_HIGH
-                        opacity: 0.5
-                        visible: !(tabView.currentIndex == 0)
-                    }
+                        Rectangle {
+                            height: 1
+                            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+                            color: _ACTIVE_COLOR_HIGH
+                            opacity: 0.5
+                            visible: !(tabView.currentIndex == index)
+                        }
 
-                    MouseArea {
-                        id: infoMouseArea
-
-                        anchors.fill: infoTab
-                        onClicked: tabView.currentIndex = 0
-                    }
-                }
-
-                Item {
-                    id: commentsTab
-
-                    width: tabItem.width / 3
-                    height: 40
-
-                    BorderImage {
-                        anchors.fill: parent
-                        source: (cuteTubeTheme == "nightred") ? "ui-images/tabred.png" : "ui-images/tab.png"
-                        smooth: true
-                        visible: tabView.currentIndex == 1
-                    }
-
-                    Text {
-                        anchors.fill: commentsTab
-                        font.pixelSize: _STANDARD_FONT_SIZE
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        color: tabView.currentIndex == 1 ? _TEXT_COLOR : "grey"
-                        text: qsTr("Comments")
-                    }
-
-                    Rectangle {
-                        height: 1
-                        anchors { bottom: commentsTab.bottom; left: commentsTab.left; right: commentsTab.right }
-                        color: _ACTIVE_COLOR_HIGH
-                        opacity: 0.5
-                        visible: !(tabView.currentIndex == 1)
-                    }
-
-                    MouseArea {
-                        id: commentsMouseArea
-
-                        anchors.fill: commentsTab
-                        onClicked: tabView.currentIndex = 1
-                    }
-                }
-
-                Item {
-                    id: relatedTab
-
-                    width: tabItem.width / 3
-                    height: 40
-
-                    BorderImage {
-                        anchors.fill: parent
-                        source: (cuteTubeTheme == "nightred") ? "ui-images/tabred.png" : "ui-images/tab.png"
-                        smooth: true
-                        visible: tabView.currentIndex == 2
-                    }
-
-                    Text {
-                        anchors.fill: relatedTab
-                        font.pixelSize: _STANDARD_FONT_SIZE
-                        horizontalAlignment: Text.AlignHCenter
-                        verticalAlignment: Text.AlignVCenter
-                        color: tabView.currentIndex == 2 ? _TEXT_COLOR : "grey"
-                        text: qsTr("Related")
-                    }
-
-                    Rectangle {
-                        height: 1
-                        anchors { bottom: relatedTab.bottom; left: relatedTab.left; right: relatedTab.right }
-                        color: _ACTIVE_COLOR_HIGH
-                        opacity: 0.5
-                        visible: !(tabView.currentIndex == 2)
-                    }
-
-                    MouseArea {
-                        id: relatedMouseArea
-
-                        anchors.fill: relatedTab
-                        onClicked: tabView.currentIndex = 2
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: tabView.currentIndex = index
+                        }
                     }
                 }
             }
@@ -513,7 +468,7 @@ Item {
 
                                 MouseArea {
                                     anchors.fill: parent
-                                    onClicked: search(parent.text, Settings.getSetting("searchOrder").toLowerCase())
+                                    onClicked: searchYouTube(parent.text, Settings.getSetting("searchOrder").toLowerCase(), "YouTube")
                                 }
 
                                 Text {

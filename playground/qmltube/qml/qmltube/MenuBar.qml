@@ -23,35 +23,39 @@ Item {
     Component.onCompleted: {
         buttonOneIcons = {
                 "HomeView": "settingsicon", "MyAccountView": "uploadsicon", "VideoListView": "tick",
-                "UserVideosView": "tick", "PlaylistVideosView": "tick",
-                "PlaylistsView": "playlistsicon", "SubscriptionsView": "subscriptionsicon",
-                "ArchiveListView": "tick", "VideoInfoView": "favouritesicon"
+                "VimeoUserVideosView": "tick", "UserVideosView": "tick", "PlaylistVideosView": "tick", "DMPlaylistVideosView": "tick",
+                "VimeoPlaylistVideosView": "tick", "PlaylistsView": "playlistsicon", "SubscriptionsView": "subscriptionsicon",
+                "ArchiveListView": "tick", "VideoInfoView": "favouritesicon", "DMListView": "tick",
+                "DMInfoView": "favouritesicon", "DMUserVideosView": "tick", "VimeoInfoView": "favouritesicon"
     };
 
         buttonTwoIcons = {
                 "HomeView": "accountsicon", "MyAccountView": "inboxicon", "VideoListView": "favouritesicon",
-                "UserVideosView": "favouritesicon", "PlaylistVideosView": "favouritesicon",
-                "ArchiveListView": Controller.isSymbian ? "deletearchiveicon" : "playicon", "VideoInfoView": "playlistsicon"
+                "VimeoUserVideosView": "favouritesicon", "UserVideosView": "favouritesicon", "PlaylistVideosView": "favouritesicon", "DMPlaylistVideosView": "favouritesicon",
+                "VimeoPlaylistVideosView": "favouritesicon", "ArchiveListView": "playicon", "VideoInfoView": "playlistsicon", "VimeoInfoView": "playlistsicon",
+                "DMListView": "playicon", "DMInfoView": "facebookicon", "DMUserVideosView": "favouritesicon"
     };
 
         buttonThreeIcons = {
                 "HomeView": "abouticon", "VideoListView": "playlistsicon",
-                "UserVideosView": "playlistsicon", "PlaylistVideosView": "deleteplaylistsicon",
-                "ArchiveListView": Controller.isSymbian ? "mostrecenticon" : "deletearchiveicon", "VideoInfoView": "facebookicon"
+                "VimeoUserVideosView": "playlistsicon", "UserVideosView": "playlistsicon", "PlaylistVideosView": "deleteplaylistsicon", "DMPlaylistVideosView": "playicon",
+                "VimeoPlaylistVideosView": "deleteplaylistsicon", "ArchiveListView": "deletearchiveicon", "VideoInfoView": "facebookicon", "VimeoInfoView": "facebookicon",
+                "DMInfoView": "clipboardicon", "DMUserVideosView": "playicon"
     };
 
         buttonFourIcons = {
-                "VideoListView": Controller.isSymbian ? "videodownloadicon" : "playicon",
-                "UserVideosView": Controller.isSymbian ? "videodownloadicon" : "playicon",
-                "PlaylistVideosView": Controller.isSymbian ? "videodownloadicon" : "playicon",
-                "ArchiveListView": Controller.isSymbian ? "sorttitleicon" : "mostrecenticon", "VideoInfoView": "clipboardicon"
+                "HomeView": "ytliveicon", "VideoListView": "playicon", "VimeoUserVideosView": "playicon", "UserVideosView": "playicon", "VimeoPlaylistVideosView": "playicon",
+                "PlaylistVideosView": "playicon", "DMPlaylistVideosView": "videodownloadicon", "ArchiveListView": "mostrecenticon",
+                "VideoInfoView": "clipboardicon", "VimeoInfoView": "clipboardicon", "DMUserVideosView": "videodownloadicon"
     };
 
         buttonFiveIcons = {
-                "VideoListView": Controller.isSymbian ? undefined : "videodownloadicon",
-                "UserVideosView": Controller.isSymbian ? undefined : "videodownloadicon",
-                "PlaylistVideosView": Controller.isSymbian ? undefined : "videodownloadicon",
-                "ArchiveListView": Controller.isSymbian ? undefined : "sorttitleicon"
+                "VideoListView": "videodownloadicon",
+                "UserVideosView": "videodownloadicon",
+                "VimeoUserVideosView": "videodownloadicon",
+                "PlaylistVideosView": "videodownloadicon",
+                "VimeoPlaylistVideosView": "videodownloadicon",
+                "ArchiveListView": "sorttitleicon"
     };
 
     }
@@ -92,10 +96,10 @@ Item {
         MenuButton {
             id: buttonOne
 
-            visible: menu.buttonOneIcons[menu.currentSource.split("/").pop().split(".")[0]] != undefined
+            visible: (menu.parent.currentIndex == 0) || (menu.parent.currentItem.item.showMenuButtonOne)
             icon: {
                 if (buttonOne.visible) {
-                    if ((menu.parent.currentIndex > 0) && (menu.parent.currentItem.item.checkList) && (menu.parent.currentItem.item.checkList.length > 0)) {
+                    if ((menu.parent.currentIndex > 0) && (menu.parent.currentItem.item.itemsSelected)) {
                         "ui-images/ticknone.png";
                     }
                     else {
@@ -112,10 +116,10 @@ Item {
         MenuButton {
             id: buttonTwo
 
-            visible: menu.buttonTwoIcons[menu.currentSource.split("/").pop().split(".")[0]] != undefined
+            visible: (menu.parent.currentIndex == 0) || (menu.parent.currentItem.item.showMenuButtonTwo)
             icon: {
                 if (buttonTwo.visible) {
-                    if ((menu.parent.currentIndex > 0) && (menu.parent.currentItem.item.videoFeed == _FAVOURITES_FEED)) {
+                    if ((menu.parent.currentIndex > 0) && (menu.parent.currentItem.item.showingFavourites)) {
                         "ui-images/deletefavouritesicon.png";
                     }
                     else {
@@ -132,7 +136,7 @@ Item {
         MenuButton {
             id: buttonThree
 
-            visible: menu.buttonThreeIcons[menu.currentSource.split("/").pop().split(".")[0]] != undefined
+            visible: (menu.parent.currentIndex == 0) || (menu.parent.currentItem.item.showMenuButtonThree)
             icon: buttonThree.visible ? "ui-images/" + menu.buttonThreeIcons[menu.currentSource.split("/").pop().split(".")[0]] + ".png" : ""
             onButtonClicked: (menu.parent.currentIndex == 0) ? menu.parent.currentItem.onMenuButtonThreeClicked() : menu.parent.currentItem.item.onMenuButtonThreeClicked()
         }
@@ -140,9 +144,9 @@ Item {
         MenuButton {
             id: buttonFour
 
-            visible: menu.buttonFourIcons[menu.currentSource.split("/").pop().split(".")[0]] != undefined
+            visible: !(menu.parent.currentIndex == 0) && (menu.parent.currentItem.item.showMenuButtonFour)
             icon: buttonFour.visible ? "ui-images/" + menu.buttonFourIcons[menu.currentSource.split("/").pop().split(".")[0]] + ".png" : ""
-            onButtonClicked: menu.parent.currentItem.item.onMenuButtonFourClicked()
+            onButtonClicked: (menu.parent.currentIndex == 0) ? menu.parent.currentItem.onMenuButtonFourClicked() : menu.parent.currentItem.item.onMenuButtonFourClicked()
 
             Text {
                 anchors { top: buttonFour.top; horizontalCenter: Controller.isSymbian ? buttonFour.left : buttonFour.right }
@@ -158,7 +162,7 @@ Item {
         MenuButton {
             id: buttonFive
 
-            visible: menu.buttonFiveIcons[menu.currentSource.split("/").pop().split(".")[0]] != undefined
+            visible: !(menu.parent.currentIndex == 0) && (menu.parent.currentItem.item.showMenuButtonFive)
             icon: buttonFive.visible ? "ui-images/" + menu.buttonFiveIcons[menu.currentSource.split("/").pop().split(".")[0]] + ".png" : ""
             onButtonClicked: menu.parent.currentItem.item.onMenuButtonFiveClicked()
         }

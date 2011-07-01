@@ -4,99 +4,164 @@ import "scripts/createobject.js" as ObjectCreator
 Item {
     id: window
 
+    property bool showMenuButtonOne : true
+    property bool showMenuButtonTwo : false
+    property bool showMenuButtonThree : false
+    property bool showMenuButtonFour : false
+    property bool showMenuButtonFive : false
+
     signal goToUserVideos(string username)
-    signal goToNewSubVideos(string feed, string title)
+    signal goToDMUserVideos(string username)
+    signal goToVimeoUserVideos(variant user)
+    signal goToNewSubVideos(variant feeds, string title, string site)
     signal dialogClose
 
     function showUserInfoDialog(index) {
         /* Show the user profile dialog */
 
-        if (subscriptionsList.state == "") {
-            toggleControls(false);
-            var userDialog = ObjectCreator.createObject("UserInfoDialog.qml", window);
-            userDialog.getUserProfile(subscriptionsModel.get(index).title);
-            userDialog.userVideosClicked.connect(goToUserVideos);
-            userDialog.close.connect(closeDialogs);
-            subscriptionsList.state = "dim";
-            userDialog.state = "show";
-        }
+        toggleControls(false);
+        var userDialog = ObjectCreator.createObject("UserInfoDialog.qml", window);
+        userDialog.getUserProfile(subscriptionsModel.get(index).title);
+        userDialog.userVideosClicked.connect(goToUserVideos);
+        userDialog.close.connect(closeDialogs);
+        dimmer.state = "dim";
+        userDialog.state = "show";
     }
 
     function closeDialogs() {
         /* Close any open dialogs and return the window to its default state */
 
         dialogClose();
-        subscriptionsList.state = "";
+        dimmer.state = "";
         toggleControls(true);
     }
 
     function onMenuButtonOneClicked() {
-        goToNewSubVideos(_NEW_SUB_VIDEOS_FEED, qsTr("Latest Subscriptions Videos"));
+        var feeds = { "youtube": YouTube.currentUser == "" ? "none" : _NEW_SUB_VIDEOS_FEED,
+                      "dailymotion": DailyMotion.currentUser == "" ? "none" : _DM_NEW_SUB_VIDEOS_FEED,
+                      "vimeo": Vimeo.currentUser == "" ? "none" : _VM_NEW_SUB_VIDEOS_FEED };
+        var title = qsTr("Latest Subscriptions Videos");
+        var site;
+        if (tabView.currentIndex == 0) {
+            site = "YouTube";
+        }
+        else if (tabView.currentIndex == 1) {
+            site = "Dailymotion";
+        }
+        else if (tabView.currentIndex == 2) {
+            site = "vimeo";
+        }
+        goToNewSubVideos(feeds, title, site);
     }
 
-    Connections {
-        target: YouTube
+    Item {
+        id: dimmer
 
-        onUnsubscribed: {
-            messages.displayMessage(qsTr("You have unsubscribed to this channel"));
-        }
-    }
+        anchors.fill: window
 
-    ListView {
-        id: subscriptionsList
+        Behavior on opacity { PropertyAnimation { properties: "opacity"; duration: 500 } }
 
-        anchors { fill: window; topMargin: 50 }
-        boundsBehavior: Flickable.DragOverBounds
-        highlightMoveDuration: 500
-        preferredHighlightBegin: 0
-        preferredHighlightEnd: 100
-        highlightRangeMode: ListView.StrictlyEnforceRange
-        interactive: visibleArea.heightRatio < 1
-        model: subscriptionsModel
+        Item {
+            id: tabItem
 
-        ScrollBar {}
+            property variant sites : ["YouTube", "Dailymotion", "vimeo" ]
 
-        MouseArea {
-            id: mouseArea
-            anchors.fill: subscriptionsList
-            enabled: false
-            onClicked: closeDialogs()
-        }
+            anchors { fill: dimmer; topMargin: 60 }
 
-        delegate: SubscriptionDelegate {
-            id: delegate
+            Row {
+                id: tabRow
 
-            Connections {
-                onDelegateClicked: {
-                    var username = subscriptionsModel.get(index).title;
-                    goToUserVideos(username);
+                Repeater {
+                    model: tabItem.sites
+
+                    Item {
+                        width: tabItem.width / tabItem.sites.length
+                        height: 40
+
+                        BorderImage {
+                            anchors.fill: parent
+                            source: (cuteTubeTheme == "nightred") ? "ui-images/tabred.png" : "ui-images/tab.png"
+                            smooth: true
+                            visible: tabView.currentIndex == index
+                        }
+
+                        Text {
+                            anchors.fill: parent
+                            font.pixelSize: _STANDARD_FONT_SIZE
+                            horizontalAlignment: Text.AlignHCenter
+                            verticalAlignment: Text.AlignVCenter
+                            color: tabView.currentIndex == index ? _TEXT_COLOR : "grey"
+                            text: modelData
+                        }
+
+                        Rectangle {
+                            height: 1
+                            anchors { bottom: parent.bottom; left: parent.left; right: parent.right }
+                            color: _ACTIVE_COLOR_HIGH
+                            opacity: 0.5
+                            visible: !(tabView.currentIndex == index)
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: tabView.currentIndex = index
+                        }
+                    }
                 }
-                onDelegatePressed: showUserInfoDialog(index);
+            }
+
+            ListView {
+                id: tabView
+
+                anchors { left: tabItem.left; right: tabItem.right; top: tabRow.bottom; bottom: tabItem.bottom }
+                orientation: ListView.Horizontal
+                highlightMoveDuration: 200
+                highlightRangeMode: ListView.StrictlyEnforceRange
+                snapMode: ListView.SnapOneItem
+                flickDeceleration: 500
+                boundsBehavior: Flickable.StopAtBounds
+                model: tabModel
+                clip: true
             }
         }
 
-        Text {
-            anchors.centerIn: subscriptionsList
-            font.pixelSize: _LARGE_FONT_SIZE
-            font.bold: true
-            color: "grey"
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            text: qsTr("No subscriptions found")
-            visible: (subscriptionsModel.status == XmlListModel.Ready) && (subscriptionsList.count == 0)
+        VisualItemModel {
+            id: tabModel
+
+            YTSubscriptionsList {
+                id: youtubeList
+
+                width: tabView.width
+                height: tabView.height
+                opacity: (tabView.currentIndex == 0) ? 1 : 0
+                onUserVideos: goToUserVideos(username)
+                onShowUserInfo: showUserInfoDialog(index)
+            }
+
+            DMSubscriptionsList {
+                id: dailymotionList
+
+                width: tabView.width
+                height: tabView.height
+                opacity: (tabView.currentIndex == 1) ? 1 : 0
+                onUserVideos: goToDMUserVideos(username)
+            }
+
+            VimeoSubscriptionsList {
+                id: vimeoList
+
+                width: tabView.width
+                height: tabView.height
+                opacity: (tabView.currentIndex == 2) ? 1 : 0
+                onUserVideos: goToVimeoUserVideos(user)
+            }
         }
 
-        states: [
-            State {
-                name: "dim"
-                PropertyChanges { target: subscriptionsList; opacity: 0.1 }
-            }
-        ]
-        transitions: [
-            Transition {
-                PropertyAnimation { properties: "opacity"; duration: 500 }
-            }
-        ]
+        states: State {
+            name: "dim"
+            PropertyChanges { target: dimmer; opacity: 0.1 }
+        }
+
     }
 
     states: State {

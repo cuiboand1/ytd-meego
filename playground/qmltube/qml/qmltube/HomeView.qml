@@ -4,16 +4,23 @@ import "scripts/createobject.js" as ObjectCreator
 Item {
     id: window
 
+    property bool showMenuButtonOne : true
+    property bool showMenuButtonTwo : true
+    property bool showMenuButtonThree : true
+    property bool showMenuButtonFour : false
+    property bool showMenuButtonFive : false
+
     property alias dimmerState : dimmer.state
-    property string categoryFeedOne
+    property variant categoryFeedOne
     property string categoryFeedOneName
     property alias categoryFeedOneIcon : categoryFeedOneButton.icon
-    property string categoryFeedTwo
+    property variant categoryFeedTwo
     property string categoryFeedTwoName
     property alias categoryFeedTwoIcon : categoryFeedTwoButton.icon
 
     signal myChannel
-    signal loadCategory(string categoryFeed, string title)
+    signal liveVideos
+    signal loadCategory(variant categoryFeed, string title)
     signal archive
     signal dialogClose
 
@@ -61,6 +68,10 @@ Item {
             dimmer.state = "dim";
             aboutDialog.state = "show";
         }
+    }
+
+    function onMenuButtonFourClicked() {
+        liveVideos();
     }
 
     function showConfirmExitDialog() {

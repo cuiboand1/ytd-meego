@@ -15,7 +15,7 @@ Item {
     Text {
         id: titleText
         elide: Text.ElideRight
-        text: username
+        text: (site == "") ? username : username + " (" + site + ")"
         color: _TEXT_COLOR
         font.pixelSize: _STANDARD_FONT_SIZE
         anchors.fill: parent

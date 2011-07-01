@@ -1,7 +1,6 @@
 #include "youtube.h"
 #include <QtNetwork/QNetworkRequest>
 #include <QtNetwork/QNetworkReply>
-#include <QtNetwork/QNetworkCookieJar>
 #include <QString>
 #include <QRegExp>
 #include <QUrl>
@@ -27,37 +26,9 @@ void YouTube::setPlaybackQuality(const QString &quality) {
     playbackFormat = pbMap.value(quality, 18);
 }
 
-void YouTube::login(const QString &username, const QString &password) {
-    setCurrentUser(username);
-    QNetworkRequest request(QUrl("https://www.google.com/accounts/ClientLogin"));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    QByteArray loginData("Email=" + username.toAscii().toPercentEncoding() + "&Passwd=" + password.toAscii().toPercentEncoding() + "&service=youtube&source=cuteTube");
-    QNetworkReply* reply = nam->post(request, loginData);
-    connect(reply, SIGNAL(finished()), this, SLOT(checkLogin()));
-}
-
-void YouTube::checkLogin() {
-    QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    if (!reply) {
-        setCurrentUser("");
-        emit alert(tr("Error obtaining access token"));
-        return;
-    }
-
-    QByteArray response = reply->readAll();
-//    qDebug() << response;
-    QList<QByteArray> sp = response.split('=');
-    QByteArray token = sp.last().trimmed();
-
-    if ((token.isEmpty()) || (token == "BadAuthentication")) {
-        setCurrentUser("");
-        emit alert(tr("Authentication failed"));
-    }
-    else {
-        setAccessToken(token);
-        emit alert(tr("You are signed in to YouTube as '") + getCurrentUser() + "'");
-    }
-    reply->deleteLater();
+void YouTube::setUserCredentials(const QString &user, const QString &token) {
+    setCurrentUser(user);
+    setAccessToken(token);
 }
 
 void YouTube::setCurrentUser(const QString &user) {
@@ -65,9 +36,9 @@ void YouTube::setCurrentUser(const QString &user) {
     emit currentUserChanged();
 }
 
-void YouTube::setAccessToken(const QByteArray &token) {
+void YouTube::setAccessToken(const QString &token) {
     accessToken = token;
-    emit accessTokenChanged(accessToken);
+    emit accessTokenChanged();
 }
 
 void YouTube::uploadVideo(const QString &filename, const QString &title, const QString &description, const QString &tags, const QString &category, const bool &isPrivate) {
@@ -88,11 +59,11 @@ void YouTube::uploadVideo(const QString &filename, const QString &title, const Q
                    "<media:title>" + title.toAscii().toPercentEncoding(" \n\t#[]{}=+$&*()<>@|',/!\":;?") + "</media:title>\n" \
                    "<media:description>\n" + description.toAscii().toPercentEncoding(" \n\t#[]{}=+$&*()<>@|',/!\":;?") + "\n\n" +
 #ifdef Q_WS_MAEMO_5
-		   "Uploaded via cuteTube on the Nokia N900\n</media:description>\n"
+                   "Uploaded via cuteTube\n</media:description>\n"
 #elif (defined(Q_WS_X11))	// NPM: aka, MeeGo 
-		   "Uploaded via cuteTube on MeeGo Tablet\n</media:description>\n"
+                   "Uploaded via cuteTube for MeeGo\n</media:description>\n"
 #else
-		   "Uploaded via cuteTube on Symbian\n</media:description>\n"
+                   "Uploaded via cuteTube on Symbian\n</media:description>\n"
 #endif
                    "<media:category scheme=\"http://gdata.youtube.com/schemas/2007/categories.cat\">\n" + category.toAscii() + "\n</media:category>\n" \
                    "<media:keywords>" + tags.toAscii().toPercentEncoding(" \n\t#[]{}=+$&*()<>@|',/!\":;?") + "</media:keywords>\n" \
@@ -108,7 +79,7 @@ void YouTube::uploadVideo(const QString &filename, const QString &title, const Q
     request.setRawHeader("Host", "uploads.gdata.youtube.com");
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/atom+xml; charset=UTF-8");
     request.setHeader(QNetworkRequest::ContentLengthHeader, xml.length());
-    request.setRawHeader("Authorization", "GoogleLogin auth=" + accessToken.toAscii());
+    request.setRawHeader("Authorization", "AuthSub token=" + accessToken.toAscii());
     request.setRawHeader("GData-Version", "2");
     request.setRawHeader("X-Gdata-Key", "key=" + developerKey);
     request.setRawHeader("Slug", filename.split("/").last().toAscii());
@@ -143,9 +114,27 @@ void YouTube::performVideoUpload() {
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/octet-stream");
     request.setHeader(QNetworkRequest::ContentLengthHeader, fileToBeUploaded->size());
     uploadReply = nam->put(request, fileToBeUploaded);
-    connect(uploadReply, SIGNAL(uploadProgress(qint64,qint64)), this, SIGNAL(updateUploadProgress(qint64,qint64)));
+    connect(uploadReply, SIGNAL(uploadProgress(qint64,qint64)), this, SLOT(updateUploadProgress(qint64,qint64)));
     connect(uploadReply, SIGNAL(finished()), this, SLOT(uploadFinished()));
     emit uploadStatusChanged("started");
+    uploadTime.start();
+}
+
+void YouTube::updateUploadProgress(qint64 bytesSent, qint64 bytesTotal) {
+    double speed = bytesSent * 1000.0 / uploadTime.elapsed();
+    QString unit;
+    if (speed < 1024) {
+        unit = "bytes/sec";
+    } else if (speed < 1024*1024) {
+        speed /= 1024;
+        unit = "kB/s";
+    } else {
+        speed /= 1024*1024;
+        unit = "MB/s";
+    }
+
+    emit uploadProgressChanged(bytesSent, bytesTotal, QString::fromLatin1("%1 %2")
+                               .arg(speed, 3, 'f', 1).arg(unit));
 }
 
 void YouTube::resumeVideoUpload() {
@@ -216,7 +205,7 @@ void YouTube::postRequest(const QUrl &url, const QByteArray &xml) {
     request.setRawHeader("Host", "gdata.youtube.com");
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/atom+xml");
     request.setHeader(QNetworkRequest::ContentLengthHeader, xml.length());
-    request.setRawHeader("Authorization", "GoogleLogin auth=" + accessToken.toAscii());
+    request.setRawHeader("Authorization", "AuthSub token=" + accessToken.toAscii());
     request.setRawHeader("GData-Version", "2");
     request.setRawHeader("X-Gdata-Key", "key=" + developerKey);
     QNetworkReply* reply = nam->post(request, xml);
@@ -232,7 +221,7 @@ void YouTube::postFinished() {
 
     int statusCode = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     QByteArray statusText = reply->attribute(QNetworkRequest::HttpReasonPhraseAttribute).toByteArray();
-//    qDebug() << "Status is:" << statusCode << ":" << statusText;
+    //    qDebug() << "Status is:" << statusCode << ":" << statusText;
     if ((statusCode == 200) || (statusCode == 201)) {
         emit postSuccessful();
     }
@@ -253,7 +242,7 @@ void YouTube::deleteRequest(const QUrl &url) {
     QNetworkRequest request(url);
     request.setRawHeader("Host", "gdata.youtube.com");
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/atom+xml");
-    request.setRawHeader("Authorization", "GoogleLogin auth=" + accessToken.toAscii());
+    request.setRawHeader("Authorization", "AuthSub token=" + accessToken.toAscii());
     request.setRawHeader("GData-Version", "2");
     request.setRawHeader("X-Gdata-Key", "key=" + developerKey);
     QNetworkReply* reply = nam->deleteResource(request);
@@ -385,7 +374,7 @@ void YouTube::parseVideoPage(QNetworkReply *reply) {
 
     QMap<int, QByteArray> formats;
     QByteArray response = QByteArray::fromPercentEncoding(reply->readAll());
-//    qDebug() << response;
+//        qDebug() << response;
     int pos = response.indexOf("fmt_url_map=") + 12;
     int pos2 = response.indexOf("&allow_ratings", pos);
     int pos3 = response.indexOf("&leanback", pos);
@@ -410,14 +399,45 @@ void YouTube::parseVideoPage(QNetworkReply *reply) {
         videoUrl = formats.value(flist.at(index), "");
         index++;
     }
-    if (videoUrl == "") {
+    if (videoUrl.isEmpty()) {
         emit alert(tr("Error: Unable to retrieve video"));
         emit videoUrlError();
     }
     else {
         emit gotVideoUrl(QString(videoUrl));
     }
-//    qDebug() << videoUrl;
+    //    qDebug() << videoUrl;
+    reply->deleteLater();
+    manager->deleteLater();
+}
+
+void YouTube::getLiveVideoUrl(const QString &videoId) {
+    QString playerUrl = "http://www.youtube.com/get_video_info?&video_id=" + videoId + "&el=detailpage&ps=default&eurl=&gl=US&hl=en";
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    QNetworkRequest request;
+    request.setUrl(QUrl(playerUrl));
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(parseLiveVideoPage(QNetworkReply*)));
+    manager->get(request);
+}
+
+void YouTube::parseLiveVideoPage(QNetworkReply *reply) {
+    QNetworkAccessManager *manager = qobject_cast<QNetworkAccessManager*>(sender());
+
+    QByteArray response = reply->readAll();
+    response = QByteArray::fromPercentEncoding(response.simplified().replace(QByteArray(" "), QByteArray("")));
+//    qDebug() << response;
+    int pos = response.indexOf("fmt_stream_map=") + 18;
+    int pos2 = response.indexOf('|', pos);
+    response = response.mid(pos, pos2 - pos);
+    QByteArray videoUrl = response.replace(QByteArray("\\/"), QByteArray("/")).replace(QByteArray("\\u0026"), QByteArray("&")).replace(QByteArray("%2C"), QByteArray(","));
+    if (!(videoUrl.startsWith("http"))) {
+        emit alert(tr("Error: Unable to retrieve video"));
+        emit videoUrlError();
+    }
+    else {
+        emit gotVideoUrl(QString(videoUrl));
+    }
+//        qDebug() << videoUrl;
     reply->deleteLater();
     manager->deleteLater();
 }

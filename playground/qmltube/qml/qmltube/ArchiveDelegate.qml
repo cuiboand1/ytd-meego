@@ -56,8 +56,13 @@ Item {
         id: thumb
 
         anchors { fill: frame; margins: 1 }
-        source: thumb.status == Image.Error ? "ui-images/error.jpg" : thumbnail
+        source: thumbnail
         smooth: true
+        onStatusChanged: {
+            if (thumb.status == Image.Error) {
+                thumb.source = "ui-images/error.jpg";
+            }
+        }
     }
 
     Row {

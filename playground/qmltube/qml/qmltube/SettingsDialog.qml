@@ -66,8 +66,24 @@ Item {
         playbackQuality = playbackSettings[Settings.getSetting("playbackQuality")];
         downloadQuality = downloadSettings[Settings.getSetting("downloadQuality")];
         downloadStatus = downloadStatusSettings[Settings.getSetting("downloadStatus")];
-        categoryFeedOne = _CATEGORY_DICT[Settings.getSetting("categoryFeedOne")];
-        categoryFeedTwo = _CATEGORY_DICT[Settings.getSetting("categoryFeedTwo")];
+        var catOne = Settings.getSetting("categoryFeedOne");
+        var catTwo = Settings.getSetting("categoryFeedTwo");
+        var catOneFound = false;
+        var catTwoFound = false;
+        var i = 0;
+        var category;
+        while (!((catOneFound) && (catTwoFound)) && (i < _CATEGORY_DICT.length)) {
+            category = _CATEGORY_DICT[i];
+            if (category.youtube == catOne) {
+                categoryFeedOne = category.name;
+                catOneFound = true;
+            }
+            else if (category.youtube == catTwo) {
+                categoryFeedTwo = category.name;
+                catTwoFound = true;
+            }
+            i++;
+        }
         categoryOrder = _ORDER_BY_DICT[Settings.getSetting("categoryOrder")];
         safeSearch = safeSearchSettings[Settings.getSetting("safeSearch")];
         downloadPath = Settings.getSetting("downloadPath");
@@ -88,8 +104,6 @@ Item {
         var settings = [ ["playbackSettings", "playbackQuality"],
                         ["downloadSettings", "downloadQuality"],
                         ["downloadStatusSettings", "downloadStatus"],
-                        ["_CATEGORY_DICT", "categoryFeedOne"],
-                        ["_CATEGORY_DICT", "categoryFeedTwo"],
                         ["_ORDER_BY_DICT", "categoryOrder"],
                         ["safeSearchSettings", "safeSearch"],
                         ["orientationSettings", "screenOrientation"],
@@ -110,6 +124,22 @@ Item {
                     Settings.setSetting(settings[i][1], attribute);
                 }
             }
+        }
+        var catOneFound = false;
+        var catTwoFound = false;
+        var i = 0;
+        var category;
+        while (!((catOneFound) && (catTwoFound)) && (i < _CATEGORY_DICT.length)) {
+            category = _CATEGORY_DICT[i];
+            if (category.name == categoryFeedOne) {
+                Settings.setSetting("categoryFeedOne", category.youtube);
+                catOneFound = true;
+            }
+            else if (category.name == categoryFeedTwo) {
+                Settings.setSetting("categoryFeedTwo", category.youtube);
+                catTwoFound = true;
+            }
+            i++;
         }
         Settings.setSetting("proxy", proxy);
         Settings.setSetting("mediaPlayer", mediaPlayer);
@@ -144,6 +174,20 @@ Item {
         dialog.state = "showChild";
     }
 
+    function showCategoryList(categoryToChange, currentSetting) {
+        var list = [];
+        var category;
+        for (var i = 0; i < _CATEGORY_DICT.length; i++) {
+            category = _CATEGORY_DICT[i];
+            list.push(category.name);
+        }
+        list.sort();
+        settingToBeChanged = categoryToChange;
+        settingsLoader.source = "SettingsListDialog.qml";
+        settingsLoader.item.setSettingsList(categoryToChange, list, currentSetting);
+        dialog.state = "showChild";
+    }
+
     function showSettingsList(title, settingsList, currentSetting) {
         /* Show the settings list dialog */
 
@@ -162,10 +206,10 @@ Item {
     function changeSetting(setting) {
         /* Change the appropriate setting in the dialog */
 
-        if (settingToBeChanged == qsTr("Playback Quality")) {
+        if (settingToBeChanged == qsTr("YouTube Playback Quality")) {
             playbackQuality = setting;
         }
-        else if (settingToBeChanged == qsTr("Download Quality")) {
+        else if (settingToBeChanged == qsTr("YouTube Download Quality")) {
             downloadQuality = setting;
         }
         else if (settingToBeChanged == qsTr("Start Downloads")) {
@@ -218,7 +262,7 @@ Item {
     function clearSearches() {
         /* Delete all saved searches from the database */
 
-        if (Settings.clearSearches() == "OK") {
+        if (Settings.clearSearches()) {
             messages.displayMessage(qsTr("Your saved searches have been cleared"));
         }
         else {
@@ -229,7 +273,7 @@ Item {
     function deleteFacebookToken() {
         /* Delete all saved searches from the database */
 
-        if (Settings.deleteAccessToken("Facebook") == "OK") {
+        if (Settings.deleteAccessToken("Facebook")) {
             Sharing.setFacebookToken("");
             messages.displayMessage(qsTr("Your facebook token has been deleted"));
         }
@@ -348,25 +392,25 @@ Item {
                     id: playbackQualityButton
 
                     width: parent.width
-                    name: qsTr("Playback quality")
+                    name: qsTr("YouTube playback quality")
                     value: playbackQuality
                     visible: !Controller.isSymbian
-                    onButtonClicked: showSettingsList(qsTr("Playback Quality"), "playbackSettings", playbackQuality)
+                    onButtonClicked: showSettingsList(qsTr("YouTube Playback Quality"), "playbackSettings", playbackQuality)
                 }
 
                 ValueButton {
                     id: downloadQualityButton
 
                     width: parent.width
-                    name: qsTr("Download quality")
+                    name: qsTr("YouTube download quality")
                     value: downloadQuality
-                    onButtonClicked: showSettingsList(qsTr("Download Quality"), "downloadSettings", downloadQuality)
+                    onButtonClicked: showSettingsList(qsTr("YouTube Download Quality"), "downloadSettings", downloadQuality)
                 }
 
                 Text {
                     font.pixelSize: _SMALL_FONT_SIZE
                     color: "grey"
-                    text: qsTr("YouTube categories")
+                    text: qsTr("Homescreen categories")
                     smooth: true
                 }
 
@@ -376,7 +420,7 @@ Item {
                     width: parent.width
                     name: qsTr("Category feed one")
                     value: categoryFeedOne
-                    onButtonClicked: showSettingsList(qsTr("Category Feed One"), "_CATEGORY_DICT", categoryFeedOne)
+                    onButtonClicked: showCategoryList(qsTr("Category Feed One"), categoryFeedOne)
                 }
 
                 ValueButton {
@@ -385,7 +429,7 @@ Item {
                     width: parent.width
                     name: qsTr("Category feed two")
                     value: categoryFeedTwo
-                    onButtonClicked: showSettingsList(qsTr("Category Feed Two"), "_CATEGORY_DICT", categoryFeedTwo)
+                    onButtonClicked: showCategoryList(qsTr("Category Feed Two"), categoryFeedTwo)
                 }
 
                 ValueButton {
@@ -400,7 +444,7 @@ Item {
                 Text {
                     font.pixelSize: _SMALL_FONT_SIZE
                     color: "grey"
-                    text: qsTr("YouTube searches")
+                    text: qsTr("Searches")
                     smooth: true
                 }
 
@@ -438,7 +482,7 @@ Item {
                     showIcon: false
                     showText: true
                     name: qsTr("Delete facebook token")
-                    visible: (Sharing.facebookToken == "")
+                    visible: !(Sharing.facebookToken == "")
                     onButtonClicked: deleteFacebookToken()
                 }
 
@@ -464,6 +508,7 @@ Item {
                     width: parent.width
                     name: qsTr("Language")
                     value: language
+                    visible: !Controller.isSymbian
                     onButtonClicked: showSettingsList(qsTr("Language"), "languageSettings", language)
                 }
 

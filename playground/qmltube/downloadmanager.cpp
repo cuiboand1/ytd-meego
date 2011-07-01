@@ -68,12 +68,60 @@ void DownloadManager::parseVideoPage() {
         quality = dlMap.key(flist.at(index));
         index++;
     }
-    if (videoUrl == "") {
+    if (!videoUrl.startsWith("http")) {
         emit statusChanged("failed");
     }
     else {
         emit gotVideoUrl(QUrl::fromEncoded(videoUrl));
         emit qualityChanged(quality);
+    }
+}
+
+void DownloadManager::getDMVideoUrl(const QString &link) {
+    downloadReply = nam->get(QNetworkRequest(QUrl(link)));
+    connect(downloadReply, SIGNAL(finished()), this, SLOT(parseDMVideoPage()));
+}
+
+void DownloadManager::parseDMVideoPage() {
+    if (downloadReply->error()) {
+        emit statusChanged("failed");
+        return;
+    }
+
+    QString response(downloadReply->readAll());
+    QString videoUrl = response.split("type=\"video/x-m4v\" href=\"").at(1).split('"').at(0);
+//    qDebug() << videoUrl;
+    if (!videoUrl.startsWith("http")) {
+        emit statusChanged("failed");
+    }
+    else {
+        emit gotVideoUrl(QUrl(videoUrl));
+    }
+}
+
+void DownloadManager::getVimeoVideoUrl(const QString &link) {
+    downloadReply = nam->get(QNetworkRequest(QUrl(link)));
+    connect(downloadReply, SIGNAL(finished()), this, SLOT(parseVimeoVideoPage()));
+}
+
+void DownloadManager::parseVimeoVideoPage() {
+    if (downloadReply->error()) {
+        emit statusChanged("failed");
+        return;
+    }
+
+    QString response(downloadReply->readAll());
+    QByteArray id = response.split("\"id\":").at(1).split(',').first().toAscii();
+    QByteArray signature = response.split("\"signature\":\"").at(1).split('"').first().toAscii();
+    QByteArray timestamp = response.split("\"timestamp\":").at(1).split(',').first().toAscii();
+//    qDebug() << "id: " + id << "signature: " + signature << "timestamp: " + timestamp;
+    QString videoUrl;
+    if ((id.isEmpty()) || (signature.isEmpty()) || (timestamp.isEmpty())) {
+        emit statusChanged("failed");
+    }
+    else {
+        videoUrl = "http://player.vimeo.com/play_redirect?quality=mobile&type=mobile_site&clip_id=" + id + "&time=" + timestamp + "&sig=" + signature;
+        emit gotVideoUrl(QUrl(videoUrl));
     }
 }
 
@@ -83,7 +131,7 @@ void DownloadManager::pauseDownload() {
 
 void DownloadManager::cancelDownload() {
     downloadReply->abort();
-    output.remove(output.fileName());
+    output.remove();
     emit downloadCancelled();
 }
 
@@ -91,9 +139,9 @@ void DownloadManager::startDownload(const QString &filePath, const QString &url)
     setIsDownloading(true);
     output.setFileName(filePath + ".partial");
     if (output.exists()) {
-        //        qDebug() << "File exists";
+//                qDebug() << "File exists";
         if (!output.open(QIODevice::Append)) {
-            //            qDebug() << "No write permissions";
+                        qDebug() << "No write permissions";
             setIsDownloading(false);
             return;                 // skip this download
         }
@@ -109,6 +157,16 @@ void DownloadManager::startDownload(const QString &filePath, const QString &url)
         // It's a YouTube video, so we must get the URL from the web page
 
         getVideoUrl(url);
+    }
+    else if (url.contains("dailymotion")) {
+        // It's a DailyMotion video, so we must get the URL from the web page
+
+        getDMVideoUrl(url);
+    }
+    else if (url.contains("vimeo")) {
+        // It's a Vimeo video,  so we must get the URL from the web page
+
+        getVimeoVideoUrl(url);
     }
     else {
         performDownload(QUrl(url));
@@ -163,6 +221,7 @@ void DownloadManager::downloadFinished() {
                 status = "paused";
             }
             else {
+                output.remove();
                 status = "failed";
             }
             emit statusChanged(status);

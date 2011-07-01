@@ -6,6 +6,7 @@
 #include <QtNetwork/QNetworkAccessManager>
 #include <QUrl>
 #include <QFile>
+#include <QTime>
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -26,7 +27,7 @@ public:
     QString getAccessToken() const { return accessToken; }
 
 public slots:
-    void login(const QString &username, const QString &password);
+    void setUserCredentials(const QString &user, const QString &token);
     void addToFavourites(const QString &videoId);
     void deleteFromFavourites(const QString &favouriteId);
     void addToPlaylist(const QString &videoId, const QString &playlistId);
@@ -40,26 +41,29 @@ public slots:
     void replyToComment(const QString &videoId, const QString &commentId, const QString &comment);
     void setPlaybackQuality(const QString &quality);
     void getVideoUrl(const QString &videoId);
+    void getLiveVideoUrl(const QString &playerUrl);
     void uploadVideo(const QString &filename, const QString &title, const QString &description, const QString &tags, const QString &category, const bool &isPrivate);
     void abortVideoUpload();
 
 private slots:
-    void checkLogin();
     void setCurrentUser(const QString &user);
-    void setAccessToken(const QByteArray &token);
+    void setAccessToken(const QString &token);
     void setUploadUrl();
     void performVideoUpload();
+    void updateUploadProgress(qint64 bytesSent, qint64 bytesTotal);
     void resumeVideoUpload();
     void uploadFinished();
     void postRequest(const QUrl &url, const QByteArray &xml);
     void deleteRequest(const QUrl &url);
     void postFinished();
     void parseVideoPage(QNetworkReply *reply);
+    void parseLiveVideoPage(QNetworkReply *reply);
 
 private:
     QNetworkAccessManager *nam;
     QFile *fileToBeUploaded;
     QUrl uploadUrl;
+    QTime uploadTime;
     int uploadRetries;
     QNetworkReply *uploadReply;
     QByteArray developerKey;
@@ -74,7 +78,7 @@ signals:
     void videoUrlError();
     void alert(const QString &message);
     void currentUserChanged();
-    void accessTokenChanged(const QString &token);
+    void accessTokenChanged();
     void postSuccessful();
     void postFailed();
     void addedToFavourites();
@@ -90,7 +94,7 @@ signals:
     void commentAdded();
     void videoRated();
     void cannotRate();
-    void updateUploadProgress(qint64 bytesSent, qint64 bytesTotal);
+    void uploadProgressChanged(qint64 bytesSent, qint64 bytesTotal, const QString &speed);
     void uploadStatusChanged(const QString &status);
 };
 

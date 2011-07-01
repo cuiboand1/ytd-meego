@@ -16,18 +16,21 @@ class Sharing : public QObject {
                READ getFacebookToken
                WRITE setFacebookToken
                NOTIFY facebookTokenChanged)
+    Q_PROPERTY(QString facebookId
+               READ getFacebookId
+               NOTIFY facebookIdChanged)
 
 public:
     explicit Sharing(QObject *parent = 0);
 
     void setNetworkAccessManager(QNetworkAccessManager *manager);
     QString getFacebookToken() const { return facebookToken; }
+    QString getFacebookId() const { return facebookId; }
 
 public slots:
-    QString getFacebookId() const { return facebookId; }
     void setFacebookToken(const QString &token);
 //    void setTwitterToken(const QString &token, const QString &secret);
-    void postToFacebook(const QString &videoId, const QString &title, const QString &description, const QString &message);
+    void postToFacebook(const QString &site, const QString &videoId, const QString &title, const QString &description, const QString &message, const QString &thumb);
 
 
 private slots:
@@ -43,6 +46,7 @@ private:
 signals:
     void alert(const QString &message);
     void facebookTokenChanged();
+    void facebookIdChanged();
 //    void twitterTokenChanged();
     void postSuccessful();
     void postForbidden();

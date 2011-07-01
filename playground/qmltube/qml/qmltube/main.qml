@@ -5,6 +5,13 @@ import "scripts/settings.js" as Settings
 Rectangle {
     id: window
 
+    property bool _VIDEO_PLAYING : false
+    property string _DEFAULT_SITE : "YouTube"
+    property variant _CATEGORY_DICT
+    property variant _ORDER_BY_DICT
+
+    /* YouTube feeds */
+
     property string _UPLOADS_FEED : "http://gdata.youtube.com/feeds/api/users/default/uploads?v=2&max-results=50"
     property string _FAVOURITES_FEED : "http://gdata.youtube.com/feeds/api/users/default/favorites?v=2&max-results=50"
     property string _PLAYLISTS_FEED : "http://gdata.youtube.com/feeds/api/users/default/playlists?v=2&max-results=50"
@@ -12,18 +19,44 @@ Rectangle {
     property string _NEW_SUB_VIDEOS_FEED : "http://gdata.youtube.com/feeds/api/users/default/newsubscriptionvideos?v=2&max-results=50"
     property string _MOST_RECENT_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_recent?v=2&max-results=50"
     property string _MOST_VIEWED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed?v=2&max-results=50&time=today"
-    property string _ON_THE_WEB_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/on_the_web?v=2&max-results=50"
-    property string _MOST_SHARED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_shared?v=2&max-results=50"
-    property string _TOP_RATED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/top_rated?v=2&max-results=50"
-    property string _TOP_FAVORITES_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/top_favorites?v=2&max-results=50"
-    property string _MOST_POPULAR_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?v=2&max-results=50"
-    property string _MOST_DISCUSSED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_discussed?v=2&max-results=50"
-    property string _MOST_RESPONDED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_responded?v=2&max-results=50"
-    property string _RECENTLY_FEATURED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/recently_featured?v=2&max-results=50"
+    property string _ON_THE_WEB_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/on_the_web?v=2&max-results=50" //NPM
+    property string _MOST_SHARED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_shared?v=2&max-results=50" //NPM
+    property string _TOP_RATED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/top_rated?v=2&max-results=50" //NPM
+    property string _TOP_FAVORITES_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/top_favorites?v=2&max-results=50" //NPM
+    property string _MOST_POPULAR_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?v=2&max-results=50" //NPM
+    property string _MOST_DISCUSSED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_discussed?v=2&max-results=50" //NPM
+    property string _MOST_RESPONDED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_responded?v=2&max-results=50" //NPM
+    property string _RECENTLY_FEATURED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/recently_featured?v=2&max-results=50" //NPM
     property string _CATEGORY_FEED : "http://gdata.youtube.com/feeds/api/videos?v=2&max-results=50&category="
-    property variant _CATEGORY_DICT
-    property variant _ORDER_BY_DICT
-    property bool _VIDEO_PLAYING : false
+
+    /* Dailymotion feeds */
+
+    property string _DM_UPLOADS_FEED : "https://api.dailymotion.com/videos/uploaded?limit=50&fields=" + _DM_FIELDS
+    property string _DM_FAVOURITES_FEED : "https://api.dailymotion.com/videos/favorites?limit=50&fields=" + _DM_FIELDS
+    property string _DM_PLAYLISTS_FEED : "http://www.dailymotion.com/playlists/user/" + DailyMotion.currentUser
+    property string _DM_NEW_SUB_VIDEOS_FEED : "https://api.dailymotion.com/videos/subscriptions?limit=50&fields=" + _DM_FIELDS
+    property string _DM_MOST_RECENT_FEED : "https://api.dailymotion.com/videos?sort=recent&limit=50&fields=" + _DM_FIELDS
+    property string _DM_MOST_VIEWED_FEED : "https://api.dailymotion.com/videos?sort=visited-today&limit=50&fields=" + _DM_FIELDS
+// NPM http://www.dailymotion.com/doc/api/rest-api-reference.html lists
+// recent, visited, visited-hour, visited-today, visited-week, visited-month, commented, commented-hour, commented-today, commented-week, commented-month, rated, rated-hour, rated-today, rated-week, rated-month, discussed, discussed-hour, discussed-today, discussed-week, discussed-month, relevance, random
+// attempt to find correlation between YT names and DM names...
+//  property string _DM_ON_THE_WEB_FEED     : "https://api.dailymotion.com/videos?sort=???&limit=50&fields=" + _DM_FIELDS //NPM
+//  property string _DM_MOST_SHARED_FEED    : "https://api.dailymotion.com/videos?sort=???&limit=50&fields=" + _DM_FIELDS //NPM
+    property string _DM_TOP_RATED_FEED      : "https://api.dailymotion.com/videos?sort=rated-today&limit=50&fields=" + _DM_FIELDS  //NPM
+//  property string _DM_TOP_FAVORITES_FEED  : "https://api.dailymotion.com/videos?sort=???&limit=50&fields=" + _DM_FIELDS  //NPM
+//  property string _DM_MOST_POPULAR_FEED   : "https://api.dailymotion.com/videos?sort=???&limit=50&fields=" + _DM_FIELDS  //NPM
+    property string _DM_MOST_DISCUSSED_FEED : "https://api.dailymotion.com/videos?sort=discussed-today&limit=50&fields=" + _DM_FIELDS  //NPM
+    property string _DM_MOST_RESPONDED_FEED : "https://api.dailymotion.com/videos?sort=commented-today&limit=50&fields=" + _DM_FIELDS  //NPM
+//  property string _DM_RECENTLY_FEATURED_FEED : "https://api.dailymotion.com/videos?sort=???&limit=50&fields=" + _DM_FIELDS  //NPM
+    property string _DM_CATEGORY_FEED : "https://api.dailymotion.com/videos?limit=50&fields=" + _DM_FIELDS + "&channel="
+    property string _DM_FIELDS : "id,title,description,duration,owner,thumbnail_medium_url,thumbnail_large_url,rating,views_total,tags"
+
+
+    /* Vimeo feeds */
+
+    property variant _VM_UPLOADS_FEED : [["method", "vimeo.videos.getUploaded"], ["sort", "newest"]]
+    property variant _VM_FAVOURITES_FEED : [["method", "vimeo.videos.getLikes"], ["sort", "newest"]]
+    property variant _VM_NEW_SUB_VIDEOS_FEED : [["method", "vimeo.videos.getSubscriptions"], ["sort", "newest"]]
 
     /* Theme variables */
 
@@ -39,32 +72,33 @@ Rectangle {
     property int _LARGE_FONT_SIZE : Controller.isSymbian ? 32 : 36
 
     Component.onCompleted: {
-        _CATEGORY_DICT = {
-		"Comedy": qsTr("Comedy"),
-		"Education": qsTr("Education"),
-		"Entertainment": qsTr("Entertainment"),
-		"Film": qsTr("Film & Animation"),
-		"Games": qsTr("Gaming"),
-	    "Animals": qsTr("Pets & Animals"),
-	    "Autos": qsTr("Cars & Vehicles"),
-	    "Howto": qsTr("Howto & Style"),
-	    "MostDiscussed": qsTr("Most Discussed"),
-	    "MostPopular": qsTr("Most Popular"),
-	    "MostRecent": qsTr("Most Recent"),
-	    "MostResponded": qsTr("Most Responded"),
-	    "MostShared": qsTr("Most Shared"),
-	    "MostViewed": qsTr("Most Viewed"),
-	    "Music": qsTr("Music"),
-	    "News": qsTr("News & Politics"),
-	    "Nonprofit": qsTr("Non-profits & Activism"),
-	    "OnTheWeb": qsTr("On The Web"),
-	    "People": qsTr("People & Blogs"),
-	    "Sports": qsTr("Sport"),
-	    "Tech": qsTr("Science & Technology"),
-	    "TopFavorites": qsTr("Top Favorites"),
-	    "TopRated": qsTr("Top Rated"),
-	    "Travel": qsTr("Travel & Events"),
-     };
+        _CATEGORY_DICT = [
+                    { "youtube": "Autos", "dailymotion": "auto", "vimeo": "cars", "name": qsTr("Cars & Vehicles") },
+                    { "youtube": "Comedy", "dailymotion": "fun", "vimeo": "comedy", "name": qsTr("Comedy") },
+                    { "youtube": "Education", "dailymotion": "school", "vimeo": "education", "name": qsTr("Education") },
+                    { "youtube": "Entertainment", "dailymotion": "none", "vimeo": "entertainment", "name": qsTr("Entertainment") },
+                    { "youtube": "Film", "dailymotion": "shortfilms", "vimeo": "films", "name": qsTr("Film") },
+                    { "youtube": "Games", "dailymotion": "videogames", "vimeo": "videogames", "name": qsTr("Gaming") },
+                    { "youtube": "Howto", "dailymotion": "lifestyle", "vimeo": "lifestyle", "name": qsTr("Style") },
+                    { "youtube": "Music", "dailymotion": "music", "vimeo": "music", "name": qsTr("Music") },
+                    { "youtube": "News", "dailymotion": "news", "vimeo": "news", "name": qsTr("News & Politics") },
+                    { "youtube": "Nonprofit", "dailymotion": "none", "vimeo": "nonprofit", "name": qsTr("Non-profits & Activism") },
+                    { "youtube": "People", "dailymotion": "people", "vimeo": "people", "name": qsTr("People") },
+                    { "youtube": "Animals", "dailymotion": "animals", "vimeo": "animals", "name": qsTr("Pets & Animals") },
+                    { "youtube": "Tech", "dailymotion": "tech", "vimeo": "technology", "name": qsTr("Science & Technology") },
+                    { "youtube": "Sports", "dailymotion": "sport", "vimeo": "sport", "name": qsTr("Sport") },
+                    { "youtube": "Travel", "dailymotion": "travel", "vimeo": "travel", "name": qsTr("Travel & Events") },
+                    { "youtube": "MostRecent", "dailymotion": "feed", "name": qsTr("Most Recent") },
+                    { "youtube": "MostViewed", "dailymotion": "feed", "name": qsTr("Most Viewed") },
+                    { "youtube": "MostDiscussed", "dailymotion": "feed", "name": qsTr("Most Discussed") }, //NPM
+                    { "youtube": "MostPopular", "dailymotion": "feed", "name": qsTr("Most Popular") }, //NPM
+                    { "youtube": "MostResponded", "dailymotion": "feed", "name": qsTr("Most Responded") }, //NPM
+                    { "youtube": "MostShared", "dailymotion": "feed", "name": qsTr("Most Shared") }, //NPM
+                    { "youtube": "OnTheWeb", "dailymotion": "feed", "name": qsTr("On The Web") }, //NPM
+                    { "youtube": "TopFavorites", "dailymotion": "feed", "name": qsTr("Top Favorites") }, //NPM
+                    { "youtube": "TopRated", "dailymotion": "feed", "name": qsTr("Top Rated") }, //NPM
+                ];
+
         _ORDER_BY_DICT = { "relevance": qsTr("Relevance"), "published": qsTr("Date"), "viewCount": qsTr("Views"), "rating": qsTr("Rating") };
         Scripts.restoreSettings();
     }
@@ -73,11 +107,7 @@ Rectangle {
         /* Check if the user is signed in */
 
         var signedIn = false;
-        if (YouTube.currentUser != "") {
-            signedIn = true;
-        }
-        else if (Settings.getDefaultAccount() != "unknown") {
-            Scripts.signInToDefaultAccount();
+        if (!((YouTube.currentUser == "") && (DailyMotion.currentUser == "") && (Vimeo.currentUser == ""))) {
             signedIn = true;
         }
         return signedIn;
@@ -102,77 +132,119 @@ Rectangle {
     function setCategoryFeeds(feedOne, feedTwo, order) {
         /* Set the category feeds of Home View */
 
+        var category;
+        var categoryFound = false;
+        var i = 0;
         if (feedOne == "MostRecent") {
-            homeView.categoryFeedOne = _MOST_RECENT_FEED;
+            homeView.categoryFeedOne = { "youtube": _MOST_RECENT_FEED, "dailymotion": _DM_MOST_RECENT_FEED, "vimeo": "none" };
+            homeView.categoryFeedOneName = qsTr("Most Recent"); //TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
         }
         else if (feedOne == "MostViewed") {
-            homeView.categoryFeedOne = _MOST_VIEWED_FEED;
+            homeView.categoryFeedOne = { "youtube": _MOST_VIEWED_FEED, "dailymotion": _DM_MOST_VIEWED_FEED, "vimeo": "none" };
+            homeView.categoryFeedOneName = qsTr("Most Viewed");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
         }
         else if (feedOne == "OnTheWeb") { // NPM
-            homeView.categoryFeedOne = _ON_THE_WEB_FEED;
+            homeView.categoryFeedOne = { "youtube": _ON_THE_WEB_FEED, "dailymotion": "none", "vimeo": "none" };
+            homeView.categoryFeedOneName = qsTr("On The Web");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
     	}
         else if (feedOne == "MostShared") { // NPM
-            homeView.categoryFeedOne = _MOST_SHARED_FEED;
+            homeView.categoryFeedOne = { "youtube": _MOST_SHARED_FEED, "dailymotion": "none", "vimeo": "none" };
+            homeView.categoryFeedOneName = qsTr("Most Shared");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
     	}
         else if (feedOne == "TopRated") { // NPM
-            homeView.categoryFeedOne = _TOP_RATED_FEED;
+            homeView.categoryFeedOne = { "youtube": _TOP_RATED_FEED, "dailymotion": _DM_TOP_RATED_FEED, "vimeo": "none" };
+            homeView.categoryFeedOneName = qsTr("Top Rated");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
     	}
         else if (feedOne == "TopFavorites") { // NPM
-            homeView.categoryFeedOne = _TOP_FAVORITES_FEED;
+            homeView.categoryFeedOne = { "youtube": _TOP_FAVORITES_FEED, "dailymotion": "none", "vimeo": "none" };
+            homeView.categoryFeedOneName = qsTr("Top Favorites");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
     	}
         else if (feedOne == "MostPopular") { // NPM
-            homeView.categoryFeedOne = _MOST_POPULAR_FEED;
+            homeView.categoryFeedOne = { "youtube": _MOST_POPULAR_FEED, "dailymotion": "none", "vimeo": "none" };
+            homeView.categoryFeedOneName = qsTr("Most Popular");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
     	}
         else if (feedOne == "MostDiscussed") { // NPM
-            homeView.categoryFeedOne = _MOST_DISCUSSED_FEED;
+            homeView.categoryFeedOne = { "youtube": _MOST_DISCUSSED_FEED, "dailymotion":_DM_MOST_DISCUSSED_FEED, "vimeo": "none" };
+            homeView.categoryFeedOneName = qsTr("Most Discussed");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
     	}
         else if (feedOne == "MostResponded") { // NPM
-            homeView.categoryFeedOne = _MOST_RESPONDED_FEED;
+            homeView.categoryFeedOne = { "youtube": _MOST_RESPONDED_FEED, "dailymotion": _DM_MOST_RESPONDED_FEED, "vimeo": "none" };
+            homeView.categoryFeedOneName = qsTr("Most Responded");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
     	}
         else if (feedOne == "RecentlyFeatured") { // NPM
-            homeView.categoryFeedOne = _RECENTLY_FEATURED_FEED;
+            homeView.categoryFeedOne = { "youtube": _RECENTLY_FEATURED_FEED, "dailymotion": "none", "vimeo": "none" };
+            homeView.categoryFeedOneName = qsTr("Recently Featured");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
     	}
         else {
-            homeView.categoryFeedOne = _CATEGORY_FEED + feedOne + "&orderby=" + order;
+            while ((!categoryFound) && (i < _CATEGORY_DICT.length)) {
+                category = _CATEGORY_DICT[i];
+                if (category.youtube == feedOne) {
+                    homeView.categoryFeedOne = { "youtube": _CATEGORY_FEED + feedOne + "&orderby=" + order,
+                            "dailymotion": _DM_CATEGORY_FEED + category.dailymotion,
+                            "vimeo": [["method", "vimeo.videos.getByTag"], ["sort", "newest"], ["tag", category.vimeo]] };
+                    homeView.categoryFeedOneName = category.name;
+                    categoryFound = true;
+                }
+                i++;
+            }
+            categoryFound = false;
+            i = 0;
         }
-
         if (feedTwo == "MostRecent") {
-            homeView.categoryFeedTwo = _MOST_RECENT_FEED;
+            homeView.categoryFeedTwo = { "youtube": _MOST_RECENT_FEED, "dailymotion": _DM_MOST_RECENT_FEED, "vimeo": "none" };
+            homeView.categoryFeedTwoName = qsTr("Most Recent");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
         }
         else if (feedTwo == "MostViewed") {
-            homeView.categoryFeedTwo = _MOST_VIEWED_FEED;
+            homeView.categoryFeedTwo = { "youtube": _MOST_VIEWED_FEED, "dailymotion": _DM_MOST_VIEWED_FEED, "vimeo": "none" };
+            homeView.categoryFeedTwoName = qsTr("Most Viewed");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
         }
-        else if (feedOne == "OnTheWeb") { // NPM
-            homeView.categoryFeedTwo = _ON_THE_WEB_FEED;
+        else if (feedTwo == "OnTheWeb") { // NPM
+            homeView.categoryFeedTwo = { "youtube": _ON_THE_WEB_FEED, "dailymotion": "none", "vimeo": "none" };
+            homeView.categoryFeedTwoName = qsTr("On The Web");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
     	}
-        else if (feedOne == "MostShared") { // NPM
-            homeView.categoryFeedTwo = _MOST_SHARED_FEED;
+        else if (feedTwo == "MostShared") { // NPM
+            homeView.categoryFeedTwo = { "youtube": _MOST_SHARED_FEED, "dailymotion": "none", "vimeo": "none" };
+            homeView.categoryFeedTwoName = qsTr("Most Shared");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
     	}
-        else if (feedOne == "TopRated") { // NPM
-            homeView.categoryFeedTwo = _TOP_RATED_FEED;
+        else if (feedTwo == "TopRated") { // NPM
+            homeView.categoryFeedTwo = { "youtube": _TOP_RATED_FEED, "dailymotion": _DM_TOP_RATED_FEED, "vimeo": "none" };
+            homeView.categoryFeedTwoName = qsTr("Top Rated");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
     	}
-        else if (feedOne == "TopFavorites") { // NPM
-            homeView.categoryFeedTwo = _TOP_FAVORITES_FEED;
+        else if (feedTwo == "TopFavorites") { // NPM
+            homeView.categoryFeedTwo = { "youtube": _TOP_FAVORITES_FEED, "dailymotion": "none", "vimeo": "none" };
+            homeView.categoryFeedTwoName = qsTr("Top Favorites");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
     	}
-        else if (feedOne == "MostPopular") { // NPM
-            homeView.categoryFeedTwo = _MOST_POPULAR_FEED;
+        else if (feedTwo == "MostPopular") { // NPM
+            homeView.categoryFeedTwo = { "youtube": _MOST_POPULAR_FEED, "dailymotion": "none", "vimeo": "none" };
+            homeView.categoryFeedTwoName = qsTr("Most Popular");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
     	}
-        else if (feedOne == "MostDiscussed") { // NPM
-            homeView.categoryFeedTwo = _MOST_DISCUSSED_FEED;
+        else if (feedTwo == "MostDiscussed") { // NPM
+            homeView.categoryFeedTwo = { "youtube": _MOST_DISCUSSED_FEED, "dailymotion": _DM_MOST_DISCUSSED_FEED, "vimeo": "none" };
+            homeView.categoryFeedTwoName = qsTr("Most Discussed");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
+
     	}
-        else if (feedOne == "MostResponded") { // NPM
-            homeView.categoryFeedTwo = _MOST_RESPONDED_FEED;
+        else if (feedTwo == "MostResponded") { // NPM
+            homeView.categoryFeedTwo = { "youtube": _MOST_RESPONDED_FEED, "dailymotion": _DM_MOST_RESPONDED_FEED, "vimeo": "none" };
+            homeView.categoryFeedTwoName = qsTr("Most Responded");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
+
     	}
-        else if (feedOne == "RecentlyFeatured") { // NPM
-            homeView.categoryFeedTwo = _RECENTLY_FEATURED_FEED;
+        else if (feedTwo == "RecentlyFeatured") { // NPM
+            homeView.categoryFeedTwo = { "youtube": _RECENTLY_FEATURED_FEED, "dailymotion": "none", "vimeo": "none" };
+            homeView.categoryFeedTwoName = qsTr("Recently Featured");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
     	}
         else {
-            homeView.categoryFeedTwo = _CATEGORY_FEED + feedTwo + "&orderby=" + order;
+            while ((!categoryFound) && (i < _CATEGORY_DICT.length)) {
+                category = _CATEGORY_DICT[i];
+                if (category.youtube == feedTwo) {
+                    homeView.categoryFeedTwo = { "youtube": _CATEGORY_FEED + feedTwo + "&orderby=" + order,
+                            "dailymotion": _DM_CATEGORY_FEED + category.dailymotion,
+                            "vimeo": [["method", "vimeo.videos.getByTag"], ["sort", "newest"], ["tag", category.vimeo]] };
+                    homeView.categoryFeedTwoName = category.name
+                    categoryFound = true;
+                }
+                i++;
+            }
         }
-
-        homeView.categoryFeedOneName = _CATEGORY_DICT[feedOne];
-        homeView.categoryFeedTwoName = _CATEGORY_DICT[feedTwo];
-
         if (cuteTubeTheme == "light") {
             homeView.categoryFeedOneIcon = "ui-images/" + feedOne.toLowerCase() + "iconlight.png";
             homeView.categoryFeedTwoIcon = "ui-images/" + feedTwo.toLowerCase() + "iconlight.png";
@@ -296,20 +368,93 @@ Rectangle {
                                     }
                                 }
                                 onAccessTokenChanged: {
-                                    Scripts.getSubscriptions();
-                                    Scripts.getPlaylists();
-                                    Settings.setSetting("ytAccessToken", token);
+                                    Scripts.getYouTubeSubscriptions();
+                                    Scripts.getYouTubePlaylists();
                                 }
                                 onPlaylistCreated: {
                                     messages.displayMessage(messages._PLAYLIST_CREATED);
-                                    Scripts.getPlaylists();
+                                    Scripts.getYouTubePlaylists();
                                 }
                                 onPlaylistDeleted: {
                                     messages.displayMessage(messages._PLAYLIST_DELETED);
-                                    Scripts.getPlaylists();
+                                    Scripts.getYouTubePlaylists();
                                 }
-                                onSubscribed: Scripts.getSubscriptions()
-                                onUnsubscribed: Scripts.getSubscriptions()
+                                onSubscribed: Scripts.getYouTubeSubscriptions()
+                                onUnsubscribed: Scripts.getYouTubeSubscriptions()
+                            }
+
+                            Connections {
+                                /* Connect to signals from C++ object DailyMotion */
+
+                                target: DailyMotion
+                                onAlert: messages.displayMessage(message)
+                                onAddedToFavourites: messages.displayMessage(messages._ADDED_TO_FAVOURITES)
+                                onGotVideoUrl: {
+                                    if (!_VIDEO_PLAYING) {
+                                        Controller.playVideo(videoUrl);
+                                    }
+                                }
+                                onAccessTokenChanged: {
+                                    dailymotionPlaylistModel.page = 1;
+                                    dailymotionSubscriptionsModel.page = 1;
+                                    Scripts.getDailymotionSubscriptions();
+                                    Scripts.getDailymotionPlaylists();
+                                }
+                            }
+
+                            Connections {
+                                /* Connect to signals from C++ object DailyMotion */
+
+                                target: Vimeo
+                                onAlert: messages.displayMessage(message)
+                                onAddedToFavourites: messages.displayMessage(messages._ADDED_TO_FAVOURITES)
+                                onAddedToPlaylist: {
+                                    messages.displayMessage(messages._ADDED_TO_PLAYLIST);
+                                    vimeoPlaylistTimer.restart();
+                                }
+                                onDeletedFromPlaylist: vimeoPlaylistTimer.restart()
+                                onGotVideoUrl: {
+                                    if (!_VIDEO_PLAYING) {
+                                        Controller.playVideo(videoUrl);
+                                    }
+                                }
+                                onAccessTokenChanged: {
+                                    vimeoPlaylistModel.page = 1;
+                                    vimeoSubscriptionsModel.page = 1;
+                                    vimeoPlaylistModel.clear();
+                                    vimeoSubscriptionsModel.clear();
+                                    vimeoTimer.restart();
+                                }
+                                onPlaylistCreated: {
+                                    messages.displayMessage(messages._PLAYLIST_CREATED);
+                                    vimeoPlaylistModel.page = 1;
+                                    vimeoPlaylistModel.clear();
+                                    Scripts.getVimeoPlaylists();
+                                }
+                                onPlaylistDeleted: {
+                                    messages.displayMessage(messages._PLAYLIST_DELETED);
+                                    vimeoPlaylistModel.page = 1;
+                                    vimeoPlaylistModel.clear();
+                                    Scripts.getVimeoPlaylists();
+                                }
+                                onSubscribed: {
+                                    vimeoSubscriptionsModel.clear();
+                                    Scripts.getVimeoSubscriptions();
+                                }
+                                onUnsubscribed: {
+                                    vimeoSubscriptionsModel.clear();
+                                    Scripts.getVimeoSubscriptions();
+                                }
+                            }
+
+                            Timer {
+                                id: vimeoTimer
+
+                                interval: 1000
+                                onTriggered: {
+                                    Scripts.getVimeoPlaylists();
+                                    Scripts.getVimeoSubscriptions();
+                                }
                             }
 
                             Connections {
@@ -468,7 +613,7 @@ Rectangle {
                                     if ((playlistModel.status == XmlListModel.Ready) &&
                                             (playlistModel.totalResults > 50) &&
                                             (playlistModel.totalResults > playlistModel.count)) {
-                                        Scripts.appendPlaylists();
+                                        Scripts.appendYouTubePlaylists();
                                     }
                                 }
                             }
@@ -477,7 +622,7 @@ Rectangle {
                                 id: playlistTimer
 
                                 interval: 3000
-                                onTriggered: Scripts.getPlaylists()
+                                onTriggered: Scripts.getYouTubePlaylists()
                             }
 
                             SubscriptionsModel {
@@ -489,7 +634,94 @@ Rectangle {
                                     if ((subscriptionsModel.status == XmlListModel.Ready) &&
                                             (subscriptionsModel.totalResults > 50) &&
                                             (subscriptionsModel.totalResults > subscriptionsModel.count)) {
-                                        Scripts.appendSubscriptions();
+                                        Scripts.appendYouTubeSubscriptions();
+                                    }
+                                }
+                            }
+
+                            ListModel {
+                                /* Holds the users Dailymotion playlists */
+
+                                id: dailymotionPlaylistModel
+
+                                property bool loading : false
+                                property bool moreResults : false
+                                property int page : 1
+                            }
+
+                            Connections {
+                                target: dailymotionPlaylistModel
+                                onLoadingChanged: {
+                                    if ((!dailymotionPlaylistModel.loading) && (dailymotionPlaylistModel.moreResults)) {
+                                        Scripts.getDailymotionPlaylists();
+                                    }
+                                }
+                            }
+
+                            ListModel {
+                                /* Holds the users Dailymotion subscriptions */
+
+                                id: dailymotionSubscriptionsModel
+
+                                property bool loading : false
+                                property bool moreResults : false
+                                property int page : 1
+                            }
+
+                            Connections {
+                                target: dailymotionSubscriptionsModel
+                                onLoadingChanged: {
+                                    if ((!dailymotionSubscriptionsModel.loading) && (dailymotionSubscriptionsModel.moreResults)) {
+                                        Scripts.getDailymotionSubscriptions();
+                                    }
+                                }
+                            }
+
+                            ListModel {
+                                /* Holds the users vimeo playlists */
+
+                                id: vimeoPlaylistModel
+
+                                property bool loading : false
+                                property bool moreResults : false
+                                property int page : 1
+                            }
+
+                            Timer {
+                                id: vimeoPlaylistTimer
+
+                                interval: 3000
+                                onTriggered: {
+                                    vimeoPlaylistModel.page = 1;
+                                    vimeoPlaylistModel.clear();
+                                    Scripts.getVimeoPlaylists();
+                                }
+                            }
+
+                            Connections {
+                                target: vimeoPlaylistModel
+                                onLoadingChanged: {
+                                    if ((!vimeoPlaylistModel.loading) && (vimeoPlaylistModel.moreResults)) {
+                                        Scripts.getVimeoPlaylists();
+                                    }
+                                }
+                            }
+
+                            ListModel {
+                                /* Holds the users vimeo subscriptions */
+
+                                id: vimeoSubscriptionsModel
+
+                                property bool loading : false
+                                property bool moreResults : false
+                                property int page : 1
+                            }
+
+                            Connections {
+                                target: vimeoSubscriptionsModel
+                                onLoadingChanged: {
+                                    if ((!vimeoSubscriptionsModel.loading) && (vimeoSubscriptionsModel.moreResults)) {
+                                        Scripts.getVimeoSubscriptions();
                                     }
                                 }
                             }
@@ -502,8 +734,10 @@ Rectangle {
                                 viewTitle: titleList[windowView.currentIndex]
 
                                 Connections {
-                                    onStartSearch: Scripts.search(query, order)
+                                    onStartSearch: Scripts.search(query, order, site)
                                     onGoToVideo: Scripts.loadVideoInfo(video)
+                                    onGoToDMVideo: Scripts.loadDMVideoInfo(video)
+                                    onGoToVimeoVideo: Scripts.loadVimeoVideoInfo(video)
                                     onGoToDownloads: {
                                         if (windowView.currentIndex != viewsModel.count - 1) {
                                             Scripts.loadDownloads()
@@ -545,8 +779,7 @@ Rectangle {
                                 property string _VIDEO_IN_DOWNLOAD_QUEUE : qsTr("Video(s) already in download queue")
                                 property string _AUDIO_DOWNLOAD_ADDED : qsTr("Audio track(s) added to download queue")
                                 property string _AUDIO_IN_DOWNLOAD_QUEUE : qsTr("Audio track(s) already in download queue")
-                                property string _NOT_SIGNED_IN : qsTr("You are not signed in to a YouTube account")
-                                property string _NO_ACCOUNT_FOUND : qsTr("No YouTube account found")
+                                property string _NOT_SIGNED_IN : qsTr("You are not signed in to an account")
                                 property string _USE_CUTETUBE_PLAYER : qsTr("Use the cuteTube Player to access this feature")
                                 property string _UNABLE_TO_PLAY : qsTr("Unable to play videos at 360p quality or higher")
 
@@ -597,12 +830,10 @@ Rectangle {
 
                                     width: window.width
                                     height: window.height
-
-                                    Connections {
-                                        onMyChannel: Scripts.loadAccountView()
-                                        onLoadCategory: Scripts.loadVideos(categoryFeed, title)
-                                        onArchive: Scripts.loadArchiveView()
-                                    }
+                                    onMyChannel: Scripts.loadAccountView()
+                                    onLiveVideos: Scripts.loadLiveVideos()
+                                    onLoadCategory: Scripts.loadVideos(categoryFeed, title)
+                                    onArchive: Scripts.loadArchiveView()
                                 }
 
                                 Loader {

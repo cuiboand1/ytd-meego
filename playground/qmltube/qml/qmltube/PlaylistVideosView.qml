@@ -1,9 +1,16 @@
 import QtQuick 1.0
 import "scripts/videolistscripts.js" as Scripts
 import "scripts/createobject.js" as ObjectCreator
+import "scripts/youtube.js" as YT
 
 Item {
     id: window
+
+    property bool showMenuButtonOne : true
+    property bool showMenuButtonTwo : true
+    property bool showMenuButtonThree : true
+    property bool showMenuButtonFour : !Controller.isSymbian
+    property bool showMenuButtonFive : true
 
     property variant playlist
     property string videoFeed
@@ -16,22 +23,7 @@ Item {
     function setPlaylist(playlistItem) {
         playlist = playlistItem;
         videoFeed = "http://gdata.youtube.com/feeds/api/playlists/" + playlist.playlistId + "?v=2&max-results=50"
-        setVideoFeed();
-    }
-
-    function setVideoFeed() {
-        var doc = new XMLHttpRequest();
-        doc.onreadystatechange = function() {
-            if (doc.readyState == XMLHttpRequest.DONE) {
-                var xml = doc.responseText;
-                videoListModel.setXml(xml);
-
-                videoListModel.loading = false;
-                videoList.positionViewAtIndex(0, ListView.Beginning);
-            }
-        }
-        doc.open("GET", videoFeed);
-        doc.send();
+        YT.getYouTubeVideos();
     }
 
     function setPlaylistXml(playlistItem) {
@@ -60,20 +52,15 @@ Item {
     }
 
     function onMenuButtonTwoClicked() {
-        Scripts.addVideosToFavourites();
+        YT.addVideosToFavourites();
     }
 
     function onMenuButtonThreeClicked() {
-        Scripts.deleteVideosFromPlaylist();
+        YT.deleteVideosFromPlaylist();
     }
 
     function onMenuButtonFourClicked() {
-        if (Controller.isSymbian) {
-            Scripts.addVideosToDownloads(false);
-        }
-        else {
-            Scripts.addVideosToPlaybackQueue();
-        }
+        Scripts.addVideosToPlaybackQueue(true);
     }
 
     function onMenuButtonFiveClicked() {
@@ -187,7 +174,7 @@ Item {
 
                     anchors.fill: frame
                     onClicked: {
-                        if ((videoListModel.count > 0) && (videoListModel.count == videoListModel.totalResults)) {
+                        if ((videoListModel.count > 0) && (videoListModel.count >= videoListModel.totalResults)) {
                             showPlaylistInfoDialog()
                         }
                         else {
@@ -248,7 +235,7 @@ Item {
                 visible: !Controller.isSymbian
                 onButtonClicked: {
                     if (Controller.getMediaPlayer() == "cutetubeplayer") {
-                        if ((videoListModel.count > 0) && (videoListModel.count == videoListModel.totalResults)) {
+                        if ((videoListModel.count > 0) && (videoListModel.count >= videoListModel.totalResults)) {
                             playPlaylist()
                         }
                         else {
@@ -308,7 +295,7 @@ Item {
                 property bool waitingForInfo
 
                 onStatusChanged: {
-                    if ((videoListModel.count > 0) && (videoListModel.count == videoListModel.totalResults)) {
+                    if ((videoListModel.count > 0) && (videoListModel.count >= videoListModel.totalResults)) {
                         if (videoListModel.waitingForPlayback) {
                             playPlaylist();
                         }
@@ -319,7 +306,7 @@ Item {
                     else if ((videoListModel.status == XmlListModel.Ready) &&
                              (videoListModel.totalResults > 50) &&
                              (videoListModel.totalResults > videoListModel.count)) {
-                        Scripts.appendVideoFeed();
+                        YT.appendYouTubeVideos();
                     }
                 }
             }
@@ -348,7 +335,11 @@ Item {
                     goToVideo(videoListModel.get(index));
                 }
                 onDelegatePressed: addOrRemoveFromCheckList()
-                onPlayClicked: playVideos([videoListModel.get(index)])
+                onPlayClicked: {
+                    var video = videoListModel.get(index);
+                    video["youtube"] = true;
+                    playVideos([video]);
+                }
             }
 
             ScrollBar {}
