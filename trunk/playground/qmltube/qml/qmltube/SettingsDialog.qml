@@ -9,8 +9,8 @@ Item {
     property string downloadStatus
     property string downloadPath
     property string safeSearch
-    property string categoryFeedOne
-    property string categoryFeedTwo
+    property string categoryFeedOne //NPM: changed to hold the untranslated, non-display name of the feed, Default is "MostRecent"
+    property string categoryFeedTwo //NPM: changed to hold the untranslated, non-display name of the feed. Default is "MostViewed"
     property string categoryOrder
     property string screenOrientation
     property string mediaPlayer
@@ -66,24 +66,19 @@ Item {
         playbackQuality = playbackSettings[Settings.getSetting("playbackQuality")];
         downloadQuality = downloadSettings[Settings.getSetting("downloadQuality")];
         downloadStatus = downloadStatusSettings[Settings.getSetting("downloadStatus")];
-        var catOne = Settings.getSetting("categoryFeedOne");
-        var catTwo = Settings.getSetting("categoryFeedTwo");
-        var catOneFound = false;
-        var catTwoFound = false;
-        var i = 0;
-        var category;
-        while (!((catOneFound) && (catTwoFound)) && (i < _CATEGORY_DICT.length)) {
-            category = _CATEGORY_DICT[i];
-            if (category.youtube == catOne) {
-                categoryFeedOne = category.name;
-                catOneFound = true;
-            }
-            else if (category.youtube == catTwo) {
-                categoryFeedTwo = category.name;
-                catTwoFound = true;
-            }
-            i++;
-        }
+        var cf1, cf2;
+	if (typeof (cf1 = Settings.getSetting("categoryFeedOne")) === 'string')
+	    categoryFeedOne = cf1; //was: _CATEGORY_DICT[cf1].name;
+	else {
+	    categoryFeedOne = "MostRecent"; // NPM: set same default as for scripts/settings.js:setDefaultSettings(): "_MOST_RECENT_FEED"
+	    console.log('Error: in getSettings(), bad value from Settings.getSetting("categoryFeedOne") == "' + cf1 + '" defaulting to "MostRecent"...');
+	}
+	if (typeof (cf2 = Settings.getSetting("categoryFeedTwo")) === 'string')
+	    categoryFeedTwo = cf2; //was: _CATEGORY_DICT[cf2].name;
+	else {
+	    categoryFeedTwo = "MostViewed";  // NPM: set same default as for scripts/settings.js:setDefaultSettings():"_MOST_VIEWED_FEED"
+	    console.log('Error: in getSettings(), bad value from Settings.getSetting("categoryFeedTwo") == "' + cf2 + '" defaulting to "MostViewed"...');
+	}
         categoryOrder = _ORDER_BY_DICT[Settings.getSetting("categoryOrder")];
         safeSearch = safeSearchSettings[Settings.getSetting("safeSearch")];
         downloadPath = Settings.getSetting("downloadPath");
@@ -125,30 +120,14 @@ Item {
                 }
             }
         }
-        var catOneFound = false;
-        var catTwoFound = false;
-        var i = 0;
-        var category;
-        while (!((catOneFound) && (catTwoFound)) && (i < _CATEGORY_DICT.length)) {
-            category = _CATEGORY_DICT[i];
-            if (category.name == categoryFeedOne) {
-                Settings.setSetting("categoryFeedOne", category.youtube);
-                catOneFound = true;
-            }
-            else if (category.name == categoryFeedTwo) {
-                Settings.setSetting("categoryFeedTwo", category.youtube);
-                catTwoFound = true;
-            }
-            i++;
-        }
+        Settings.setSetting("categoryFeedOne", categoryFeedOne);
+        Settings.setSetting("categoryFeedTwo", categoryFeedTwo);
+        setCategoryFeeds(categoryFeedOne, categoryFeedTwo,
+			 Settings.getSetting("categoryOrder"));
         Settings.setSetting("proxy", proxy);
         Settings.setSetting("mediaPlayer", mediaPlayer);
         Settings.setSetting("downloadPath", downloadPath);
         cuteTubeTheme = Settings.getSetting("theme");
-        var catOne = Settings.getSetting("categoryFeedOne");
-        var catTwo = Settings.getSetting("categoryFeedTwo");
-        var catOrder = Settings.getSetting("categoryOrder");
-        setCategoryFeeds(catOne, catTwo, catOrder);
         Controller.setOrientation(Settings.getSetting("screenOrientation"));
         Controller.setMediaPlayer(mediaPlayer)
         YouTube.setPlaybackQuality(Settings.getSetting("playbackQuality"));
@@ -175,16 +154,18 @@ Item {
     }
 
     function showCategoryList(categoryToChange, currentSetting) {
-        var list = [];
-        var category;
-        for (var i = 0; i < _CATEGORY_DICT.length; i++) {
-            category = _CATEGORY_DICT[i];
-            list.push(category.name);
+        var currentDisplay, list = [];
+        for (var category in _CATEGORY_DICT) {
+	    var name = _CATEGORY_DICT[category].name;
+            list.push(name);
+	    if (category == currentSetting) {
+		currentDisplay = name; // NPM: for setSettingsList() to be set to correct item, must pass display value not id like 'MostViewed'.
+	    }
         }
         list.sort();
         settingToBeChanged = categoryToChange;
         settingsLoader.source = "SettingsListDialog.qml";
-        settingsLoader.item.setSettingsList(categoryToChange, list, currentSetting);
+        settingsLoader.item.setSettingsList(categoryToChange, list, currentDisplay);
         dialog.state = "showChild";
     }
 
@@ -219,10 +200,20 @@ Item {
             downloadPath = setting;
         }
         else if (settingToBeChanged == qsTr("Category Feed One")) {
-            categoryFeedOne = setting;
+	    for (var category in _CATEGORY_DICT) {
+		if ((_CATEGORY_DICT[category].name) == setting) {
+		    categoryFeedOne = category;
+		    console.log('Debug:  changeSettings() categoryFeedTwo == "' + categoryFeedOne + '"');
+		}
+	    }
         }
         else if (settingToBeChanged == qsTr("Category Feed Two")) {
-            categoryFeedTwo = setting;
+	    for (var category in _CATEGORY_DICT) {
+		if ((_CATEGORY_DICT[category].name) == setting) {
+		    categoryFeedTwo = category;
+		    console.log('Debug:  changeSettings() categoryFeedTwo == "' + categoryFeedTwo + '"');
+		}
+	    }
         }
         else if (settingToBeChanged == qsTr("Order Category Videos By")) {
             categoryOrder = setting;
@@ -280,6 +271,16 @@ Item {
         else {
             messages.displayMessage(qsTr("Database error. Unable to delete facebook token"));
         }
+    }
+
+    // NPM -- prevent multiline labels that I added from overflowing the expected
+    // dimensions of ValueButton
+    function trimMultiLineDisplayCategory(category) {
+	var i, elt = _CATEGORY_DICT[category].name;
+	if ((i = elt.indexOf("\n")) >= 0)
+	    return (elt.substring(0, i) + "...");
+	else
+	    return (elt);
     }
 
     width: parent.width
@@ -419,7 +420,7 @@ Item {
 
                     width: parent.width
                     name: qsTr("Category feed one")
-                    value: categoryFeedOne
+		    value:	     trimMultiLineDisplayCategory(categoryFeedOne) // NPM -- don't let multiline names I added overflow expected area for display
                     onButtonClicked: showCategoryList(qsTr("Category Feed One"), categoryFeedOne)
                 }
 
@@ -428,7 +429,7 @@ Item {
 
                     width: parent.width
                     name: qsTr("Category feed two")
-                    value: categoryFeedTwo
+                    value:	     trimMultiLineDisplayCategory(categoryFeedTwo) // NPM -- don't let multiline names I added overflow expected area for display
                     onButtonClicked: showCategoryList(qsTr("Category Feed Two"), categoryFeedTwo)
                 }
 

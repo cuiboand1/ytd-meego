@@ -192,7 +192,7 @@ function setDefaultSettings() {
     var settings = [ [ "playbackQuality", "hq" ],
                     [ "downloadQuality", "hq" ],
                     [ "downloadStatus", "queued" ],
-                    [ "downloadPath", Controller.isSymbian ? "E:/Videos/" : "/home/meego/Downloads/" ], // NPM, changed from maemo's /home/user/MyDocs dir
+		    [ "downloadPath", Controller.homePath() + Controller.isSymbian ? "Videos/" : "" ], // NPM, changed from maemo's /home/user/MyDocs dir
                     [ "categoryFeedOne", "MostRecent"],
                     [ "categoryFeedTwo", "MostViewed"],
                     [ "categoryOrder", "relevance"],

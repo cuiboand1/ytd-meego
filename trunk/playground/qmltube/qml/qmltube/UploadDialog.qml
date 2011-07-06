@@ -10,28 +10,31 @@ Item {
     signal close
 
     function getCategory() {
-        var category;
-        for (var i = 0; i < _CATEGORY_DICT.length; i++) {
-            category = _CATEGORY_DICT[i];
-            if (category.name == categoryText.text) {
-                if (site == "YouTube") {
-                    category = category.youtube;
-                }
-                else if (site == "Dailymotion") {
-                    category = category.dailymotion;
-                }
-            }
-        }
-        return category;
+        if (site == "YouTube") {
+	    for (var c in _CATEGORY_DICT) {
+		var category = _CATEGORY_DICT[c];
+		if ((!isSpecialCategory(category)) && (category.name == categoryText.text)) {
+		    console.log("Debug: getCategory() category.youtube == " + category.youtube);
+		    return (category.youtube);
+		}
+	    }
+	}
+	else if (site == "Dailymotion") {
+	    for (var c in _CATEGORY_DICT) {
+		var category = _CATEGORY_DICT[c];
+		if ((!isSpecialCategory(category)) && (category.name == categoryText.text)) {
+		    console.log("Debug: getCategory() category.dailymotion == " + category.dailymotion);
+		    return (category.dailymotion);
+		}
+	    }
+	}
     }
 
     function showCategoryList() {
         var list = [];
-        var category;
-        for (var i = 0; i < _CATEGORY_DICT.length; i++) {
-            category = _CATEGORY_DICT[i];
-            if (!(((category.youtube == "MostRecent") || (category.youtube == "MostViewed")) || ((site == "YouTube") && (category.youtube == "none"))
-                    || ((site == "Dailymotion") && (category.dailymotion == "none")))) {
+        for (var c in _CATEGORY_DICT) {
+            var category = _CATEGORY_DICT[c];
+            if (!isSpecialCategory(category)) { //NPM: was "(!(((category.youtube == "MostRecent") || (category.youtube == "MostViewed")) || ((site == "YouTube") && (category.youtube == "none")) || ((site == "Dailymotion") && (category.dailymotion == "none"))))"
                 list.push(category.name);
             }
         }
@@ -64,6 +67,7 @@ Item {
         var tags = tagInput.text;
         var category = getCategory();
         var isPrivate = checkbox.checked;
+	console.log("Debug: in startUpload() checkbox.checked == " + checkbox.checked);
         var video = { "filename": fileToUpload.split("/").pop(), "title": title, "description": description, "tags": tags, "category": category, "isPrivate": isPrivate };
         if (site == "YouTube") {
             YouTube.uploadVideo(fileToUpload, title, description, tags, category, isPrivate);
@@ -76,7 +80,7 @@ Item {
 
     function showUploadProgress(video) {
         dialogLoader.source = "UploadProgressDialog.qml";
-        dialogLoader.item.setDetails(video);
+        dialogLoader.item.setDetails(video, site);
         dialogLoader.item.close.connect(close);
         dialog.state = "showChild";
     }

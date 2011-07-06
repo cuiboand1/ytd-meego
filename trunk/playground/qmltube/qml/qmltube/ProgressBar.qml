@@ -7,6 +7,7 @@ import QtQuick 1.0
      property int maximum: 100
      property int value: 0
      property alias received : progressbar.value
+     property alias sent     : progressbar.value         //NPM: used by UploadProgressDialog, define to prevent '<Unknown File>:0: Error: Cannot assign to non-existent property "sent"' during upload
      property alias total : progressbar.maximum
 
      width: 150
