@@ -4,7 +4,7 @@ function getDailymotionSearch(query, order) {
     var encodedQuery = encodeURIComponent(query.replace(/\s.\s/gi, " "));
     var safe = (Settings.getSetting("safeSearch") == "none") ? "false" : "true";
     var videoFeed = "https://api.dailymotion.com/videos?limit=50&family_filter=" + safe + "&fields="
-                     + _DM_FIELDS + "&sort=" + order + "&search=" + encodedQuery.replace(/\s/g, "+");
+        + _DM_FIELDS + "&sort=" + order + "&search=" + encodedQuery.replace(/\s/g, "+");
     return videoFeed;
 }
 
@@ -13,18 +13,20 @@ function getDailymotionVideos() {
 
     var doc = new XMLHttpRequest();
     doc.onreadystatechange = function() {
-//        console.log(doc.responseText)
+        //        console.log(doc.responseText)
         if (doc.readyState == XMLHttpRequest.DONE) {
             var results = eval("(" + doc.responseText + ")");
             videoListModel.moreResults = results.has_more;
-            var res;
-            for (var i = 0; i < results.list.length; i++) {
-                res = results.list[i];
-                videoListModel.append({ "playerUrl": "http://iphone.dailymotion.com/video/" + res.id, "id": res.id, "title": res.title,
-                                      "description": res.description, "author": res.owner, "rating": res.rating,
-                                      "views": res.views_total, "duration": res.duration, "tags": res.tags.toString(),
-                                      "thumbnail": res.thumbnail_medium_url,
-                                      "largeThumbnail": res.thumbnail_large_url, "dailymotion": true });
+            if (results.list) {
+                var res;
+                for (var i = 0; i < results.list.length; i++) {
+                    res = results.list[i];
+                    videoListModel.append({ "playerUrl": "http://iphone.dailymotion.com/video/" + res.id, "id": res.id, "title": res.title,
+                                          "description": res.description, "author": res.owner, "rating": res.rating,
+                                          "views": res.views_total, "duration": res.duration, "tags": res.tags.toString(),
+                                          "thumbnail": res.thumbnail_medium_url,
+                                          "largeThumbnail": res.thumbnail_large_url, "dailymotion": true });
+                }
             }
 
             videoListModel.loading = false;
@@ -50,10 +52,10 @@ function getRelatedVideos() {
             for (var i = 0; i < results.list.length; i++) {
                 res = results.list[i];
                 relatedModel.append({ "playerUrl": "http://iphone.dailymotion.com/video/" + res.id, "id": res.id, "title": res.title,
-                                      "description": res.description, "author": res.owner, "rating": res.rating,
-                                      "views": res.views_total, "duration": res.duration, "tags": res.tags.toString(),
-                                      "thumbnail": res.thumbnail_medium_url,
-                                      "largeThumbnail": res.thumbnail_large_url, "dailymotion": true });
+                                    "description": res.description, "author": res.owner, "rating": res.rating,
+                                    "views": res.views_total, "duration": res.duration, "tags": res.tags.toString(),
+                                    "thumbnail": res.thumbnail_medium_url,
+                                    "largeThumbnail": res.thumbnail_large_url, "dailymotion": true });
             }
 
             relatedModel.loading = false;
@@ -93,10 +95,10 @@ function getDailymotionPlaylistVideos() {
                 views = res.split('"video_views_value">')[1].split('<')[0].replace(",", "");
                 author = res.split('"login name"href="/')[1].split('"')[0];
                 videoListModel.append({ "title": title, "id": id, "thumbnail": thumbnail,
-                                                "largeThumbnail": largeThumbnail,
-                                                "description": description, "views": views, "rating": "3",
-                                                "duration": duration, "author": author, "tags": "", "dailymotion": true,
-                                                "playerUrl": "http://iphone.dailymotion.com/video/" + id });
+                                      "largeThumbnail": largeThumbnail,
+                                      "description": description, "views": views, "rating": "3",
+                                      "duration": duration, "author": author, "tags": "", "dailymotion": true,
+                                      "playerUrl": "http://iphone.dailymotion.com/video/" + id });
             }
 
             videoListModel.page++;
@@ -234,6 +236,7 @@ function createVideoObject(video) {
     videoObject["playerUrl"] = video.playerUrl;
     videoObject["title"] = video.title;
     videoObject["description"] = video.description;
+    videoObject["duration"] = video.duration;
     videoObject["author"] = video.author;
     videoObject["views"] = video.views;
     videoObject["rating"] = video.rating;

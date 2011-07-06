@@ -40,13 +40,13 @@ Item {
                 "HomeView": "abouticon", "VideoListView": "playlistsicon",
                 "VimeoUserVideosView": "playlistsicon", "UserVideosView": "playlistsicon", "PlaylistVideosView": "deleteplaylistsicon", "DMPlaylistVideosView": "playicon",
                 "VimeoPlaylistVideosView": "deleteplaylistsicon", "ArchiveListView": "deletearchiveicon", "VideoInfoView": "facebookicon", "VimeoInfoView": "facebookicon",
-                "DMInfoView": "clipboardicon", "DMUserVideosView": "playicon"
+                "DMInfoView": "twittericon", "DMUserVideosView": "playicon"
     };
 
         buttonFourIcons = {
                 "HomeView": "ytliveicon", "VideoListView": "playicon", "VimeoUserVideosView": "playicon", "UserVideosView": "playicon", "VimeoPlaylistVideosView": "playicon",
                 "PlaylistVideosView": "playicon", "DMPlaylistVideosView": "videodownloadicon", "ArchiveListView": "mostrecenticon",
-                "VideoInfoView": "clipboardicon", "VimeoInfoView": "clipboardicon", "DMUserVideosView": "videodownloadicon"
+                "VideoInfoView": "twittericon", "VimeoInfoView": "twittericon", "DMUserVideosView": "videodownloadicon", "DMInfoView": "clipboardicon"
     };
 
         buttonFiveIcons = {
@@ -55,6 +55,8 @@ Item {
                 "VimeoUserVideosView": "videodownloadicon",
                 "PlaylistVideosView": "videodownloadicon",
                 "VimeoPlaylistVideosView": "videodownloadicon",
+                "VimeoInfoView": "clipboardicon",
+                "VideoInfoView": "clipboardicon",
                 "ArchiveListView": "sorttitleicon"
     };
 

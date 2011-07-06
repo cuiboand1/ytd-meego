@@ -93,10 +93,33 @@ function checkFacebookAccess() {
     }
 }
 
+function checkTwitterAccess() {
+    toggleControls(false);
+    if (Sharing.twitterToken != "") {
+        var shareDialog = ObjectCreator.createObject("AddCommentDialog.qml", window);
+        shareDialog.setService("Twitter", video);
+        shareDialog.close.connect(closeDialogs);
+        dimmer.state = "dim";
+        shareDialog.state = "show";
+    }
+    else {
+        getTwitterAccessToken();
+    }
+}
+
 function getFacebookAccessToken() {
     var oauthDialog = ObjectCreator.createObject("OAuthDialog.qml", window);
     oauthDialog.setService("Facebook");
     oauthDialog.authorised.connect(checkFacebookAccess);
+    oauthDialog.close.connect(closeDialogs);
+    dimmer.state = "dim";
+    oauthDialog.state = "show";
+}
+
+function getTwitterAccessToken() {
+    var oauthDialog = ObjectCreator.createObject("OAuthDialog.qml", window);
+    oauthDialog.setService("Twitter");
+    oauthDialog.authorised.connect(checkTwitterAccess);
     oauthDialog.close.connect(closeDialogs);
     dimmer.state = "dim";
     oauthDialog.state = "show";
@@ -136,33 +159,3 @@ function appendComments() {
     doc.send();
 }
 
-function loadRelatedVideos() {
-    var doc = new XMLHttpRequest();
-    doc.onreadystatechange = function() {
-        if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            relatedModel.setXml(xml);
-
-            relatedModel.loading = false;
-            relatedView.loaded = true;
-        }
-    }
-    doc.open("GET", relatedView.videoFeed);
-    doc.send();
-}
-
-function appendRelatedVideos() {
-    relatedModel.loading = true;
-
-    var doc = new XMLHttpRequest();
-    doc.onreadystatechange = function() {
-        if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            relatedModel.appendXml(xml);
-
-            relatedModel.loading = false;
-        }
-    }
-    doc.open("GET", relatedView.videoFeed + "&start-index=" + (relatedModel.count + 1).toString());
-    doc.send();
-}

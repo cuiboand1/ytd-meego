@@ -1,8 +1,10 @@
 import QtQuick 1.0
+import "scripts/youtube.js" as YT
 
 Item {
     id: dialog
 
+    property string videoFeed
     property variant playlist
     property string playlistId
     property string title
@@ -23,35 +25,14 @@ Item {
         description = playlist.description;
         createdDate = playlist.createdDate.split("T")[0];
         updatedDate = playlist.updatedDate.split("T")[0];
+        videoFeed = "https://gdata.youtube.com/feeds/api/playlists/" + playlistId + "?v=2&max-results=50&alt=json";
 
-        var doc = new XMLHttpRequest();
-        doc.onreadystatechange = function() {
-            if (doc.readyState == XMLHttpRequest.DONE) {
-                var xml = doc.responseText;
-                playlistVideosModel.setXml(xml);
-            }
-        }
-        doc.open("GET", "http://gdata.youtube.com/feeds/api/playlists/" + playlistId + "?v=2&max-results=50");
-        doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
-        doc.send();
+        YT.getYouTubeVideos();
     }
 
-    function appendPlaylistVideos() {
-        var doc = new XMLHttpRequest();
-        doc.onreadystatechange = function() {
-            if (doc.readyState == XMLHttpRequest.DONE) {
-                var xml = doc.responseText;
-                playlistVideosModel.appendXml(xml);
-            }
-        }
-        doc.open("GET", "http://gdata.youtube.com/feeds/api/playlists/" + playlistId + "?v=2&max-results=50&start-index=" + (playlistVideosModel.count + 1).toString());
-        doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
-        doc.send();
-    }
-
-    function setPlaylistXml(playlistItem) {
-        /* This function is used to pass the XML of
-          a fully loaded XmlListModel */
+    function setPlaylistVideos(playlistItem) {
+        /* This function is used to pass the videos of
+          a fully loaded ListModel */
 
         playlist = playlistItem.info;
         playlistId = playlist.playlistId;
@@ -60,7 +41,9 @@ Item {
         description = playlist.description;
         createdDate = playlist.createdDate.split("T")[0];
         updatedDate = playlist.updatedDate.split("T")[0];
-        playlistVideosModel.setXml(playlistItem.xml);
+        for (var i = 0; i < playlistItem.videos.length; i++) {
+            videoListModel.append(playlistItem.videos[i]);
+        }
     }
 
     width: parent.width
@@ -75,14 +58,20 @@ Item {
         }
     }
 
-    VideoListModel {
-        id: playlistVideosModel
+    ListModel {
+        id: videoListModel
 
-        onStatusChanged: {
-            if ((playlistVideosModel.status == XmlListModel.Ready) &&
-                    (playlistVideosModel.totalResults > 50) &&
-                    (playlistVideosModel.totalResults > playlistVideosModel.count)) {
-                appendPlaylistVideos();
+        property bool loading : true
+        property int totalResults
+        property int page : 0
+    }
+    Connections {
+        target: videoListModel
+        onLoadingChanged: {
+            if ((!videoListModel.loading) &&
+                    (videoListModel.totalResults > 50) &&
+                    (videoListModel.totalResults > videoListModel.count)) {
+                YT.getYouTubeVideos();
             }
         }
     }
@@ -118,7 +107,7 @@ Item {
             id: thumb
 
             anchors { fill: frame; margins: 2 }
-            source: (playlistVideosModel.count > 0) ? playlistVideosModel.get(0).largeThumbnail : ""
+            source: (videoListModel.count > 0) ? videoListModel.get(0).largeThumbnail : ""
             smooth: true
         }
 
@@ -128,7 +117,11 @@ Item {
             anchors.fill: frame
             enabled: !busyDialog.visible
             onClicked: {
-                playlistVideosClicked({ "info": playlist, "xml": playlistVideosModel.xml });
+                var list = [];
+                for (var i = 0; i < videoListModel.count; i++) {
+                    list.push(YT.createVideoObject(videoListModel.get(i)));
+                }
+                playlistVideosClicked({ "info": playlist, "videos": list });
                 close();
             }
         }
@@ -248,8 +241,9 @@ Item {
             onButtonClicked: {
                 if (Controller.getMediaPlayer() == "cutetubeplayer") {
                     var list = [];
-                    for (var i = 0; i < playlistVideosModel.count; i++) {
-                        list.push(playlistVideosModel.get(i));
+                    var video;
+                    for (var i = 0; i < videoListModel.count; i++) {
+                        list.push(YT.createVideoObject(videoListModel.get(i)));
                     }
                     playClicked(list);
                 }
@@ -268,8 +262,8 @@ Item {
             name: qsTr("Download")
             disabled: busyDialog.visible
             onButtonClicked: {
-                for (var i = 0; i < playlistVideosModel.count; i++) {
-                    addDownload(playlistVideosModel.get(i));
+                for (var i = 0; i < videoListModel.count; i++) {
+                    addDownload(videoListModel.get(i));
                 }
                 close();
             }
@@ -280,7 +274,7 @@ Item {
         id: busyDialog
 
         anchors { centerIn: dialog; verticalCenterOffset: 20 }
-        visible: ((playlistVideosModel.count == 0) || (playlistVideosModel.count < playlistVideosModel.totalResults))
+        visible: ((videoListModel.count == 0) || (videoListModel.count < videoListModel.totalResults))
     }
 
     CloseButton {

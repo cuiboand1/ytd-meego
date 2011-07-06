@@ -17,80 +17,28 @@ Item {
     Component.onCompleted: getSearches()
 
     function getYouTubeVideo(id) {
-        /* Get video data */
-
-        var videoObject = {};
-        videoObject["videoId"] = id;
-        videoObject["description"] = "";
-        videoObject["likes"] = "";
-        videoObject["dislikes"] = "";
-        var node;
+        console.log(id)
         var request = new XMLHttpRequest();
         request.onreadystatechange = function() {
             if (request.readyState == XMLHttpRequest.DONE) {
-                var doc = request.responseXML.documentElement;
-                for (var i = 0; i < doc.childNodes.length; i++) {
-                    if (doc.childNodes[i].nodeName == "comments") {
-                        videoObject["comments"] = doc.childNodes[i].childNodes[0].attributes[1].value;
-                    }
-                    else if (doc.childNodes[i].nodeName == "group") {
-                        for (var ii = 0; ii < doc.childNodes[i].childNodes.length; ii++) {
-                            node = doc.childNodes[i].childNodes[ii];
-                            if (node.nodeName == "credit") {
-                                videoObject["author"] = node.firstChild.nodeValue;
-                            }
-                            else if (node.nodeName == "description") {
-                                if (node.firstChild != undefined) {
-                                    videoObject["description"] = node.firstChild.nodeValue;
-                                }
-                            }
-                            else if (node.nodeName == "keywords") {
-                                if (node.firstChild != undefined) {
-                                    videoObject["tags"] = node.firstChild.nodeValue;
-                                }
-                            }
-                            else if (node.nodeName == "player") {
-                                videoObject["playerUrl"] = node.attributes[0].value;
-                            }
-                            else if (node.nodeName == "thumbnail") {
-                                var value = node.attributes[0].value;
-                                var patt = value.split("/")[5];
-                                if (patt == "default.jpg") {
-                                    videoObject["thumbnail"] = value;
-                                }
-                                else if (patt == "hqdefault.jpg") {
-                                    videoObject["largeThumbnail"] = value;
-                                }
-                            }
-                            else if (node.nodeName == "title") {
-                                videoObject["title"] = node.firstChild.nodeValue;
-                            }
-                            else if (node.nodeName == "duration") {
-                                videoObject["duration"] = node.attributes[0].value;
-                            }
-                            else if (node.nodeName == "uploaded") {
-                                videoObject["uploadDate"] = node.firstChild.nodeValue.split("T")[0];
-                            }
-                        }
-                    }
-                    else if (doc.childNodes[i].nodeName == "statistics") {
-                        videoObject["views"] = doc.childNodes[i].attributes[1].value;
-                    }
-                    else if (doc.childNodes[i].nodeName == "rating") {
-                        if (doc.childNodes[i].attributes[0].name == "numDislikes") {
-                            if (doc.childNodes[i].attributes[1].value != undefined) {
-                                videoObject["likes"] = doc.childNodes[i].attributes[1].value;
-                            }
-                            if (doc.childNodes[i].attributes[1].value != undefined) {
-                                videoObject["dislikes"] = doc.childNodes[i].attributes[0].value;
-                            }
-                        }
-                    }
+                console.log(request.responseText)
+                var res = eval("(" + request.responseText + ")").entry;
+                if (res.app$control) {
+                    messages.displayMessage(qsTr("Video is not available"));
                 }
-                video(videoObject);
+                else {
+                    video({ "playerUrl": "http://youtube.com/watch?v=" + res.media$group.yt$videoid.$t, "id": res.id.$t,
+                          "videoId": res.media$group.yt$videoid.$t, "title": res.title.$t,
+                          "description": res.media$group.media$description.$t, "author": res.media$group.media$credit[0].$t,
+                          "likes": res.yt$rating ? res.yt$rating.numLikes : "0", "dislikes": res.yt$rating ? res.yt$rating.numDislikes : "0",
+                          "views": res.yt$statistics ? res.yt$statistics.viewCount : "0", "duration": res.media$group.yt$duration.seconds,
+                          "tags": res.media$group.media$keywords.$t, "uploadDate": res.media$group.yt$uploaded.$t,
+                          "thumbnail": res.media$group.media$thumbnail[0].url, "comments": res.gd$comments ? res.gd$comments.gd$feedLink.countHint : "0",
+                          "largeThumbnail": res.media$group.media$thumbnail[1].url, "youtube": true });
+                }
             }
         }
-        request.open("GET", "http://gdata.youtube.com/feeds/api/videos/" + id + "?v=2");
+        request.open("GET", "http://gdata.youtube.com/feeds/api/videos/" + id + "?v=2&alt=json");
         request.send();
     }
 
@@ -136,7 +84,7 @@ Item {
             }
         }
         var params = [["format", "json"], ["method", "vimeo.videos.getInfo"], ["video_id", id]];
-        var oauthData = OAuth.createOAuthHeader("GET", "http://vimeo.com/api/rest/v2/", undefined, undefined, params);
+        var oauthData = OAuth.createOAuthHeader("vimeo", "GET", "http://vimeo.com/api/rest/v2/", undefined, undefined, params);
         doc.open("GET", oauthData.url);
         doc.setRequestHeader("Authorization", oauthData.header);
         doc.send();
@@ -145,19 +93,20 @@ Item {
     function parseSearchQuery() {
 
         var query = searchInput.text;
-        var youtube = /youtu.be|watch\?v=/; // Check if user entered a direct link to a video
+        var youtube = /youtu.be|youtube.com/; // Check if user entered a direct link to a video
         var dailymotion = /dailymotion.com\/video/;
         var vimeo = /vimeo.com/;
+        var videoId;
         if (youtube.test(query)) {
-            var videoId = query.split("&")[0].slice(-11); // Extract videoId from link
+            videoId = query.split("v=")[1].split("&")[0]; // Extract videoId from link
             getYouTubeVideo(videoId);
         }
         else if (dailymotion.test(query)) {
-            var videoId = query.split("/").pop().split("_")[0];
+            videoId = query.split("/").pop().split("_")[0];
             getDailymotionVideo(videoId);
         }
         else if (vimeo.test(query)) {
-            var videoId = query.split("/").pop().split("_")[0];
+            videoId = query.split("/").pop().split("_")[0];
             getVimeoVideo(videoId);
         }
         else {

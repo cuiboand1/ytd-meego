@@ -156,7 +156,7 @@ Item {
             }
         }
         var credentials = { "callback": "oob" };
-        var oauthData = OAuth.createOAuthHeader("GET", "http://vimeo.com/oauth/request_token", credentials);
+        var oauthData = OAuth.createOAuthHeader("vimeo", "GET", "http://vimeo.com/oauth/request_token", credentials);
         doc.open("GET", oauthData.url);
         doc.setRequestHeader("Authorization", oauthData.header);
         doc.send();
@@ -180,7 +180,7 @@ Item {
             }
         }
         var credentials = { "token": token, "secret": vimeoSecret, "verifier": verifier };
-        var oauthData = OAuth.createOAuthHeader("GET", "http://vimeo.com/oauth/access_token", credentials);
+        var oauthData = OAuth.createOAuthHeader("vimeo", "GET", "http://vimeo.com/oauth/access_token", credentials);
         doc.open("GET", oauthData.url);
         doc.setRequestHeader("Authorization", oauthData.header);
         doc.send();

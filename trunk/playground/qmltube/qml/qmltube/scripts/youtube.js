@@ -6,7 +6,7 @@ function getYouTubeSearch(query, order) {
     var encodedQuery = encodeURIComponent(query.replace(/\s.\s/gi, " "));
     var safe = Settings.getSetting("safeSearch");
     var videoFeed = "http://gdata.youtube.com/feeds/api/videos?v=2&max-results=50&safeSearch=" + safe + "&q=%22"
-                     + encodedQuery + "%22%7C" + encodedQuery.replace(/\s/g, "+") + "&orderby=" + order;
+        + encodedQuery + "%22%7C" + encodedQuery.replace(/\s/g, "+") + "&orderby=" + order + "&alt=json";
     return videoFeed;
 }
 
@@ -16,36 +16,38 @@ function getYouTubeVideos() {
     var doc = new XMLHttpRequest();
     doc.onreadystatechange = function() {
         if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            videoListModel.setXml(xml);
+            //            console.log(doc.responseText)
+            var results = eval("(" + doc.responseText + ")");
+            if (videoListModel.page == 0) {
+                videoListModel.totalResults = parseInt(results.feed.openSearch$totalResults.$t);
+            }
+            if (results.feed.entry) {
+                var res;
+                for (var i = 0; i < results.feed.entry.length; i++) {
+                    res = results.feed.entry[i];
+                    if (res.app$control) {
+                        videoListModel.totalResults--;
+                    }
+                    else {
+                        videoListModel.append({ "playerUrl": "http://youtube.com/watch?v=" + res.media$group.yt$videoid.$t, "id": res.id.$t,
+                                              "videoId": res.media$group.yt$videoid.$t, "title": res.title.$t,
+                                              "description": res.media$group.media$description.$t, "author": res.media$group.media$credit[0].$t,
+                                              "likes": res.yt$rating ? res.yt$rating.numLikes : "0", "dislikes": res.yt$rating ? res.yt$rating.numDislikes : "0",
+                                              "views": res.yt$statistics ? res.yt$statistics.viewCount : "0", "duration": res.media$group.yt$duration.seconds,
+                                              "tags": res.media$group.media$keywords.$t, "uploadDate": res.media$group.yt$uploaded.$t,
+                                              "thumbnail": res.media$group.media$thumbnail[0].url, "comments": res.gd$comments ? res.gd$comments.gd$feedLink.countHint : "0",
+                                              "largeThumbnail": res.media$group.media$thumbnail[1].url, "youtube": true });
+                    }
+                }
+            }
 
             videoListModel.loading = false;
-            videoList.positionViewAtIndex(0, ListView.Beginning);
+            videoListModel.page++
         }
     }
-    doc.open("GET", videoFeed);
+    doc.open("GET", videoFeed + "&start-index=" + (videoListModel.page * 50 + 1).toString());
     if ((videoFeed == _FAVOURITES_FEED) || (videoFeed == _UPLOADS_FEED) || (videoFeed == _NEW_SUB_VIDEOS_FEED)) {
         doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken); // Set 'Authorization' header if viewing the favourites/uploads feed
-    }
-    doc.send();
-}
-
-function appendYouTubeVideos() {
-    videoListModel.loading = true;
-
-    var startIndex = videoListModel.count + 1;
-    var doc = new XMLHttpRequest();
-    doc.onreadystatechange = function() {
-        if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            videoListModel.appendXml(xml);
-        }
-
-        videoListModel.loading = false;
-    }
-    doc.open("GET", videoFeed + "&start-index=" + startIndex.toString());
-    if ((videoFeed == _FAVOURITES_FEED) || (videoFeed == _UPLOADS_FEED) || (videoFeed == _NEW_SUB_VIDEOS_FEED)) {
-        doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
     }
     doc.send();
 }
@@ -244,4 +246,41 @@ function getCurrentLiveStreams() {
     }
     doc.open("GET", "http://www.youtube.com/live");
     doc.send();
+}
+
+function createVideoObject(video) {
+    var videoObject = {};
+    videoObject["id"] = video.id;
+    videoObject["videoId"] = video.videoId;
+    videoObject["playerUrl"] = video.playerUrl;
+    videoObject["title"] = video.title;
+    videoObject["duration"] = video.duration;
+    videoObject["description"] = video.description;
+    videoObject["author"] = video.author;
+    videoObject["uploadDate"] = video.uploadDate;
+    videoObject["views"] = video.views;
+    videoObject["likes"] = video.likes;
+    videoObject["dislikes"] = video.dislikes;
+    videoObject["thumbnail"] = video.thumbnail;
+    videoObject["comments"] = video.comments;
+    videoObject["youtube"] = true;
+    return videoObject;
+}
+
+function addVideosToPlaybackQueue() {
+    if (videoList.checkList.length > 0) {
+        if (Controller.getMediaPlayer() == "cutetubeplayer") {
+            var list = [];
+            var video;
+            for (var i = 0; i < videoList.checkList.length; i++) {
+                video = createVideoObject(videoListModel.get(videoList.checkList[i]));
+                list.push(video);
+            }
+            playVideos(list);
+        }
+        else {
+            messages.displayMessage(messages._USE_CUTETUBE_PLAYER);
+        }
+        videoList.checkList = [];
+    }
 }

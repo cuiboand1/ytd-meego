@@ -1,8 +1,5 @@
-qmltube (1.0.0) unstable; urgency=low
+qmltube (1.0.3) unstable; urgency=low
 
-  * Added fully featured support for Dailymotion and vimeo.
-  * YouTube authentication is now performed via AuthSub, removing the need for password storage.
-  * Removed the need for YouTube login upon startup.
-  * Code re-factoring and minor bug-fixes.
+  * Various bug fixes.
 
- -- Stuart Howarth <marxianthecoder@gmail.com>  Tue, 28 Jun 2011 21:30:18 +0000
+ -- Stuart Howarth <marxianthecoder@gmail.com>  Wed, 06 Jul 2011 11:20:18 +0000

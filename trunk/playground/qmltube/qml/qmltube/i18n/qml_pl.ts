@@ -77,7 +77,7 @@
     </message>
     <message>
         <location filename="../AboutDialog.qml" line="56"/>
-        <source>cuteTube - 1.0.0</source>
+        <source>cuteTube - 1.0.1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -235,9 +235,8 @@
 <context>
     <name>AddCommentDialog</name>
     <message>
-        <location filename="../AddCommentDialog.qml" line="6"/>
         <source>Add Comment</source>
-        <translation>Dodaj komentarz</translation>
+        <translation type="obsolete">Dodaj komentarz</translation>
     </message>
     <message>
         <location filename="../AddCommentDialog.qml" line="16"/>
@@ -245,17 +244,17 @@
         <translation>Udostępnij przez</translation>
     </message>
     <message>
-        <location filename="../AddCommentDialog.qml" line="60"/>
+        <location filename="../AddCommentDialog.qml" line="69"/>
         <source>Title</source>
         <translation>Tytuł</translation>
     </message>
     <message>
-        <location filename="../AddCommentDialog.qml" line="74"/>
+        <location filename="../AddCommentDialog.qml" line="83"/>
         <source>Description</source>
         <translation>Opis</translation>
     </message>
     <message>
-        <location filename="../AddCommentDialog.qml" line="111"/>
+        <location filename="../AddCommentDialog.qml" line="124"/>
         <source>Message</source>
         <translation>Wiadomość</translation>
     </message>
@@ -423,43 +422,43 @@
         <translation type="unfinished">Brak opisu</translation>
     </message>
     <message>
-        <location filename="../DMInfoView.qml" line="191"/>
+        <location filename="../DMInfoView.qml" line="196"/>
         <source>Info</source>
         <translation type="unfinished">Informacja</translation>
     </message>
     <message>
-        <location filename="../DMInfoView.qml" line="191"/>
+        <location filename="../DMInfoView.qml" line="196"/>
         <source>Related</source>
         <translation type="unfinished">Podobne</translation>
     </message>
     <message>
-        <location filename="../DMInfoView.qml" line="299"/>
-        <location filename="../DMInfoView.qml" line="301"/>
+        <location filename="../DMInfoView.qml" line="304"/>
+        <location filename="../DMInfoView.qml" line="306"/>
         <source>By </source>
         <translation type="unfinished">Przez </translation>
     </message>
     <message>
-        <location filename="../DMInfoView.qml" line="347"/>
+        <location filename="../DMInfoView.qml" line="352"/>
         <source>Views</source>
         <translation type="unfinished">Wyświetlenia</translation>
     </message>
     <message>
-        <location filename="../DMInfoView.qml" line="360"/>
+        <location filename="../DMInfoView.qml" line="365"/>
         <source>Description</source>
         <translation type="unfinished">Opis</translation>
     </message>
     <message>
-        <location filename="../DMInfoView.qml" line="376"/>
+        <location filename="../DMInfoView.qml" line="381"/>
         <source>Tags</source>
         <translation type="unfinished">Tagi</translation>
     </message>
     <message>
-        <location filename="../DMInfoView.qml" line="386"/>
+        <location filename="../DMInfoView.qml" line="391"/>
         <source>No tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DMInfoView.qml" line="484"/>
+        <location filename="../DMInfoView.qml" line="489"/>
         <source>No related videos</source>
         <translation type="unfinished">Brak podobnych plików wideo</translation>
     </message>
@@ -485,7 +484,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../DMListView.qml" line="147"/>
+        <location filename="../DMListView.qml" line="150"/>
         <source>No videos found</source>
         <translation type="unfinished"></translation>
     </message>
@@ -772,7 +771,7 @@
         <translation type="obsolete">Wyjście</translation>
     </message>
     <message>
-        <location filename="../MenuBar.qml" line="156"/>
+        <location filename="../MenuBar.qml" line="158"/>
         <source>Sort</source>
         <translation type="unfinished"></translation>
     </message>
@@ -889,20 +888,33 @@
 <context>
     <name>OAuthDialog</name>
     <message>
-        <location filename="../OAuthDialog.qml" line="8"/>
+        <location filename="../OAuthDialog.qml" line="9"/>
         <source>Authorisation For </source>
         <translation>Zezwolenie dla</translation>
     </message>
     <message>
-        <location filename="../OAuthDialog.qml" line="48"/>
+        <location filename="../OAuthDialog.qml" line="57"/>
         <source>Error obtaining facebook authorisation</source>
         <translation>Błąd otrzymywania pozwolenia Facebooka</translation>
     </message>
     <message>
-        <location filename="../OAuthDialog.qml" line="175"/>
-        <location filename="../OAuthDialog.qml" line="176"/>
+        <location filename="../OAuthDialog.qml" line="70"/>
+        <source>Error obtaining twitter authorisation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OAuthDialog.qml" line="115"/>
+        <source>Unable to obtain twitter request token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../OAuthDialog.qml" line="142"/>
+        <source>Unable to obtain twitter access token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Enter pin code</source>
-        <translation>Wprowadź kod pin</translation>
+        <translation type="obsolete">Wprowadź kod pin</translation>
     </message>
 </context>
 <context>
@@ -916,47 +928,47 @@
 <context>
     <name>PlaylistDialog</name>
     <message>
-        <location filename="../PlaylistDialog.qml" line="102"/>
+        <location filename="../PlaylistDialog.qml" line="91"/>
         <source>Playlist Info</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="148"/>
+        <location filename="../PlaylistDialog.qml" line="141"/>
         <source>Title</source>
         <translation type="unfinished">Tytuł</translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="154"/>
+        <location filename="../PlaylistDialog.qml" line="147"/>
         <source>Videos</source>
         <translation type="unfinished">Pliki wideo</translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="174"/>
+        <location filename="../PlaylistDialog.qml" line="167"/>
         <source>Created</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="180"/>
+        <location filename="../PlaylistDialog.qml" line="173"/>
         <source>Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="208"/>
+        <location filename="../PlaylistDialog.qml" line="201"/>
         <source>Description</source>
         <translation type="unfinished">Opis</translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="226"/>
+        <location filename="../PlaylistDialog.qml" line="219"/>
         <source>No description</source>
         <translation type="unfinished">Brak opisu</translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="245"/>
+        <location filename="../PlaylistDialog.qml" line="238"/>
         <source>Play</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistDialog.qml" line="268"/>
+        <location filename="../PlaylistDialog.qml" line="262"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
@@ -988,33 +1000,33 @@
         <translation type="obsolete">Skopiuj do schowka</translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="102"/>
+        <location filename="../PlaylistVideosView.qml" line="109"/>
         <source>Video(s) deleted from playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="130"/>
+        <location filename="../PlaylistVideosView.qml" line="137"/>
         <source>No videos found</source>
         <translation>Nie znaleziono plików wideo</translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="196"/>
+        <location filename="../PlaylistVideosView.qml" line="193"/>
         <source>Videos</source>
         <translation type="unfinished">Pliki wideo</translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="210"/>
+        <location filename="../PlaylistVideosView.qml" line="207"/>
         <source>Updated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="233"/>
+        <location filename="../PlaylistVideosView.qml" line="230"/>
         <source>Play all</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../PlaylistVideosView.qml" line="181"/>
-        <location filename="../PlaylistVideosView.qml" line="242"/>
+        <location filename="../PlaylistVideosView.qml" line="178"/>
+        <location filename="../PlaylistVideosView.qml" line="239"/>
         <source>Loading playlist videos. Please wait</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1075,17 +1087,22 @@
         <translation type="obsolete">Stortuj po:</translation>
     </message>
     <message>
-        <location filename="../SearchBar.qml" line="134"/>
+        <location filename="../SearchBar.qml" line="27"/>
+        <source>Video is not available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SearchBar.qml" line="82"/>
         <source>This video cannot be played or downloaded</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SearchBar.qml" line="249"/>
+        <location filename="../SearchBar.qml" line="198"/>
         <source>Site:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SearchBar.qml" line="294"/>
+        <location filename="../SearchBar.qml" line="243"/>
         <source>Order:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1103,7 +1120,7 @@
         <translation>Błąd bazy danych. Nie można wyczyścić wyszukiwań</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="328"/>
+        <location filename="../SettingsDialog.qml" line="336"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
@@ -1116,54 +1133,64 @@
         <translation type="obsolete">Jakość pobierania</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="369"/>
+        <location filename="../SettingsDialog.qml" line="377"/>
         <source>Start downloads</source>
         <translation>Uruchomienie pobierania</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="395"/>
+        <location filename="../SettingsDialog.qml" line="403"/>
         <source>YouTube playback quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="405"/>
+        <location filename="../SettingsDialog.qml" line="413"/>
         <source>YouTube download quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="413"/>
+        <location filename="../SettingsDialog.qml" line="421"/>
         <source>Homescreen categories</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="492"/>
+        <source>Delete facebook access token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="503"/>
+        <source>Delete twitter access token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="511"/>
         <source>Appearance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="518"/>
+        <location filename="../SettingsDialog.qml" line="537"/>
         <source>System</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="526"/>
+        <location filename="../SettingsDialog.qml" line="545"/>
         <source>Download location</source>
         <translation>Miejsce pobierania</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="535"/>
+        <location filename="../SettingsDialog.qml" line="554"/>
         <source>Screen orientation</source>
         <translation>Orientacja ekranu</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="385"/>
+        <location filename="../SettingsDialog.qml" line="393"/>
         <source>Media player</source>
         <translation>Odtwarzacz</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="242"/>
-        <location filename="../SettingsDialog.qml" line="509"/>
-        <location filename="../SettingsDialog.qml" line="512"/>
+        <location filename="../SettingsDialog.qml" line="528"/>
+        <location filename="../SettingsDialog.qml" line="531"/>
         <source>Language</source>
         <translation>Język</translation>
     </message>
@@ -1244,102 +1271,87 @@
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="215"/>
-        <location filename="../SettingsDialog.qml" line="371"/>
+        <location filename="../SettingsDialog.qml" line="379"/>
         <source>Start Downloads</source>
         <translation>Uruchom pobieranie</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="221"/>
-        <location filename="../SettingsDialog.qml" line="423"/>
+        <location filename="../SettingsDialog.qml" line="431"/>
         <source>Category Feed One</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="224"/>
-        <location filename="../SettingsDialog.qml" line="432"/>
+        <location filename="../SettingsDialog.qml" line="440"/>
         <source>Category Feed Two</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="227"/>
-        <location filename="../SettingsDialog.qml" line="441"/>
+        <location filename="../SettingsDialog.qml" line="449"/>
         <source>Order Category Videos By</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="233"/>
-        <location filename="../SettingsDialog.qml" line="537"/>
+        <location filename="../SettingsDialog.qml" line="556"/>
         <source>Screen Orientation</source>
         <translation>Orientacja ekranu</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="236"/>
-        <location filename="../SettingsDialog.qml" line="388"/>
+        <location filename="../SettingsDialog.qml" line="396"/>
         <source>Media Player</source>
         <translation>Odtwarzacz</translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="278"/>
-        <source>Your facebook token has been deleted</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="281"/>
-        <source>Database error. Unable to delete facebook token</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="421"/>
+        <location filename="../SettingsDialog.qml" line="429"/>
         <source>Category feed one</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="430"/>
+        <location filename="../SettingsDialog.qml" line="438"/>
         <source>Category feed two</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="439"/>
+        <location filename="../SettingsDialog.qml" line="447"/>
         <source>Order category videos by</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="447"/>
+        <location filename="../SettingsDialog.qml" line="455"/>
         <source>Searches</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="473"/>
+        <location filename="../SettingsDialog.qml" line="481"/>
         <source>Social networks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="484"/>
-        <source>Delete facebook token</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../SettingsDialog.qml" line="551"/>
+        <location filename="../SettingsDialog.qml" line="570"/>
         <source>Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="559"/>
+        <location filename="../SettingsDialog.qml" line="578"/>
         <source>Feed one</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="568"/>
+        <location filename="../SettingsDialog.qml" line="587"/>
         <source>Feed two</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="577"/>
+        <location filename="../SettingsDialog.qml" line="596"/>
         <source>Feed three</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="586"/>
+        <location filename="../SettingsDialog.qml" line="605"/>
         <source>Feed four</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1464,80 +1476,100 @@
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="209"/>
-        <location filename="../SettingsDialog.qml" line="398"/>
+        <location filename="../SettingsDialog.qml" line="406"/>
         <source>YouTube Playback Quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="212"/>
-        <location filename="../SettingsDialog.qml" line="407"/>
+        <location filename="../SettingsDialog.qml" line="415"/>
         <source>YouTube Download Quality</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="230"/>
-        <location filename="../SettingsDialog.qml" line="457"/>
+        <location filename="../SettingsDialog.qml" line="465"/>
         <source>Safe Search</source>
         <translation>Bezpieczne wyszukiwanie</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="239"/>
-        <location filename="../SettingsDialog.qml" line="500"/>
-        <location filename="../SettingsDialog.qml" line="502"/>
+        <location filename="../SettingsDialog.qml" line="519"/>
+        <location filename="../SettingsDialog.qml" line="521"/>
         <source>Theme</source>
         <translation>Skórka</translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="248"/>
-        <location filename="../SettingsDialog.qml" line="561"/>
+        <location filename="../SettingsDialog.qml" line="580"/>
         <source>Widget Feed One</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="251"/>
-        <location filename="../SettingsDialog.qml" line="570"/>
+        <location filename="../SettingsDialog.qml" line="589"/>
         <source>Widget Feed Two</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="254"/>
-        <location filename="../SettingsDialog.qml" line="579"/>
+        <location filename="../SettingsDialog.qml" line="598"/>
         <source>Widget Feed Three</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="257"/>
-        <location filename="../SettingsDialog.qml" line="588"/>
+        <location filename="../SettingsDialog.qml" line="607"/>
         <source>Widget Feed Four</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="352"/>
-        <source>Network</source>
+        <location filename="../SettingsDialog.qml" line="276"/>
+        <source>Your facebook access token has been deleted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="279"/>
+        <source>Database error. Unable to delete facebook access token</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="286"/>
+        <source>Your twitter access token has been deleted</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="289"/>
+        <source>Database error. Unable to delete twitter access token</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../SettingsDialog.qml" line="360"/>
+        <source>Network</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../SettingsDialog.qml" line="368"/>
         <source>Network proxy</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="377"/>
+        <location filename="../SettingsDialog.qml" line="385"/>
         <source>Media</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="455"/>
+        <location filename="../SettingsDialog.qml" line="463"/>
         <source>Safe search</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="361"/>
+        <location filename="../SettingsDialog.qml" line="369"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../SettingsDialog.qml" line="466"/>
+        <location filename="../SettingsDialog.qml" line="474"/>
         <source>Clear saved searches</source>
         <translation>Wyczyść zapisane wyszukiwania</translation>
     </message>
@@ -1545,9 +1577,13 @@
 <context>
     <name>Sharing</name>
     <message>
-        <location filename="../../../sharing.cpp" line="83"/>
         <source>Error - Server repsonse is: </source>
-        <translation>Błąd - Serwer odpowiedział:</translation>
+        <translation type="obsolete">Błąd - Serwer odpowiedział:</translation>
+    </message>
+    <message>
+        <location filename="../../../sharing.cpp" line="96"/>
+        <source>Error - </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1875,22 +1911,22 @@
         <translation>Brak plików wideo</translation>
     </message>
     <message>
-        <location filename="../UserVideosView.qml" line="201"/>
+        <location filename="../UserVideosView.qml" line="191"/>
         <source>Subscribers</source>
         <translation>Subskrybenci</translation>
     </message>
     <message>
-        <location filename="../UserVideosView.qml" line="215"/>
+        <location filename="../UserVideosView.qml" line="205"/>
         <source>Videos</source>
         <translation>Pliki wideo</translation>
     </message>
     <message>
-        <location filename="../UserVideosView.qml" line="238"/>
+        <location filename="../UserVideosView.qml" line="228"/>
         <source>Unsubscribe</source>
         <translation>Wypisz z subskrybcji</translation>
     </message>
     <message>
-        <location filename="../UserVideosView.qml" line="238"/>
+        <location filename="../UserVideosView.qml" line="228"/>
         <source>Subscribe</source>
         <translation>Zapisz do subskrybcji</translation>
     </message>
@@ -1935,64 +1971,64 @@
         <translation type="obsolete">Nie jesteś zalogowany do swojego konta YouTube</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="255"/>
+        <location filename="../VideoInfoView.qml" line="260"/>
         <source>Info</source>
         <translation>Informacja</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="255"/>
+        <location filename="../VideoInfoView.qml" line="260"/>
         <source>Comments</source>
         <translation>Komentarze</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="255"/>
+        <location filename="../VideoInfoView.qml" line="260"/>
         <source>Related</source>
         <translation>Podobne</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="366"/>
-        <location filename="../VideoInfoView.qml" line="369"/>
+        <location filename="../VideoInfoView.qml" line="371"/>
+        <location filename="../VideoInfoView.qml" line="374"/>
         <source>By </source>
         <translation>Przez </translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="368"/>
-        <location filename="../VideoInfoView.qml" line="371"/>
+        <location filename="../VideoInfoView.qml" line="373"/>
+        <location filename="../VideoInfoView.qml" line="376"/>
         <source> on </source>
         <translation> na </translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="417"/>
+        <location filename="../VideoInfoView.qml" line="422"/>
         <source>Views</source>
         <translation>Wyświetlenia</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="431"/>
+        <location filename="../VideoInfoView.qml" line="436"/>
         <source>Description</source>
         <translation>Opis</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="447"/>
+        <location filename="../VideoInfoView.qml" line="452"/>
         <source>Tags</source>
         <translation>Tagi</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="457"/>
+        <location filename="../VideoInfoView.qml" line="462"/>
         <source>No tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="529"/>
+        <location filename="../VideoInfoView.qml" line="534"/>
         <source>No comments</source>
         <translation>Brak komentarzy</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="529"/>
+        <location filename="../VideoInfoView.qml" line="534"/>
         <source> comments</source>
         <translation> komentarzy</translation>
     </message>
     <message>
-        <location filename="../VideoInfoView.qml" line="644"/>
+        <location filename="../VideoInfoView.qml" line="652"/>
         <source>No related videos</source>
         <translation>Brak podobnych plików wideo</translation>
     </message>
@@ -2053,65 +2089,65 @@
         <translation type="obsolete">Błąd: Nie można odebrać wideo</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="374"/>
-        <location filename="../VideoPlaybackView.qml" line="528"/>
-        <location filename="../VideoPlaybackView.qml" line="1064"/>
+        <location filename="../VideoPlaybackView.qml" line="381"/>
+        <location filename="../VideoPlaybackView.qml" line="535"/>
+        <location filename="../VideoPlaybackView.qml" line="1080"/>
         <source>Loading...</source>
         <translation type="unfinished">Ładowanie...</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="786"/>
+        <location filename="../VideoPlaybackView.qml" line="802"/>
         <source>Info</source>
         <translation type="unfinished">Informacja</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="786"/>
+        <location filename="../VideoPlaybackView.qml" line="802"/>
         <source>Comments</source>
         <translation type="unfinished">Komentarze</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="786"/>
+        <location filename="../VideoPlaybackView.qml" line="802"/>
         <source>Playlist</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="902"/>
-        <location filename="../VideoPlaybackView.qml" line="905"/>
+        <location filename="../VideoPlaybackView.qml" line="918"/>
+        <location filename="../VideoPlaybackView.qml" line="921"/>
         <source>By </source>
         <translation type="unfinished">Przez </translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="902"/>
+        <location filename="../VideoPlaybackView.qml" line="918"/>
         <source> on </source>
         <translation type="unfinished"> na </translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="908"/>
+        <location filename="../VideoPlaybackView.qml" line="924"/>
         <source>Added on </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="970"/>
+        <location filename="../VideoPlaybackView.qml" line="986"/>
         <source>Views</source>
         <translation type="unfinished">Wyświetlenia</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="984"/>
+        <location filename="../VideoPlaybackView.qml" line="1000"/>
         <source>Description</source>
         <translation type="unfinished">Opis</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="992"/>
+        <location filename="../VideoPlaybackView.qml" line="1008"/>
         <source>No description</source>
         <translation type="unfinished">Brak opisu</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="1039"/>
+        <location filename="../VideoPlaybackView.qml" line="1055"/>
         <source>No comments</source>
         <translation type="unfinished">Brak komentarzy</translation>
     </message>
     <message>
-        <location filename="../VideoPlaybackView.qml" line="1039"/>
+        <location filename="../VideoPlaybackView.qml" line="1055"/>
         <source> comments</source>
         <translation type="unfinished"> komentarzy</translation>
     </message>
@@ -2137,59 +2173,59 @@
         <translation type="unfinished">Brak opisu</translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="240"/>
+        <location filename="../VimeoInfoView.qml" line="245"/>
         <source>Info</source>
         <translation type="unfinished">Informacja</translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="240"/>
+        <location filename="../VimeoInfoView.qml" line="245"/>
         <source>Comments</source>
         <translation type="unfinished">Komentarze</translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="348"/>
-        <location filename="../VimeoInfoView.qml" line="351"/>
+        <location filename="../VimeoInfoView.qml" line="353"/>
+        <location filename="../VimeoInfoView.qml" line="356"/>
         <source>By </source>
         <translation type="unfinished">Przez </translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="350"/>
-        <location filename="../VimeoInfoView.qml" line="353"/>
+        <location filename="../VimeoInfoView.qml" line="355"/>
+        <location filename="../VimeoInfoView.qml" line="358"/>
         <source> on </source>
         <translation type="unfinished"> na </translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="370"/>
+        <location filename="../VimeoInfoView.qml" line="375"/>
         <source>Likes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="382"/>
+        <location filename="../VimeoInfoView.qml" line="387"/>
         <source>Views</source>
         <translation type="unfinished">Wyświetlenia</translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="395"/>
+        <location filename="../VimeoInfoView.qml" line="400"/>
         <source>Description</source>
         <translation type="unfinished">Opis</translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="411"/>
+        <location filename="../VimeoInfoView.qml" line="416"/>
         <source>Tags</source>
         <translation type="unfinished">Tagi</translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="421"/>
+        <location filename="../VimeoInfoView.qml" line="426"/>
         <source>No tags</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="492"/>
+        <location filename="../VimeoInfoView.qml" line="497"/>
         <source>No comments</source>
         <translation type="unfinished">Brak komentarzy</translation>
     </message>
     <message>
-        <location filename="../VimeoInfoView.qml" line="492"/>
+        <location filename="../VimeoInfoView.qml" line="497"/>
         <source> comments</source>
         <translation type="unfinished"> komentarzy</translation>
     </message>
@@ -2449,7 +2485,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../YTListView.qml" line="155"/>
+        <location filename="../YTListView.qml" line="159"/>
         <source>No videos found</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2553,17 +2589,17 @@
         <translation type="obsolete">Plik(i) wideo dodane do kolejki pobierania</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="687"/>
+        <location filename="../main.qml" line="688"/>
         <source>Video(s) already in download queue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="688"/>
+        <location filename="../main.qml" line="689"/>
         <source>Audio track(s) added to download queue</source>
         <translation>Plik(i) audio dodane do kolejki pobierania</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="689"/>
+        <location filename="../main.qml" line="690"/>
         <source>Audio track(s) already in download queue</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2621,7 +2657,7 @@
         <translation type="unfinished">Udostępniłeś wideo na Facebooku</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="686"/>
+        <location filename="../main.qml" line="687"/>
         <source>Videos(s) added to download queue</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2630,7 +2666,7 @@
         <translation type="obsolete">Nie jesteś zalogowany do swojego konta YouTube</translation>
     </message>
     <message>
-        <location filename="../main.qml" line="691"/>
+        <location filename="../main.qml" line="692"/>
         <source>Use the cuteTube Player to access this feature</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2758,12 +2794,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="690"/>
+        <location filename="../main.qml" line="686"/>
+        <source>Video shared on twitter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../main.qml" line="691"/>
         <source>You are not signed in to an account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../main.qml" line="692"/>
+        <location filename="../main.qml" line="693"/>
         <source>Unable to play videos at 360p quality or higher</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2818,24 +2859,41 @@
         <translation type="obsolete">Odtwarzacz</translation>
     </message>
     <message>
+        <location filename="../scripts/mainscripts.js" line="106"/>
         <source>My Channel</source>
-        <translation type="obsolete">Mój kanał</translation>
+        <translation type="unfinished">Mój kanał</translation>
     </message>
     <message>
+        <location filename="../scripts/mainscripts.js" line="290"/>
         <source>Archive</source>
-        <translation type="obsolete">Archiwum</translation>
+        <translation type="unfinished">Archiwum</translation>
     </message>
     <message>
+        <location filename="../scripts/mainscripts.js" line="204"/>
         <source>My Playlists</source>
-        <translation type="obsolete">Moje listy odtwarzania</translation>
+        <translation type="unfinished">Moje listy odtwarzania</translation>
     </message>
     <message>
+        <location filename="../scripts/mainscripts.js" line="216"/>
         <source>My Subscriptions</source>
-        <translation type="obsolete">Moje Subskrybcje</translation>
+        <translation type="unfinished">Moje Subskrybcje</translation>
     </message>
     <message>
+        <location filename="../scripts/mainscripts.js" line="229"/>
+        <location filename="../scripts/mainscripts.js" line="242"/>
+        <location filename="../scripts/mainscripts.js" line="255"/>
         <source>Video Info</source>
-        <translation type="obsolete">Informacja o Wideo</translation>
+        <translation type="unfinished">Informacja o Wideo</translation>
+    </message>
+    <message>
+        <location filename="../scripts/mainscripts.js" line="299"/>
+        <source>YouTube Live</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../scripts/mainscripts.js" line="309"/>
+        <source>Playback View</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Video Playback</source>
@@ -2862,8 +2920,10 @@
         <translation type="obsolete">oceny</translation>
     </message>
     <message>
+        <location filename="../scripts/mainscripts.js" line="365"/>
+        <location filename="../scripts/mainscripts.js" line="371"/>
         <source>Search </source>
-        <translation type="obsolete">Wyszukaj </translation>
+        <translation type="unfinished">Wyszukaj </translation>
     </message>
 </context>
 <context>

@@ -1,6 +1,7 @@
 import QtQuick 1.0
 import QtWebKit 1.0
 import "scripts/settings.js" as Settings
+import "scripts/OAuth.js" as OAuth
 
 Item {
     id: dialog
@@ -8,6 +9,8 @@ Item {
     property string title : qsTr("Authorisation For ") + dialog.service
     property string service
     property variant urls
+    property string twitterToken
+    property string twitterSecret
 
     signal authorised(variant credentials)
     signal close
@@ -17,6 +20,9 @@ Item {
         if (site == "vimeo") {
             webView.url = "http://vimeo.com/oauth/authorize?oauth_token=" + dialog.parent.vimeoToken + "&permission=delete";
         }
+        if (site == "Twitter") {
+            getTwitterRequestToken();
+        }
         else {
             webView.url = urls[site];
         }
@@ -25,6 +31,9 @@ Item {
     function checkUrlForToken() {
         if (service == "Facebook") {
             checkFacebookToken();
+        }
+        else if (service == "Twitter") {
+            checkTwitterToken();
         }
         else if (service == "YouTube") {
             checkYouTubeToken();
@@ -41,12 +50,24 @@ Item {
         var url = webView.url.toString();
         if (url.split("=")[0] == "http://www.facebook.com/connect/login_success.html#access_token") {
             var facebookToken = url.split("=")[1].split("&")[0];
-            if ((facebookToken != "") && (Settings.saveAccessToken("Facebook", facebookToken, ""))) {
-                authorised();
+            if (!(facebookToken == "") && (Settings.saveAccessToken("Facebook", facebookToken, ""))) {
+                authorised("");
             }
             else {
                 messages.displayMessage(qsTr("Error obtaining facebook authorisation"));
             }
+        }
+    }
+
+    function checkTwitterToken() {
+        var url = webView.url.toString();
+        if (/oauth_verifier=/.test(url)) {
+            var twitterVerifier = url.split("=")[2].split("&")[0];
+            console.log(twitterVerifier)
+            getTwitterAccessToken(twitterVerifier);
+        }
+        else if (/error/.test(url)) {
+            messages.displayMessage(qsTr("Error obtaining twitter authorisation"));
         }
     }
 
@@ -78,6 +99,58 @@ Item {
         }
     }
 
+    function getTwitterRequestToken() {
+        busyDialog.show = true;
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+            if (doc.readyState == XMLHttpRequest.DONE) {
+                var response = doc.responseText;
+                if (/oauth_token/i.test(response)) {
+                    var tSplit = response.split('=');
+                    twitterToken = tSplit[1].split('&')[0];
+                    twitterSecret = tSplit[2].split('&')[0];
+                    webView.url = urls["Twitter"] + twitterToken;
+                }
+                else {
+                    messages.displayMessage(qsTr("Unable to obtain twitter request token"));
+                }
+                busyDialog.show = false;
+            }
+        }
+        var credentials = { "callback": "http://cutetube.com" };
+        var oauthData = OAuth.createOAuthHeader("twitter", "GET", "http://api.twitter.com/oauth/request_token", credentials);
+        doc.open("GET", oauthData.url);
+        doc.setRequestHeader("Authorization", oauthData.header);
+        doc.send();
+    }
+
+    function getTwitterAccessToken(verifier) {
+        busyDialog.show = true;
+        var doc = new XMLHttpRequest();
+        doc.onreadystatechange = function() {
+            if (doc.readyState == XMLHttpRequest.DONE) {
+                var response = doc.responseText;
+//                console.log(response)
+                if (/oauth_token/i.test(response)) {
+                    var tSplit = response.split('=');
+                    var token = tSplit[1].split('&')[0];
+                    var secret = tSplit[2].split('&')[0];
+                    Settings.saveAccessToken("Twitter", token, secret);
+                    authorised("");
+                }
+                else {
+                    messages.displayMessage(qsTr("Unable to obtain twitter access token"));
+                }
+                busyDialog.show = false;
+            }
+        }
+        var credentials = { "token": twitterToken, "secret": twitterSecret, "verifier": verifier };
+        var oauthData = OAuth.createOAuthHeader("twitter", "GET", "http://api.twitter.com/oauth/access_token", credentials);
+        doc.open("GET", oauthData.url);
+        doc.setRequestHeader("Authorization", oauthData.header);
+        doc.send();
+    }
+
     width: parent.width
     anchors { right: parent.left; top: parent.top; bottom: parent.bottom }
     Component.onCompleted: {
@@ -89,7 +162,9 @@ Item {
                 "Dailymotion": "https://api.dailymotion.com/oauth/authorize?response_type=code&"
                 + "client_id=" + DailyMotion.clientId + "&redirect_uri=http://cutetube.com&scope=read+write+delete",
 
-                "YouTube": "https://www.google.com/accounts/AuthSubRequest?next=http://www.cutetube.com&scope=http://gdata.youtube.com&session=1&secure=0"
+                "YouTube": "https://www.google.com/accounts/AuthSubRequest?next=http://www.cutetube.com&scope=http://gdata.youtube.com&session=1&secure=0",
+
+                "Twitter": "http://api.twitter.com/oauth/authorize?oauth_token="
     }
     }
 
@@ -120,7 +195,7 @@ Item {
     Flickable {
         id: webFlicker
 
-        anchors { fill: dialog; topMargin: 50; leftMargin: 10; rightMargin: 10; bottomMargin: pinGrid.visible ? 60 : 10 }
+        anchors { fill: dialog; topMargin: 50; leftMargin: 10; rightMargin: 10; bottomMargin: 10 }
         contentWidth: webView.width
         contentHeight: webView.height
         boundsBehavior: Flickable.DragOverBounds
@@ -133,8 +208,11 @@ Item {
             height: 1000
             preferredWidth: parent.width - 20
             preferredHeight: parent.height - 60
-            opacity:(webView.progress == 1) ? 1 : 0
-            onUrlChanged: checkUrlForToken()
+            opacity:(webView.progress < 1) ? 0 : 1
+            onUrlChanged: {
+//                console.log(webView.url.toString());
+                checkUrlForToken();
+            }
 
             Behavior on opacity { PropertyAnimation { properties: "opacity"; duration: 500 } }
         }
@@ -143,46 +221,10 @@ Item {
     BusyDialog {
         id: busyDialog
 
+        property bool show : false
+
         anchors.centerIn: dialog
-        opacity: (webView.progress < 1) ? 1 : 0
-    }
-
-    Grid {
-        id: pinGrid
-
-        anchors { left: dialog.left; right: dialog.right; bottom: dialog.bottom; margins: 10 }
-        columns: 2
-        spacing: 10
-        visible: dialog.service == "Twitter"
-
-        Rectangle {
-            id: pinRect
-
-            height: 40
-            width: 530
-            color:  "white"
-            border.width: 2
-            border.color: _ACTIVE_COLOR_LOW
-            radius: 5
-
-            TextInput {
-                id: pinInput
-
-                anchors { fill: parent; margins: 2 }
-                font.pixelSize: _STANDARD_FONT_SIZE
-                selectByMouse: true
-                selectionColor: _ACTIVE_COLOR_LOW
-                color: (pinInput.text == qsTr("Enter pin code")) ? "grey" : "black"
-                text: qsTr("Enter pin code")
-            }
-        }
-
-        ToolButton {
-            id: confirmButton
-
-            icon: (cuteTubeTheme == "light") ? "ui-images/ticklight.png" : "ui-images/tick.png"
-            //                onButtonClicked: {}
-        }
+        opacity: (busyDialog.show) || (webView.progress < 1) ? 1 : 0
     }
 
     CloseButton {

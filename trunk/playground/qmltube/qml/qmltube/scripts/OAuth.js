@@ -67,10 +67,31 @@ function getNonce()
     return result;
 }
 
-function createOAuthHeader(type, url, credentials, authParameters, parameters, body)
+function url_encode(string) {
+    var encodedString = encodeURIComponent(string)
+        .replace( /!/g, '%21' )
+        .replace( /\(/g, '%28' )
+        .replace( /\)/g, '%29' )
+        .replace( /\*/g, '%2A' )
+        .replace( /'/g, '%27' );
+
+    return encodedString;
+}
+
+function createOAuthHeader(site, type, url, credentials, authParameters, parameters, body)
 {
-    var consumer_key = Vimeo.clientId;
-    var consumer_secret = Vimeo.clientSecret;
+    var consumer_key;
+    var consumer_secret;
+
+    if (site == "vimeo") {
+        consumer_key = Vimeo.clientId;
+        consumer_secret = Vimeo.clientSecret;
+    }
+    else if (site == "twitter") {
+        consumer_key = Sharing.twitterId;
+        consumer_secret = Sharing.twitterSecret;
+    }
+//    console.log(consumer_key, consumer_secret)
 
     var timestamp =  getTimestamp();
     // console.log("timestamp: " + timestamp);
