@@ -1,26 +1,5 @@
 /* Video list functions */
 
-function addVideosToPlaybackQueue(isYouTube) {
-    if (videoList.checkList.length > 0) {
-        if (Controller.getMediaPlayer() == "cutetubeplayer") {
-            var list = [];
-            var video;
-            for (var i = 0; i < videoList.checkList.length; i++) {
-                video = videoListModel.get(videoList.checkList[i]);
-                if (isYouTube) {
-                    video["youtube"] = true;
-                }
-                list.push(video);
-            }
-            playVideos(list);
-        }
-        else {
-            messages.displayMessage(messages._USE_CUTETUBE_PLAYER);
-        }
-        videoList.checkList = [];
-    }
-}
-
 function addVideosToDownloads(convertToAudio) {
     var video;
     for (var i = 0; i < videoList.checkList.length; i++) {

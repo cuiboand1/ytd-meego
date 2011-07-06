@@ -262,14 +262,22 @@ Item {
     }
 
     function deleteFacebookToken() {
-        /* Delete all saved searches from the database */
-
         if (Settings.deleteAccessToken("Facebook")) {
             Sharing.setFacebookToken("");
-            messages.displayMessage(qsTr("Your facebook token has been deleted"));
+            messages.displayMessage(qsTr("Your facebook access token has been deleted"));
         }
         else {
-            messages.displayMessage(qsTr("Database error. Unable to delete facebook token"));
+            messages.displayMessage(qsTr("Database error. Unable to delete facebook access token"));
+        }
+    }
+
+    function deleteTwitterToken() {
+        if (Settings.deleteAccessToken("Twitter")) {
+            Sharing.setTwitterToken("", "");
+            messages.displayMessage(qsTr("Your twitter access token has been deleted"));
+        }
+        else {
+            messages.displayMessage(qsTr("Database error. Unable to delete twitter access token"));
         }
     }
 
@@ -482,9 +490,20 @@ Item {
                     width: parent.width
                     showIcon: false
                     showText: true
-                    name: qsTr("Delete facebook token")
+                    name: qsTr("Delete facebook access token")
                     visible: !(Sharing.facebookToken == "")
                     onButtonClicked: deleteFacebookToken()
+                }
+
+                PushButton {
+                    id: clearTwitterButton
+
+                    width: parent.width
+                    showIcon: false
+                    showText: true
+                    name: qsTr("Delete twitter access token")
+                    visible: !(Sharing.twitterToken == "")
+                    onButtonClicked: deleteTwitterToken()
                 }
 
                 Text {

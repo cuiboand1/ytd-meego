@@ -22,16 +22,18 @@ Item {
 
     function setPlaylist(playlistItem) {
         playlist = playlistItem;
-        videoFeed = "http://gdata.youtube.com/feeds/api/playlists/" + playlist.playlistId + "?v=2&max-results=50"
+        videoFeed = "http://gdata.youtube.com/feeds/api/playlists/" + playlist.playlistId + "?v=2&max-results=50&alt=json"
         YT.getYouTubeVideos();
     }
 
-    function setPlaylistXml(playlistItem) {
-        /* This function is used to pass the XML of
-          a fully loaded XmlListModel */
+    function setPlaylistVideos(playlistItem) {
+        /* This function is used to pass the videos of
+          a fully loaded ListModel */
 
         playlist = playlistItem.info;
-        videoListModel.setXml(playlistItem.xml);
+        for (var i = 0; i < playlistItem.videos.length; i++) {
+            videoListModel.append(playlistItem.videos[i]);
+        }
         videoListModel.loading = false;
         videoList.positionViewAtIndex(0, ListView.Beginning);
     }
@@ -60,7 +62,7 @@ Item {
     }
 
     function onMenuButtonFourClicked() {
-        Scripts.addVideosToPlaybackQueue(true);
+        YT.addVideosToPlaybackQueue();
     }
 
     function onMenuButtonFiveClicked() {
@@ -69,11 +71,15 @@ Item {
 
     function showPlaylistInfoDialog() {
         toggleControls(false);
+        var list = [];
+        for (var i = 0; i < videoListModel.count; i++) {
+            list.push(videoListModel.get(i));
+        }
         var playlistDialog = ObjectCreator.createObject("PlaylistDialog.qml", window);
         playlistDialog.playlistVideosClicked.connect(Scripts.closeDialogs);
         playlistDialog.playClicked.connect(playPlaylist);
         playlistDialog.close.connect(Scripts.closeDialogs);
-        playlistDialog.setPlaylistXml({ "info": playlist, "xml": videoListModel.xml });
+        playlistDialog.setPlaylistVideos({ "info": playlist, "videos": list });
         dimmer.state = "dim";
         playlistDialog.state = "show";
     }
@@ -87,8 +93,9 @@ Item {
         }
         else {
             var list = [];
+            var video;
             for (var i = 0; i < videoListModel.count; i++) {
-                list.push(videoListModel.get(i));
+                list.push(YT.createVideoObject(videoListModel.get(i)));
             }
             playVideos(list);
         }
@@ -108,7 +115,7 @@ Item {
         id: playlistVideosTimer
 
         interval: 3000
-        onTriggered: setVideoFeed(videoFeed);
+        onTriggered: YT.getYouTubeVideos()
     }
 
     Item {
@@ -128,17 +135,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: qsTr("No videos found")
-            visible: false
-
-            Timer {
-                interval: 5000
-                running: (!videoListModel.loading) && (videoListModel.count == 0)
-                onTriggered: {
-                    if (videoListModel.count == 0) {
-                        noResultsText.visible = true;
-                    }
-                }
-            }
+            visible: (!videoListModel.loading) && (videoListModel.count == 0)
         }
 
         Item {
@@ -276,7 +273,7 @@ Item {
 
                 width: videoList.width
                 height: 100
-                visible: ((videoListModel.loading) || (videoListModel.status == XmlListModel.Loading))
+                visible: videoListModel.loading
                 opacity: footer.visible ? 1 : 0
 
                 BusyDialog {
@@ -287,14 +284,19 @@ Item {
 
             Behavior on opacity { PropertyAnimation { properties: "opacity"; duration: 500 } }
 
-            model: VideoListModel {
+            model: ListModel {
                 id: videoListModel
 
                 property bool loading : true
+                property int totalResults
+                property int page : 0
                 property bool waitingForPlayback
                 property bool waitingForInfo
+            }
 
-                onStatusChanged: {
+            Connections {
+                target: videoListModel
+                onLoadingChanged: {
                     if ((videoListModel.count > 0) && (videoListModel.count >= videoListModel.totalResults)) {
                         if (videoListModel.waitingForPlayback) {
                             playPlaylist();
@@ -303,10 +305,10 @@ Item {
                             showPlaylistInfoDialog();
                         }
                     }
-                    else if ((videoListModel.status == XmlListModel.Ready) &&
+                    else if ((!videoListModel.loading) &&
                              (videoListModel.totalResults > 50) &&
                              (videoListModel.totalResults > videoListModel.count)) {
-                        YT.appendYouTubeVideos();
+                        YT.getYouTubeVideos();
                     }
                 }
             }
@@ -331,14 +333,16 @@ Item {
 
                 checked: Scripts.indexInCheckList(index)
                 onDelegateClicked: {
-                    videoList.checkList = [];
-                    goToVideo(videoListModel.get(index));
+                    if (videoList.checkList.length == 0) {
+                        goToVideo(videoListModel.get(index));
+                    }
                 }
                 onDelegatePressed: addOrRemoveFromCheckList()
                 onPlayClicked: {
-                    var video = videoListModel.get(index);
-                    video["youtube"] = true;
-                    playVideos([video]);
+                    if (videoList.checkList.length == 0) {
+                        var video = YT.createVideoObject(videoListModel.get(index));
+                        playVideos([video]);
+                    }
                 }
             }
 

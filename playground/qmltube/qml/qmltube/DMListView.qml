@@ -37,7 +37,7 @@ Item {
     }
 
     function addVideosToPlaybackQueue() {
-        Scripts.addVideosToPlaybackQueue();
+        DM.addVideosToPlaybackQueue();
     }
 
     function addVideosToDownloads() {
@@ -130,7 +130,10 @@ Item {
                 goToVideo(videoListModel.get(index));
             }
             onDelegatePressed: addOrRemoveFromCheckList(index)
-            onPlayClicked: play([videoListModel.get(index)])
+            onPlayClicked: {
+                var video = DM.createVideoObject(videoListModel.get(index));
+                play([video]);
+            }
         }
 
         ScrollBar {}

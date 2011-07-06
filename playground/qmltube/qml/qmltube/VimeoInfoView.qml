@@ -12,7 +12,7 @@ Item {
     property bool showMenuButtonTwo : true
     property bool showMenuButtonThree : true
     property bool showMenuButtonFour : true
-    property bool showMenuButtonFive : false
+    property bool showMenuButtonFive : true
 
     property variant video
     property string videoId
@@ -76,6 +76,10 @@ Item {
     }
 
     function onMenuButtonFourClicked() {
+        Scripts.checkTwitterAccess();
+    }
+
+    function onMenuButtonFiveClicked() {
         Controller.copyToClipboard(playerUrl);
     }
 
@@ -106,6 +110,7 @@ Item {
 
         onAlert: messages.displayMessage(message)
         onPostedToFacebook: messages.displayMessage(messages._SHARED_VIA_FACEBOOK)
+        onPostedToTwitter: messages.displayMessage(messages._SHARED_VIA_TWITTER)
         onRenewFacebookToken: {
             Scripts.closeDialogs();
             Settings.deleteAccessToken("Facebook");

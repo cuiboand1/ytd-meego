@@ -146,7 +146,6 @@ Rectangle {
             }
             else {
                 commentsModel.xml = "";
-                commentsModel.reload;
             }
             if (currentVideo.vimeo) {
                 VM.getComments();
@@ -284,6 +283,8 @@ Rectangle {
     Video {
         id: videoPlayer
 
+        property bool repeat : false // True if playback of the current video is to be repeated
+
         function setVideo(videoUrl) {
             if ((Controller.isSymbian) && (currentVideo.archive)) {
                 videoUrl = "file:///" + videoUrl;
@@ -299,13 +300,19 @@ Rectangle {
         anchors.fill: videoWindow
         onStatusChanged: {
             if (videoPlayer.status == Video.EndOfMedia) {
-                playlistPosition++;
+                if (videoPlayer.repeat) {
+                    videoPlayer.position = 0;
+                    videoPlayer.play();
+                }
+                else {
+                    playlistPosition++;
+                }
             }
         }
         onPositionChanged: {
             if (videoPlayer.position > 1000) {
                 seekBar.position = videoPlayer.position;
-                if ((playlistPosition == (playbackModel.count - 1)) && (videoPlayer.duration > 0) && ((videoPlayer.duration - videoPlayer.position) < 500)) {
+                if ((!videoPlayer.repeat) && (playlistPosition == (playbackModel.count - 1)) && ((videoPlayer.duration - videoPlayer.position) < 500)) {
                     videoPlayer.stop();
                     videoPlayer.source = "";
                     playbackStopped();
@@ -664,10 +671,19 @@ Rectangle {
                 onButtonClicked: controls.audioMode = !controls.audioMode
             }
 
+            ToolButton {
+                id: repeatButton
+
+                anchors { left: titleBar.left; leftMargin: Controller.isSymbian ? 60 : 110; verticalCenter: titleBar.verticalCenter }
+                icon: (videoPlayer.repeat) ? (cuteTubeTheme == "nightred") ? "ui-images/repeaticonred.png" : "ui-images/repeaticonblue.png" :
+                                                                                                           (cuteTubeTheme == "light") ? "ui-images/repeaticonlight.png" : "ui-images/repeaticon.png"
+                onButtonClicked: videoPlayer.repeat = !videoPlayer.repeat
+            }
+
             Text {
                 id: titleText
 
-                anchors { left: titleBar.left; leftMargin: Controller.isSymbian ? 10 : 110; right: titleBar.right; rightMargin: 200; verticalCenter: titleBar.verticalCenter }
+                anchors { left: titleBar.left; leftMargin: Controller.isSymbian ? 110 : 160; right: titleBar.right; rightMargin: 200; verticalCenter: titleBar.verticalCenter }
                 font.pixelSize: _STANDARD_FONT_SIZE
                 elide: Text.ElideRight
                 verticalAlignment: Text.AlignVCenter
@@ -1188,8 +1204,9 @@ Rectangle {
         ParentChange { target: videoPlayer; parent: frame }
         PropertyChanges { target: videoPlayer; anchors { fill: frame; margins: 2 } }
         PropertyChanges { target: playlistView; visible: false }
-        PropertyChanges { target: titleText; anchors { leftMargin: 60; rightMargin: 80 } }
+        PropertyChanges { target: titleText; anchors { leftMargin: Controller.isSymbian ? 60 : 110; rightMargin: 80 } }
         PropertyChanges { target: modeButton; visible: false }
+        PropertyChanges { target: repeatButton; anchors.leftMargin: Controller.isSymbian ? 10 : 60 }
         PropertyChanges { target: ytBar; visible: false }
         PropertyChanges { target: toolButtonRow; visible: (currentVideo.youtube) || (currentVideo.dailymotion) || (currentVideo.vimeo)  ? true : false }
         PropertyChanges { target: tabItem; visible: true }

@@ -11,7 +11,7 @@ Item {
     property bool showMenuButtonTwo : true
     property bool showMenuButtonThree : true
     property bool showMenuButtonFour : true
-    property bool showMenuButtonFive : false
+    property bool showMenuButtonFive : true
 
     property variant video
     property string videoId
@@ -29,6 +29,8 @@ Item {
     property variant tags : []
     property string likeOrDislike
 
+    property string videoFeed : "http://gdata.youtube.com/feeds/api/videos/" + videoId + "/related?v=2&max-results=50&alt=json"
+
     signal authorClicked(string username)
     signal playVideo(variant video)
     signal goToVideo(variant video)
@@ -36,8 +38,6 @@ Item {
     signal dialogClose
 
     function setVideo(videoObject) {
-
-        videoObject["youtube"] = true;
         video = videoObject;
         videoId = video.videoId;
         playerUrl = video.playerUrl;
@@ -90,6 +90,10 @@ Item {
     }
 
     function onMenuButtonFourClicked() {
+        Scripts.checkTwitterAccess();
+    }
+
+    function onMenuButtonFiveClicked() {
         Controller.copyToClipboard(playerUrl);
     }
 
@@ -134,6 +138,7 @@ Item {
 
         onAlert: messages.displayMessage(message)
         onPostedToFacebook: messages.displayMessage(messages._SHARED_VIA_FACEBOOK)
+        onPostedToTwitter: messages.displayMessage(messages._SHARED_VIA_TWITTER)
         onRenewFacebookToken: {
             Scripts.closeDialogs();
             Settings.deleteAccessToken("Facebook");
@@ -215,7 +220,7 @@ Item {
                 id: frameMouseArea
 
                 anchors.fill: frame
-                onClicked: playVideo([video])
+                onClicked: playVideo([YT.createVideoObject(video)])
             }
 
             Grid {
@@ -316,7 +321,7 @@ Item {
                         Scripts.loadComments();
                     }
                     else if ((tabView.currentIndex == 2) && (!relatedView.loaded) && (relatedView.count == 0)) {
-                        Scripts.loadRelatedVideos();
+                        YT.getYouTubeVideos();
                     }
                 }
             }
@@ -584,7 +589,6 @@ Item {
                 id: relatedView
 
                 property bool loaded : false // True if related videos have been loaded
-                property string videoFeed : "http://gdata.youtube.com/feeds/api/videos/" + videoId + "/related?v=2&max-results=50"
 
                 width: tabView.width
                 height: tabView.height
@@ -599,37 +603,41 @@ Item {
                 opacity: (tabView.currentIndex == 2) ? 1 : 0
                 onCurrentIndexChanged: {
                     if ((relatedView.count - relatedView.currentIndex == 1)
-                            && (relatedModel.count < relatedModel.totalResults)
-                            && (relatedModel.status == XmlListModel.Ready)) {
-                        Scripts.appendRelatedVideos();
+                            && (videoListModel.count < videoListModel.totalResults)
+                            && (!videoListModel.loading)) {
+                        YT.getYouTubeVideos();
                     }
                 }
 
                 footer: Item {
-                    id: footer
 
                     width: relatedView.width
                     height: 100
-                    visible: ((relatedModel.loading) || (relatedModel.status == XmlListModel.Loading))
-                    opacity: footer.visible ? 1 : 0
+                    visible: videoListModel.loading
+                    opacity: visible ? 1 : 0
 
                     BusyDialog {
-                        anchors.centerIn: footer
-                        opacity: footer.opacity
+                        anchors.centerIn: parent
+                        opacity: parent.opacity
                     }
                 }
 
-                model: VideoListModel {
-                    id: relatedModel
+                model: ListModel {
+                    id: videoListModel
 
                     property bool loading : true
+                    property int totalResults
+                    property int page : 0
                 }
 
                 delegate: VideoListDelegate {
                     id: delegate
 
-                    onDelegateClicked: goToVideo(relatedModel.get(index))
-                    onPlayClicked: playVideo([relatedModel.get(index)])
+                    onDelegateClicked: goToVideo(videoListModel.get(index))
+                    onPlayClicked: {
+                        var video = YT.createVideoObject(videoListModel.get(index));
+                        playVideo([video]);
+                    }
                 }
 
                 Text {
@@ -642,17 +650,7 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     text: qsTr("No related videos")
-                    visible: false
-
-                    Timer {
-                        interval: 5000
-                        running: (!relatedModel.loading) && (relatedModel.count == 0)
-                        onTriggered: {
-                            if (relatedModel.count == 0) {
-                                noResultsText.visible = true;
-                            }
-                        }
-                    }
+                    visible: (!videoListModel.loading) && (videoListModel.count == 0)
                 }
 
                 ScrollBar {}

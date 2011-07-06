@@ -499,7 +499,7 @@ function getAccessToken(service) {
                             accessToken = rs.rows.item(0).token;
                         }
                         else if (service == "Twitter") {
-                            accessToken = [ rs.rows.item(0).token, rs.rows.item(0).secret ];
+                            accessToken = rs.rows.item(0);
                         }
                     }
                 });

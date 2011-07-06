@@ -5,8 +5,10 @@
 #include <QDebug>
 
 Sharing::Sharing(QObject *parent) :
-    QObject(parent), facebookId("175388745824052"), facebookToken("") {
+    QObject(parent), facebookId("175388745824052"), facebookToken(""), twitterId("YmfKe14OCdVxn9FCL1S77A"), twitterSecret("evSW7txyhlvvPXkezKvJgaZ2lC97iXZc4ZLXLZxfsfc") {
     emit facebookIdChanged();
+    emit twitterIdChanged();
+    emit twitterSecretChanged();
 }
 
 void Sharing::setNetworkAccessManager(QNetworkAccessManager *manager) {
@@ -18,10 +20,11 @@ void Sharing::setFacebookToken(const QString &token) {
     emit facebookTokenChanged();
 }
 
-//void Sharing::setTwitterToken(const QString &token, const QString &secret) {
-//    twitterToken = token;
-//    twitterSecret = secret;
-//}
+void Sharing::setTwitterToken(const QString &token, const QString &secret) {
+    twitterToken = token;
+    twitterTokenSecret = secret;
+    emit twitterTokenChanged();
+}
 
 void Sharing::postToFacebook(const QString &site, const QString &videoId, const QString &title, const QString &description, const QString &message, const QString &thumb) {
     /* Helper method that posts HTTP POST requests */
@@ -47,12 +50,12 @@ void Sharing::postToFacebook(const QString &site, const QString &videoId, const 
     QByteArray postData;
 
     postData = "access_token=" + facebookToken.toAscii()
-            + "&message=" + message.toAscii().toPercentEncoding(" \n\t#[]{}=+$&*()<>@|',/!\":;?")
+            + "&message=" + message.toAscii().toPercentEncoding()
             + "&link=" + playerUrl
             + "&source=" + embedUrl
             + "&picture=" + thumbUrl
-            + "&name=" + title.toAscii().toPercentEncoding(" \n\t#[]{}=+$&*()<>@|',/!\":;?")
-            + "&description=" + description.toAscii().toPercentEncoding(" \n\t#[]{}=+$&*()<>@|',/!\":;?");
+            + "&name=" + title.toAscii().toPercentEncoding()
+            + "&description=" + description.toAscii().toPercentEncoding();
 
 //    qDebug() << postData;
 
@@ -62,6 +65,16 @@ void Sharing::postToFacebook(const QString &site, const QString &videoId, const 
     connect(reply, SIGNAL(finished()), this, SLOT(postFinished()));
     connect(this, SIGNAL(postSuccessful()), this, SIGNAL(postedToFacebook()));
     connect(this, SIGNAL(postForbidden()), this, SIGNAL(renewFacebookToken()));
+}
+
+void Sharing::postToTwitter(const QString &url, const QString &header, const QString &body) {
+    QNetworkRequest request;
+    request.setUrl(QUrl(url));
+    request.setRawHeader("Authorization", header.toAscii());
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    QNetworkReply* reply = nam->post(request, body.toAscii());
+    connect(reply, SIGNAL(finished()), this, SLOT(postFinished()));
+    connect(this, SIGNAL(postSuccessful()), this, SIGNAL(postedToTwitter()));
 }
 
 void Sharing::postFinished() {
@@ -80,8 +93,10 @@ void Sharing::postFinished() {
         emit postForbidden();
     }
     else {
-        emit alert(tr("Error - Server repsonse is: ") + statusText);
+        emit alert(tr("Error - ") + statusText);
     }
+    disconnect(this, SIGNAL(postSuccessful()), 0, 0);
+    disconnect(this, SIGNAL(postForbidden()), 0, 0);
     reply->deleteLater();
 }
 

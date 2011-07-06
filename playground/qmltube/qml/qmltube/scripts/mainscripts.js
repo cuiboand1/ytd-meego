@@ -28,7 +28,11 @@ function restoreSettings() {
     YouTube.setPlaybackQuality(Settings.getSetting("playbackQuality"));
     DownloadManager.setDownloadQuality(Settings.getSetting("downloadQuality"));
     Sharing.setFacebookToken(Settings.getAccessToken("Facebook"));
-    getDefaultAccounts("YouTube");
+    var twitterToken = Settings.getAccessToken("Twitter");
+    if (!(twitterToken == "unknown")) {
+        Sharing.setTwitterToken(twitterToken.token, twitterToken.secret);
+    }
+    getDefaultAccounts();
     getArchiveVideos();
     Settings.restoreDownloads();
 }
@@ -147,8 +151,8 @@ function loadPlaylistVideos(playlist) {
     loader.source = "PlaylistVideosView.qml";
     loader.item.goToVideo.connect(loadVideoInfo);
     loader.item.playVideos.connect(loadPlaybackView);
-    if (playlist.xml) {
-        loader.item.setPlaylistXml(playlist);
+    if (playlist.videos) {
+        loader.item.setPlaylistVideos(playlist);
         notificationArea.addTitle(playlist.info.title);
     }
     else {

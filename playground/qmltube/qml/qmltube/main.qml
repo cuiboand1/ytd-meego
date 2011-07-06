@@ -12,22 +12,22 @@ Rectangle {
 
     /* YouTube feeds */
 
-    property string _UPLOADS_FEED : "http://gdata.youtube.com/feeds/api/users/default/uploads?v=2&max-results=50"
-    property string _FAVOURITES_FEED : "http://gdata.youtube.com/feeds/api/users/default/favorites?v=2&max-results=50"
+    property string _UPLOADS_FEED : "http://gdata.youtube.com/feeds/api/users/default/uploads?v=2&max-results=50&alt=json"
+    property string _FAVOURITES_FEED : "http://gdata.youtube.com/feeds/api/users/default/favorites?v=2&max-results=50&alt=json"
     property string _PLAYLISTS_FEED : "http://gdata.youtube.com/feeds/api/users/default/playlists?v=2&max-results=50"
     property string _SUBSCRIPTIONS_FEED : "http://gdata.youtube.com/feeds/api/users/default/subscriptions?v=2&max-results=50"
-    property string _NEW_SUB_VIDEOS_FEED : "http://gdata.youtube.com/feeds/api/users/default/newsubscriptionvideos?v=2&max-results=50"
-    property string _MOST_RECENT_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_recent?v=2&max-results=50"
-    property string _MOST_VIEWED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed?v=2&max-results=50&time=today"
-    property string _ON_THE_WEB_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/on_the_web?v=2&max-results=50" //NPM
-    property string _MOST_SHARED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_shared?v=2&max-results=50" //NPM
-    property string _TOP_RATED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/top_rated?v=2&max-results=50" //NPM
-    property string _TOP_FAVORITES_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/top_favorites?v=2&max-results=50" //NPM
-    property string _MOST_POPULAR_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?v=2&max-results=50" //NPM
-    property string _MOST_DISCUSSED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_discussed?v=2&max-results=50" //NPM
-    property string _MOST_RESPONDED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_responded?v=2&max-results=50" //NPM
-    property string _RECENTLY_FEATURED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/recently_featured?v=2&max-results=50" //NPM
-    property string _CATEGORY_FEED : "http://gdata.youtube.com/feeds/api/videos?v=2&max-results=50&category="
+    property string _NEW_SUB_VIDEOS_FEED : "http://gdata.youtube.com/feeds/api/users/default/newsubscriptionvideos?v=2&max-results=50&alt=json"
+    property string _MOST_RECENT_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_recent?v=2&max-results=50&alt=json"
+    property string _MOST_VIEWED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed?v=2&max-results=50&time=today&alt=json"
+    property string _ON_THE_WEB_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/on_the_web?v=2&max-results=50&alt=json" //NPM
+    property string _MOST_SHARED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_shared?v=2&max-results=50&alt=json" //NPM
+    property string _TOP_RATED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/top_rated?v=2&max-results=50&alt=json" //NPM
+    property string _TOP_FAVORITES_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/top_favorites?v=2&max-results=50&alt=json" //NPM
+    property string _MOST_POPULAR_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_popular?v=2&max-results=50&alt=json" //NPM
+    property string _MOST_DISCUSSED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_discussed?v=2&max-results=50&alt=json" //NPM
+    property string _MOST_RESPONDED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_responded?v=2&max-results=50&alt=json" //NPM
+    property string _RECENTLY_FEATURED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/recently_featured?v=2&max-results=50&alt=json" //NPM
+    property string _CATEGORY_FEED : "http://gdata.youtube.com/feeds/api/videos?v=2&max-results=50&alt=json&category="
 
     /* Dailymotion feeds */
 
@@ -50,7 +50,6 @@ Rectangle {
 //  property string _DM_RECENTLY_FEATURED_FEED : "https://api.dailymotion.com/videos?sort=???&limit=50&fields=" + _DM_FIELDS  //NPM
     property string _DM_CATEGORY_FEED : "https://api.dailymotion.com/videos?limit=50&fields=" + _DM_FIELDS + "&channel="
     property string _DM_FIELDS : "id,title,description,duration,owner,thumbnail_medium_url,thumbnail_large_url,rating,views_total,tags"
-
 
     /* Vimeo feeds */
 
@@ -193,18 +192,18 @@ Rectangle {
             i++;
         }
         if (!duplicate) {
-            var downloadItem = {
-                filePath: path,
-                title: video.title,
-                thumbnail: video.thumbnail,
-                playerUrl: video.playerUrl,
-                status: video.status ? video.status : Settings.getSetting("downloadStatus"),
-                                                    quality: "",
-                                                    isNew: 1,
-                                                    convert: convertToAudio,
-                                                    bytesReceived: 0,
-                                                    totalBytes: 100,
-                                                    speed: ""
+            downloadItem = {
+                    filePath: path,
+                    title: video.title,
+                    thumbnail: video.thumbnail,
+                    playerUrl: video.playerUrl,
+                    status: video.status ? video.status : Settings.getSetting("downloadStatus"),
+                                                        quality: "",
+                                                        isNew: 1,
+                                                        convert: convertToAudio,
+                                                        bytesReceived: 0,
+                                                        totalBytes: 100,
+                                                        speed: ""
         }
     }
     return downloadItem;
@@ -697,6 +696,7 @@ Rectangle {
                                 property string _PLAYLIST_CREATED : qsTr("New playlist created")
                                 property string _PLAYLIST_DELETED : qsTr("Playlist deleted")
                                 property string _SHARED_VIA_FACEBOOK : qsTr("Video shared on facebook")
+                                property string _SHARED_VIA_TWITTER : qsTr("Video shared on twitter")
                                 property string _VIDEO_DOWNLOAD_ADDED : qsTr("Videos(s) added to download queue")
                                 property string _VIDEO_IN_DOWNLOAD_QUEUE : qsTr("Video(s) already in download queue")
                                 property string _AUDIO_DOWNLOAD_ADDED : qsTr("Audio track(s) added to download queue")

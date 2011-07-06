@@ -27,7 +27,7 @@ Item {
 
     function getUserProfile(user) {
         username = user;
-        videoFeed = "http://gdata.YouTube.com/feeds/api/users/" + username  + "/uploads?v=2&max-results=50";
+        videoFeed = "http://gdata.YouTube.com/feeds/api/users/" + username  + "/uploads?v=2&max-results=50&alt=json";
 
         YT.getYouTubeVideos();
 
@@ -104,7 +104,7 @@ Item {
     }
 
     function onMenuButtonFourClicked() {
-        Scripts.addVideosToPlaybackQueue(true);
+        YT.addVideosToPlaybackQueue();
     }
 
     function onMenuButtonFiveClicked() {
@@ -141,17 +141,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: qsTr("No videos found")
-            visible: false
-
-            Timer {
-                interval: 5000
-                running: (!videoListModel.loading) && (videoListModel.count == 0)
-                onTriggered: {
-                    if (videoListModel.count == 0) {
-                        noResultsText.visible = true;
-                    }
-                }
-            }
+            visible: (!videoListModel.loading) && (videoListModel.count == 0)
         }
 
         Item {
@@ -265,9 +255,9 @@ Item {
             clip: true
             onCurrentIndexChanged: {
                 if ((videoList.count - videoList.currentIndex == 1)
-                        && (videoList.count < videoListModel.totalResults)
-                        && (videoListModel.status == XmlListModel.Ready)) {
-                    YT.appendYouTubeVideos();
+                        && (videoListModel.count < videoListModel.totalResults)
+                        && (!videoListModel.loading)) {
+                    YT.getYouTubeVideos();
                 }
             }
 
@@ -276,7 +266,7 @@ Item {
 
                 width: videoList.width
                 height: 100
-                visible: ((videoListModel.loading) || (videoListModel.status == XmlListModel.Loading))
+                visible: videoListModel.loading
                 opacity: footer.visible ? 1 : 0
 
                 BusyDialog {
@@ -287,10 +277,12 @@ Item {
 
             Behavior on opacity { PropertyAnimation { properties: "opacity"; duration: 500 } }
 
-            model: VideoListModel {
+            model: ListModel {
                 id: videoListModel
 
-                property bool loading : true
+                property bool loading : false
+                property int totalResults
+                property int page : 0
             }
 
             delegate: VideoListDelegate {
@@ -313,14 +305,16 @@ Item {
 
                 checked: Scripts.indexInCheckList(index)
                 onDelegateClicked: {
-                    videoList.checkList = [];
-                    goToVideo(videoListModel.get(index));
+                    if (videoList.checkList.length == 0) {
+                        goToVideo(videoListModel.get(index));
+                    }
                 }
                 onDelegatePressed: addOrRemoveFromCheckList()
                 onPlayClicked: {
-                    var video = videoListModel.get(index);
-                    video["youtube"] = true;
-                    playVideos([video]);
+                    if (videoList.checkList.length == 0) {
+                        var video = YT.createVideoObject(videoListModel.get(index));
+                        playVideos([video]);
+                    }
                 }
             }
 
