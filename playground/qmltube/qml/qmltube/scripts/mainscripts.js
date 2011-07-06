@@ -119,7 +119,12 @@ function loadVideos(feeds, title, site) {
         site = _DEFAULT_SITE;
     }
     loader.item.setVideoFeeds(feeds, site);
-    notificationArea.addTitle(title);
+
+    var i;
+    if ((i = title.indexOf("\n")) >= 0)	//NPM:if multiline category name
+	notificationArea.addTitle(title.substring(0, i)); //trim second line and only display first.
+    else
+	notificationArea.addTitle(title); //display the non-multiline title
     windowView.incrementCurrentIndex();
 }
 

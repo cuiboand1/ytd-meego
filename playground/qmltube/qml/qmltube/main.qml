@@ -72,35 +72,43 @@ Rectangle {
     property int _LARGE_FONT_SIZE : Controller.isSymbian ? 32 : 36
 
     Component.onCompleted: {
-        _CATEGORY_DICT = [
-                    { "youtube": "Autos", "dailymotion": "auto", "vimeo": "cars", "name": qsTr("Cars & Vehicles") },
-                    { "youtube": "Comedy", "dailymotion": "fun", "vimeo": "comedy", "name": qsTr("Comedy") },
-                    { "youtube": "Education", "dailymotion": "school", "vimeo": "education", "name": qsTr("Education") },
-                    { "youtube": "Entertainment", "dailymotion": "none", "vimeo": "entertainment", "name": qsTr("Entertainment") },
-                    { "youtube": "Film", "dailymotion": "shortfilms", "vimeo": "films", "name": qsTr("Film") },
-                    { "youtube": "Games", "dailymotion": "videogames", "vimeo": "videogames", "name": qsTr("Gaming") },
-                    { "youtube": "Howto", "dailymotion": "lifestyle", "vimeo": "lifestyle", "name": qsTr("Style") },
-                    { "youtube": "Music", "dailymotion": "music", "vimeo": "music", "name": qsTr("Music") },
-                    { "youtube": "News", "dailymotion": "news", "vimeo": "news", "name": qsTr("News & Politics") },
-                    { "youtube": "Nonprofit", "dailymotion": "none", "vimeo": "nonprofit", "name": qsTr("Non-profits & Activism") },
-                    { "youtube": "People", "dailymotion": "people", "vimeo": "people", "name": qsTr("People") },
-                    { "youtube": "Animals", "dailymotion": "animals", "vimeo": "animals", "name": qsTr("Pets & Animals") },
-                    { "youtube": "Tech", "dailymotion": "tech", "vimeo": "technology", "name": qsTr("Science & Technology") },
-                    { "youtube": "Sports", "dailymotion": "sport", "vimeo": "sport", "name": qsTr("Sport") },
-                    { "youtube": "Travel", "dailymotion": "travel", "vimeo": "travel", "name": qsTr("Travel & Events") },
-                    { "youtube": "MostRecent", "dailymotion": "feed", "name": qsTr("Most Recent") },
-                    { "youtube": "MostViewed", "dailymotion": "feed", "name": qsTr("Most Viewed") },
-                    { "youtube": "MostDiscussed", "dailymotion": "feed", "name": qsTr("Most Discussed") }, //NPM
-                    { "youtube": "MostPopular", "dailymotion": "feed", "name": qsTr("Most Popular") }, //NPM
-                    { "youtube": "MostResponded", "dailymotion": "feed", "name": qsTr("Most Responded") }, //NPM
-                    { "youtube": "MostShared", "dailymotion": "feed", "name": qsTr("Most Shared") }, //NPM
-                    { "youtube": "OnTheWeb", "dailymotion": "feed", "name": qsTr("On The Web") }, //NPM
-                    { "youtube": "TopFavorites", "dailymotion": "feed", "name": qsTr("Top Favorites") }, //NPM
-                    { "youtube": "TopRated", "dailymotion": "feed", "name": qsTr("Top Rated") }, //NPM
-                ];
-
+        _CATEGORY_DICT = {
+	    // --------------- NPM: for (var i in _CATEGORY_DICT), i  == _CATEGORY_DICT[i].youtube
+	    "Autos":		{ "youtube": "Autos", "dailymotion": "auto", "vimeo": "cars", "name": qsTr("Cars & Vehicles") },
+	    "Comedy":		{ "youtube": "Comedy", "dailymotion": "fun", "vimeo": "comedy", "name": qsTr("Comedy") },
+	    "Education":	{ "youtube": "Education", "dailymotion": "school", "vimeo": "education", "name": qsTr("Education") },
+	    "Entertainment":	{ "youtube": "Entertainment", "dailymotion": "none", "vimeo": "entertainment", "name": qsTr("Entertainment") },
+	    "Film":		{ "youtube": "Film", "dailymotion": "shortfilms", "vimeo": "films", "name": qsTr("Film") },
+	    "Games":		{ "youtube": "Games", "dailymotion": "videogames", "vimeo": "videogames", "name": qsTr("Gaming") },
+	    "Howto":		{ "youtube": "Howto", "dailymotion": "lifestyle", "vimeo": "lifestyle", "name": qsTr("Style") },
+	    "Music":		{ "youtube": "Music", "dailymotion": "music", "vimeo": "music", "name": qsTr("Music") },
+	    "News":		{ "youtube": "News", "dailymotion": "news", "vimeo": "news", "name": qsTr("News & Politics") },
+	    "Nonprofit":	{ "youtube": "Nonprofit", "dailymotion": "none", "vimeo": "nonprofit", "name": qsTr("Non-profits & Activism") },
+	    "People":		{ "youtube": "People", "dailymotion": "people", "vimeo": "people", "name": qsTr("People") },
+	    "Animals":		{ "youtube": "Animals", "dailymotion": "animals", "vimeo": "animals", "name": qsTr("Pets & Animals") },
+	    "Tech":		{ "youtube": "Tech", "dailymotion": "tech", "vimeo": "technology", "name": qsTr("Science & Technology") },
+	    "Sports":		{ "youtube": "Sports", "dailymotion": "sport", "vimeo": "sport", "name": qsTr("Sport") },
+	    "Travel":		{ "youtube": "Travel", "dailymotion": "travel", "vimeo": "travel", "name": qsTr("Travel & Events") },
+	    // --------------- NPM: Special provider-specific categories go here, and should have string-valued 
+	    // --------------- 'vifeed' 'dmfeed' and 'ytfeed' entries such that isSpecialCategory() below returns true....
+	    "MostRecent":	{ "vifeed": "none", "dmfeed": _DM_MOST_RECENT_FEED,     "ytfeed": _MOST_RECENT_FEED,	"youtube": "MostRecent", "dailymotion": "feed", "name": qsTr("Most Recent") },
+	    "MostViewed":	{ "vifeed": "none", "dmfeed": _DM_MOST_VIEWED_FEED,     "ytfeed": _MOST_VIEWED_FEED,	"youtube": "MostViewed", "dailymotion": "feed", "name": qsTr("Most Viewed") },
+	    "MostDiscussed":	{ "vifeed": "none", "dmfeed": _DM_MOST_DISCUSSED_FEED,  "ytfeed": _MOST_DISCUSSED_FEED,	"youtube": "MostDiscussed", "dailymotion": "feed", "name": qsTr("Most Discussed") }, //NPM
+	    "MostPopular":	{ "vifeed": "none", "dmfeed": "none", 			"ytfeed": _MOST_POPULAR_FEED,	"youtube": "MostPopular", "dailymotion": "feed", "name": qsTr("Most Popular\n(YouTube only)") }, //NPM
+	    "MostResponded":	{ "vifeed": "none", "dmfeed": _DM_MOST_RESPONDED_FEED,	"ytfeed": _MOST_RESPONDED_FEED,	"youtube": "MostResponded", "dailymotion": "feed", "name": qsTr("Most Responded") }, //NPM
+	    "MostShared":	{ "vifeed": "none", "dmfeed": "none", 			"ytfeed": _MOST_SHARED_FEED,	"youtube": "MostShared", "dailymotion": "feed", "name": qsTr("Most Shared\n(YouTube only)") }, //NPM
+	    "OnTheWeb":		{ "vifeed": "none", "dmfeed": "none", 			"ytfeed": _ON_THE_WEB_FEED,	"youtube": "OnTheWeb", "dailymotion": "feed", "name": qsTr("On The Web\n(YouTube only)") }, //NPM
+	    "TopFavorites":	{ "vifeed": "none", "dmfeed": "none", 			"ytfeed": _TOP_FAVORITES_FEED,	"youtube": "TopFavorites", "dailymotion": "feed", "name": qsTr("Top Favorites\n(YouTube only)") }, //NPM
+	    "TopRated":		{ "vifeed": "none", "dmfeed": _DM_TOP_RATED_FEED,	"ytfeed": _TOP_RATED_FEED,	"youtube": "TopRated", "dailymotion": "feed", "name": qsTr("Top Rated") }, //NPM
+	    "RecentlyFeatured":	{ "vifeed": "none", "dmfeed": "none", 			"ytfeed": _RECENTLY_FEATURED_FEED, "youtube": "RecentlyFeatured", "dailymotion": "feed", "name": qsTr("Recently Featured\n(YouTube only)") }, //NPM
+	}
         _ORDER_BY_DICT = { "relevance": qsTr("Relevance"), "published": qsTr("Date"), "viewCount": qsTr("Views"), "rating": qsTr("Rating") };
         Scripts.restoreSettings();
+    }
+
+    // NPM: returns true for special provider-specific categories.
+    function isSpecialCategory(dict_elt) {
+        return ((typeof (dict_elt.ytfeed) === 'string') && (typeof (dict_elt.dmfeed) === 'string') && (typeof (dict_elt.vifeed) === 'string'));
     }
 
     function userIsSignedIn() {
@@ -131,120 +139,34 @@ Rectangle {
 
     function setCategoryFeeds(feedOne, feedTwo, order) {
         /* Set the category feeds of Home View */
-
-        var category;
-        var categoryFound = false;
-        var i = 0;
-        if (feedOne == "MostRecent") {
-            homeView.categoryFeedOne = { "youtube": _MOST_RECENT_FEED, "dailymotion": _DM_MOST_RECENT_FEED, "vimeo": "none" };
-            homeView.categoryFeedOneName = qsTr("Most Recent"); //TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
-        }
-        else if (feedOne == "MostViewed") {
-            homeView.categoryFeedOne = { "youtube": _MOST_VIEWED_FEED, "dailymotion": _DM_MOST_VIEWED_FEED, "vimeo": "none" };
-            homeView.categoryFeedOneName = qsTr("Most Viewed");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
-        }
-        else if (feedOne == "OnTheWeb") { // NPM
-            homeView.categoryFeedOne = { "youtube": _ON_THE_WEB_FEED, "dailymotion": "none", "vimeo": "none" };
-            homeView.categoryFeedOneName = qsTr("On The Web");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
-    	}
-        else if (feedOne == "MostShared") { // NPM
-            homeView.categoryFeedOne = { "youtube": _MOST_SHARED_FEED, "dailymotion": "none", "vimeo": "none" };
-            homeView.categoryFeedOneName = qsTr("Most Shared");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
-    	}
-        else if (feedOne == "TopRated") { // NPM
-            homeView.categoryFeedOne = { "youtube": _TOP_RATED_FEED, "dailymotion": _DM_TOP_RATED_FEED, "vimeo": "none" };
-            homeView.categoryFeedOneName = qsTr("Top Rated");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
-    	}
-        else if (feedOne == "TopFavorites") { // NPM
-            homeView.categoryFeedOne = { "youtube": _TOP_FAVORITES_FEED, "dailymotion": "none", "vimeo": "none" };
-            homeView.categoryFeedOneName = qsTr("Top Favorites");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
-    	}
-        else if (feedOne == "MostPopular") { // NPM
-            homeView.categoryFeedOne = { "youtube": _MOST_POPULAR_FEED, "dailymotion": "none", "vimeo": "none" };
-            homeView.categoryFeedOneName = qsTr("Most Popular");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
-    	}
-        else if (feedOne == "MostDiscussed") { // NPM
-            homeView.categoryFeedOne = { "youtube": _MOST_DISCUSSED_FEED, "dailymotion":_DM_MOST_DISCUSSED_FEED, "vimeo": "none" };
-            homeView.categoryFeedOneName = qsTr("Most Discussed");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
-    	}
-        else if (feedOne == "MostResponded") { // NPM
-            homeView.categoryFeedOne = { "youtube": _MOST_RESPONDED_FEED, "dailymotion": _DM_MOST_RESPONDED_FEED, "vimeo": "none" };
-            homeView.categoryFeedOneName = qsTr("Most Responded");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
-    	}
-        else if (feedOne == "RecentlyFeatured") { // NPM
-            homeView.categoryFeedOne = { "youtube": _RECENTLY_FEATURED_FEED, "dailymotion": "none", "vimeo": "none" };
-            homeView.categoryFeedOneName = qsTr("Recently Featured");//TODO: lookup, out of _CATEGORY_DICT[feedOne].name ?
-    	}
-        else {
-            while ((!categoryFound) && (i < _CATEGORY_DICT.length)) {
-                category = _CATEGORY_DICT[i];
-                if (category.youtube == feedOne) {
-                    homeView.categoryFeedOne = { "youtube": _CATEGORY_FEED + feedOne + "&orderby=" + order,
-                            "dailymotion": _DM_CATEGORY_FEED + category.dailymotion,
-                            "vimeo": [["method", "vimeo.videos.getByTag"], ["sort", "newest"], ["tag", category.vimeo]] };
-                    homeView.categoryFeedOneName = category.name;
-                    categoryFound = true;
-                }
-                i++;
-            }
-            categoryFound = false;
-            i = 0;
-        }
-        if (feedTwo == "MostRecent") {
-            homeView.categoryFeedTwo = { "youtube": _MOST_RECENT_FEED, "dailymotion": _DM_MOST_RECENT_FEED, "vimeo": "none" };
-            homeView.categoryFeedTwoName = qsTr("Most Recent");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
-        }
-        else if (feedTwo == "MostViewed") {
-            homeView.categoryFeedTwo = { "youtube": _MOST_VIEWED_FEED, "dailymotion": _DM_MOST_VIEWED_FEED, "vimeo": "none" };
-            homeView.categoryFeedTwoName = qsTr("Most Viewed");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
-        }
-        else if (feedTwo == "OnTheWeb") { // NPM
-            homeView.categoryFeedTwo = { "youtube": _ON_THE_WEB_FEED, "dailymotion": "none", "vimeo": "none" };
-            homeView.categoryFeedTwoName = qsTr("On The Web");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
-    	}
-        else if (feedTwo == "MostShared") { // NPM
-            homeView.categoryFeedTwo = { "youtube": _MOST_SHARED_FEED, "dailymotion": "none", "vimeo": "none" };
-            homeView.categoryFeedTwoName = qsTr("Most Shared");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
-    	}
-        else if (feedTwo == "TopRated") { // NPM
-            homeView.categoryFeedTwo = { "youtube": _TOP_RATED_FEED, "dailymotion": _DM_TOP_RATED_FEED, "vimeo": "none" };
-            homeView.categoryFeedTwoName = qsTr("Top Rated");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
-    	}
-        else if (feedTwo == "TopFavorites") { // NPM
-            homeView.categoryFeedTwo = { "youtube": _TOP_FAVORITES_FEED, "dailymotion": "none", "vimeo": "none" };
-            homeView.categoryFeedTwoName = qsTr("Top Favorites");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
-    	}
-        else if (feedTwo == "MostPopular") { // NPM
-            homeView.categoryFeedTwo = { "youtube": _MOST_POPULAR_FEED, "dailymotion": "none", "vimeo": "none" };
-            homeView.categoryFeedTwoName = qsTr("Most Popular");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
-    	}
-        else if (feedTwo == "MostDiscussed") { // NPM
-            homeView.categoryFeedTwo = { "youtube": _MOST_DISCUSSED_FEED, "dailymotion": _DM_MOST_DISCUSSED_FEED, "vimeo": "none" };
-            homeView.categoryFeedTwoName = qsTr("Most Discussed");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
-
-    	}
-        else if (feedTwo == "MostResponded") { // NPM
-            homeView.categoryFeedTwo = { "youtube": _MOST_RESPONDED_FEED, "dailymotion": _DM_MOST_RESPONDED_FEED, "vimeo": "none" };
-            homeView.categoryFeedTwoName = qsTr("Most Responded");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
-
-    	}
-        else if (feedTwo == "RecentlyFeatured") { // NPM
-            homeView.categoryFeedTwo = { "youtube": _RECENTLY_FEATURED_FEED, "dailymotion": "none", "vimeo": "none" };
-            homeView.categoryFeedTwoName = qsTr("Recently Featured");//TODO: lookup, out of _CATEGORY_DICT[feedTwo].name ?
-    	}
-        else {
-            while ((!categoryFound) && (i < _CATEGORY_DICT.length)) {
-                category = _CATEGORY_DICT[i];
-                if (category.youtube == feedTwo) {
-                    homeView.categoryFeedTwo = { "youtube": _CATEGORY_FEED + feedTwo + "&orderby=" + order,
-                            "dailymotion": _DM_CATEGORY_FEED + category.dailymotion,
-                            "vimeo": [["method", "vimeo.videos.getByTag"], ["sort", "newest"], ["tag", category.vimeo]] };
-                    homeView.categoryFeedTwoName = category.name
-                    categoryFound = true;
-                }
-                i++;
-            }
-        }
+	var fd1 = _CATEGORY_DICT[feedOne];
+	if (typeof (fd1) === 'object') {
+	    console.log("Debug: _CATEGORY_DICT[" + feedOne + "] == " + fd1);
+	    homeView.categoryFeedOneName = fd1.name;
+            if (isSpecialCategory(fd1))	    // NPM: first check for special-case feeds
+		homeView.categoryFeedOne = { "youtube": fd1.ytfeed, "dailymotion": fd1.dmfeed, "vimeo": fd1.vifeed };
+            else   // NPM: else use a regular category
+		homeView.categoryFeedOne = { "youtube": _CATEGORY_FEED + feedOne + "&orderby=" + order,
+	                                     "dailymotion": _DM_CATEGORY_FEED + fd1.dailymotion,
+               				     "vimeo": [["method", "vimeo.videos.getByTag"], ["sort", "newest"], ["tag", fd1.vimeo]] };
+	}
+	else {
+	    console.log("Error: _CATEGORY_DICT[" + feedOne + "] == " + fd1);
+	}
+	var fd2 = _CATEGORY_DICT[feedTwo];
+	console.log("Debug: _CATEGORY_DICT[" + feedTwo + "] == " + fd2);
+	if (typeof (fd2) === 'object') {
+	    homeView.categoryFeedTwoName = fd2.name;
+            if (isSpecialCategory(fd2))	    // NPM: first check for special-case feeds
+		homeView.categoryFeedTwo = { "youtube": fd2.ytfeed, "dailymotion": fd2.dmfeed, "vimeo": fd2.vifeed };
+            else   // NPM: else use a regular category
+		homeView.categoryFeedTwo = { "youtube": _CATEGORY_FEED + feedTwo + "&orderby=" + order,
+	                                     "dailymotion": _DM_CATEGORY_FEED + fd2.dailymotion,
+					     "vimeo": [["method", "vimeo.videos.getByTag"], ["sort", "newest"], ["tag", fd2.vimeo]] };
+	}
+	else {
+	    console.log("Error: _CATEGORY_DICT[" + feedTwo + "] == " + fd2);
+	}
         if (cuteTubeTheme == "light") {
             homeView.categoryFeedOneIcon = "ui-images/" + feedOne.toLowerCase() + "iconlight.png";
             homeView.categoryFeedTwoIcon = "ui-images/" + feedTwo.toLowerCase() + "iconlight.png";

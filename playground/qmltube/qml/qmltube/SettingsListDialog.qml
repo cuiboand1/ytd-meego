@@ -11,7 +11,11 @@ Item {
 
     function setSettingsList(title, list, currentSetting) {
         /* Set the title and populate the settings model */
-        titleText = title;
+	var i;
+	if ((i = title.indexOf("\n")) >= 0)    //NPM:if multiline category name
+	    titleText = title.substring(0, i); //trim second line and only display first.
+	else
+	    titleText = title;                 //display the non-multiline title
         settingsModel.clear();
         for (var i = 0; i < list.length; i++) {
             settingsModel.append({ "setting": list[i] });
