@@ -54,7 +54,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: qsTr("No subscriptions found")
-            visible: (subscriptionsModel.status == XmlListModel.Ready) && (subscriptionsList.count == 0)
+            visible: (!subscriptionsModel.loading) && (subscriptionsModel.count === 0)
         }
     }
 }

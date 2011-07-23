@@ -41,7 +41,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: qsTr("No playlists found")
-            visible: (!vimeoPlaylistModel.loading) && (playlists.count == 0)
+            visible: (!vimeoPlaylistModel.loading) && (vimeoPlaylistModel.count === 0)
         }
 
         ScrollBar {}

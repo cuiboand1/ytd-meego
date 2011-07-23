@@ -303,7 +303,7 @@ Item {
 
             width: column.width
             Keys.onEnterPressed: {
-                if (!(usernameInput.text == "")) {
+                if (!(usernameInput.text === "")) {
                     if (site == "vimeo") {
                         getVimeoRequestToken();
                     }
@@ -313,7 +313,7 @@ Item {
                 }
             }
             Keys.onReturnPressed: {
-                if (!(usernameInput.text == "")) {
+                if (!(usernameInput.text === "")) {
                     if (site == "vimeo") {
                         getVimeoRequestToken();
                     }
@@ -345,7 +345,7 @@ Item {
         icon: (cuteTubeTheme == "light") ? "ui-images/ticklight.png" : "ui-images/tick.png"
         disabled: busyDialog.visible
         onButtonClicked: {
-            if (!(usernameInput.text == "")) {
+            if (!(usernameInput.text === "")) {
                 if (site == "vimeo") {
                     getVimeoRequestToken();
                 }
@@ -364,7 +364,7 @@ Item {
         id: busyDialog
 
         anchors.centerIn: dialog
-        message: qsTr("Saving")
+        message: qsTr("Saving...")
         visible: false
     }
 

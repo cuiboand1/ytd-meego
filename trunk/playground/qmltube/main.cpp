@@ -101,9 +101,13 @@ int main(int argc, char *argv[])
         if (!path.exists()) {
             path.mkpath("/home/user/MyDocs/.cutetube");
         }
-#elif defined(Q_WS_X11)		// NPM: aka, MeeGo 
+#elif defined(Q_WS_X11)		// NPM: aka, MeeGo AND Harmattan
 //      viewer.addImportPath(QString("/opt/qtm12/imports")); 
 //      viewer.addPluginPath(QString("/opt/qtm12/plugins"));
+
+	// Even though Harmattan has /home/user/MyDocs it appears other apps store
+	// local info in /home/user, e.g. /home/user/.qcamera /home/user/.facebook etc.
+	// thus leave configuration directory location same for both MeeGo and Harmattan
         viewer.engine()->setOfflineStoragePath(QDir::homePath() + "/.config/cutetube");
 
 	if (opengl_mode) {
@@ -170,7 +174,7 @@ int main(int argc, char *argv[])
         QString languagePath;
 #ifdef Q_WS_MAEMO_5
         languagePath = "/opt/usr/share/qmltube/qml/qmltube/i18n/qml_" + locale;
-#elif defined(Q_WS_X11)		// NPM: aka, MeeGo 
+#elif defined(Q_WS_X11)		// NPM: aka, MeeGo & Harmattan, Linux
         languagePath = "/opt/qmltube/qml/qmltube/i18n/qml_" + locale;
 	// on linux, the original code below seems to only work when cd'd
 	// to source or build directory in other directories, it fails.
@@ -183,8 +187,23 @@ int main(int argc, char *argv[])
             app.installTranslator(&translator);
         }
         viewer.setMainQmlFile(QLatin1String("qml/qmltube/main.qml"));
-        viewer.showExpanded();
 
+	/* NPM: the following sequence of ifdefs was viewer.showExpanded()
+	   but it didn't do right thing on Harmattan, so replaced with ifdefs
+	   below.... see: http://forum.meego.com/showthread.php?p=27001 
+	   "Patch to get rid of "gray bar" in QtCreator's qmlapplicationviewer" .
+	*/
+#ifdef Q_OS_SYMBIAN
+	viewer.showFullScreen();
+#elif defined(Q_WS_MAEMO_5)
+	viewer.showMaximized();
+#elif defined(MEEGO_EDITION_HARMATTAN)
+	viewer.showFullScreen();
+#elif defined(Q_WS_MEEGO)
+	viewer.showMaximized();
+#else // desktop linux, meego netbook/tablet, etc.
+	viewer.show();
+#endif
         return app.exec();
     }
     else { //NPM: else play mode

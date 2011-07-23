@@ -1,0 +1,63 @@
+
+NPM: after qmltube.aegis setup, results when running qmltube:
+
+~ $ accli -p `pgrep /opt/qmltube/bin/qmltube` -I
+Credentials:
+	UID::user
+	GRP::video
+	GRP::pulse-access
+	AID::.qmltube.
+	qmltube::qmltube
+
+Compare to the Harmattan video player and other media apps
+
+~ $ accli -p `pgrep /usr/bin/video-suite` -I
+Credentials:
+	UID::user
+	GID::users
+	GRP::video
+	GRP::pulse-access
+	SRC::com.nokia.maemo
+	AID::com.nokia.maemo.video-suite.
+	TrackerReadAccess
+	TrackerWriteAccess
+
+~ $ accli -p `pgrep /usr/bin/qmafw-dbus-wrapper` -I
+Credentials:
+	UID::user
+	GID::users
+	GRP::video
+	SRC::com.nokia.maemo
+	AID::com.nokia.maemo.qmafw-dbus-wrapper.
+	TrackerReadAccess
+	TrackerWriteAccess
+	qmafw-dbus-wrapper::qmafw-dbus-wrapper
+
+~ $ accli -p `pgrep /usr/bin/camera-ui` -I
+Credentials:
+	UID::user
+	GID::metadata-users
+	GRP::video
+	GRP::pulse-access
+	GRP::metadata-users
+	SRC::com.nokia.maemo
+	TrackerReadAccess
+	TrackerWriteAccess
+	Location
+	tracker::tracker-miner-fs-access
+
+==============================================================================
+Other credentials not yet applied.
+   <!-- credential name="TrackerReadAccess" / -->
+   <!-- credential name="TrackerWriteAccess" / -->
+   <!-- credential name="tracker::tracker-extract-access" / -->
+   <!-- credential name="tracker::tracker-miner-fs-access" / -->
+   <!-- credential name="GRP::metadata-users" / -->
+   <!-- credential name="UID::user" / -->
+==============================================================================
+
+
+
+ <!-- request policy="add" --> 
+
+

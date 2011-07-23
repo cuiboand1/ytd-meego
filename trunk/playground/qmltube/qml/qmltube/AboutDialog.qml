@@ -53,7 +53,7 @@ Item {
         anchors { top: icon.bottom; topMargin: 10; horizontalCenter: dialog.horizontalCenter }
         color: _TEXT_COLOR
         font { pixelSize: _LARGE_FONT_SIZE; bold: true }
-        text: qsTr("cuteTube - 1.0.3")
+        text: qsTr("cuteTube - 1.0.6")
     }
 
     Text {

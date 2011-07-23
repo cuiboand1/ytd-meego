@@ -203,7 +203,7 @@ Item {
 	    for (var category in _CATEGORY_DICT) {
 		if ((_CATEGORY_DICT[category].name) == setting) {
 		    categoryFeedOne = category;
-		    console.log('Debug:  changeSettings() categoryFeedTwo == "' + categoryFeedOne + '"');
+//		    console.log('Debug:  changeSettings() categoryFeedTwo == "' + categoryFeedOne + '"');
 		}
 	    }
         }
@@ -211,7 +211,7 @@ Item {
 	    for (var category in _CATEGORY_DICT) {
 		if ((_CATEGORY_DICT[category].name) == setting) {
 		    categoryFeedTwo = category;
-		    console.log('Debug:  changeSettings() categoryFeedTwo == "' + categoryFeedTwo + '"');
+//		    console.log('Debug:  changeSettings() categoryFeedTwo == "' + categoryFeedTwo + '"');
 		}
 	    }
         }

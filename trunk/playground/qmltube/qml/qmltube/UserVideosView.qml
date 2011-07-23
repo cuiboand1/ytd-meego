@@ -20,6 +20,7 @@ Item {
     property string videoCount
     property string userThumbnail
     property alias checkList: videoList.checkList
+    property bool itemsSelected : videoList.checkList.length > 0
 
     signal goToVideo(variant video)
     signal playVideos(variant videos)
@@ -27,7 +28,7 @@ Item {
 
     function getUserProfile(user) {
         username = user;
-        videoFeed = "http://gdata.YouTube.com/feeds/api/users/" + username  + "/uploads?v=2&max-results=50&alt=json";
+        videoFeed = "http://gdata.youtube.com/feeds/api/users/" + username  + "/uploads?v=2&max-results=50&alt=json";
 
         YT.getYouTubeVideos();
 
@@ -39,28 +40,7 @@ Item {
             }
             i++;
         }
-
-        var doc = new XMLHttpRequest();
-        doc.onreadystatechange = function() {
-            if (doc.readyState == XMLHttpRequest.DONE) {
-                var xml = doc.responseXML.documentElement;
-                for (i = 0; i < xml.childNodes.length; i++) {
-                    if (xml.childNodes[i].nodeName == "thumbnail") {
-                        userThumbnail = xml.childNodes[i].attributes[0].value;
-                    }
-                    else if (xml.childNodes[i].nodeName == "statistics") {
-                        subscriberCount = xml.childNodes[i].attributes[1].value;
-                    }
-                    else if (xml.childNodes[i].nodeName == "feedLink") {
-                        if (xml.childNodes[i].attributes[0].value == "http://gdata.youtube.com/schemas/2007#user.uploads") {
-                            videoCount = xml.childNodes[i].attributes[2].value;
-                        }
-                    }
-                }
-            }
-        }
-        doc.open("GET", "http://gdata.youtube.com/feeds/api/users/" + username + "?v=2");
-        doc.send();
+        YT.getUserProfile(user);
     }
 
     function showUserInfoDialog() {
@@ -228,7 +208,7 @@ Item {
                 name: isSubscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
                 nameSize: 18
                 visible: username != YouTube.currentUser
-                onButtonClicked: Scripts.setSubscription()
+                onButtonClicked: YT.setSubscription()
             }
 
             Rectangle {

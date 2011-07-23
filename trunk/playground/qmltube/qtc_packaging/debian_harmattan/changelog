@@ -1,5 +1,6 @@
-qmltube (1.0.1) unstable; urgency=low
+qmltube (1.0.6) unstable; urgency=low
+  * source: svn co --revision 163 http://ytd-meego.googlecode.com/svn/trunk/playground/qmltube
+  * Patched to qmltube (1.0.6) (Fixed bugs in video uploads. Other minor bug fixes.)
+  * Removed debug related to my extensions to original qmltube functionality.
 
-  * Initial Release.
-
- -- Stuart Howarth <stuart@unknown>  Fri, 01 Jul 2011 20:58:19 +0100
+ -- Niels Mayer <NielsMayer _AT_ gmail _DOT_ com>  Mon, 19 Jul 2011 10:04:18 -0700

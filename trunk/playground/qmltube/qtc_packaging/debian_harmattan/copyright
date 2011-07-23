@@ -1,17 +1,9 @@
-This package was debianized by Stuart Howarth <stuart@unknown> on
-Fri, 01 Jul 2011 20:58:19 +0100.
-
-It was downloaded from <url://example.com>
-
-Upstream Author(s):
-
-    <put author's name and email here>
-    <likewise for another author>
+This package was ported to MeeGo and Harmattanized by Niels Mayer <NielsMayer _AT_ gmail _DOT_ com> on Tue, 19 Jul 2011 10:09:00 PST.
 
 Copyright:
 
-    <Copyright (C) YYYY Name OfAuthor>
-    <likewise for another author>
+    <Copyright (C) 2011 Stuart Howarth>
+    <Copyright (C) 2011 Niels Mayer <NielsMayer _AT_ gmail _DOT_ com>
 
 License:
 
@@ -32,9 +24,11 @@ License:
 On Debian systems, the complete text of the GNU General
 Public License can be found in `/usr/share/common-licenses/GPL'.
 
-The Debian packaging is (C) 2011, Stuart Howarth <stuart@unknown> and
+The Debian packaging is (C) 2011, Stuart Howarth <marxianthecoder@gmail.com> and
 is licensed under the GPL, see above.
 
+The MeeGo and Harmattan packaging is (C) 2011, Niels Mayer <NielsMayer _AT_ gmail _DOT_ com> and
+is licensed under the GPL, see above.
 
 # Please also look if there are files or directories which have a
 # different copyright/license attached and list them here.

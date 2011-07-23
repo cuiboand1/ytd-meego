@@ -1,4 +1,377 @@
 
+qml/qmltube/UserVideosView.qml,366
+    function getUserProfile(29,852
+    function showUserInfoDialog(46,1421
+    function onMenuButtonOneClicked(59,1856
+    function onMenuButtonTwoClicked(74,2218
+    function onMenuButtonThreeClicked(80,2341
+    function onMenuButtonFourClicked(86,2483
+    function onMenuButtonFiveClicked(90,2570
+                function addOrRemoveFromCheckList(271,8308
+
+qml/qmltube/AccountsDialog.qml,155
+    function getAccounts(9,102
+    function deleteAccount(32,930
+    function revokeYouTubeAccess(59,2012
+    function revokeDailymotionAccess(77,2757
+
+qml/qmltube/LiveVideoListView.qml,12
+Item 5,102
+
+qml/qmltube/ChangeUserDialog.qml,155
+    function getAccounts(11,140
+    function changeDailymotionUser(61,2165
+    function changeYouTubeUser(71,2561
+    function changeVimeoUser(79,2822
+
+qml/qmltube/SettingsDialog.qml,449
+    function getSettings(60,2665
+    function saveSettings(96,4895
+    function showDownloadPathDialog(139,6943
+    function showProxyDialog(149,7343
+    function showCategoryList(156,7567
+    function showSettingsList(172,8237
+    function changeSetting(187,8737
+    function clearSearches(253,11148
+    function deleteFacebookToken(264,11491
+    function deleteTwitterToken(274,11857
+    function trimMultiLineDisplayCategory(286,12337
+
+qml/qmltube/VimeoUserInfoDialog.qml,36
+    function setUserProfile(19,364
+
+qml/qmltube/DMPlaylists.qml,11
+Item 4,58
+
+qml/qmltube/WebDialog.qml,32
+    function setWebPage(10,122
+
+qml/qmltube/VideoInfoView.qml,344
+    function setVideo(40,1248
+    function onMenuButtonOneClicked(69,2067
+    function onMenuButtonTwoClicked(79,2331
+    function onMenuButtonThreeClicked(88,2553
+    function onMenuButtonFourClicked(92,2641
+    function onMenuButtonFiveClicked(96,2727
+    function showPlaylistDialog(100,2822
+    function addVideoToPlaylist(111,3253
+
+qml/qmltube/HomeView.qml,303
+    function showNoAccountDialog(27,798
+    function onMenuButtonOneClicked(37,1137
+    function onMenuButtonTwoClicked(49,1527
+    function onMenuButtonThreeClicked(61,1902
+    function onMenuButtonFourClicked(73,2281
+    function showConfirmExitDialog(77,2351
+    function closeDialogs(88,2719
+
+qml/qmltube/OAuthDialog.qml,364
+    function setService(18,394
+    function checkUrlForToken(31,772
+    function checkFacebookToken(49,1234
+    function checkTwitterToken(62,1767
+    function checkYouTubeToken(74,2196
+    function checkDailymotionToken(83,2504
+    function checkVimeoToken(92,2817
+    function getTwitterRequestToken(102,3246
+    function getTwitterAccessToken(127,4344
+
+qml/qmltube/XtubeInfoView.qml,232
+    function setVideo(24,620
+    function setYouPornVideo(42,1028
+    function setPornHubVideo(71,2138
+    function setTubeEightVideo(94,2975
+    function setRedTubeVideo(115,3706
+                function loadVideos(451,15543
+
+qml/qmltube/DMInfoView.qml,214
+    function setVideo(35,1033
+    function onMenuButtonOneClicked(57,1695
+    function onMenuButtonTwoClicked(61,1788
+    function onMenuButtonThreeClicked(65,1874
+    function onMenuButtonFourClicked(69,1961
+
+qml/qmltube/VideoListView.qml,265
+    function setVideoFeeds(24,780
+    function onMenuButtonOneClicked(39,1235
+    function onMenuButtonTwoClicked(53,1605
+    function onMenuButtonThreeClicked(82,2538
+    function onMenuButtonFourClicked(90,2772
+    function onMenuButtonFiveClicked(102,3141
+
+qml/qmltube/DownloadList.qml,88
+    function indexInCheckList(8,90
+        function addToOrRemoveFromCheckList(34,901
+
+qml/qmltube/DMUserVideosView.qml,276
+    function setVideoFeed(22,610
+    function onMenuButtonOneClicked(27,819
+    function onMenuButtonTwoClicked(42,1181
+    function onMenuButtonThreeClicked(46,1264
+    function onMenuButtonFourClicked(50,1352
+                function addOrRemoveFromCheckList(132,3790
+
+qml/qmltube/InboxDialog.qml,11
+Item 4,54
+
+qml/qmltube/UploadProgressDialog.qml,32
+    function setDetails(13,211
+
+qml/qmltube/NotificationArea.qml,167
+    function addTitle(17,458
+    function removeTitle(23,584
+    function showSearchBar(29,702
+    function closeSearchBar(38,928
+    function sortNumber(43,1027
+
+qml/qmltube/VimeoListView.qml,346
+    function getVimeoVideos(13,283
+    function toggleSelect(18,374
+    function showPlaylistDialog(31,688
+    function addVideosToFavourites(37,824
+    function deleteVideosFromFavourites(41,897
+    function addVideosToPlaybackQueue(45,976
+    function addVideosToDownloads(49,1064
+            function addOrRemoveFromCheckList(101,2502
+
+qml/qmltube/main.qml,863
+    function isSpecialCategory(112,10541
+    function userIsSignedIn(116,10735
+    function toggleBusy(126,11024
+    function toggleControls(130,11107
+    function setCategoryFeeds(142,11402
+    function createDownloadItem(182,13583
+    function addDownload(215,14960
+                function addAudioDownload(229,15446
+                                function appendDownload(466,28672
+                                function resumeDownload(477,29352
+                                function pauseDownload(481,29542
+                                function cancelDownload(490,30046
+                                function deleteDownload(499,30521
+                                function getNextDownload(517,31603
+                                function markItemAsOld(535,32523
+                                function displayMessage(742,42673
+
+qml/qmltube/SubscriptionsView.qml,119
+    function showUserInfoDialog(19,544
+    function closeDialogs(31,997
+    function onMenuButtonOneClicked(39,1195
+
+qml/qmltube/SettingsListDialog.qml,37
+    function setSettingsList(12,174
+
+qml/qmltube/DMSubscriptionsList.qml,11
+Item 4,70
+
+qml/qmltube/VimeoPlaylistDialog.qml,72
+    function setPlaylist(20,427
+    function setPlaylistVideos(32,878
+
+qml/qmltube/SearchDelegate.qml,16
+Rectangle 3,20
+
+qml/qmltube/VideoListDialog.qml,30
+    function setVideo(13,194
+
+qml/qmltube/PlaybackDelegate.qml,33
+    function getDuration(12,193
+
+qml/qmltube/AddCommentDialog.qml,32
+    function setService(13,178
+
+qml/qmltube/YTSubscriptionsList.qml,11
+Item 4,70
+
+qml/qmltube/PlaylistVideosView.qml,442
+    function setPlaylist(24,686
+    function setPlaylistVideos(30,921
+    function onMenuButtonOneClicked(42,1341
+    function onMenuButtonTwoClicked(57,1703
+    function onMenuButtonThreeClicked(61,1786
+    function onMenuButtonFourClicked(65,1874
+    function onMenuButtonFiveClicked(69,1961
+    function showPlaylistInfoDialog(73,2054
+    function playPlaylist(88,2698
+                function addOrRemoveFromCheckList(320,10529
+
+qml/qmltube/CommentsDelegate.qml,11
+Item 3,20
+
+qml/qmltube/VimeoUserVideosView.qml,366
+    function setUserProfile(28,806
+    function showUserInfoDialog(52,1541
+    function onMenuButtonOneClicked(65,1977
+    function onMenuButtonTwoClicked(80,2339
+    function onMenuButtonThreeClicked(86,2453
+    function onMenuButtonFourClicked(92,2600
+    function onMenuButtonFiveClicked(96,2687
+                function addOrRemoveFromCheckList(271,8199
+
+qml/qmltube/SettingsDelegate.qml,11
+Item 3,20
+
+qml/qmltube/PlaylistsView.qml,155
+    function showPlaylistDialog(19,547
+    function playPlaylist(40,1522
+    function onMenuButtonOneClicked(46,1643
+    function closeDialogs(59,2070
+
+qml/qmltube/AccountDetailsDialog.qml,558
+    function getAccountDetails(20,449
+    function resetDialog(29,746
+    function saveAccount(38,967
+    function getYouTubeSessionToken(54,1513
+    function saveYouTubeAccount(74,2340
+    function getDailymotionAccessToken(93,2948
+    function saveDailymotionAccount(121,4261
+    function getVimeoRequestToken(140,4963
+    function getVimeoAccessToken(165,6008
+    function saveVimeoAccount(189,7091
+    function showOAuthDialog(208,7694
+    function closeOAuthDialog(217,8028
+    function showSiteList(222,8123
+    function setSite(230,8417
+
+qml/qmltube/DMPlaylistVideosView.qml,396
+    function setPlaylist(24,691
+    function setPlaylistVideos(30,893
+    function onMenuButtonOneClicked(42,1313
+    function onMenuButtonTwoClicked(57,1675
+    function onMenuButtonThreeClicked(61,1758
+    function onMenuButtonFourClicked(65,1846
+    function showPlaylistInfoDialog(69,1939
+    function playPlaylist(84,2585
+                function addOrRemoveFromCheckList(308,10197
+
+qml/qmltube/DMListView.qml,311
+    function getDailymotionVideos(13,288
+    function toggleSelect(18,391
+    function addVideosToFavourites(31,705
+    function deleteVideosFromFavourites(35,787
+    function addVideosToPlaybackQueue(39,879
+    function addVideosToDownloads(43,967
+            function addOrRemoveFromCheckList(112,2797
+
+qml/qmltube/FileChooserDelegate.qml,11
+Item 3,20
+
+qml/qmltube/XtubeListView.qml,145
+    function setSearchQuery(14,292
+    function youpornSearch(28,648
+    function pornhubSearch(41,1022
+    function tubeEightSearch(57,1485
+
+qml/qmltube/XtubeVideoList.qml,67
+    function setVideoFeed(17,364
+    function getVideoUrl(32,760
+
+qml/qmltube/UploadDialog.qml,318
+    function getCategory(12,188
+    function showCategoryList(33,870
+    function showFileChooser(49,1664
+    function setFilename(55,1854
+    function startUpload(65,2118
+    function showUploadProgress(85,3118
+    function setCategory(92,3365
+    function showSiteList(96,3447
+    function setSite(104,3765
+
+qml/qmltube/PlaylistDialog.qml,72
+    function setPlaylist(20,430
+    function setPlaylistVideos(33,935
+
+qml/qmltube/YTListView.qml,349
+    function getYouTubeVideos(13,292
+    function toggleSelect(18,387
+    function addVideosToFavourites(31,701
+    function deleteVideosFromFavourites(35,783
+    function showPlaylistDialog(39,875
+    function addVideosToPlaybackQueue(45,1011
+    function addVideosToDownloads(49,1099
+            function addOrRemoveFromCheckList(118,2934
+
+qml/qmltube/ArchiveListView.qml,592
+    function getArchiveVideos(24,716
+    function onMenuButtonOneClicked(37,1263
+    function onMenuButtonTwoClicked(52,1625
+    function onMenuButtonThreeClicked(56,1701
+    function onMenuButtonFourClicked(60,1778
+    function onMenuButtonFiveClicked(64,1848
+    function playArchiveVideos(68,1919
+    function showDeleteDialog(94,3032
+    function deleteFromArchive(109,3560
+    function deleteFromDevice(129,4314
+    function sortByDate(149,5063
+    function sortByTitle(168,5549
+    function closeDialogs(187,6045
+                function addOrRemoveFromCheckList(244,7675
+
+qml/qmltube/VideoPlaybackView.qml,314
+    function setPlaylist(24,639
+    function setDoNotDisturb(53,1568
+    function getTime(62,1854
+    function previous(79,2383
+    function next(87,2548
+    function addVideoToDownloads(95,2727
+    function addVideoToFavourites(114,3277
+    function rateVideo(131,3920
+        function setVideo(289,8527
+
+qml/qmltube/ProxyDialog.qml,30
+    function setProxy(10,138
+
+qml/qmltube/MyAccountView.qml,164
+    function changeCurrentUser(22,600
+    function onMenuButtonOneClicked(34,1014
+    function onMenuButtonTwoClicked(46,1400
+    function closeDialogs(61,1957
+
+qml/qmltube/VimeoPlaylists.qml,11
+Item 4,52
+
+qml/qmltube/VimeoInfoView.qml,343
+    function setVideo(39,1152
+    function onMenuButtonOneClicked(66,1885
+    function onMenuButtonTwoClicked(70,1967
+    function onMenuButtonThreeClicked(74,2044
+    function onMenuButtonFourClicked(78,2132
+    function onMenuButtonFiveClicked(82,2218
+    function showPlaylistDialog(86,2313
+    function addVideoToPlaylist(103,2962
+
+qml/qmltube/SearchBar.qml,230
+    function getYouTubeVideo(19,447
+    function getDailymotionVideo(45,2102
+    function getVimeoVideo(62,2972
+    function parseSearchQuery(93,4645
+    function getSearches(121,5670
+    function changeSearchOrder(133,6099
+
+qml/qmltube/DMPlaylistDialog.qml,72
+    function setPlaylist(18,370
+    function setPlaylistVideos(29,720
+
+qml/qmltube/YTPlaylists.qml,11
+Item 4,54
+
+qml/qmltube/UserInfoDialog.qml,36
+    function getUserProfile(23,503
+
+qml/qmltube/VimeoPlaylistVideosView.qml,442
+    function setPlaylist(24,685
+    function setPlaylistVideos(30,882
+    function onMenuButtonOneClicked(42,1302
+    function onMenuButtonTwoClicked(57,1664
+    function onMenuButtonThreeClicked(61,1738
+    function onMenuButtonFourClicked(65,1837
+    function onMenuButtonFiveClicked(69,1924
+    function showPlaylistInfoDialog(73,2017
+    function playPlaylist(88,2666
+                function addOrRemoveFromCheckList(312,10298
+
+qml/qmltube/VimeoSubscriptionsList.qml,11
+Item 4,70
+
 qmlapplicationviewer/qmlapplicationviewer.cpp,658
 struct QmlJsDebuggingEnabler34,1032
     QmlJsDebuggingEnabler(QmlJsDebuggingEnabler::QmlJsDebuggingEnabler36,1063
@@ -105,30 +478,33 @@ void Sharing::postToFacebook(29,813
 void Sharing::postToTwitter(70,2517
 void Sharing::postFinished(80,3040
 
-controller.cpp,962
-Controller::Controller(28,662
-void Controller::setView(40,1049
-void Controller::toggleState(44,1126
-bool Controller::osIsSymbian(53,1287
-void Controller::keepDisplayOn(57,1351
-void Controller::doNotDisturb(84,2580
-QString Controller::getLanguage(116,3550
-void Controller::setOrientation(136,4152
-void Controller::minimize(148,4586
-void Controller::setMediaPlayer(161,4971
-bool Controller::widgetInstalled(165,5084
-void Controller::getMediaPlayerFromDB(186,5897
-QStringList Controller::getProxyFromDB(208,6592
-bool Controller::xTubeInstalled(235,7407
-QStringList Controller::getInstalledMediaPlayers(254,8213
-void Controller::playVideo(272,8858
-void Controller::deleteVideo(321,10744
-QString Controller::archiveFileExists(335,11095
-bool Controller::pathExists(350,11507
-void Controller::convertToAudio(355,11606
-void Controller::conversionFinished(366,11936
-QString Controller::homePath(384,12499
-void Controller::copyToClipboard(392,12619
+controller.cpp,1101
+Controller::Controller(33,844
+void Controller::setView(62,1821
+void Controller::toggleState(66,1898
+bool Controller::osIsSymbian(75,2059
+bool Controller::osIsHarmattan(80,2133
+bool Controller::osIsMaemo(85,2211
+void Controller::doNotDisturb(89,2271
+MeeGo::QmDisplayState *displaystate displaystate163,4502
+void Controller::preventBlanking(164,4543
+QString Controller::getLanguage(172,4746
+void Controller::setOrientation(192,5348
+void Controller::minimize(204,5782
+void Controller::setMediaPlayer(217,6167
+bool Controller::widgetInstalled(221,6280
+void Controller::getMediaPlayerFromDB(242,7093
+QStringList Controller::getProxyFromDB(264,7788
+bool Controller::xTubeInstalled(291,8603
+QStringList Controller::getInstalledMediaPlayers(310,9409
+void Controller::playVideo(328,10054
+void Controller::deleteVideo(377,11940
+QString Controller::archiveFileExists(391,12291
+bool Controller::pathExists(406,12703
+void Controller::convertToAudio(411,12802
+void Controller::conversionFinished(422,13132
+QString Controller::homePath(440,13695
+void Controller::copyToClipboard(448,13815
 
 youtube.cpp,1234
 YouTube::YouTube(12,223
@@ -138,30 +514,30 @@ void YouTube::setUserCredentials(29,742
 void YouTube::setCurrentUser(34,876
 void YouTube::setAccessToken(39,986
 void YouTube::uploadVideo(44,1098
-void YouTube::setUploadUrl(90,3574
-void YouTube::performVideoUpload(108,4225
-void YouTube::updateUploadProgress(123,4925
-void YouTube::resumeVideoUpload(140,5436
-void YouTube::abortVideoUpload(169,6707
-void YouTube::uploadFinished(175,6843
-void YouTube::postRequest(201,7644
-void YouTube::postFinished(215,8334
-void YouTube::deleteRequest(239,9245
-void YouTube::addToFavourites(252,9846
-void YouTube::deleteFromFavourites(263,10395
-void YouTube::addToPlaylist(269,10674
-void YouTube::deleteFromPlaylist(280,11246
-void YouTube::createNewPlaylist(286,11549
-void YouTube::deletePlaylist(302,12444
-void YouTube::subscribeToChannel(308,12709
-void YouTube::unsubscribeToChannel(321,13428
-void YouTube::rateVideo(327,13708
-void YouTube::addComment(339,14370
-void YouTube::replyToComment(350,15003
-void YouTube::getVideoUrl(363,15876
-void YouTube::parseVideoPage(372,16328
-void YouTube::getLiveVideoUrl(414,17801
-void YouTube::parseLiveVideoPage(423,18261
+void YouTube::setUploadUrl(91,3699
+void YouTube::performVideoUpload(109,4350
+void YouTube::updateUploadProgress(124,5050
+void YouTube::resumeVideoUpload(141,5561
+void YouTube::abortVideoUpload(170,6832
+void YouTube::uploadFinished(176,6968
+void YouTube::postRequest(202,7769
+void YouTube::postFinished(216,8459
+void YouTube::deleteRequest(240,9370
+void YouTube::addToFavourites(253,9971
+void YouTube::deleteFromFavourites(264,10520
+void YouTube::addToPlaylist(270,10799
+void YouTube::deleteFromPlaylist(281,11371
+void YouTube::createNewPlaylist(287,11674
+void YouTube::deletePlaylist(303,12569
+void YouTube::subscribeToChannel(309,12834
+void YouTube::unsubscribeToChannel(322,13553
+void YouTube::rateVideo(328,13833
+void YouTube::addComment(340,14495
+void YouTube::replyToComment(351,15128
+void YouTube::getVideoUrl(364,16001
+void YouTube::parseVideoPage(373,16453
+void YouTube::getLiveVideoUrl(415,17926
+void YouTube::parseLiveVideoPage(424,18386
 
 vimeo.cpp,767
 Vimeo::Vimeo(9,168
@@ -186,17 +562,21 @@ void Vimeo::deletePlaylist(163,5557
 void Vimeo::subscribeToChannel(168,5740
 void Vimeo::unsubscribeToChannel(173,5922
 
-controller.h,490
+controller.h,701
 #define CONTROLLER_H2,21
 class Controller 12,156
     Q_PROPERTY(Controller::Q_PROPERTY15,206
-    QString getMediaPlayer(Controller::getMediaPlayer33,695
-    QmlApplicationViewer *m_view;Controller::m_view52,1391
-    QString mediaPlayer;Controller::mediaPlayer53,1425
-    QProcess *converter;Controller::converter54,1450
-    QString inputFile;Controller::inputFile55,1475
-    QString outputFile;Controller::outputFile56,1498
-    bool isSymbian;Controller::isSymbian57,1522
+    QString getMediaPlayer(Controller::getMediaPlayer41,945
+    QmlApplicationViewer *m_view;Controller::m_view65,1854
+    QString mediaPlayer;Controller::mediaPlayer66,1888
+    QProcess *converter;Controller::converter67,1913
+    QString inputFile;Controller::inputFile68,1938
+    QString outputFile;Controller::outputFile69,1961
+    bool isSymbian;Controller::isSymbian70,1985
+    bool isHarmattan;Controller::isHarmattan71,2005
+    bool isMaemo;Controller::isMaemo72,2038
+    QObject *qparent;Controller::qparent73,2067
+    QTimer *blankingtimer;Controller::blankingtimer74,2100
 
 qmlapplicationviewer/qmlapplicationviewer.h,562
 #define QMLAPPLICATIONVIEWER_H12,440
@@ -327,590 +707,9 @@ class DailyMotion 12,166
     QTime uploadTime;DailyMotion::uploadTime76,2587
     QNetworkReply *uploadReply;DailyMotion::uploadReply77,2609
 
-qml/qmltube/UserVideosView.qml,369
-    function getUserProfile(28,787
-    function showUserInfoDialog(66,2414
-    function onMenuButtonOneClicked(79,2849
-    function onMenuButtonTwoClicked(94,3211
-    function onMenuButtonThreeClicked(100,3334
-    function onMenuButtonFourClicked(106,3476
-    function onMenuButtonFiveClicked(110,3563
-                function addOrRemoveFromCheckList(291,9306
-
-qml/qmltube/AccountsDialog.qml,155
-    function getAccounts(9,102
-    function deleteAccount(32,930
-    function revokeYouTubeAccess(59,2012
-    function revokeDailymotionAccess(77,2757
-
-qml/qmltube/LiveVideoListView.qml,12
-Item 5,102
-
-qml/qmltube/ChangeUserDialog.qml,155
-    function getAccounts(11,140
-    function changeDailymotionUser(43,1498
-    function changeYouTubeUser(53,1894
-    function changeVimeoUser(61,2155
-
-qml/qmltube/SettingsDialog.qml,449
-    function getSettings(60,2665
-    function saveSettings(96,4895
-    function showDownloadPathDialog(139,6943
-    function showProxyDialog(149,7343
-    function showCategoryList(156,7567
-    function showSettingsList(172,8237
-    function changeSetting(187,8737
-    function clearSearches(253,11144
-    function deleteFacebookToken(264,11487
-    function deleteTwitterToken(274,11853
-    function trimMultiLineDisplayCategory(286,12333
-
-qml/qmltube/VimeoUserInfoDialog.qml,36
-    function setUserProfile(19,364
-
-qml/qmltube/DMPlaylists.qml,11
-Item 4,58
-
-qml/qmltube/WebDialog.qml,32
-    function setWebPage(10,122
-
-qml/qmltube/VideoInfoView.qml,344
-    function setVideo(40,1248
-    function onMenuButtonOneClicked(69,2067
-    function onMenuButtonTwoClicked(79,2331
-    function onMenuButtonThreeClicked(88,2553
-    function onMenuButtonFourClicked(92,2641
-    function onMenuButtonFiveClicked(96,2727
-    function showPlaylistDialog(100,2822
-    function addVideoToPlaylist(111,3253
-
-qml/qmltube/HomeView.qml,303
-    function showNoAccountDialog(27,798
-    function onMenuButtonOneClicked(37,1137
-    function onMenuButtonTwoClicked(49,1527
-    function onMenuButtonThreeClicked(61,1902
-    function onMenuButtonFourClicked(73,2281
-    function showConfirmExitDialog(77,2351
-    function closeDialogs(88,2719
-
-qml/qmltube/OAuthDialog.qml,364
-    function setService(18,394
-    function checkUrlForToken(31,767
-    function checkFacebookToken(49,1229
-    function checkTwitterToken(62,1762
-    function checkYouTubeToken(74,2191
-    function checkDailymotionToken(83,2499
-    function checkVimeoToken(92,2812
-    function getTwitterRequestToken(102,3241
-    function getTwitterAccessToken(127,4339
-
-qml/qmltube/XtubeInfoView.qml,232
-    function setVideo(24,620
-    function setYouPornVideo(42,1028
-    function setPornHubVideo(71,2138
-    function setTubeEightVideo(94,2975
-    function setRedTubeVideo(115,3706
-                function loadVideos(451,15543
-
-qml/qmltube/DMInfoView.qml,214
-    function setVideo(35,1033
-    function onMenuButtonOneClicked(57,1695
-    function onMenuButtonTwoClicked(61,1788
-    function onMenuButtonThreeClicked(65,1874
-    function onMenuButtonFourClicked(69,1961
-
-qml/qmltube/InboxModel.qml,58
-    function setXml(9,565
-    function appendXml(17,873
-
-qml/qmltube/VideoListView.qml,265
-    function setVideoFeeds(24,780
-    function onMenuButtonOneClicked(39,1235
-    function onMenuButtonTwoClicked(53,1605
-    function onMenuButtonThreeClicked(82,2538
-    function onMenuButtonFourClicked(90,2772
-    function onMenuButtonFiveClicked(102,3141
-
-qml/qmltube/DownloadList.qml,88
-    function indexInCheckList(8,90
-        function addToOrRemoveFromCheckList(34,901
-
-qml/qmltube/DMUserVideosView.qml,276
-    function setVideoFeed(21,545
-    function onMenuButtonOneClicked(26,754
-    function onMenuButtonTwoClicked(41,1116
-    function onMenuButtonThreeClicked(45,1199
-    function onMenuButtonFourClicked(49,1287
-                function addOrRemoveFromCheckList(131,3725
-
-qml/qmltube/InboxDialog.qml,30
-    function getInbox(10,140
-
-qml/qmltube/UploadProgressDialog.qml,32
-    function setDetails(13,211
-
-qml/qmltube/NotificationArea.qml,167
-    function addTitle(17,458
-    function removeTitle(23,584
-    function showSearchBar(29,702
-    function closeSearchBar(38,928
-    function sortNumber(43,1027
-
-qml/qmltube/VimeoListView.qml,346
-    function getVimeoVideos(13,283
-    function toggleSelect(18,374
-    function showPlaylistDialog(31,688
-    function addVideosToFavourites(37,824
-    function deleteVideosFromFavourites(41,897
-    function addVideosToPlaybackQueue(45,976
-    function addVideosToDownloads(49,1064
-            function addOrRemoveFromCheckList(101,2502
-
-qml/qmltube/main.qml,863
-    function isSpecialCategory(109,10419
-    function userIsSignedIn(113,10613
-    function toggleBusy(123,10902
-    function toggleControls(127,10985
-    function setCategoryFeeds(139,11280
-    function createDownloadItem(179,13457
-    function addDownload(212,14834
-                function addAudioDownload(226,15320
-                                function appendDownload(443,27535
-                                function resumeDownload(454,28215
-                                function pauseDownload(458,28405
-                                function cancelDownload(467,28909
-                                function deleteDownload(476,29384
-                                function getNextDownload(494,30466
-                                function markItemAsOld(512,31386
-                                function displayMessage(708,41338
-
-qml/qmltube/SubscriptionsView.qml,119
-    function showUserInfoDialog(19,544
-    function closeDialogs(31,997
-    function onMenuButtonOneClicked(39,1195
-
-qml/qmltube/CommentsModel.qml,58
-    function setXml(9,565
-    function appendXml(17,873
-
-qml/qmltube/SettingsListDialog.qml,37
-    function setSettingsList(12,174
-
-qml/qmltube/DMSubscriptionsList.qml,11
-Item 4,70
-
-qml/qmltube/VimeoPlaylistDialog.qml,72
-    function setPlaylist(20,427
-    function setPlaylistVideos(32,878
-
-qml/qmltube/VideoListModel.qml,58
-    function setXml(9,565
-    function appendXml(17,873
-
-qml/qmltube/SearchDelegate.qml,16
-Rectangle 3,20
-
-qml/qmltube/VideoListDialog.qml,30
-    function setVideo(13,194
-
-qml/qmltube/PlaybackDelegate.qml,33
-    function getDuration(12,193
-
-qml/qmltube/AddCommentDialog.qml,32
-    function setService(13,178
-
-qml/qmltube/YTSubscriptionsList.qml,11
-Item 4,70
-
-qml/qmltube/PlaylistVideosView.qml,442
-    function setPlaylist(23,621
-    function setPlaylistVideos(29,856
-    function onMenuButtonOneClicked(41,1276
-    function onMenuButtonTwoClicked(56,1638
-    function onMenuButtonThreeClicked(60,1721
-    function onMenuButtonFourClicked(64,1809
-    function onMenuButtonFiveClicked(68,1896
-    function showPlaylistInfoDialog(72,1989
-    function playPlaylist(87,2633
-                function addOrRemoveFromCheckList(319,10464
-
-qml/qmltube/CommentsDelegate.qml,11
-Item 3,20
-
-qml/qmltube/VimeoUserVideosView.qml,366
-    function setUserProfile(27,741
-    function showUserInfoDialog(51,1476
-    function onMenuButtonOneClicked(64,1912
-    function onMenuButtonTwoClicked(79,2274
-    function onMenuButtonThreeClicked(85,2388
-    function onMenuButtonFourClicked(91,2535
-    function onMenuButtonFiveClicked(95,2622
-                function addOrRemoveFromCheckList(270,8134
-
-qml/qmltube/SettingsDelegate.qml,11
-Item 3,20
-
-qml/qmltube/SubscriptionsModel.qml,58
-    function setXml(9,399
-    function appendXml(17,707
-
-qml/qmltube/PlaylistsView.qml,155
-    function showPlaylistDialog(19,547
-    function playPlaylist(40,1522
-    function onMenuButtonOneClicked(46,1643
-    function closeDialogs(59,2070
-
-qml/qmltube/AccountDetailsDialog.qml,558
-    function getAccountDetails(20,449
-    function resetDialog(29,746
-    function saveAccount(38,967
-    function getYouTubeSessionToken(54,1513
-    function saveYouTubeAccount(74,2340
-    function getDailymotionAccessToken(93,2948
-    function saveDailymotionAccount(121,4261
-    function getVimeoRequestToken(140,4963
-    function getVimeoAccessToken(165,6008
-    function saveVimeoAccount(189,7091
-    function showOAuthDialog(208,7694
-    function closeOAuthDialog(217,8028
-    function showSiteList(222,8123
-    function setSite(230,8417
-
-qml/qmltube/DMPlaylistVideosView.qml,396
-    function setPlaylist(23,626
-    function setPlaylistVideos(29,828
-    function onMenuButtonOneClicked(41,1248
-    function onMenuButtonTwoClicked(56,1610
-    function onMenuButtonThreeClicked(60,1693
-    function onMenuButtonFourClicked(64,1781
-    function showPlaylistInfoDialog(68,1874
-    function playPlaylist(83,2520
-                function addOrRemoveFromCheckList(307,10132
-
-qml/qmltube/DMListView.qml,311
-    function getDailymotionVideos(13,288
-    function toggleSelect(18,391
-    function addVideosToFavourites(31,705
-    function deleteVideosFromFavourites(35,787
-    function addVideosToPlaybackQueue(39,879
-    function addVideosToDownloads(43,967
-            function addOrRemoveFromCheckList(112,2797
-
-qml/qmltube/FileChooserDelegate.qml,11
-Item 3,20
-
-qml/qmltube/XtubeListView.qml,145
-    function setSearchQuery(14,292
-    function youpornSearch(28,648
-    function pornhubSearch(41,1022
-    function tubeEightSearch(57,1485
-
-qml/qmltube/XtubeVideoList.qml,67
-    function setVideoFeed(17,364
-    function getVideoUrl(32,760
-
-qml/qmltube/UploadDialog.qml,317
-    function getCategory(12,188
-    function showCategoryList(33,870
-    function showFileChooser(48,1610
-    function setFilename(54,1800
-    function startUpload(64,2064
-    function showUploadProgress(81,2833
-    function setCategory(88,3074
-    function showSiteList(92,3156
-    function setSite(99,3420
-
-qml/qmltube/PlaylistDialog.qml,72
-    function setPlaylist(20,430
-    function setPlaylistVideos(33,935
-
-qml/qmltube/YTListView.qml,349
-    function getYouTubeVideos(13,292
-    function toggleSelect(18,387
-    function addVideosToFavourites(31,701
-    function deleteVideosFromFavourites(35,783
-    function showPlaylistDialog(39,875
-    function addVideosToPlaybackQueue(45,1011
-    function addVideosToDownloads(49,1099
-            function addOrRemoveFromCheckList(118,2934
-
-qml/qmltube/ArchiveListView.qml,592
-    function getArchiveVideos(23,651
-    function onMenuButtonOneClicked(36,1198
-    function onMenuButtonTwoClicked(51,1560
-    function onMenuButtonThreeClicked(55,1636
-    function onMenuButtonFourClicked(59,1713
-    function onMenuButtonFiveClicked(63,1783
-    function playArchiveVideos(67,1854
-    function showDeleteDialog(93,2967
-    function deleteFromArchive(108,3495
-    function deleteFromDevice(128,4249
-    function sortByDate(148,4998
-    function sortByTitle(167,5484
-    function closeDialogs(186,5980
-                function addOrRemoveFromCheckList(243,7610
-
-qml/qmltube/VideoPlaybackView.qml,440
-    function setPlaylist(23,605
-    function setDoNotDisturb(52,1534
-    function getTime(61,1820
-    function previous(78,2349
-    function next(86,2514
-    function addVideoToDownloads(94,2693
-    function addVideoToFavourites(113,3243
-    function rateVideo(130,3883
-        function setVideo(288,8456
-                            function loadComments(1095,41022
-                            function appendComments(1113,41949
-
-qml/qmltube/ProxyDialog.qml,30
-    function setProxy(10,138
-
-qml/qmltube/MyAccountView.qml,163
-    function changeCurrentUser(21,564
-    function onMenuButtonOneClicked(33,978
-    function onMenuButtonTwoClicked(45,1364
-    function closeDialogs(59,1863
-
-qml/qmltube/VimeoPlaylists.qml,11
-Item 4,52
-
-qml/qmltube/VimeoInfoView.qml,343
-    function setVideo(39,1152
-    function onMenuButtonOneClicked(66,1885
-    function onMenuButtonTwoClicked(70,1967
-    function onMenuButtonThreeClicked(74,2044
-    function onMenuButtonFourClicked(78,2132
-    function onMenuButtonFiveClicked(82,2218
-    function showPlaylistDialog(86,2313
-    function addVideoToPlaylist(103,2962
-
-qml/qmltube/SearchBar.qml,230
-    function getYouTubeVideo(19,447
-    function getDailymotionVideo(45,2102
-    function getVimeoVideo(62,2972
-    function parseSearchQuery(93,4645
-    function getSearches(121,5670
-    function changeSearchOrder(133,6099
-
-qml/qmltube/DMPlaylistDialog.qml,72
-    function setPlaylist(18,370
-    function setPlaylistVideos(29,720
-
-qml/qmltube/YTPlaylists.qml,11
-Item 3,20
-
-qml/qmltube/UserInfoDialog.qml,36
-    function getUserProfile(22,453
-
-qml/qmltube/VimeoPlaylistVideosView.qml,442
-    function setPlaylist(23,620
-    function setPlaylistVideos(29,817
-    function onMenuButtonOneClicked(41,1237
-    function onMenuButtonTwoClicked(56,1599
-    function onMenuButtonThreeClicked(60,1673
-    function onMenuButtonFourClicked(64,1772
-    function onMenuButtonFiveClicked(68,1859
-    function showPlaylistInfoDialog(72,1952
-    function playPlaylist(87,2601
-                function addOrRemoveFromCheckList(311,10233
-
-qml/qmltube/VimeoSubscriptionsList.qml,11
-Item 4,70
-
-qml/qmltube/PlaylistModel.qml,66
-        function setXml(9,411
-        function appendXml(17,747
-
-qml/qmltube/scripts/dailymotion.js,504
-function getDailymotionSearch(1,0
-function getDailymotionVideos(11,574
-function getRelatedVideos(43,2113
-function getDailymotionPlaylistVideos(69,3298
-function getDailymotionPlaylists(112,5245
-function getDailymotionSubscriptions(143,6479
-function refreshDailymotionAccessToken(175,7758
-function addVideosToFavourites(199,8895
-function deleteVideosFromFavourites(216,9392
-function createVideoObject(233,9899
-function createPlaylistObject(248,10419
-function addVideosToPlaybackQueue(257,10720
-
-qml/qmltube/scripts/sha1.js,482
-function hex_sha1(22,836
-function b64_sha1(23,916
-function str_sha1(24,996
-function hex_hmac_sha1(25,1076
-function b64_hmac_sha1(26,1156
-function str_hmac_sha1(27,1236
-function sha1_vm_test(32,1382
-function core_sha1(40,1563
-function sha1_ft(88,2580
-function sha1_kt(99,2836
-function core_hmac_sha1(108,3023
-function safe_add(128,3571
-function rol(138,3783
-function str2binb(147,4008
-function binb2str(159,4290
-function binb2hex(171,4569
-function binb2b64(186,4962
-
-qml/qmltube/scripts/downloadscripts.js,38
-WorkerScript.onMessage onMessage1,0
-
-qml/qmltube/scripts/filter.js,33
-function containsFilterText(1,0
-
-qml/qmltube/scripts/vimeo.js,715
-function getVimeoSearch(5,89
-function getVimeoVideos(13,479
-function getComments(66,3185
-function setSubscription(97,4569
-function setLike(117,5392
-function setLikes(130,5927
-function showPlaylistDialog(147,6402
-function addToPlaylist(164,6978
-function deleteFromPlaylist(172,7432
-function deleteVideosFromPlaylist(180,7899
-function addVideosToPlaylist(197,8421
-function createNewPlaylist(208,8730
-function addComment(216,9220
-function getVimeoPlaylists(224,9667
-function getVimeoSubscriptions(258,11397
-function getSubscriptionInfo(294,13038
-function getUserInfo(313,14149
-function createVideoObject(335,15182
-function createPlaylistObject(351,15740
-function addVideosToPlaybackQueue(363,16217
-
-qml/qmltube/scripts/youtube.js,599
-function getYouTubeSearch(4,65
-function getYouTubeVideos(13,476
-function getYouTubeSubscriptions(55,2964
-function appendYouTubeSubscriptions(71,3450
-function getYouTubePlaylists(86,3975
-function appendYouTubePlaylists(102,4444
-function showPlaylistDialog(117,4947
-function addVideosToPlaylist(133,5482
-function deleteVideosFromPlaylist(144,5804
-function addVideosToFavourites(165,6493
-function deleteVideosFromFavourites(182,7002
-function setSubscription(199,7542
-function getCurrentLiveStreams(215,7911
-function createVideoObject(251,9343
-function addVideosToPlaybackQueue(270,10043
-
-qml/qmltube/scripts/menu.js,25
-function toggleMenu(1,0
-
-qml/qmltube/scripts/videolistscripts.js,174
-function addVideosToDownloads(3,28
-function copyVideosToClipboard(17,383
-function closeDialogs(28,702
-function indexInCheckList(36,876
-function showOrHideFilter(46,1107
-
-qml/qmltube/scripts/createobject.js,27
-function createObject(1,0
-
-qml/qmltube/scripts/dateandtime.js,80
-function getDate(1,0
-function getDMDate(10,252
-function getYTDuration(19,523
-
-qml/qmltube/scripts/mainscripts.js,866
-function restoreSettings(8,136
-function getArchiveVideos(40,1360
-function moveToArchive(52,1816
-function goHome(61,2082
-function goToPreviousView(69,2294
-function getDefaultAccounts(77,2503
-function loadAccountView(95,3157
-function loadVideos(114,3888
-function loadUserVideos(135,4695
-function loadPlaylistVideos(147,5154
-function loadDMPlaylistVideos(165,5787
-function loadVimeoPlaylistVideos(183,6426
-function loadPlaylists(201,7074
-function loadSubscriptions(213,7589
-function loadVideoInfo(225,8108
-function loadDMVideoInfo(238,8620
-function loadVimeoVideoInfo(251,9139
-function loadDMUserVideos(264,9659
-function loadVimeoUserVideos(276,10122
-function loadArchiveView(288,10590
-function loadLiveVideos(299,10972
-function loadPlaybackView(308,11302
-function stopPlaying(344,12458
-function search(352,12673
-function getSearches(381,13585
-
-qml/qmltube/scripts/OAuth.js,182
-function getValidator(44,1525
-function getDigest(49,1620
-function getTimestamp(54,1731
-function getNonce(59,1810
-function url_encode(70,2107
-function createOAuthHeader(81,2382
-
-qml/qmltube/scripts/settings.js,943
-function getDatabase(1,0
-function initialize(5,96
-function getAccountTable(32,2095
-function addYouTubeAccount(46,2388
-function addDailymotionAccount(66,3229
-function addVimeoAccount(84,4045
-function deleteAccount(102,4813
-function getAccount(120,5358
-function getDefaultAccount(142,6023
-function getAllAccounts(168,6934
-function setDefaultSettings(189,7584
-function setSetting(224,9127
-function getSetting(240,9637
-function getSearches(259,10224
-function addSearchTerm(277,10785
-function clearSearches(293,11277
-function addVideoToArchive(309,11714
-function getArchiveVideo(326,12381
-function getAllArchiveVideos(343,13064
-function editArchiveVideo(374,14565
-function deleteVideoFromArchive(393,15210
-function storeDownload(409,15709
-function removeStoredDownload(427,16397
-function restoreDownloads(443,16930
-function saveAccessToken(471,18139
-function getAccessToken(491,18887
-function deleteAccessToken(510,19582
-
-qml/qmltube/scripts/xtube.js,361
-function loadXtubeVideos(3,45
-function loadXtubeVideoInfo(14,522
-function getYouPornVideos(26,1003
-function getYouPornRelatedVideos(57,2378
-function getYouPornUrl(88,3689
-function getPornHubVideos(123,5042
-function getPornHubRelatedVideos(154,6281
-function getPornHubUrl(185,7538
-function getTubeEightVideos(206,8214
-function getTubeEightUrl(237,9345
-
-qml/qmltube/scripts/videoinfoscripts.js,449
-function getDuration(3,28
-function showPlaylistDialog(19,461
-function addVideoToPlaylist(30,844
-function shareVideo(36,979
-function rateVideo(48,1247
-function showAddCommentDialog(61,1541
-function closeDialogs(74,1933
-function checkFacebookAccess(82,2107
-function checkTwitterAccess(96,2525
-function getFacebookAccessToken(110,2932
-function getTwitterAccessToken(119,3248
-function loadComments(128,3561
-function appendComments(146,4068
-
-qmltube.pro,30
-folder_01.source source2,54
+qmltube.pro,65
+folder_01.source source4,291
+symbian:TARGET.UID3 UID334,1280
 
 qml/qmltube/ListFilter.qml,0
 

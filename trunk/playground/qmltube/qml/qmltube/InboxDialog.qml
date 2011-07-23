@@ -1,35 +1,18 @@
 import QtQuick 1.0
+import "scripts/youtube.js" as YT
 
 Item {
     id: dialog
 
     signal close
     signal videoClicked(variant video)
+    signal playClicked(variant video)
     signal userClicked(string username)
-
-    function getInbox() {
-        /* Retrieve the user's message inbox */
-
-        var doc = new XMLHttpRequest();
-        doc.onreadystatechange = function() {
-            if (doc.readyState == XMLHttpRequest.DONE) {
-                var xml = doc.responseText;
-                inboxModel.setXml(xml);
-
-                inboxModel.loading = false;
-                messageList.positionViewAtIndex(0, ListView.Beginning);
-            }
-        }
-
-        doc.open("GET", "http://gdata.youtube.com/feeds/api/users/default/inbox?v=2&max-results=50");
-        doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
-        doc.send();
-    }
 
     width: parent.width
     anchors { right: parent.left; top: parent.top; bottom: parent.bottom }
 
-    Component.onCompleted: getInbox()
+    Component.onCompleted: YT.getInbox()
 
     Connections {
         target: dialog.parent
@@ -67,17 +50,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         text: qsTr("No messages found")
-        visible: false
-
-        Timer {
-            interval: 5000
-            running: (!inboxModel.loading) && (inboxModel.count == 0)
-            onTriggered: {
-                if (inboxModel.count == 0) {
-                    noResultsText.visible = true;
-                }
-            }
-        }
+        visible: (!inboxModel.loading) && (inboxModel.count == 0)
     }
 
     ListView {
@@ -98,7 +71,7 @@ Item {
 
             width: messageList.width
             height: 100
-            visible: ((inboxModel.loading) || (inboxModel.status == XmlListModel.Loading))
+            visible: inboxModel.loading
             opacity: footer.visible ? 1 : 0
 
             BusyDialog {
@@ -109,7 +82,7 @@ Item {
 
         Behavior on opacity { PropertyAnimation { properties: "opacity"; duration: 500 } }
 
-        model: InboxModel {
+        model: ListModel {
             id: inboxModel
 
             property bool loading : true
@@ -122,7 +95,7 @@ Item {
                 videoClicked(inboxModel.get(index));
                 close();
             }
-            onPlayClicked: YouTube.getVideoUrl(videoId)
+            onPlayClicked: playClicked([YT.createVideoObject(inboxModel.get(index))])
             onAuthorClicked: {
                 userClicked(author);
                 close();

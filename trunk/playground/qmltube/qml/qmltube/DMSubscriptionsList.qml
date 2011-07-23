@@ -44,7 +44,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: qsTr("No subscriptions found")
-            visible: (!dailymotionSubscriptionsModel.loading) && (subscriptionsList.count == 0)
+            visible: (!dailymotionSubscriptionsModel.loading) && (dailymotionSubscriptionsModel.count === 0)
         }
     }
 }

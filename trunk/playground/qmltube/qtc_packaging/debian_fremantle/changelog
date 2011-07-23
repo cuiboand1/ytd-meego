@@ -1,7 +1,6 @@
-qmltube (1.0.1) unstable; urgency=low
+qmltube (1.0.6) unstable; urgency=low
 
-  * Fixed error in displaying 'Most Viewed' and 'Most Recent' Dailymotion video feeds.
-  * Fixed error in playing Dailymotion videos via video list items.
-  * Added repeat function in video playback.
+  * Fixed bugs in video uploads.
+  * Other minor bug fixes.
 
- -- Stuart Howarth <marxianthecoder@gmail.com>  Tue, 29 Jun 2011 23:00:18 +0000
+ -- Stuart Howarth <marxianthecoder@gmail.com>  Mon, 11 Jul 2011 17:44:18 +0000

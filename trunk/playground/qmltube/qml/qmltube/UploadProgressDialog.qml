@@ -162,7 +162,7 @@ Item {
     Connections {
         target: YouTube
         onUploadProgressChanged: {
-            progressBar.sent = bytesSent;
+            progressBar.received = bytesSent;
             progressBar.total = bytesTotal;
             speedText.speed = speed;
         }
@@ -188,7 +188,6 @@ Item {
         name: "portrait"
         when: dialog.height > dialog.width
         PropertyChanges { target: column; anchors.rightMargin: 10 }
-        AnchorChanges { target: progressBar; anchors.bottom: cancelButton.top }
         PropertyChanges { target: progressBar; width: dialog.width - 20 }
         PropertyChanges { target: cancelButton; width: dialog.width - 20 }
     }

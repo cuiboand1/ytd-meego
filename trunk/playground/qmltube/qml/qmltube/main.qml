@@ -1,6 +1,9 @@
 import QtQuick 1.0
 import "scripts/mainscripts.js" as Scripts
 import "scripts/settings.js" as Settings
+import "scripts/youtube.js" as YT
+import "scripts/dailymotion.js" as DM
+import "scripts/vimeo.js" as VM
 
 Rectangle {
     id: window
@@ -14,8 +17,8 @@ Rectangle {
 
     property string _UPLOADS_FEED : "http://gdata.youtube.com/feeds/api/users/default/uploads?v=2&max-results=50&alt=json"
     property string _FAVOURITES_FEED : "http://gdata.youtube.com/feeds/api/users/default/favorites?v=2&max-results=50&alt=json"
-    property string _PLAYLISTS_FEED : "http://gdata.youtube.com/feeds/api/users/default/playlists?v=2&max-results=50"
-    property string _SUBSCRIPTIONS_FEED : "http://gdata.youtube.com/feeds/api/users/default/subscriptions?v=2&max-results=50"
+    property string _PLAYLISTS_FEED : "http://gdata.youtube.com/feeds/api/users/default/playlists?v=2&max-results=50&alt=json"
+    property string _SUBSCRIPTIONS_FEED : "http://gdata.youtube.com/feeds/api/users/default/subscriptions?v=2&max-results=50&alt=json"
     property string _NEW_SUB_VIDEOS_FEED : "http://gdata.youtube.com/feeds/api/users/default/newsubscriptionvideos?v=2&max-results=50&alt=json"
     property string _MOST_RECENT_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_recent?v=2&max-results=50&alt=json"
     property string _MOST_VIEWED_FEED : "http://gdata.youtube.com/feeds/api/standardfeeds/most_viewed?v=2&max-results=50&time=today&alt=json"
@@ -140,7 +143,7 @@ Rectangle {
         /* Set the category feeds of Home View */
 	var fd1 = _CATEGORY_DICT[feedOne];
 	if (typeof (fd1) === 'object') {
-	    console.log("Debug: _CATEGORY_DICT[" + feedOne + "] == " + fd1);
+//	    console.log("Debug: _CATEGORY_DICT[" + feedOne + "] == " + fd1);
 	    homeView.categoryFeedOneName = fd1.name;
             if (isSpecialCategory(fd1))	    // NPM: first check for special-case feeds
 		homeView.categoryFeedOne = { "youtube": fd1.ytfeed, "dailymotion": fd1.dmfeed, "vimeo": fd1.vifeed };
@@ -153,7 +156,7 @@ Rectangle {
 	    console.log("Error: _CATEGORY_DICT[" + feedOne + "] == " + fd1);
 	}
 	var fd2 = _CATEGORY_DICT[feedTwo];
-	console.log("Debug: _CATEGORY_DICT[" + feedTwo + "] == " + fd2);
+//	console.log("Debug: _CATEGORY_DICT[" + feedTwo + "] == " + fd2);
 	if (typeof (fd2) === 'object') {
 	    homeView.categoryFeedTwoName = fd2.name;
             if (isSpecialCategory(fd2))	    // NPM: first check for special-case feeds
@@ -289,19 +292,35 @@ Rectangle {
                                     }
                                 }
                                 onAccessTokenChanged: {
-                                    Scripts.getYouTubeSubscriptions();
-                                    Scripts.getYouTubePlaylists();
+                                    playlistModel.page = 0;
+                                    subscriptionsModel.page = 0;
+                                    playlistModel.clear();
+                                    subscriptionsModel.clear();
+                                    YT.getSubscriptions();
+                                    YT.getPlaylists();
                                 }
                                 onPlaylistCreated: {
                                     messages.displayMessage(messages._PLAYLIST_CREATED);
-                                    Scripts.getYouTubePlaylists();
+                                    playlistModel.page = 0;
+                                    playlistModel.clear();
+                                    YT.getPlaylists();
                                 }
                                 onPlaylistDeleted: {
                                     messages.displayMessage(messages._PLAYLIST_DELETED);
-                                    Scripts.getYouTubePlaylists();
+                                    playlistModel.page = 0;
+                                    playlistModel.clear();
+                                    YT.getPlaylists();
                                 }
-                                onSubscribed: Scripts.getYouTubeSubscriptions()
-                                onUnsubscribed: Scripts.getYouTubeSubscriptions()
+                                onSubscribed: {
+                                    subscriptionsModel.page = 0;
+                                    subscriptionsModel.clear();
+                                    YT.getSubscriptions();
+                                }
+                                onUnsubscribed: {
+                                    subscriptionsModel.page = 0;
+                                    subscriptionsModel.clear();
+                                    YT.getSubscriptions();
+                                }
                             }
 
                             Connections {
@@ -318,8 +337,10 @@ Rectangle {
                                 onAccessTokenChanged: {
                                     dailymotionPlaylistModel.page = 1;
                                     dailymotionSubscriptionsModel.page = 1;
-                                    Scripts.getDailymotionSubscriptions();
-                                    Scripts.getDailymotionPlaylists();
+                                    dailymotionPlaylistModel.clear();
+                                    dailymotionSubscriptionsModel.clear();
+                                    DM.getSubscriptions();
+                                    DM.getPlaylists();
                                 }
                             }
 
@@ -350,21 +371,23 @@ Rectangle {
                                     messages.displayMessage(messages._PLAYLIST_CREATED);
                                     vimeoPlaylistModel.page = 1;
                                     vimeoPlaylistModel.clear();
-                                    Scripts.getVimeoPlaylists();
+                                    VM.getPlaylists();
                                 }
                                 onPlaylistDeleted: {
                                     messages.displayMessage(messages._PLAYLIST_DELETED);
                                     vimeoPlaylistModel.page = 1;
                                     vimeoPlaylistModel.clear();
-                                    Scripts.getVimeoPlaylists();
+                                    VM.getPlaylists();
                                 }
                                 onSubscribed: {
+                                    vimeoSubscriptionsModel.page = 1;
                                     vimeoSubscriptionsModel.clear();
-                                    Scripts.getVimeoSubscriptions();
+                                    VM.getSubscriptions();
                                 }
                                 onUnsubscribed: {
+                                    vimeoSubscriptionsModel.page = 1;
                                     vimeoSubscriptionsModel.clear();
-                                    Scripts.getVimeoSubscriptions();
+                                    VM.getSubscriptions();
                                 }
                             }
 
@@ -373,8 +396,8 @@ Rectangle {
 
                                 interval: 1000
                                 onTriggered: {
-                                    Scripts.getVimeoPlaylists();
-                                    Scripts.getVimeoSubscriptions();
+                                    VM.getPlaylists();
+                                    VM.getSubscriptions();
                                 }
                             }
 
@@ -525,16 +548,22 @@ Rectangle {
                                 }
                             }
 
-                            PlaylistModel {
+                            ListModel {
                                 /* Holds the users YouTube playlists */
 
                                 id: playlistModel
 
-                                onStatusChanged: {
-                                    if ((playlistModel.status == XmlListModel.Ready) &&
-                                            (playlistModel.totalResults > 50) &&
-                                            (playlistModel.totalResults > playlistModel.count)) {
-                                        Scripts.appendYouTubePlaylists();
+                                property bool loading : false
+                                property int totalResults
+                                property int page : 0
+
+                            }
+
+                            Connections {
+                                target: playlistModel
+                                onLoadingChanged: {
+                                    if ((!playlistModel.loading) && (playlistModel.count < playlistModel.totalResults)) {
+                                        YT.getPlaylists();
                                     }
                                 }
                             }
@@ -543,19 +572,24 @@ Rectangle {
                                 id: playlistTimer
 
                                 interval: 3000
-                                onTriggered: Scripts.getYouTubePlaylists()
+                                onTriggered: YT.getPlaylists()
                             }
 
-                            SubscriptionsModel {
+                            ListModel {
                                 /* Holds the users YouTube subscriptions */
 
                                 id: subscriptionsModel
 
-                                onStatusChanged: {
-                                    if ((subscriptionsModel.status == XmlListModel.Ready) &&
-                                            (subscriptionsModel.totalResults > 50) &&
-                                            (subscriptionsModel.totalResults > subscriptionsModel.count)) {
-                                        Scripts.appendYouTubeSubscriptions();
+                                property bool loading : false
+                                property int totalResults
+                                property int page : 0
+                            }
+
+                            Connections {
+                                target: subscriptionsModel
+                                onLoadingChanged: {
+                                    if ((!subscriptionsModel.loading) && (subscriptionsModel.count < subscriptionsModel.totalResults)) {
+                                        YT.getSubscriptions();
                                     }
                                 }
                             }
@@ -574,7 +608,7 @@ Rectangle {
                                 target: dailymotionPlaylistModel
                                 onLoadingChanged: {
                                     if ((!dailymotionPlaylistModel.loading) && (dailymotionPlaylistModel.moreResults)) {
-                                        Scripts.getDailymotionPlaylists();
+                                        DM.getPlaylists();
                                     }
                                 }
                             }
@@ -593,7 +627,7 @@ Rectangle {
                                 target: dailymotionSubscriptionsModel
                                 onLoadingChanged: {
                                     if ((!dailymotionSubscriptionsModel.loading) && (dailymotionSubscriptionsModel.moreResults)) {
-                                        Scripts.getDailymotionSubscriptions();
+                                        DM.getSubscriptions();
                                     }
                                 }
                             }
@@ -615,7 +649,7 @@ Rectangle {
                                 onTriggered: {
                                     vimeoPlaylistModel.page = 1;
                                     vimeoPlaylistModel.clear();
-                                    Scripts.getVimeoPlaylists();
+                                    VM.getPlaylists();
                                 }
                             }
 
@@ -623,7 +657,7 @@ Rectangle {
                                 target: vimeoPlaylistModel
                                 onLoadingChanged: {
                                     if ((!vimeoPlaylistModel.loading) && (vimeoPlaylistModel.moreResults)) {
-                                        Scripts.getVimeoPlaylists();
+                                        VM.getPlaylists();
                                     }
                                 }
                             }
@@ -642,7 +676,7 @@ Rectangle {
                                 target: vimeoSubscriptionsModel
                                 onLoadingChanged: {
                                     if ((!vimeoSubscriptionsModel.loading) && (vimeoSubscriptionsModel.moreResults)) {
-                                        Scripts.getVimeoSubscriptions();
+                                        VM.getSubscriptions();
                                     }
                                 }
                             }

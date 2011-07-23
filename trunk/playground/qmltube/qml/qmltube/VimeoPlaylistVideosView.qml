@@ -15,6 +15,7 @@ Item {
     property variant playlist
     property variant videoFeed
     property alias checkList: videoList.checkList
+    property bool itemsSelected : videoList.checkList.length > 0
 
     signal goToVideo(variant video)
     signal playVideos(variant videos)

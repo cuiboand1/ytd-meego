@@ -303,7 +303,8 @@ Item {
 
                 onCurrentIndexChanged: {
                     if ((tabView.currentIndex == 1) && (comments != "0") && (!commentsList.loaded)) {
-                        VM.getComments();
+                        VM.getComments(videoId);
+                        commentsList.loaded = true;
                     }
                 }
             }
@@ -536,7 +537,7 @@ Item {
                             if ((commentsList.count - commentsList.currentIndex == 1)
                                     && (vimeoCommentsModel.moreResults)
                                     && (!vimeoCommentsModel.loading)) {
-                                VM.getComments();
+                                VM.getComments(videoId);
                             }
                         }
 

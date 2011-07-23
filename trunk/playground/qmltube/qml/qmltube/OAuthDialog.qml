@@ -20,7 +20,7 @@ Item {
         if (site == "vimeo") {
             webView.url = "http://vimeo.com/oauth/authorize?oauth_token=" + dialog.parent.vimeoToken + "&permission=delete";
         }
-        if (site == "Twitter") {
+        else if (site == "Twitter") {
             getTwitterRequestToken();
         }
         else {

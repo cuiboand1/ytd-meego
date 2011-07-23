@@ -318,10 +318,12 @@ Item {
 
                 onCurrentIndexChanged: {
                     if ((tabView.currentIndex == 1) && (comments != "0") && (!commentsList.loaded)) {
-                        Scripts.loadComments();
+                        YT.getComments(videoId);
+                        commentsList.loaded = true;
                     }
                     else if ((tabView.currentIndex == 2) && (!relatedView.loaded) && (relatedView.count == 0)) {
                         YT.getYouTubeVideos();
+                        relatedView.loaded = true;
                     }
                 }
             }
@@ -540,7 +542,6 @@ Item {
                         id: commentsList
 
                         property bool loaded : false // True if comments have been loaded
-                        property string commentsFeed : "http://gdata.youtube.com/feeds/api/videos/" + videoId + "/comments?v=2&max-results=50"
 
                         width: commentsItem.width
                         height: commentsItem.height - 60
@@ -553,7 +554,7 @@ Item {
 
                             width: commentsList.width
                             height: 100
-                            visible: ((commentsModel.loading) || (commentsModel.status == XmlListModel.Loading))
+                            visible: commentsModel.loading
                             opacity: footer.visible ? 1 : 0
 
                             BusyDialog {
@@ -562,24 +563,26 @@ Item {
                             }
                         }
 
-                        model: CommentsModel {
+                        model: ListModel {
                             id: commentsModel
 
-                            property bool loading : false
+                            property bool loading : true
+                            property int totalResults
+                            property int page : 0
                         }
 
                         onCurrentIndexChanged: {
                             if ((commentsList.count - commentsList.currentIndex == 1)
                                     && (commentsModel.count < commentsModel.totalResults)
-                                    && (commentsModel.status == XmlListModel.Ready)) {
-                                Scripts.appendComments();
+                                    && (!commentsModel.loading)) {
+                                YT.getComments(videoId);
                             }
                         }
 
                         delegate: CommentsDelegate {
                             id: commentDelegate
 
-                            onCommentClicked: authorClicked(author);
+                            onCommentClicked: authorClicked(author)
                         }
                     }
                 }

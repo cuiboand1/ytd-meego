@@ -109,7 +109,7 @@ function getDailymotionPlaylistVideos() {
     doc.send();
 }
 
-function getDailymotionPlaylists() {
+function getPlaylists() {
     dailymotionPlaylistModel.loading = true;
 
     var title;
@@ -140,7 +140,7 @@ function getDailymotionPlaylists() {
     doc.send();
 }
 
-function getDailymotionSubscriptions() {
+function getSubscriptions() {
     dailymotionSubscriptionsModel.loading = true;
 
     var userFound = false;

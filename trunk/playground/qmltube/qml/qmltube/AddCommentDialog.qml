@@ -164,6 +164,7 @@ Item {
         icon: (cuteTubeTheme == "light") ? "ui-images/ticklight.png" : "ui-images/tick.png"
 
         onButtonClicked: {
+            toggleBusy(true);
             var site;
             var thumbUrl;
             var id;
