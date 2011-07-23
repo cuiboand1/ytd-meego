@@ -255,6 +255,7 @@ Item {
                 onCurrentIndexChanged: {
                     if ((tabView.currentIndex == 1) && (!relatedView.loaded) && (relatedView.count == 0)) {
                         DM.getRelatedVideos();
+                        relatedView.loaded = true;
                     }
                 }
             }

@@ -22,10 +22,13 @@ Item {
                 }
             }
         }
+        var username;
+        var site;
+        var accessToken;
         for (var i = 0; i < accounts.length; i++) {
-            var username = accounts[i].username;
-            var site = accounts[i].site;
-            var accessToken = accounts[i].accessToken
+            username = accounts[i].username;
+            site = accounts[i].site;
+            accessToken = accounts[i].accessToken
             if (site == "YouTube") {
                 youtubeAccounts.append({ "site": "", "username": username, "accessToken": accessToken });
             }
@@ -36,6 +39,21 @@ Item {
             }
             else if (site == "vimeo") {
                 vimeoAccounts.append({ "site": "", "username": username, "accessToken": accessToken });
+            }
+        }
+        for (var i = 0; i < youtubeAccounts.count; i++) {
+            if (youtubeAccounts.get(i).username == YouTube.currentUser) {
+                youtubeList.currentIndex = i;
+            }
+        }
+        for (var i = 0; i < dailymotionAccounts.count; i++) {
+            if (dailymotionAccounts.get(i).username == DailyMotion.currentUser) {
+                dailymotionList.currentIndex = i;
+            }
+        }
+        for (var i = 0; i < vimeoAccounts.count; i++) {
+            if (vimeoAccounts.get(i).username == Vimeo.currentUser) {
+                vimeoList.currentIndex = i;
             }
         }
     }

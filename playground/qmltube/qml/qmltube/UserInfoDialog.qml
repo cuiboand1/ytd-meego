@@ -1,11 +1,12 @@
 import QtQuick 1.0
+import "scripts/youtube.js" as YT
 
 Item {
     id: dialog
 
     property string username
-    property string id
-    property string thumbnail
+    property string subscriptionId
+    property string userThumbnail
     property string subscriberCount
     property string videoCount
     property string firstName
@@ -25,51 +26,12 @@ Item {
         var i = 0;
         while ((!isSubscribed) && (i < subscriptionsModel.count)) {
             if (subscriptionsModel.get(i).title == username) {
-                id = subscriptionsModel.get(i).subscriptionId.split(":")[5];
+                subscriptionId = subscriptionsModel.get(i).subscriptionId.split(":")[5];
                 isSubscribed = true;
             }
             i++;
         }
-
-        var doc = new XMLHttpRequest();
-        doc.onreadystatechange = function() {
-            if (doc.readyState == XMLHttpRequest.DONE) {
-                var xml = doc.responseXML.documentElement;
-                for (var i = 0; i < xml.childNodes.length; i++) {
-                    if (xml.childNodes[i].nodeName == "thumbnail") {
-                        thumbnail = xml.childNodes[i].attributes[0].value;
-                    }
-                    else if (xml.childNodes[i].nodeName == "aboutMe") {
-                        about = xml.childNodes[i].childNodes[0].nodeValue;
-                    }
-                    else if (xml.childNodes[i].nodeName == "age") {
-                        age = xml.childNodes[i].childNodes[0].nodeValue;
-                    }
-                    else if (xml.childNodes[i].nodeName == "firstName") {
-                        firstName = xml.childNodes[i].childNodes[0].nodeValue;
-                    }
-                    else if (xml.childNodes[i].nodeName == "lastName") {
-                        lastName = xml.childNodes[i].childNodes[0].nodeValue;
-                    }
-                    else if (xml.childNodes[i].nodeName == "gender") {
-                        gender = xml.childNodes[i].childNodes[0].nodeValue;
-                    }
-                    else if (xml.childNodes[i].nodeName == "location") {
-                        location = xml.childNodes[i].childNodes[0].nodeValue;
-                    }
-                    else if (xml.childNodes[i].nodeName == "statistics") {
-                        subscriberCount = xml.childNodes[i].attributes[1].value;
-                    }
-                    else if (xml.childNodes[i].nodeName == "feedLink") {
-                        if (xml.childNodes[i].attributes[0].value == "http://gdata.youtube.com/schemas/2007#user.uploads") {
-                            videoCount = xml.childNodes[i].attributes[2].value;
-                        }
-                    }
-                }
-            }
-        }
-        doc.open("GET", "http://gdata.youtube.com/feeds/api/users/" + username + "?v=2");
-        doc.send();
+        YT.getUserProfile(user);
     }
 
     width: parent.width
@@ -122,7 +84,7 @@ Item {
             id: thumb
 
             anchors { fill: frame; margins: 2 }
-            source: thumbnail
+            source: userThumbnail
             smooth: true
 
         }
@@ -268,12 +230,7 @@ Item {
         showText: true
         name: isSubscribed ? qsTr("Unsubscribe") : qsTr("Subscribe")
         onButtonClicked: {
-            if (isSubscribed) {
-                YouTube.unsubscribeToChannel(id);
-            }
-            else {
-                YouTube.subscribeToChannel(username);
-            }
+            YT.setSubscription();
             close();
         }
     }

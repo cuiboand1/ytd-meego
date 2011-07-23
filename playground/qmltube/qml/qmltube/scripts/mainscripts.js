@@ -102,6 +102,7 @@ function loadAccountView() {
         loader.item.playlists.connect(loadPlaylists);
         loader.item.subscriptions.connect(loadSubscriptions);
         loader.item.goToVideo.connect(loadVideoInfo);
+        loader.item.playVideo.connect(loadPlaybackView);
         loader.item.goToUserVideos.connect(loadUserVideos);
         notificationArea.addTitle(qsTr("My Channel"));
         windowView.incrementCurrentIndex();

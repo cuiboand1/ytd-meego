@@ -16,6 +16,7 @@ Item {
     signal subscriptions
     signal dialogClose
     signal goToVideo(variant video)
+    signal playVideo(variant video)
     signal goToUserVideos(string username)
 
     function changeCurrentUser() {
@@ -49,8 +50,9 @@ Item {
             toggleControls(false);
             var inboxDialog = ObjectCreator.createObject("InboxDialog.qml", window);
             inboxDialog.close.connect(closeDialogs);
-            inboxDialog.videoClicked.connect(goToVideo)
-            inboxDialog.userClicked.connect(goToUserVideos)
+            inboxDialog.videoClicked.connect(goToVideo);
+            inboxDialog.playClicked.connect(playVideo);
+            inboxDialog.userClicked.connect(goToUserVideos);
             dimmer.state = "dim";
             inboxDialog.state = "show";
         }
@@ -95,9 +97,9 @@ Item {
                     iconWidth: 100
                     iconHeight: 100
                     onButtonClicked: {
-                        var feeds = { "youtube": YouTube.currentUser == "" ? "none" : _UPLOADS_FEED,
-                                      "dailymotion": DailyMotion.currentUser == "" ? "none" : _DM_UPLOADS_FEED,
-                                      "vimeo": Vimeo.currentUser == "" ? "none" : _VM_UPLOADS_FEED };
+                        var feeds = { "youtube": YouTube.currentUser === "" ? "none" : _UPLOADS_FEED,
+                                      "dailymotion": DailyMotion.currentUser === "" ? "none" : _DM_UPLOADS_FEED,
+                                      "vimeo": Vimeo.currentUser === "" ? "none" : _VM_UPLOADS_FEED };
                         uploads(feeds, qsTr("My Uploads"));
                     }
                 }
@@ -206,21 +208,21 @@ Item {
                 font.pixelSize: _SMALL_FONT_SIZE
                 color: userMouseArea.pressed ? _ACTIVE_COLOR_HIGH : _ACTIVE_COLOR_LOW
                 text: YouTube.currentUser
-                visible: !(YouTube.currentUser == "")
+                visible: !(YouTube.currentUser === "")
             }
 
             Text {
                 font.pixelSize: _SMALL_FONT_SIZE
                 color: userMouseArea.pressed ? _ACTIVE_COLOR_HIGH : _ACTIVE_COLOR_LOW
                 text: ", " + DailyMotion.currentUser
-                visible: !(DailyMotion.currentUser == "")
+                visible: !(DailyMotion.currentUser === "")
             }
 
             Text {
                 font.pixelSize: _SMALL_FONT_SIZE
                 color: userMouseArea.pressed ? _ACTIVE_COLOR_HIGH : _ACTIVE_COLOR_LOW
                 text: ", " + Vimeo.currentUser
-                visible: !(Vimeo.currentUser == "")
+                visible: !(Vimeo.currentUser === "")
             }
         }
 

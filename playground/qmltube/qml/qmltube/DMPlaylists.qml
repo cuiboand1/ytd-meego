@@ -41,7 +41,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: qsTr("No playlists found")
-            visible: (!dailymotionPlaylistModel.loading) && (playlists.count == 0)
+            visible: (!dailymotionPlaylistModel.loading) && (dailymotionPlaylistModel.count === 0)
         }
 
         ScrollBar {}

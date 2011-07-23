@@ -50,6 +50,8 @@ install: build
 
 	# Add here commands to install the package into debian/qmltube.
 	$(MAKE) INSTALL_ROOT="$(CURDIR)"/debian/qmltube install
+	sed 's:Exec=.*:Exec=/opt/usr/bin/qmltube:' /home/stuart/N900/qmltube/debian/qmltube/usr/share/applications/hildon/qmltube.desktop > /home/stuart/N900/qmltube/debian/qmltube/usr/share/applications/hildon/qmltube.desktop.sed || echo -n
+	mv /home/stuart/N900/qmltube/debian/qmltube/usr/share/applications/hildon/qmltube.desktop.sed /home/stuart/N900/qmltube/debian/qmltube/usr/share/applications/hildon/qmltube.desktop || echo -n
 
 
 # Build architecture-independent files here.
@@ -82,7 +84,7 @@ binary-arch: build install
 #	dh_perl
 #	dh_makeshlibs
 	dh_installdeb
-	# dh_shlibdeps                      # Uncomment this line for publishing!
+	dh_shlibdeps
 	dh_gencontrol
 	dh_md5sums
 	dh_builddeb

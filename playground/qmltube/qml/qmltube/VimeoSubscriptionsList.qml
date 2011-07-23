@@ -53,7 +53,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: qsTr("No subscriptions found")
-            visible: (!vimeoSubscriptionsModel.loading) && (subscriptionsList.count == 0)
+            visible: (!vimeoSubscriptionsModel.loading) && (vimeoSubscriptionsModel.count === 0)
         }
     }
 }

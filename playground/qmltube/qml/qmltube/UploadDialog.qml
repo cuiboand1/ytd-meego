@@ -41,6 +41,7 @@ Item {
         list.sort();
         dialogLoader.source = "SettingsListDialog.qml";
         dialogLoader.item.setSettingsList(qsTr("Category"), list, categoryText.text);
+        dialogLoader.item.settingChosen.disconnect();
         dialogLoader.item.settingChosen.connect(setCategory);
         dialog.state = "showChild";
     }
@@ -67,7 +68,10 @@ Item {
         var tags = tagInput.text;
         var category = getCategory();
         var isPrivate = checkbox.checked;
-	console.log("Debug: in startUpload() checkbox.checked == " + checkbox.checked);
+	// NPM: note qmltube 1.06 disabled visibility of checkbox, instead of fixing
+	// YouTube.uploadVideo() existing private uploading code that doesn't result in
+	// a private upload. Therefore, 'isPrivate' is always false.
+        // console.log("Debug: in startUpload() checkbox.checked == " + checkbox.checked);
         var video = { "filename": fileToUpload.split("/").pop(), "title": title, "description": description, "tags": tags, "category": category, "isPrivate": isPrivate };
         if (site == "YouTube") {
             YouTube.uploadVideo(fileToUpload, title, description, tags, category, isPrivate);
@@ -78,7 +82,7 @@ Item {
         showUploadProgress(video, site);
     }
 
-    function showUploadProgress(video) {
+    function showUploadProgress(video, site) {
         dialogLoader.source = "UploadProgressDialog.qml";
         dialogLoader.item.setDetails(video, site);
         dialogLoader.item.close.connect(close);
@@ -92,6 +96,7 @@ Item {
     function showSiteList() {
         dialogLoader.source = "SettingsListDialog.qml";
         dialogLoader.item.setSettingsList(qsTr("Choose Site"), sites, site);
+        dialogLoader.item.settingChosen.disconnect();
         dialogLoader.item.settingChosen.connect(setSite);
         dialog.state = "showChild";
     }
@@ -258,6 +263,7 @@ Item {
                         font.pixelSize: _SMALL_FONT_SIZE
                         color: "grey"
                         text: qsTr("Private?")
+                        visible: false
 
                         CheckBox {
                             id: checkbox

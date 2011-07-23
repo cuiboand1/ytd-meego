@@ -12,6 +12,7 @@
 #include <QVariant>
 #include <QString>
 #include <QMap>
+#include <QTimer>
 #include <QTranslator>
 #include <QProcess>
 #include <QDesktopServices>
@@ -25,8 +26,13 @@
 #include <QX11Info>
 #endif /* (defined(Q_WS_MAEMO_5) || defined(Q_WS_X11)) */
 
+#ifdef MEEGO_EDITION_HARMATTAN
+#include <qmsystem2/qmdisplaystate.h> //for MeeGo::QmDisplayState::setBlankingPause()
+#endif /* defined(MEEGO_EDITION_HARMATTAN) */
+
 Controller::Controller(QObject *parent) :
     QObject(parent) {
+    qparent = parent;		// Needed for Controller::doNotDisturb() on Harmattan
     converter = new QProcess(this);
     connect(converter, SIGNAL(started()), this, SIGNAL(conversionStarted()));
     connect(converter, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(conversionFinished(int, QProcess::ExitStatus)));
@@ -35,6 +41,25 @@ Controller::Controller(QObject *parent) :
 #else
     isSymbian = false;
 #endif
+
+// NPM see http://wiki.meego.com/index.php?title=Porting_Fremantle_Applications_to_Harmattan&oldid=44545#Harmattan_scope
+// Note that until final SDK available MEEGO_EDITION_HARMATTAN is defined in qmltube.pro
+#ifdef MEEGO_EDITION_HARMATTAN
+    isHarmattan = true;		// NPM
+#else /* !defined(MEEGO_EDITION_HARMATTAN) */
+    isHarmattan = false;	// NPM
+#endif /* defined(MEEGO_EDITION_HARMATTAN) */
+
+#ifdef Q_WS_MAEMO_5
+    isMaemo = true;		// NPM
+#else
+    isMaemo = false;		// NPM
+#endif
+
+    blankingtimer = 0;
+#ifdef MEEGO_EDITION_HARMATTAN
+    displaystate  = 0;
+#endif /* defined(MEEGO_EDITION_HARMATTAN) */
 }
 
 void Controller::setView(QmlApplicationViewer *view) {
@@ -54,31 +79,14 @@ bool Controller::osIsSymbian() const {
     return isSymbian;
 }
 
-void Controller::keepDisplayOn() {
-#ifdef Q_WS_MAEMO_5
-    QDBusConnection systemDbusConnection = QDBusConnection::systemBus();
-    QDBusInterface mceConnectionInterface("com.nokia.mce",
-                                          "/com/nokia/mce/request",
-                                          "com.nokia.mce.request",
-                                          systemDbusConnection, this);
-    mceConnectionInterface.call("req_display_blanking_pause");
-#elif defined(Q_WS_X11)		// NPM: aka, MeeGo 
-    //NPM: suggested by LauncherWindow::setInhibitScreenSaver (
-    //http://meego.gitorious.org/meego-ux/meego-qml-launcher/blobs/master/src/launcherwindow.cpp#line355 ).
-    //Alas, it is not a freedesktop.org standard and is meego specific,
-    //but there's no Q_WS_MEEGO to help differentiate between generic X11
-    //and Meego cavalier abuse of established standards...
-    bool m_inhibitScreenSaver = true;
-    Atom inhibitAtom = XInternAtom(QX11Info::display(), "_MEEGO_INHIBIT_SCREENSAVER", false);
-    XChangeProperty(QX11Info::display(),
-		    m_view->winId(),
-		    inhibitAtom,
-		    XA_CARDINAL,
-		    32,
-		    PropModeReplace,
-		    (unsigned char*)&m_inhibitScreenSaver,
-		    1);
-#endif	/* Q_WS_MAEMO_5 */
+/* NPM */
+bool Controller::osIsHarmattan() const {
+    return isHarmattan;
+}
+
+/* NPM */
+bool Controller::osIsMaemo() const {
+    return isMaemo;
 }
 
 void Controller::doNotDisturb(bool videoPlaying) {
@@ -105,13 +113,48 @@ void Controller::doNotDisturb(bool videoPlaying) {
     else {
         XDeleteProperty(QX11Info::display(), m_view->winId(), atom);
     }
+#elif defined(MEEGO_EDITION_HARMATTAN)
+    if (videoPlaying) {
+      preventBlanking();
+      // after initial blanking, start timer to rerun preventBlanking() once a minute
+      if (blankingtimer == 0) {
+	blankingtimer = new QTimer;
+	connect(blankingtimer, SIGNAL(timeout()), this, SLOT(preventBlanking()));
+      }
+      blankingtimer->start(60000);
+    }
+    else {
+      if (blankingtimer->isActive())
+        blankingtimer->stop();
+    }
 #elif defined(Q_WS_X11)		// NPM: aka, MeeGo 
     //
     //NPM: TODO: Is there equivalent for X11 and MeeGo Netbook UX to turn off
     //extraneous notifications e.g. "Google Sync Completed" etc.
     //
-#endif
+    bool m_inhibitScreenSaver = videoPlaying;
+    Atom inhibitAtom = XInternAtom(QX11Info::display(), "_MEEGO_INHIBIT_SCREENSAVER", false);
+    XChangeProperty(QX11Info::display(),
+		    m_view->winId(),
+		    inhibitAtom,
+		    XA_CARDINAL,
+		    32,
+		    PropModeReplace,
+		    (unsigned char*)&m_inhibitScreenSaver,
+		    1);
+#endif /* defined(Q_WS_MAEMO_5) */
 }
+
+// NPM: on harmattan, called out of display blanking prevention timer once
+// a minute
+#ifdef MEEGO_EDITION_HARMATTAN
+void Controller::preventBlanking() {
+  if (displaystate == 0) {
+    displaystate = new MeeGo::QmDisplayState(qparent);
+  }
+  displaystate->setBlankingPause();
+}
+#endif /* defined(MEEGO_EDITION_HARMATTAN) */
 
 QString Controller::getLanguage() const {
     QString langCode = "en";
@@ -254,7 +297,7 @@ bool Controller::xTubeInstalled() const {
 QStringList Controller::getInstalledMediaPlayers() const {
     QStringList playerList;
     playerList << "cuteTube Player";
-#ifdef Q_OS_SYMBIAN		// NPM: "Media Player" choice is only valid for symbian
+#if(defined(Q_OS_SYMBIAN) || defined(MEEGO_EDITION_HARMATTAN)) // NPM: "Media Player" choice is only valid for symbian and harmattan
     playerList << "Media Player";
 #endif /*Q_OS_SYMBIAN*/
     if ((QFile::exists("/usr/bin/mplayer"))) {
@@ -301,14 +344,14 @@ void Controller::playVideo(const QString &url) {
         player->start("/usr/bin/smplayer", args);
     }
     else {
-        QDesktopServices::openUrl(QUrl::fromLocalFile(url));
+        QDesktopServices::openUrl(url);
     }
 #else // from the orig cutetube code, probably for fallthrough for Q_OS_SYMBIAN
     if (url.startsWith("http://")) {
-        QFile ytlink("/home/stuart/N900/cutetube.ram");
-        ytlink.open(QIODevice::WriteOnly);
-        ytlink.write(url.toAscii());
-        ytlink.close();
+//      QFile ytlink("/home/stuart/N900/cutetube.ram");
+//      ytlink.open(QIODevice::WriteOnly);
+//      ytlink.write(url.toAscii());
+//      ytlink.close();
         QDesktopServices::openUrl(QUrl::fromLocalFile(ytlink.fileName()));
     }
     else {

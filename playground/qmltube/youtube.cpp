@@ -42,6 +42,7 @@ void YouTube::setAccessToken(const QString &token) {
 }
 
 void YouTube::uploadVideo(const QString &filename, const QString &title, const QString &description, const QString &tags, const QString &category, const bool &isPrivate) {
+//    qDebug() << filename << "/n" << title << "/n" << description << "/n" << tags << "/n" << category << "/n" << isPrivate;
 
     emit uploadStatusChanged("preparing");
     fileToBeUploaded = new QFile(filename);

@@ -187,12 +187,22 @@ function getAllAccounts(site) {
 }
 
 function setDefaultSettings() {
+    console.log("DEBUG: scripts/settings.js:setDefaultSettings() called, $HOME=" + Controller.homePath() // NPM
+		+ " isSymbian=" + Controller.isSymbian
+		+ " isHarmattan=" + Controller.isHarmattan
+		+ " isMaemo=" + Controller.isMaemo);
     /* Set defaults if no settings exist */
 
     var settings = [ [ "playbackQuality", "hq" ],
                     [ "downloadQuality", "hq" ],
                     [ "downloadStatus", "queued" ],
-		    [ "downloadPath", Controller.homePath() + Controller.isSymbian ? "Videos/" : "" ], // NPM, changed from maemo's /home/user/MyDocs dir
+		    [ "downloadPath", Controller.homePath()     
+		      + (Controller.isSymbian)
+		      ? "Videos/"
+		      : (Controller.isHarmattan || Controller.isMaemo) //NPM: changed from maemo-hardcoded "/home/user/MyDocs" 
+		      ? "MyDocs/" + ((Controller.isHarmattan) ? "Movies" : "Videos") //to also handle harmattan
+		      : ""                                      //NPM: for generic Linux or MeeGo, default to $HOME
+		      ], 
                     [ "categoryFeedOne", "MostRecent"],
                     [ "categoryFeedTwo", "MostViewed"],
                     [ "categoryOrder", "relevance"],

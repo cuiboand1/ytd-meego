@@ -3,6 +3,7 @@ import QtMultimediaKit 1.1
 import "scripts/settings.js" as Settings
 import "scripts/dateandtime.js" as GetDate
 import "scripts/vimeo.js" as VM
+import "scripts/youtube.js" as YT
 
 Rectangle {
     id: videoWindow
@@ -115,13 +116,13 @@ Rectangle {
             controls.showControls = false;
         }
         if (!currentVideo.favourite) {
-            if ((currentVideo.youtube) && !(YouTube.currentUser == "")) {
+            if ((currentVideo.youtube) && !(YouTube.currentUser === "")) {
                 YouTube.addToFavourites(currentVideo.videoId);
             }
-            else if ((currentVideo.dailymotion) && !(DailyMotion.currentUser == "")) {
+            else if ((currentVideo.dailymotion) && !(DailyMotion.currentUser === "")) {
                 DailyMotion.addToFavourites(currentVideo.id);
             }
-            else if ((currentVideo.vimeo) && !(Vimeo.currentUser == "")) {
+            else if ((currentVideo.vimeo) && !(Vimeo.currentUser === "")) {
                 VM.setLike(true, currentVideo.id);
             }
         }
@@ -131,7 +132,7 @@ Rectangle {
         if (videoWindow.state == "") {
             controls.showControls = false;
         }
-        if (!((currentVideo.rating) || (YouTube.currentUser == ""))) {
+        if (!((currentVideo.rating) || (YouTube.currentUser === ""))) {
             ytBar.likeOrDislike = likeOrDislike;
             YouTube.rateVideo(currentVideo.videoId, likeOrDislike);
         }
@@ -142,13 +143,13 @@ Rectangle {
         commentsList.loaded = false;
         if (tabView.currentIndex == 1) {
             if (currentVideo.youtube) {
-                commentsModel.loadComments();
+                YT.getComments(currentVideo.videoId);
             }
             else {
-                commentsModel.xml = "";
+                commentsModel.clear();
             }
             if (currentVideo.vimeo) {
-                VM.getComments();
+                VM.getComments(currentVideo.id);
             }
             else {
                 vimeoCommentsModel.clear();
@@ -222,7 +223,7 @@ Rectangle {
             var cv = currentVideo;
             cv["commentAdded"] = true;
             currentVideo = cv;
-            commentsModel.loadComments();
+            YT.getComments(currentVideo.videoId);
         }
     }
 
@@ -268,7 +269,7 @@ Rectangle {
             var cv = currentVideo;
             cv["commentAdded"] = true;
             currentVideo = cv;
-            commentsModel.loadComments();
+            VM.getComments(currentVideo.id);
         }
     }
 
@@ -346,7 +347,7 @@ Rectangle {
                     controls.showControls = !controls.showControls;
                 }
             }
-            onPressAndHold: videoPlayer.paused = !videoPlayer.paused
+            onPressAndHold: Controller.doNotDisturb( ! (videoPlayer.paused = !videoPlayer.paused ) )        //NPM
             onPressed: xPos = mouseX
             onReleased: {
                 if (xPos - mouseX > 100) {
@@ -862,10 +863,12 @@ Rectangle {
                 onCurrentIndexChanged: {
                     if ((tabView.currentIndex == 1) && (currentVideo.comments) && !(currentVideo.comments == "0") && (!commentsList.loaded)) {
                         if (currentVideo.youtube) {
-                            commentsModel.loadComments();
+                            YT.getComments(currentVideo.videoId);
+                            commentsList.loaded = true;
                         }
                         else if (currentVideo.vimeo) {
-                            VM.getComments();
+                            VM.getComments(currentVideo.id);
+                            commentsList.loaded = true;
                         }
                     }
                 }
@@ -917,7 +920,7 @@ Rectangle {
                             if ((currentVideo.youtube) || (currentVideo.vimeo)) {
                                 qsTr("By ") + currentVideo.author + qsTr(" on ") + currentVideo.uploadDate.split(/\s|T/)[0];
                             }
-                            else if (currentVideo.live) {
+                            else if ((currentVideo.dailymotion) || (currentVideo.live)) {
                                 qsTr("By ") + currentVideo.author;
                             }
                             else if (currentVideo.archive) {
@@ -1061,7 +1064,6 @@ Rectangle {
                         id: commentsList
 
                         property bool loaded : false // True if comments have been loaded
-                        property string commentsFeed : !currentVideo.youtube ? "" : "http://gdata.youtube.com/feeds/api/videos/" + currentVideo.videoId + "/comments?v=2&max-results=50"
 
                         width: commentsItem.width
                         height: commentsItem.height - 40
@@ -1078,7 +1080,7 @@ Rectangle {
                             font.pixelSize: _STANDARD_FONT_SIZE
                             color: _TEXT_COLOR
                             text: qsTr("Loading...")
-                            visible: ((commentsModel.loading) || (commentsModel.status == XmlListModel.Loading))
+                            visible: (commentsModel.loading) || (vimeoCommentsModel.loading)
                         }
 
                         delegate: CommentsDelegate {
@@ -1087,44 +1089,12 @@ Rectangle {
 
                         model: currentVideo.youtube ? commentsModel : vimeoCommentsModel
 
-                        CommentsModel {
+                        ListModel {
                             id: commentsModel
 
                             property bool loading : false
-
-                            function loadComments() {
-                                commentsModel.loading = true;
-
-                                var doc = new XMLHttpRequest();
-                                doc.onreadystatechange = function() {
-                                    if (doc.readyState == XMLHttpRequest.DONE) {
-                                        var xml = doc.responseText;
-                                        commentsModel.setXml(xml);
-
-                                        commentsModel.loading = false;
-                                        commentsList.loaded = true;
-                                        commentsList.positionViewAtIndex(0, ListView.Beginning);
-                                    }
-                                }
-                                doc.open("GET", commentsList.commentsFeed);
-                                doc.send();
-                            }
-
-                            function appendComments() {
-                                commentsModel.loading = true;
-
-                                var doc = new XMLHttpRequest();
-                                doc.onreadystatechange = function() {
-                                    if (doc.readyState == XMLHttpRequest.DONE) {
-                                        var xml = doc.responseText;
-                                        commentsModel.appendXml(xml);
-
-                                        commentsModel.loading = false;
-                                    }
-                                }
-                                doc.open("GET", commentsList.commentsFeed + "&start-index=" + (commentsModel.count + 1).toString());
-                                doc.send();
-                            }
+                            property int totalResults
+                            property int page : 0
                         }
 
                         ListModel {
@@ -1139,13 +1109,13 @@ Rectangle {
                             if (commentsList.count - commentsList.currentIndex == 1) {
                                 if ((currentVideo.youtube)
                                         && (commentsModel.count < commentsModel.totalResults)
-                                        && (commentsModel.status == XmlListModel.Ready)) {
-                                    commentsModel.appendComments();
+                                        && (!commentsModel.loading)) {
+                                    YT.getComments(currentVideo.videoId);
                                 }
                                 else if ((currentVideo.vimeo)
                                          && (vimeoCommentsModel.moreResults)
                                          && (!vimeoCommentsModel.loading)) {
-                                    VM.getComments();
+                                    VM.getComments(currentVideo.id);
                                 }
                             }
                         }

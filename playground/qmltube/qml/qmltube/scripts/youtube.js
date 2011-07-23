@@ -40,7 +40,6 @@ function getYouTubeVideos() {
                     }
                 }
             }
-
             videoListModel.loading = false;
             videoListModel.page++
         }
@@ -52,64 +51,131 @@ function getYouTubeVideos() {
     doc.send();
 }
 
-function getYouTubeSubscriptions() {
+function getInbox() {
+    /* Retrieve the user's message inbox */
+
+    inboxModel.loading = true;
+
+    var doc = new XMLHttpRequest();
+    doc.onreadystatechange = function() {
+        if (doc.readyState == XMLHttpRequest.DONE) {
+            //            console.log(doc.responseText)
+            var results = eval("(" + doc.responseText + ")");
+            if (results.feed.entry) {
+                var res;
+                for (var i = 0; i < results.feed.entry.length; i++) {
+                    res = results.feed.entry[i];
+                    inboxModel.append({ "playerUrl": "http://youtube.com/watch?v=" + res.media$group.yt$videoid.$t, "id": res.id.$t,
+                                          "videoId": res.media$group.yt$videoid.$t, "title": res.title.$t,
+                                          "description": res.media$group.media$description.$t, "author": res.author[0].name.$t,
+                                          "subject": res.title.$t, "uploader": res.media$group.media$credit[0].$t,
+                                          "message": res.summary ? res.summary.$t : "", "messageDate": res.published.$t,
+                                          "likes": res.yt$rating ? res.yt$rating.numLikes : "0", "dislikes": res.yt$rating ? res.yt$rating.numDislikes : "0",
+                                          "views": res.yt$statistics ? res.yt$statistics.viewCount : "0", "duration": res.media$group.yt$duration.seconds,
+                                          "tags": res.media$group.media$keywords.$t, "uploadDate": res.media$group.yt$uploaded.$t,
+                                          "thumbnail": res.media$group.media$thumbnail[0].url, "comments": res.gd$comments ? res.gd$comments.gd$feedLink.countHint : "0",
+                                          "largeThumbnail": res.media$group.media$thumbnail[1].url, "youtube": true });
+                }
+            }
+            inboxModel.loading = false;
+        }
+    }
+    doc.open("GET", "http://gdata.youtube.com/feeds/api/users/default/inbox?v=2&max-results=50&alt=json");
+    doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
+    doc.send();
+}
+
+function getComments(videoId) {
+    commentsModel.loading = true;
+
+    var doc = new XMLHttpRequest();
+    doc.onreadystatechange = function() {
+        if (doc.readyState == XMLHttpRequest.DONE) {
+            //            console.log(doc.responseText)
+            var results = eval("(" + doc.responseText + ")");
+            if (commentsModel.page == 0) {
+                commentsModel.totalResults = parseInt(results.feed.openSearch$totalResults.$t);
+            }
+            if (results.feed.entry) {
+                var res;
+                for (var i = 0; i < results.feed.entry.length; i++) {
+                    res = results.feed.entry[i];
+                    commentsModel.append({ "author": res.author[0].name.$t,
+                                            "date": res.published.$t,
+                                            "comment": res.content.$t,
+                                            "commentId": res.id.$t });
+                }
+            }
+            commentsModel.loading = false;
+            commentsModel.page++
+        }        
+    }
+    doc.open("GET", "http://gdata.youtube.com/feeds/api/videos/" + videoId + "/comments?v=2&max-results=50&alt=json&start-index=" + (commentsModel.page * 50 + 1).toString());
+    doc.send();
+}
+
+function getSubscriptions() {
     /* Retrieve the user's subscriptions and
       populate the model */
 
-    var doc = new XMLHttpRequest();
-    doc.onreadystatechange = function() {
-        if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            subscriptionsModel.setXml(xml);
-        }
-    }
-    doc.open("GET", _SUBSCRIPTIONS_FEED);
-    doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
-    doc.send();
-}
-
-function appendYouTubeSubscriptions() {
-    /* Append subscriptions to the model */
+    subscriptionsModel.loading = true;
 
     var doc = new XMLHttpRequest();
     doc.onreadystatechange = function() {
         if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            subscriptionsModel.appendXml(xml);
+//                        console.log(doc.responseText)
+            var results = eval("(" + doc.responseText + ")");
+            if (subscriptionsModel.page === 0) {
+                subscriptionsModel.totalResults = parseInt(results.feed.openSearch$totalResults.$t);
+            }
+            if (results.feed.entry) {
+                var res;
+                for (var i = 0; i < results.feed.entry.length; i++) {
+                    res = results.feed.entry[i];
+                    subscriptionsModel.append({ "title": res.yt$username.$t,
+                                            "subscriptionId": res.id.$t });
+                }
+            }
+            subscriptionsModel.loading = false;
+            subscriptionsModel.page++
         }
     }
-    doc.open("GET", _SUBSCRIPTIONS_FEED + "&start-index=" + (subscriptionsModel.count + 1).toString());
+    doc.open("GET", _SUBSCRIPTIONS_FEED + "&start-index=" + (subscriptionsModel.page * 50 + 1).toString());
     doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
     doc.send();
 }
 
-function getYouTubePlaylists() {
+function getPlaylists() {
     /* Retrieve the user's playlists and
       populate the model */
 
-    var doc = new XMLHttpRequest();
-    doc.onreadystatechange = function() {
-        if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            playlistModel.setXml(xml);
-        }
-    }
-    doc.open("GET", _PLAYLISTS_FEED);
-    doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
-    doc.send();
-}
-
-function appendYouTubePlaylists() {
-    /* Append playlists to the model */
+    playlistModel.loading = true;
 
     var doc = new XMLHttpRequest();
     doc.onreadystatechange = function() {
         if (doc.readyState == XMLHttpRequest.DONE) {
-            var xml = doc.responseText;
-            playlistModel.appendXml(xml);
-        }
+//                        console.log(doc.responseText)
+            var results = eval("(" + doc.responseText + ")");
+            if (playlistModel.page === 0) {
+                playlistModel.totalResults = parseInt(results.feed.openSearch$totalResults.$t);
+            }
+            if (results.feed.entry) {
+                var res;
+                for (var i = 0; i < results.feed.entry.length; i++) {
+                    res = results.feed.entry[i];
+                    playlistModel.append({ "playlistId": res.yt$playlistId.$t,
+                                            "title": res.title.$t,
+                                            "videoCount": res.yt$countHint.$t,
+                                            "createdDate": res.published.$t,
+                                            "updatedDate": res.updated.$t,
+                                            "description": res.summary.$t });
+                }
+            }
+            playlistModel.loading = false;
+            playlistModel.page++
+        }        
     }
-    doc.open("GET", _PLAYLISTS_FEED + "&start-index=" + (playlistModel.count + 1).toString());
+    doc.open("GET", _PLAYLISTS_FEED + "&start-index=" + (playlistModel.page * 50 + 1).toString());
     doc.setRequestHeader("Authorization", "AuthSub token=" + YouTube.accessToken);
     doc.send();
 }
@@ -163,7 +229,7 @@ function deleteVideosFromPlaylist() {
 }
 
 function addVideosToFavourites() {
-    if (!(YouTube.currentUser == "")) {
+    if (!(YouTube.currentUser === "")) {
         if (videoList.checkList.length > 0) {
             toggleBusy(true);
             var videoId;
@@ -180,7 +246,7 @@ function addVideosToFavourites() {
 }
 
 function deleteVideosFromFavourites() {
-    if (!(YouTube.currentUser == "")) {
+    if (!(YouTube.currentUser === "")) {
         if (videoList.checkList.length > 0) {
             toggleBusy(true);
             var favouriteId;
@@ -196,8 +262,41 @@ function deleteVideosFromFavourites() {
     videoList.checkList = [];
 }
 
+function getUserProfile(user) {
+    var doc = new XMLHttpRequest();
+    doc.onreadystatechange = function() {
+        if (doc.readyState == XMLHttpRequest.DONE) {
+            var res = eval("(" + doc.responseText + ")").entry;
+            userThumbnail = res.media$thumbnail.url;
+            for (var i = 0; i < res.gd$feedLink.length; i++) {
+                if (res.gd$feedLink[i].rel == "http://gdata.youtube.com/schemas/2007#user.uploads") {
+                    videoCount = res.gd$feedLink[i].countHint;
+                }
+            }
+            subscriberCount = res.yt$statistics.subscriberCount;
+            if (about !== undefined) {
+                about = res.yt$aboutMe ? res.yt$aboutMe.$t : "";
+            }
+            if (age !== undefined) {
+                age = res.yt$age ? res.yt$age.$t : "";
+            }
+            if (firstName !== undefined) {
+                firstName = res.yt$firstName ? res.yt$firstName.$t : "";
+            }
+            if (lastName !== undefined) {
+                lastName = res.yt$lastName ? res.yt$lastName.$t : "";
+            }
+            if (gender !== undefined) {
+                gender = res.yt$gender ? res.yt$gender.$t : "";
+            }
+        }
+    }
+    doc.open("GET", "http://gdata.youtube.com/feeds/api/users/" + user + "?v=2&alt=json");
+    doc.send();
+}
+
 function setSubscription() {
-    if (!(YouTube.currentUser== "")) {
+    if (!(YouTube.currentUser === "")) {
         toggleBusy(true);
         if (isSubscribed) {
             YouTube.unsubscribeToChannel(subscriptionId);
@@ -209,7 +308,6 @@ function setSubscription() {
     else {
         messages.displayMessage(messages._NOT_SIGNED_IN);
     }
-    closeDialogs();
 }
 
 function getCurrentLiveStreams() {
@@ -265,6 +363,17 @@ function createVideoObject(video) {
     videoObject["comments"] = video.comments;
     videoObject["youtube"] = true;
     return videoObject;
+}
+
+function createPlaylistObject(playlist) {
+    var playlistObject = {};
+    playlistObject["title"] = playlist.title;
+    playlistObject["playlistId"] = playlist.playlistId;
+    playlistObject["videoCount"] = playlist.videoCount;
+    playlistObject["createdDate"] = playlist.createdDate;
+    playlistObject["updatedDate"] = playlist.updatedDate;
+    playlistObject["description"] = playlist.description;
+    return playlistObject;
 }
 
 function addVideosToPlaybackQueue() {

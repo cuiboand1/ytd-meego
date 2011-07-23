@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import "scripts/youtube.js" as YT
 
 Item {
 
@@ -21,8 +22,8 @@ Item {
             id: delegate
 
             Connections {
-                onDelegateClicked: goToPlaylist(playlistModel.get(index))
-                onDelegatePressed: showPlaylistInfo(playlistModel.get(index))
+                onDelegateClicked: goToPlaylist(YT.createPlaylistObject(playlistModel.get(index)))
+                onDelegatePressed: showPlaylistInfo(YT.createPlaylistObject(playlistModel.get(index)))
             }
         }
 
@@ -34,7 +35,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: qsTr("No playlists found")
-            visible: (playlistModel.status == XmlListModel.Ready) && (playlists.count == 0)
+            visible: (!playlistModel.loading) && (playlistModel.count === 0)
         }
 
         ScrollBar {}

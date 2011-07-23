@@ -16,6 +16,7 @@ Item {
     property string dateOrder : "ASC"
     property string titleOrder : "DESC"
     property alias checkList: videoList.checkList
+    property bool itemsSelected : videoList.checkList.length > 0
 
     signal playVideos(variant videos)
     signal dialogClose

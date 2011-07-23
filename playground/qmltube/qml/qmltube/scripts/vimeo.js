@@ -63,15 +63,14 @@ function getVimeoVideos() {
     doc.send();
 }
 
-function getComments() {
-    commentsList.loaded = true;
+function getComments(videoId) {
     vimeoCommentsModel.loading = true;
 
     var doc = new XMLHttpRequest();
     doc.onreadystatechange = function() {
         if (doc.readyState == XMLHttpRequest.DONE) {
             var results = eval("(" + doc.responseText + ")");
-            //            console.log(doc.responseText)
+//                        console.log(doc.responseText)
             var total = parseInt(results.comments.total);
             if (total > 0) {
                 var res;
@@ -81,7 +80,7 @@ function getComments() {
                 }
             }
 
-            vimeoCommentsModel.moreResults = (commentsModel.count < total);
+            vimeoCommentsModel.moreResults = (vimeoCommentsModel.count < total);
             vimeoCommentsModel.loading = false;
             vimeoCommentsModel.page++;
         }
@@ -221,7 +220,7 @@ function addComment(comment, id) {
     Vimeo.addComment(oauthData.url, oauthData.header);
 }
 
-function getVimeoPlaylists() {
+function getPlaylists() {
     vimeoPlaylistModel.loading = true;
 
     var doc = new XMLHttpRequest();
@@ -255,7 +254,7 @@ function getVimeoPlaylists() {
     doc.send();
 }
 
-function getVimeoSubscriptions() {
+function getSubscriptions() {
     vimeoSubscriptionsModel.loading = true;
 
     var doc = new XMLHttpRequest();
@@ -340,6 +339,7 @@ function createVideoObject(video) {
     videoObject["description"] = video.description;
     videoObject["duration"] = video.duration;
     videoObject["author"] = video.author;
+    videoObject["uploadDate"] = video.uploadDate;
     videoObject["views"] = video.views;
     videoObject["likes"] = video.likes;
     videoObject["comments"] = video.comments;
