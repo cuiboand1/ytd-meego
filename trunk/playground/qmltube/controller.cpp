@@ -114,6 +114,17 @@ void Controller::doNotDisturb(bool videoPlaying) {
         XDeleteProperty(QX11Info::display(), m_view->winId(), atom);
     }
 #elif defined(MEEGO_EDITION_HARMATTAN)
+    /* 
+     * NPM: note my change to qml/qmltube/VideoPlaybackView.qml which disables doNotDisturb() on pause
+     * so that the screen can go to sleep and batteries don't get drained:
+     *      onPressAndHold: Controller.doNotDisturb( ! (videoPlayer.paused = !videoPlayer.paused ) )        //NPM
+     * http://www.developer.nokia.com/Community/Wiki/Harmattan:Platform_Guide/Application_development_framework/Application_lifecycle_with_Harmattan_Platform_SDK
+     * indicates that this feature should be disabled when the application is not visible. It appears the most
+     * straightforward way would be from QML, which should call doNotDisturb(false) when !platformWindow.visible
+     * and renable doNotDisturb(true) when platformWindow.visible.
+     * When both !platformWindow.visible and !platformWindow.active display updating should be turned off to allow sound to play w/o 
+     * wasting cycles updating the video or display.
+     */
     if (videoPlaying) {
       preventBlanking();
       // after initial blanking, start timer to rerun preventBlanking() once a minute
