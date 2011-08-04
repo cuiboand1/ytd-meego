@@ -24,10 +24,16 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);   
     QApplication::setApplicationName(QString("cuteTube"));
+    /* NPM: note these are stack-allocated objects and can't be placed in
+       lexical proximity to their uses because they'll be out of scope,
+       potentially, by the time they are referenced again. */
     Controller ct;
     YouTube yt;
     DailyMotion daily;
     Vimeo vimeo;
+    Sharing sh;
+    DownloadManager dm;
+    QmlApplicationViewer viewer;
 
     bool browser_mode = true;	// NPM
     bool opengl_mode  = true;	// NPM
@@ -35,8 +41,11 @@ int main(int argc, char *argv[])
 #ifdef Q_WS_X11		// NPM: aka, MeeGo 
     // NPM: unless '--raster' command-line option given, this gets
     // overriden by using viewer.setViewport(new QGLWidget()) below
-    QApplication::setGraphicsSystem("raster"); 
-#endif
+    QApplication::setGraphicsSystem(QString::fromLatin1("raster")); 
+#endif /* defined(Q_WS_X11) */
+#ifdef MEEGO_EDITION_HARMATTAN
+    QApplication::setFont(QFont("Nokia Pure Text", 16));
+#endif /* defined(MEEGO_EDITION_HARMATTAN) */
 
     QStringList args = app.arguments();
     args.takeFirst();
@@ -62,13 +71,10 @@ int main(int argc, char *argv[])
     }
 
     if (browser_mode) {
-        QmlApplicationViewer viewer;
 	viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
         viewer.setAttribute(Qt::WA_NoSystemBackground);
         QDeclarativeContext *context = viewer.rootContext();
         ct.setView(&viewer);
-        Sharing sh;
-        DownloadManager dm;
 
         QNetworkAccessManager *manager = new QNetworkAccessManager();
         yt.setNetworkAccessManager(manager);
@@ -97,18 +103,17 @@ int main(int argc, char *argv[])
         if (!path.exists()) {
             path.mkpath("/home/user/.config/cutetube");
         }
-        path.setPath("/home/user/MyDocs/.cutetube");
-        if (!path.exists()) {
-            path.mkpath("/home/user/MyDocs/.cutetube");
-        }
 #elif defined(Q_WS_X11)		// NPM: aka, MeeGo AND Harmattan
-//      viewer.addImportPath(QString("/opt/qtm12/imports")); 
-//      viewer.addPluginPath(QString("/opt/qtm12/plugins"));
-
 	// Even though Harmattan has /home/user/MyDocs it appears other apps store
 	// local info in /home/user, e.g. /home/user/.qcamera /home/user/.facebook etc.
 	// thus leave configuration directory location same for both MeeGo and Harmattan
         viewer.engine()->setOfflineStoragePath(QDir::homePath() + "/.config/cutetube");
+
+        QDir path;
+        path.setPath(QDir::homePath() + "/.config/cutetube");
+        if (!path.exists()) {
+            path.mkpath(QDir::homePath() + "/.config/cutetube");
+        }
 
 	if (opengl_mode) {
 	  // NPM: trying to understand what these all do as suggested by
@@ -148,16 +153,6 @@ int main(int argc, char *argv[])
 	    qWarning() << "Unable to create QGLWidget: suggest trying '--raster' command-line option.";
 	  }
 	}
-
-        QDir path;
-        path.setPath(QDir::homePath() + "/.config/cutetube");
-        if (!path.exists()) {
-            path.mkpath(QDir::homePath() + "/.config/cutetube");
-        }
-        path.setPath(QDir::homePath() + "/.cutetube");
-        if (!path.exists()) {
-            path.mkpath(QDir::homePath() + "/.cutetube");
-        }
 #endif /* defined(Q_WS_X11) */
         QStringList proxyList = ct.getProxyFromDB();
         QString proxyHost = proxyList.first();

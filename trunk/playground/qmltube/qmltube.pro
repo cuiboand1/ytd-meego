@@ -27,8 +27,8 @@ exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h"):!contains(MEEGO_EDITION,harmat
   ## Add qmsystem2 http://apidocs.meego.com/1.2/qmsystem/main.html
   ## for MeeGo::QmDisplayState()::setBlankingPause(), etc.
   CONFIG += qmsystem2 \
-  	    mobility \
-	    multimedia 
+  	    mobility
+  MOBILITY+=multimedia 
 }
 
 symbian:TARGET.UID3 = 0xE2644EFA
