@@ -1,5 +1,6 @@
 import QtQuick 1.0
 import "scripts/createobject.js" as ObjectCreator
+import "scripts/vimeo.js" as VM
 
 Item {
 
@@ -39,7 +40,7 @@ Item {
             id: delegate
 
             onDelegateClicked: {
-                var user = vimeoSubscriptionsModel.get(index);
+                var user = VM.createUserObject(vimeoSubscriptionsModel.get(index));
                 userVideos(user);
             }
             onDelegatePressed: showUserInfo(index)

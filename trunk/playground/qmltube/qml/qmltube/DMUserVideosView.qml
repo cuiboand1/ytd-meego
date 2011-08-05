@@ -21,7 +21,7 @@ Item {
 
     function setVideoFeed(username) {
         videoFeed = "https://api.dailymotion.com/videos?limit=50&family_filter=false&fields=" + _DM_FIELDS + "&user=" + username;
-        DM.getDailymotionVideos()
+        DM.getDailymotionVideos();
     }
 
     function onMenuButtonOneClicked() {
@@ -146,8 +146,9 @@ Item {
 
                 checked: Scripts.indexInCheckList(index)
                 onDelegateClicked: {
-                    videoList.checkList = [];
-                    goToVideo(videoListModel.get(index));
+                    if (videoList.checkList.length === 0) {
+                        goToVideo(videoListModel.get(index));
+		    }
                 }
                 onDelegatePressed: addOrRemoveFromCheckList()
                 onPlayClicked: {

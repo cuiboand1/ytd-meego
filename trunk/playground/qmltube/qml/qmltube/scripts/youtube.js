@@ -25,7 +25,7 @@ function getYouTubeVideos() {
                 var res;
                 for (var i = 0; i < results.feed.entry.length; i++) {
                     res = results.feed.entry[i];
-                    if (res.app$control) {
+                    if ((res.app$control) && (res.app$control.yt$state) && (res.app$control.yt$state.reasonCode != "limitedSyndication")) {
                         videoListModel.totalResults--;
                     }
                     else {
@@ -266,6 +266,7 @@ function getUserProfile(user) {
     var doc = new XMLHttpRequest();
     doc.onreadystatechange = function() {
         if (doc.readyState == XMLHttpRequest.DONE) {
+//            console.log(doc.responseText)
             var res = eval("(" + doc.responseText + ")").entry;
             userThumbnail = res.media$thumbnail.url;
             for (var i = 0; i < res.gd$feedLink.length; i++) {
@@ -274,21 +275,12 @@ function getUserProfile(user) {
                 }
             }
             subscriberCount = res.yt$statistics.subscriberCount;
-            if (about !== undefined) {
-                about = res.yt$aboutMe ? res.yt$aboutMe.$t : "";
-            }
-            if (age !== undefined) {
-                age = res.yt$age ? res.yt$age.$t : "";
-            }
-            if (firstName !== undefined) {
-                firstName = res.yt$firstName ? res.yt$firstName.$t : "";
-            }
-            if (lastName !== undefined) {
-                lastName = res.yt$lastName ? res.yt$lastName.$t : "";
-            }
-            if (gender !== undefined) {
-                gender = res.yt$gender ? res.yt$gender.$t : "";
-            }
+            subscriberCount = res.yt$statistics.subscriberCount;
+            about = res.yt$aboutMe ? res.yt$aboutMe.$t : "";
+            age = res.yt$age ? res.yt$age.$t : "";
+            firstName = res.yt$firstName ? res.yt$firstName.$t : "";
+            lastName = res.yt$lastName ? res.yt$lastName.$t : "";
+            gender = res.yt$gender ? res.yt$gender.$t : "";
         }
     }
     doc.open("GET", "http://gdata.youtube.com/feeds/api/users/" + user + "?v=2&alt=json");
@@ -360,6 +352,7 @@ function createVideoObject(video) {
     videoObject["likes"] = video.likes;
     videoObject["dislikes"] = video.dislikes;
     videoObject["thumbnail"] = video.thumbnail;
+    videoObject["largeThumbnail"] = video.largeThumbnail;
     videoObject["comments"] = video.comments;
     videoObject["youtube"] = true;
     return videoObject;

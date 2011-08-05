@@ -74,7 +74,7 @@ Item {
         toggleControls(false);
         var list = [];
         for (var i = 0; i < videoListModel.count; i++) {
-            list.push(videoListModel.get(i));
+            list.push(YT.createVideoObject(videoListModel.get(i)));
         }
         var playlistDialog = ObjectCreator.createObject("PlaylistDialog.qml", window);
         playlistDialog.playlistVideosClicked.connect(Scripts.closeDialogs);
@@ -198,7 +198,7 @@ Item {
                     }
 
                     Text {
-                        text: videoListModel.totalResults
+                        text: videoListModel.count
                         color: "grey"
                         elide: Text.ElideRight
                         font.pixelSize: _SMALL_FONT_SIZE
@@ -212,7 +212,7 @@ Item {
                     }
 
                     Text {
-                        text: !(playlist == undefined) ? playlist.updatedDate.split("T")[0] : ""
+                        text: !(playlist === undefined) ? playlist.updatedDate.split("T")[0] : ""
                         color: "grey"
                         elide: Text.ElideRight
                         font.pixelSize: _SMALL_FONT_SIZE

@@ -41,9 +41,6 @@ Item {
         else if (service == "Dailymotion") {
             checkDailymotionToken();
         }
-        else if (service == "vimeo") {
-            checkVimeoToken();
-        }
     }
 
     function checkFacebookToken() {
@@ -91,9 +88,9 @@ Item {
 
     function checkVimeoToken() {
         var url = webView.url.toString();
-        if (/oauth_verifier=/i.test(url)) {
+        if (/oauth_token=/i.test(url)) {
             var accessToken = url.split("oauth_token=")[1].split("&")[0];
-            var verifier = url.split("oauth_verifier=")[1].replace(/\s|\n/, '');
+            var verifier = pinInput.text;
             var credentials = { "site": "vimeo", "accessToken": accessToken, "verifier": verifier };
             authorised(credentials);
         }
@@ -130,7 +127,7 @@ Item {
         doc.onreadystatechange = function() {
             if (doc.readyState == XMLHttpRequest.DONE) {
                 var response = doc.responseText;
-//                console.log(response)
+                //                console.log(response)
                 if (/oauth_token/i.test(response)) {
                     var tSplit = response.split('=');
                     var token = tSplit[1].split('&')[0];
@@ -195,7 +192,7 @@ Item {
     Flickable {
         id: webFlicker
 
-        anchors { fill: dialog; topMargin: 50; leftMargin: 10; rightMargin: 10; bottomMargin: 10 }
+        anchors { fill: parent; topMargin: 50; leftMargin: 10; rightMargin: 10; bottomMargin: pinGrid.visible ? 60 : 10 }
         contentWidth: webView.width
         contentHeight: webView.height
         boundsBehavior: Flickable.DragOverBounds
@@ -210,11 +207,62 @@ Item {
             preferredHeight: parent.height - 60
             opacity:(webView.progress < 1) ? 0 : 1
             onUrlChanged: {
-//                console.log(webView.url.toString());
+                //                console.log(webView.url.toString());
                 checkUrlForToken();
             }
 
             Behavior on opacity { PropertyAnimation { properties: "opacity"; duration: 500 } }
+        }
+    }
+
+    Row {
+        id: pinGrid
+
+        anchors { left: parent.left; right: parent.right; bottom: parent.bottom; margins: 10 }
+        spacing: 10
+        visible: dialog.service == "vimeo"
+
+        Rectangle {
+            id: pinRect
+
+            height: 40
+            width: parent.width - 50
+            color:  "white"
+            border.width: 2
+            border.color: _ACTIVE_COLOR_LOW
+            radius: 5
+
+            TextInput {
+                id: pinInput
+
+                anchors { fill: parent; margins: 2 }
+                font.pixelSize: _STANDARD_FONT_SIZE
+                selectByMouse: true
+                selectionColor: _ACTIVE_COLOR_LOW
+                color: (pinInput.text == "Enter code") ? "grey" : "black"
+                text: qsTr("Enter code")
+                Keys.onEnterPressed: {
+                    if (pinInput.text != "") {
+                        checkVimeoToken();
+                    }
+                }
+                Keys.onReturnPressed: {
+                    if (pinInput.text != "") {
+                        checkVimeoToken();
+                    }
+                }
+            }
+        }
+
+        ToolButton {
+            id: confirmButton
+
+            icon: (cuteTubeTheme == "light") ? "ui-images/ticklight.png" : "ui-images/tick.png"
+            onButtonClicked: {
+                if (pinInput.text != "") {
+                    checkVimeoToken();
+                }
+            }
         }
     }
 

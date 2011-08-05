@@ -38,22 +38,26 @@ Item {
     }
 
     Image {
-        id: icon
+        id: backgroundImage
 
-        width: 100
-        height: 100
         anchors { top: dialog.top; topMargin: 10; horizontalCenter: dialog.horizontalCenter }
-        smooth: true
-        source: (cuteTubeTheme == "nightred") ? "ui-images/cutetubered.png" : "ui-images/cutetubehires.png"
+        source: (cuteTubeTheme == "light") ? "ui-images/iconbackgroundlight.png" : "ui-images/iconbackground.png"
+
+        Image {
+            id: icon
+
+            anchors.centerIn: parent
+            source: (cuteTubeTheme == "nightred") ? "ui-images/cutetubered.png" : "ui-images/cutetubeblue.png"
+        }
     }
 
     Text {
         id: title
 
-        anchors { top: icon.bottom; topMargin: 10; horizontalCenter: dialog.horizontalCenter }
+        anchors { top: backgroundImage.bottom; topMargin: 10; horizontalCenter: dialog.horizontalCenter }
         color: _TEXT_COLOR
         font { pixelSize: _LARGE_FONT_SIZE; bold: true }
-        text: qsTr("cuteTube - 1.0.6")
+        text: qsTr("cuteTube - 1.0.11")
     }
 
     Text {

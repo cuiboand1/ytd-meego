@@ -1,6 +1,5 @@
-qmltube (1.0.6) unstable; urgency=low
+qmltube (1.0.11) unstable; urgency=low
 
-  * Fixed bugs in video uploads.
-  * Other minor bug fixes.
+  * Restored download of YouTube videos.
 
- -- Stuart Howarth <marxianthecoder@gmail.com>  Mon, 11 Jul 2011 17:44:18 +0000
+ -- Stuart Howarth <marxianthecoder@gmail.com>  Thu, 21 Jul 2011 20:02:18 +0000

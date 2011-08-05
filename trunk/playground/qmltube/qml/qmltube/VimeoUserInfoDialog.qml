@@ -4,6 +4,7 @@ import "scripts/vimeo.js" as VM
 Item {
     id: dialog
 
+    property variant user
     property string username
     property string id
     property string thumbnail
@@ -13,10 +14,11 @@ Item {
     property string about
     property bool isSubscribed
 
-    signal userVideosClicked(string username)
+    signal userVideosClicked(variant user)
     signal close
 
-    function setUserProfile(user) {
+    function setUserProfile(userObject) {
+        user = userObject;
         username = user.title;
         id = user.id;
         thumbnail = user.largeThumbnail;
@@ -48,7 +50,7 @@ Item {
 
 
     Connections {
-        target: YouTube
+        target: Vimeo
 
         onSubscribed: isSubscribed = true
         onUnsubscribed: isSubscribed = false
@@ -94,7 +96,7 @@ Item {
 
             anchors.fill: frame
             onClicked: {
-                userVideosClicked(username);
+                userVideosClicked(user);
                 close();
             }
         }
