@@ -488,17 +488,7 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     text: qsTr("No related videos")
-                    visible: false
-
-                    Timer {
-                        interval: 5000
-                        running: (!relatedModel.loading) && (relatedModel.count == 0)
-                        onTriggered: {
-                            if (relatedModel.count == 0) {
-                                noResultsText.visible = true;
-                            }
-                        }
-                    }
+                    visible: (!relatedModel.loading) && (relatedModel.count == 0)
                 }
 
                 ScrollBar {}

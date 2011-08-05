@@ -27,6 +27,7 @@ Item {
             var accessToken = accounts[i].accessToken
             accountsModel.append({ "username": username, "site": site, "accessToken": accessToken });
         }
+        accountsList.currentIndex = -1;
     }
 
     function deleteAccount() {
@@ -157,7 +158,7 @@ Item {
 
             width: newButton.width
             icon: (cuteTubeTheme == "light") ? "ui-images/deleteiconlight.png" : "ui-images/deleteicon.png"
-            disabled: accountsList.count == 0
+            disabled: (accountsList.count == 0) || (accountsList.currentIndex < 0)
             onButtonClicked: deleteAccount()
         }
     }

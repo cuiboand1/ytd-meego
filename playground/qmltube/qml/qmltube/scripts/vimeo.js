@@ -360,6 +360,18 @@ function createPlaylistObject(playlist) {
     return playlistObject;
 }
 
+function createUserObject(user) {
+    var userObject = {};
+    userObject["title"] = user.title;
+    userObject["id"] = user.id;
+    userObject["location"] = user.location;
+    userObject["bio"] = user.bio;
+    userObject["videoCount"] = user.videoCount;
+    userObject["thumbnail"] = user.thumbnail;
+    userObject["largeThumbnail"] = user.largeThumbnail;
+    return  userObject;
+}
+
 function addVideosToPlaybackQueue() {
     if (videoList.checkList.length > 0) {
         if (Controller.getMediaPlayer() == "cutetubeplayer") {

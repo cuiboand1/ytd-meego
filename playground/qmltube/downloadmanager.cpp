@@ -30,40 +30,40 @@ void DownloadManager::setDownloadQuality(const QString &quality) {
 void DownloadManager::getVideoUrl(const QString &playerUrl) {
     QString url = playerUrl;
     QString videoId = url.split("v=").last().split("&").first();
-    QString pageUrl = "http://www.youtube.com/get_video_info?&video_id=" + videoId.toAscii() + "&el=detailpage&ps=default&eurl=&gl=US&hl=en";
-    downloadReply = nam->get(QNetworkRequest(QUrl(pageUrl)));
-    connect(downloadReply, SIGNAL(finished()), this, SLOT(parseVideoPage()));
+    QString pageUrl = "http://www.youtube.com/get_video_info?&video_id=" + videoId + "&el=detailpage&ps=default&eurl=&gl=US&hl=en";
+    QNetworkAccessManager *manager = new QNetworkAccessManager(this);
+    QNetworkRequest request;
+    request.setUrl(QUrl(pageUrl));
+    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(parseVideoPage(QNetworkReply*)));
+    manager->get(request);
 }
 
-void DownloadManager::parseVideoPage() {
-    if (downloadReply->error()) {
-        emit statusChanged("failed");
-        return;
-    }
-    QMap<int, QByteArray> formats;
-    QByteArray response = QByteArray::fromPercentEncoding(downloadReply->readAll());
-    int pos = response.indexOf("fmt_url_map=") + 12;
-    int pos2 = response.indexOf("&allow_ratings", pos);
+void DownloadManager::parseVideoPage(QNetworkReply *reply) {
+    QNetworkAccessManager *manager = qobject_cast<QNetworkAccessManager*>(sender());
+
+    QMap<int, QString> formats;
+    QString response(QByteArray::fromPercentEncoding(reply->readAll()));
+    int pos = response.indexOf("fmt_stream_map=url=") + 19;
+    int pos2 = response.indexOf("&cc_font", pos);
     int pos3 = response.indexOf("&leanback", pos);
     if ((pos3 > 0) && (pos3 < pos2)) {
         pos2 = pos3;
     }
     response = response.mid(pos, pos2 - pos);
-    QList<QByteArray> parts = response.split('|');
-    int key = parts.first().toInt();
-    for (int i = 1; i < parts.length(); i++) {
-        QByteArray part = parts[i];
-        QList<QByteArray> keyAndValue = part.split(',');
-        QByteArray url = keyAndValue.first();
+    QList<QString> parts = response.split(",url=");
+    int key;
+    for (int i = 0; i < parts.length(); i++) {
+        QString part = parts[i];
+        QString url(QByteArray::fromPercentEncoding(part.left(part.indexOf("&type=video")).toAscii()).replace("%2C", ","));
+        key = part.right(2).toInt();
         formats[key] = url;
-        key = keyAndValue.last().toInt();
     }
     QList<int> flist;
     flist << 22 << 35 << 34 << 18 << 5;
-    QByteArray videoUrl = "";
+    QString videoUrl;
     QString quality;
     int index = flist.indexOf(downloadFormat);
-    while ((videoUrl == "") && (index < flist.size())) {
+    while ((videoUrl.isEmpty()) && (index < flist.size())) {
         videoUrl = formats.value(flist.at(index), "");
         quality = dlMap.key(flist.at(index));
         index++;
@@ -72,9 +72,11 @@ void DownloadManager::parseVideoPage() {
         emit statusChanged("failed");
     }
     else {
-        emit gotVideoUrl(QUrl::fromEncoded(videoUrl));
+        emit gotVideoUrl(QUrl(videoUrl));
         emit qualityChanged(quality);
     }
+    reply->deleteLater();
+    manager->deleteLater();
 }
 
 void DownloadManager::getDMVideoUrl(const QString &link) {

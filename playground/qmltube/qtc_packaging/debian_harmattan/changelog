@@ -1,6 +1,17 @@
-qmltube (1.0.6) unstable; urgency=low
+qmltube (1.0.11) stable; urgency=low
+
+  * qmltube 1.0.11, patched modified 1.0.6 version with updates to maemo version
+  * applied 11319 byte patch from "diff -rc --new-file qmltube-1.0.6 qmltube-1.0.11 > qmltube-1-0-6-to-1-0-11.patch"
+  * via "cat qmltube-1-0-6-to-1-0-11.patch | patch -p1"
+  * Restored download of YouTube videos.
+
+ -- Niels Mayer <NielsMayer _AT_ gmail _DOT_ com>  Fri, 5 Aug 2011 00:00:00 -0700
+
+qmltube (1.0.11) stable; urgency=low
+
+  * qmltube 1.0.6
   * source: svn co --revision 163 http://ytd-meego.googlecode.com/svn/trunk/playground/qmltube
-  * Patched to qmltube (1.0.6) (Fixed bugs in video uploads. Other minor bug fixes.)
+  * Patched to qmltube (1.0.11) (Fixed bugs in video uploads. Other minor bug fixes.)
   * Removed debug related to my extensions to original qmltube functionality.
 
  -- Niels Mayer <NielsMayer _AT_ gmail _DOT_ com>  Mon, 19 Jul 2011 10:04:18 -0700

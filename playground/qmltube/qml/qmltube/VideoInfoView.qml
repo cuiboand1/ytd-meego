@@ -121,7 +121,7 @@ Item {
             var v = video;
             v["commentAdded"] = true;
             video = v;
-            Scripts.loadComments();
+            YT.getComments();
             comments = parseInt(comments + 1).toString()
         }
         onVideoRated: {
@@ -566,7 +566,7 @@ Item {
                         model: ListModel {
                             id: commentsModel
 
-                            property bool loading : true
+                            property bool loading : false
                             property int totalResults
                             property int page : 0
                         }

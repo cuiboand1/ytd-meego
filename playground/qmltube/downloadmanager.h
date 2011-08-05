@@ -35,7 +35,7 @@ public slots:
     void cancelDownload();
 
 private slots:
-    void parseVideoPage();
+    void parseVideoPage(QNetworkReply *reply);
     void parseDMVideoPage();
     void parseVimeoVideoPage();
     void getVideoUrl(const QString &playerUrl);

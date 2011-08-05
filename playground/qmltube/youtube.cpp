@@ -373,28 +373,26 @@ void YouTube::getVideoUrl(const QString &videoId) {
 void YouTube::parseVideoPage(QNetworkReply *reply) {
     QNetworkAccessManager *manager = qobject_cast<QNetworkAccessManager*>(sender());
 
-    QMap<int, QByteArray> formats;
-    QByteArray response = QByteArray::fromPercentEncoding(reply->readAll());
-//        qDebug() << response;
-    int pos = response.indexOf("fmt_url_map=") + 12;
-    int pos2 = response.indexOf("&allow_ratings", pos);
+    QMap<int, QString> formats;
+    QString response(QByteArray::fromPercentEncoding(reply->readAll()));
+    int pos = response.indexOf("fmt_stream_map=url=") + 19;
+    int pos2 = response.indexOf("&cc_font", pos);
     int pos3 = response.indexOf("&leanback", pos);
     if ((pos3 > 0) && (pos3 < pos2)) {
         pos2 = pos3;
     }
     response = response.mid(pos, pos2 - pos);
-    QList<QByteArray> parts = response.split('|');
-    int key = parts.first().toInt();
-    for (int i = 1; i < parts.length(); i++) {
-        QByteArray part = parts[i];
-        QList<QByteArray> keyAndValue = part.split(',');
-        QByteArray url = keyAndValue.first().replace("%2C", ",");
+    QList<QString> parts = response.split(",url=");
+    int key;
+    for (int i = 0; i < parts.length(); i++) {
+        QString part = parts[i];
+        QString url(QByteArray::fromPercentEncoding(part.left(part.indexOf("&type=video")).toAscii()).replace("%2C", ","));
+        key = part.right(2).toInt();
         formats[key] = url;
-        key = keyAndValue.last().toInt();
     }
     QList<int> flist;
     flist << 22 << 35 << 34 << 18 << 5;
-    QByteArray videoUrl = "";
+    QString videoUrl;
     int index = flist.indexOf(playbackFormat);
     while ((videoUrl == "") && index < flist.size()) {
         videoUrl = formats.value(flist.at(index), "");
@@ -405,9 +403,9 @@ void YouTube::parseVideoPage(QNetworkReply *reply) {
         emit videoUrlError();
     }
     else {
-        emit gotVideoUrl(QString(videoUrl));
+        emit gotVideoUrl(videoUrl);
     }
-    //    qDebug() << videoUrl;
+//        qDebug() << videoUrl;
     reply->deleteLater();
     manager->deleteLater();
 }

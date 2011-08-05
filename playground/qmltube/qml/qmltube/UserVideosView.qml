@@ -19,6 +19,11 @@ Item {
     property string subscriberCount
     property string videoCount
     property string userThumbnail
+    property string about
+    property string age
+    property string firstName
+    property string lastName
+    property string gender
     property alias checkList: videoList.checkList
     property bool itemsSelected : videoList.checkList.length > 0
 

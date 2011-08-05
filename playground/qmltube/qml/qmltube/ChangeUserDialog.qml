@@ -77,7 +77,12 @@ Item {
     }
 
     function changeVimeoUser(index) {
-
+	var account = vimeoAccounts.get(index);
+        var username = account.username;
+        var accessToken = account.accessToken;
+        var tokenSecret = account.tokenSecret;
+        Vimeo.setUserCredentials(username, accessToken, tokenSecret);
+        close();
     }
 
     width: parent.width

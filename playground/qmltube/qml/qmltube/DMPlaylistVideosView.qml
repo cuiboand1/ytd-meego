@@ -114,17 +114,7 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             text: qsTr("No videos found")
-            visible: false
-
-            Timer {
-                interval: 5000
-                running: (!videoListModel.loading) && (videoListModel.count == 0)
-                onTriggered: {
-                    if (videoListModel.count == 0) {
-                        noResultsText.visible = true;
-                    }
-                }
-            }
+            visible: (!videoListModel.loading) && (videoListModel.count == 0)
         }
 
         Item {
@@ -186,7 +176,7 @@ Item {
                     }
 
                     Text {
-                        text: !(playlist == undefined) ? playlist.videoCount : ""
+                        text: videoListModel.count
                         color: "grey"
                         elide: Text.ElideRight
                         font.pixelSize: _SMALL_FONT_SIZE
@@ -200,7 +190,7 @@ Item {
                     }
 
                     Text {
-                        text: !(playlist == undefined) ? playlist.updatedDate : ""
+                        text: !(playlist === undefined) ? playlist.updatedDate : ""
                         color: "grey"
                         elide: Text.ElideRight
                         font.pixelSize: _SMALL_FONT_SIZE
@@ -225,7 +215,7 @@ Item {
                             playPlaylist()
                         }
                         else {
-                            messages.displayMessage(qsTr("Loading playlist videos. Please wait"))
+                            messages.displayMessage(qsTr("Loading playlist videos. Please wait"));
                             videoListModel.waitingForPlayback = true;
                         }
                     }
