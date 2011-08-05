@@ -19,6 +19,58 @@
 #include <QtOpenGL/QGLWidget>	// needed for viewer.setViewport(new QGLWidget()) below.
 //#include <QtOpenGL/QGLFormat>
 #endif /* Q_WS_X11 */
+// NPM: HACK/WORKAROUND FOR QT 4.7. Need to setup networking to not puke on
+// SSL errors, which prevented Bugzibit example from working with
+// https://bugs.meego.com due to its SSL implementation and certificate.
+// This workaround will not be necessary at some point per Thiago's comment
+// "QSslSocket does not send the Server Name Identification SSL extension
+// [in Qt 4.7] ... QSslSocket in Qt 4.8 does send SNI now."  (
+// http://lists.meego.com/pipermail/meego-dev/2011-May/482965.html
+// http://lists.meego.com/pipermail/meego-dev/2011-May/482968.html ). For
+// details on technique, see
+// http://www.developer.nokia.com/Community/Wiki/Why_does_QML_require_QDeclarativeNetworkAccessManagerFactory
+// http://www.qtcentre.org/threads/21470-SSL-Problem
+class MyNetworkAccessManager : public QNetworkAccessManager {
+public:
+  MyNetworkAccessManager ();
+  MyNetworkAccessManager (QObject *parent);
+
+protected:
+  QNetworkReply *createRequest(Operation op, const QNetworkRequest &req, QIODevice *outgoingData = 0);
+};
+
+MyNetworkAccessManager::MyNetworkAccessManager () {
+}
+MyNetworkAccessManager::MyNetworkAccessManager (QObject *parent) {
+}
+QNetworkReply *MyNetworkAccessManager::createRequest ( Operation op, const QNetworkRequest &req, QIODevice *outgoingData ) {
+    QSslConfiguration config = req.sslConfiguration();
+    config.setPeerVerifyMode(QSslSocket::VerifyNone);
+    config.setProtocol(QSsl::TlsV1);
+    QNetworkRequest request(req);
+    request.setSslConfiguration(config);
+    return QNetworkAccessManager::createRequest(op, request, outgoingData);
+    //NPM: Alternative implementation, which is more of a hack?
+    //QNetworkReply* reply = QNetworkAccessManager::createRequest(op, req, outgoingData);
+    //reply->ignoreSslErrors();
+    //return reply;
+}
+
+class MyNetworkAccessManagerFactory : public QDeclarativeNetworkAccessManagerFactory {
+public:
+    virtual QNetworkAccessManager *create(QObject *parent);
+};
+QNetworkAccessManager *MyNetworkAccessManagerFactory::create(QObject *parent) {
+    QNetworkAccessManager *nam = new MyNetworkAccessManager(parent); // NPM:
+    qDebug() << "MyNetworkAccessManagerFactory::create()'d nam=" << nam;
+    //TODO: make this work with proxyHost below
+//    if (!proxyHost.isEmpty()) {
+//        qDebug() << "Created QNetworkAccessManager using proxy" << (proxyHost + ":" + QString::number(proxyPort));
+//        QNetworkProxy proxy(QNetworkProxy::HttpCachingProxy, proxyHost, proxyPort);
+//        nam->setProxy(proxy);
+//    }
+    return nam;
+}
 
 int main(int argc, char *argv[])
 {
@@ -76,7 +128,11 @@ int main(int argc, char *argv[])
         QDeclarativeContext *context = viewer.rootContext();
         ct.setView(&viewer);
 
-        QNetworkAccessManager *manager = new QNetworkAccessManager();
+	// Setup any QML-invoked networking to not puke on SSL errors, which prevented QML WebKit invoked
+	// Bugzibit example from working with https://bugs.meego.com due to its SSL implementation and certificate.
+	// suggested by http://www.developer.nokia.com/Community/Wiki/Why_does_QML_require_QDeclarativeNetworkAccessManagerFactory
+	viewer.engine()->setNetworkAccessManagerFactory(new MyNetworkAccessManagerFactory); 
+        QNetworkAccessManager *manager = new MyNetworkAccessManager();
         yt.setNetworkAccessManager(manager);
         dm.setNetworkAccessManager(manager);
         sh.setNetworkAccessManager(manager);
