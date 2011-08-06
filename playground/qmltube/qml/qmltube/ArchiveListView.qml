@@ -74,13 +74,17 @@ Item {
                 var video;
                 for (var i = 0; i < videoList.checkList.length; i++) {
                     video = archiveModel.get(videoList.checkList[i]);
+/* NPM: commentout:
                     if ((!Controller.isSymbian) && ((video.quality == "360p") || (video.quality == "480p") || (video.quality == "720p"))) {
                         messages.displayMessage(messages._UNABLE_TO_PLAY);
                     }
                     else {
+end-NPM: commentout */
                         list.push({ "title": video.title, "filePath": video.filePath, "quality": video.quality,
                                   "thumbnail": video.thumbnail, "date": video.date, "archive": true });
+/* NPM: commentout:
                     }
+end-NPM: commentout */
                 }
                 playVideos(list);
             }
@@ -259,15 +263,19 @@ Item {
                 Connections {
                     onDelegateClicked: {
                         var video = archiveModel.get(index);
+/* NPM: commentout:
                         if ((!Controller.isSymbian) && ((video.quality == "360p") || (video.quality == "480p") || (video.quality == "720p"))) {
                             messages.displayMessage(messages._UNABLE_TO_PLAY);
                         }
                         else {
+end-NPM: commentout */
                             var list = [];
                             list.push({ "title": video.title, "filePath": video.filePath, "quality": video.quality,
                                       "thumbnail": video.thumbnail, "date": video.date, "archive": true });
                             playVideos(list);
+/* NPM: commentout:
                         }
+end-NPM: commentout */
                     }
                     onDelegatePressed: addOrRemoveFromCheckList()
                 }
