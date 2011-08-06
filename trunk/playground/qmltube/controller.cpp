@@ -354,6 +354,13 @@ void Controller::playVideo(const QString &url) {
         connect(player, SIGNAL(finished(int, QProcess::ExitStatus)), player, SLOT(deleteLater()));
         player->start("/usr/bin/smplayer", args);
     }
+    else if (mediaPlayer == "kmplayer") {
+        QStringList args;
+        args << url;
+        QProcess *player = new QProcess();
+        connect(player, SIGNAL(finished(int, QProcess::ExitStatus)), player, SLOT(deleteLater()));
+        player->start("/usr/bin/kmplayer", args);
+    }
     else {
         QDesktopServices::openUrl(url);
     }
