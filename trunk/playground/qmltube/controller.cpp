@@ -361,6 +361,15 @@ void Controller::playVideo(const QString &url) {
         connect(player, SIGNAL(finished(int, QProcess::ExitStatus)), player, SLOT(deleteLater()));
         player->start("/usr/bin/kmplayer", args);
     }
+#ifdef MEEGO_EDITION_HARMATTAN // make "Media Player" go directly to video-suite instead of invoking browser first
+    else if (mediaPlayer == "mediaplayer") {
+        QStringList args;
+        args << url;
+        QProcess *player = new QProcess();
+        connect(player, SIGNAL(finished(int, QProcess::ExitStatus)), player, SLOT(deleteLater()));
+        player->start("/usr/bin/video-suite", args);
+    }
+#endif /*Q_OS_SYMBIAN*/
     else {
         QDesktopServices::openUrl(url);
     }
@@ -375,7 +384,7 @@ void Controller::playVideo(const QString &url) {
     else {
         QDesktopServices::openUrl(QUrl::fromLocalFile(url));
     }
-#endif	/* Q_WS_MAEMOo5 */
+#endif	/* Q_WS_MAEMO_5 */
     emit playbackStarted(url);
 }
 
