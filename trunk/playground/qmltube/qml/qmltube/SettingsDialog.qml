@@ -41,9 +41,10 @@ Item {
                                       "360p": qsTr("360p") };
         //Don't allow playback resolutions that are known to not be handled by given platform...
         //NPM: TODO: allow "480p" playback of streaming videos on Harmattan when bug that displays blank screen resolved.
-        if (!Controller.isHarmattan && !Controller.isMaemo && !Controller.isSymbian) //NPM: for non-handhelds, such as MeeGo Netbook or Tablet, let user choose, as some hardware capable of 720p ...
-            playbackSettings +=     { "480p": qsTr("480p"),
-                                      "720p": qsTr("720p") };
+        if (!Controller.isHarmattan && !Controller.isMaemo && !Controller.isSymbian) { //NPM: for non-handhelds, such as MeeGo Netbook or Tablet, let user choose, as some hardware capable of 720p ...
+            playbackSettings["480p"]        = qsTr("480p");
+            playbackSettings["720p"]        = qsTr("720p");
+        }
         downloadSettings =          { "hq":   qsTr("High quality"),
                                       "360p": qsTr("360p"),
                                       "480p": qsTr("480p"),
