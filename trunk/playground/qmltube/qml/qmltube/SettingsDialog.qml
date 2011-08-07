@@ -37,13 +37,24 @@ Item {
     signal close
 
     Component.onCompleted: {
-        playbackSettings = { "mobile": qsTr("Mobile"), "hq": qsTr("High quality") };
-        downloadSettings = { "hq": qsTr("High quality"), "360p": qsTr("360p"), "480p": qsTr("480p"), "720p": qsTr("720p") };
+        playbackSettings =          { "hq":   qsTr("High quality"),
+                                      "360p": qsTr("360p") };
+        //Don't allow playback resolutions that are known to not be handled by given platform...
+        //NPM: TODO: allow "480p" playback of streaming videos on Harmattan when bug that displays blank screen resolved.
+        if (!Controller.isHarmattan && !Controller.isMaemo && !Controller.isSymbian) //NPM: for non-handhelds, such as MeeGo Netbook or Tablet, let user choose, as some hardware capable of 720p ...
+            playbackSettings +=     { "480p": qsTr("480p"),
+                                      "720p": qsTr("720p") };
+        downloadSettings =          { "hq":   qsTr("High quality"),
+                                      "360p": qsTr("360p"),
+                                      "480p": qsTr("480p"),
+                                      "720p": qsTr("720p") };
+/* NPM: commentout: 'mobile' doesn't exist anymore..., now the lowest-quality setting is "High Quality" :-)
         if (!Controller.isSymbian) {
             var ds = downloadSettings;
             ds["mobile"] = qsTr("Mobile");
             downloadSettings = ds;
         }
+end-NPM: commentout */
         downloadStatusSettings = { "queued": qsTr("Automatically"), "paused": qsTr("Manually") };
         safeSearchSettings = { "strict": qsTr("On"), "none": qsTr("Off") };
         orientationSettings = { "automatic": qsTr("Automatic"), "landscape": qsTr("Landscape"), "portrait": qsTr("Portrait") };

@@ -1,3 +1,10 @@
+qmltube (1.11.1) stable; urgency=low
+
+  * qmltube 1.11.1: changed numbering scheme so that the minor number represents my incremental update over Maemo release, and the '1.11' corresponds to Maemo release 1.0.11...
+  * qml/qmltube/SettingsDialog.qml: removed 'Mobile' option from settings, since it no longer works; 'High Quality' is now the low quality setting; For harmattan, added 360p playback quality, but removed 480p for streaming playback as it results in blank-screen (bug). For other linux platforms, such as MeeGo Netbook or Tablet, allow 480p or 720p playback or downloads and let user choose based on hardare capabilities..."
+
+ -- Niels Mayer <NielsMayer _AT_ gmail _DOT_ com>  Sun, 7 Aug 2011 00:00:00 -0700
+
 qmltube (1.0.11) stable; urgency=low
 
   * qmltube 1.0.11, patched modified 1.0.6 version with updates to maemo version
