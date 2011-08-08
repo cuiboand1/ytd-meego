@@ -37,14 +37,16 @@ Item {
     signal close
 
     Component.onCompleted: {
+        //NPM: let user choose playback resolution that works for them;
+        //on Linux, MeeGo Netbook or Tablet, some hardware capable of 720p ...
+	//NPM: default is 'hq' which works and allows cue-positioning. 
+	//some settings, such as '360p' '480p' will restart the video when the
+	//cue-point is changed via scrollbar. On Harmattan, currently 480p
+	//playback results in no video visible during playback, just audio.
         playbackSettings =          { "hq":   qsTr("High quality"),
-                                      "360p": qsTr("360p") };
-        //Don't allow playback resolutions that are known to not be handled by given platform...
-        //NPM: TODO: allow "480p" playback of streaming videos on Harmattan when bug that displays blank screen resolved.
-        if (!(Controller.isHarmattan || Controller.isMaemo || Controller.isSymbian)) { //NPM: for non-handhelds, such as MeeGo Netbook or Tablet, let user choose, as some hardware capable of 720p ...
-            playbackSettings["480p"]        = qsTr("480p");
-            playbackSettings["720p"]        = qsTr("720p");
-        }
+                                      "360p": qsTr("360p"),
+                                      "480p": qsTr("480p"),
+                                      "720p": qsTr("720p") };
         downloadSettings =          { "hq":   qsTr("High quality"),
                                       "360p": qsTr("360p"),
                                       "480p": qsTr("480p"),
