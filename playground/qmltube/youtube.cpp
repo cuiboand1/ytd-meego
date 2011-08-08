@@ -375,19 +375,13 @@ void YouTube::parseVideoPage(QNetworkReply *reply) {
 
     QMap<int, QString> formats;
     QString response(QByteArray::fromPercentEncoding(reply->readAll()));
-    int pos = response.indexOf("fmt_stream_map=url=") + 19;
-    int pos2 = response.indexOf("&cc_font", pos);
-    int pos3 = response.indexOf("&leanback", pos);
-    if ((pos3 > 0) && (pos3 < pos2)) {
-        pos2 = pos3;
-    }
-    response = response.mid(pos, pos2 - pos);
+    response = response.split("fmt_stream_map=url=").at(1);
     QList<QString> parts = response.split(",url=");
     int key;
     for (int i = 0; i < parts.length(); i++) {
         QString part = parts[i];
         QString url(QByteArray::fromPercentEncoding(part.left(part.indexOf("&type=video")).toAscii()).replace("%2C", ","));
-        key = part.right(2).toInt();
+        key = part.split("&itag=").at(1).split("&").first().toInt();
         formats[key] = url;
     }
     QList<int> flist;
@@ -398,7 +392,7 @@ void YouTube::parseVideoPage(QNetworkReply *reply) {
         videoUrl = formats.value(flist.at(index), "");
         index++;
     }
-    if (videoUrl.isEmpty()) {
+    if (!videoUrl.startsWith("http")) {
         emit alert(tr("Error: Unable to retrieve video"));
         emit videoUrlError();
     }

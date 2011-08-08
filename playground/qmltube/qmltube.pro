@@ -79,5 +79,4 @@ HEADERS += \
     folderlistmodel.h \
     sharing.h \
     dailymotion.h \
-    vimeo.h \
-    cuteapp.h
+    vimeo.h
