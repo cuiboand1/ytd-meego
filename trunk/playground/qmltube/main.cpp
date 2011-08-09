@@ -98,6 +98,20 @@ int main(int argc, char *argv[])
 #ifdef MEEGO_EDITION_HARMATTAN
     QApplication::setFont(QFont("Nokia Pure Text", 16));
 #endif /* defined(MEEGO_EDITION_HARMATTAN) */
+#ifdef MEEGO_HAS_POLICY_FRAMEWORK
+    // http://harmattan-dev.nokia.com/unstable/beta/api_refs/xml/daily-docs/libresourceqt/
+    ResourcePolicy::ResourceSet* mySet = new ResourcePolicy::ResourceSet("player");
+    mySet->setAlwaysReply();
+    ResourcePolicy::AudioResource *audioResource = new ResourcePolicy::AudioResource("player");
+    audioResource->setProcessID(QCoreApplication::applicationPid());
+    audioResource->setStreamTag("media.name", "*");
+    mySet->addResourceObject(audioResource);
+    mySet->addResource(ResourcePolicy::VideoPlaybackType);
+    QObject::connect(mySet, SIGNAL(resourcesGranted(QList<ResourcePolicy::ResourceType>)), &ct, SLOT(notifyResourcesGranted()));
+    QObject::connect(mySet, SIGNAL(resourcesDenied()), &ct, SLOT(notifyResourcesDenied()));
+    mySet->acquire();
+    QObject::connect(mySet, SIGNAL(lostResources()), &ct, SLOT(notifyResourcesLost()));
+#endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
 
     QStringList args = app.arguments();
     args.takeFirst();

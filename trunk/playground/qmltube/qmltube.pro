@@ -27,8 +27,19 @@ exists($$QMAKE_INCDIR_QT"/../qmsystem2/qmkeys.h"):!contains(MEEGO_EDITION,harmat
   ## Add qmsystem2 http://apidocs.meego.com/1.2/qmsystem/main.html
   ## for MeeGo::QmDisplayState()::setBlankingPause(), etc.
   CONFIG += qmsystem2 \
-  	    mobility
-  MOBILITY+=multimedia 
+            mobility
+  MOBILITY  += multimedia 
+}
+
+## NPM: Add libresourceqt1 to support resource policy manager and define MEEGO_HAS_POLICY_FRAMEWORK
+## ( http://www.developer.nokia.com/Community/Wiki/Harmattan:Developer_Library/Best_practices_for_application_development/Selecting_the_resource_application_class )
+## NPM: Although this is also Harmattan-specific, make it a separate configuration option in-case
+## running on MeeGo platform employing the policy framework. If the header is absent then skip the
+## extra configurations in controller.h, controller.cpp and main.cpp
+exists($$QMAKE_INCDIR_QT"/../resource/qt4/policy/resource-set.h") {
+  DEFINES += MEEGO_HAS_POLICY_FRAMEWORK
+  CONFIG +=  link_pkgconfig
+  PKGCONFIG += libresourceqt1
 }
 
 symbian:TARGET.UID3 = 0xE2644EFA

@@ -8,6 +8,9 @@
 #ifdef MEEGO_EDITION_HARMATTAN
 #include <qmsystem2/qmdisplaystate.h> //NPM: for "MeeGo::QmDisplayState *"
 #endif /* defined(MEEGO_EDITION_HARMATTAN) */
+#ifdef MEEGO_HAS_POLICY_FRAMEWORK
+#include <policy/resource-set.h>
+#endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
 
 class QWidget;
 
@@ -45,8 +48,13 @@ public slots:
     QString getMediaPlayer() const { return mediaPlayer; }
     void doNotDisturb(bool videoPlaying);
 #ifdef MEEGO_EDITION_HARMATTAN
-    void preventBlanking();	/* NPM */
+    void preventBlanking();	   /* NPM */
 #endif /* defined(MEEGO_EDITION_HARMATTAN) */
+#ifdef MEEGO_HAS_POLICY_FRAMEWORK
+    void notifyResourcesGranted(); /* NPM */
+    void notifyResourcesLost();	   /* NPM */
+    void notifyResourcesDenied();  /* NPM */
+#endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
     void getMediaPlayerFromDB();
     QStringList getProxyFromDB() const;
     void toggleState();
