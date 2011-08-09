@@ -167,6 +167,20 @@ void Controller::preventBlanking() {
 }
 #endif /* defined(MEEGO_EDITION_HARMATTAN) */
 
+#ifdef MEEGO_HAS_POLICY_FRAMEWORK
+void Controller::notifyResourcesDenied() {
+  qDebug() << "Controller::notifyResourcesDenied() called";
+}
+
+void Controller::notifyResourcesGranted() {
+  qDebug() << "Controller::notifyResourcesGranted() called";
+}
+
+void Controller::notifyResourcesLost() {
+  qDebug() << "Controller::notifyResourcesLost() called";
+}
+#endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
+
 QString Controller::getLanguage() const {
     QString langCode = "en";
 
