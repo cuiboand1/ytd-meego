@@ -2,9 +2,12 @@
 Encoding=UTF-8
 Version=1.0
 Type=Application
-Categories=Application;Utility;
 Terminal=false
 Name=qmltube
-Exec=/opt/qmltube/bin/qmltube
+Exec=invoker --single-instance --type=d /opt/qmltube/bin/qmltube
 Icon=/usr/share/icons/hicolor/64x64/apps/qmltube.png
 Categories=AudioVideo;Audio;Video;Player;TV;
+X-MEEGO-CGROUP-PATH=limited
+X-MEEGO-CGROUP-CONTROLLERS=freezer
+X-MEEGO-CORE-UX=true
+X-Desktop-File-Install-Version=0.16
