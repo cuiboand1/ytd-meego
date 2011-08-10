@@ -71,7 +71,18 @@ void Controller::toggleState() {
         m_view->showFullScreen();
     }
     else {
-        m_view->showMaximized();
+      //NPM: was m_view->showMaximized() but that gives "gray bar" on harmattan
+#ifdef Q_OS_SYMBIAN
+      m_view->showFullScreen();
+#elif defined(Q_WS_MAEMO_5)
+      m_view->showMaximized();
+#elif defined(MEEGO_EDITION_HARMATTAN)
+        m_view->show();
+#elif defined(Q_WS_MEEGO)
+      m_view->showMaximized();
+#else // desktop linux, meego netbook/tablet, etc.
+      m_view->show();
+#endif
     }
 }
 

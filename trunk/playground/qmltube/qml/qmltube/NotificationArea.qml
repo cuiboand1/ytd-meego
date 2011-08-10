@@ -103,8 +103,8 @@ Item {
         visible: !Controller.isSymbian
 
         Connections {
-            onButtonClicked: Controller.minimize()
-            onButtonHeld: Controller.toggleState()
+            onButtonClicked: if (!Controller.isMaemo) Controller.toggleState(); else Controller.minimize();
+            onButtonHeld:    Controller.toggleState();
         }
 
     }
