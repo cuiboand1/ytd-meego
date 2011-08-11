@@ -4,10 +4,19 @@ Version=1.0
 Type=Application
 Terminal=false
 Name=qmltube
-Exec=invoker --single-instance --type=d /opt/qmltube/bin/qmltube
+#NPM:For Harmattan and MeeGo Tablet UX launch app to ensure only single instance run.
+#Exec=invoker --single-instance --type=d /opt/qmltube/bin/qmltube
+#In Harmattan, this is handled by sed(1) in qmltube/qtc_packaging/debian_harmattan/rules
+#Default to generic linux launcher that'll work on MeeGo Netbook, and suboptimally
+#on MeeGo Tablet. For tablet-UX, comment out below and uncomment above "Exec" to get
+#single-app instance behavior.
+Exec=/opt/qmltube/bin/qmltube
 Icon=/usr/share/icons/hicolor/64x64/apps/qmltube.png
 Categories=AudioVideo;Audio;Video;Player;TV;
-X-MEEGO-CGROUP-PATH=limited
+#NPM: Decided to make it "look" like Tablet-UX meego-app-music
+#but meego-app-video has:
+#X-MEEGO-CGROUP-PATH=managed
+X-MEEGO-CGROUP-PATH=unlimited
 X-MEEGO-CGROUP-CONTROLLERS=freezer
 X-MEEGO-CORE-UX=true
 X-Desktop-File-Install-Version=0.16
