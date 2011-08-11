@@ -50,6 +50,16 @@ install: build
 
 	# Add here commands to install the package into debian/qmltube.
 	$(MAKE) INSTALL_ROOT="$(CURDIR)"/debian/qmltube install
+	# NPM: note prior build process causes the following to be executed at deployment time prior to
+	# calling the commands below.
+	## sed 's:Exec=.*:Exec=/opt/qmltube/bin/qmltube:' /home/npm/qml/qmltube-build-harmattan/debian/qmltube/usr/share/applications/qmltube.desktop > /home/npm/qml/qmltube-build-harmattan/debian/qmltube/usr/share/applications/qmltube.desktop.sed || echo -n
+	## mv /home/npm/qml/qmltube-build-harmattan/debian/qmltube/usr/share/applications/qmltube.desktop.sed /home/npm/qml/qmltube-build-harmattan/debian/qmltube/usr/share/applications/qmltube.desktop || echo -n
+	# Unfortunately, these prior commands are exactly what is a problem because we want to launch
+	# on harmattan with "invoker" to enable only a single instance of the app. Note that
+	# the default qmltube.desktop for "linux" doesn't use invoker, since it's only available
+	# on Harmattan and MeeGo Tablet UX (in package meegotouch-applauncherd).
+	sed 's:Exec=.*:Exec=invoker --single-instance --type=e /opt/qmltube/bin/qmltube:' $(CURDIR)/debian/qmltube/usr/share/applications/qmltube.desktop > $(CURDIR)/debian/qmltube/usr/share/applications/qmltube.desktop.sed || echo -n
+	mv $(CURDIR)/debian/qmltube/usr/share/applications/qmltube.desktop.sed "$(CURDIR)"/debian/qmltube/usr/share/applications/qmltube.desktop || echo -n
 
 
 # Build architecture-independent files here.
