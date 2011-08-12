@@ -75,8 +75,11 @@ void Controller::toggleState() {
     m_view->showFullScreen();
   }
   else {
-    //NPM: BUG: gives "gray bar" on harmattan
-    m_view->showMaximized();
+    //NPM: gives "gray bar" on harmattan, but nonissue because the
+    //minimize/maximize button is disabled when isHarmattan()==true in
+    //qml/qmltube/NotificationArea.qml and
+    //qml/qmltube/VideoPlaybackView.qml
+    m_view->showMaximized(); //NPM: on Linux this goes back to original 800x480 size. On MeeGo netbook, goes back to fullscreen with titlebar
   }
 }
 
@@ -189,9 +192,9 @@ void Controller::notifyResourcesLost() {
   // changing the property videoPlayer.paused see
   // http://doc.qt.nokia.com/latest/qdeclarativeproperty.html
   QDeclarativeProperty property(m_view->engine(), "videoPlayer.paused");
-  qDebug() << "DEBUG: old value videoPlayer.paused=" << property.read().toBool();
-  property.write(true);
-  qDebug() << "DEBUG: DEBUG: new value videoPlayer.paused=" << property.read().toBool();
+  qDebug() << "DEBUG: old value videoPlayer.paused=" << property.read().toInt();
+  property.write(1);
+  qDebug() << "DEBUG: DEBUG: new value videoPlayer.paused=" << property.read().toInt();
 }
 #endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
 
