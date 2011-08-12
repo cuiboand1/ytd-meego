@@ -31,7 +31,7 @@
 #endif /* defined(MEEGO_EDITION_HARMATTAN) */
 
 #if (defined(MEEGO_EDITION_HARMATTAN) || defined(MEEGO_HAS_POLICY_FRAMEWORK))
-#include <QDeclarativeProperty>	/* NPM */
+#include <QDeclarativeContext>	/* NPM */
 #endif /* (defined(MEEGO_EDITION_HARMATTAN) || defined(MEEGO_HAS_POLICY_FRAMEWORK)) */
 
 Controller::Controller(QObject *parent) :
@@ -189,17 +189,8 @@ void Controller::notifyResourcesLost() {
 
   // NPM: qml/qmltube/VideoPlaybackView.qml 'id: videoPlayer' defines Qt
   // Mobility Video element when resources are lost, pause the player by
-  // changing the property videoPlayer.paused see
-  // http://doc.qt.nokia.com/latest/qdeclarativeproperty.html
-  QDeclarativeProperty property(m_view->rootContext(), "videoPlayer.paused");
-  if (property.isValid()) {
-    qDebug() << "DEBUG: old value videoPlayer.paused=" << property.read().toInt();
-    property.write(1);
-    qDebug() << "DEBUG: DEBUG: new value videoPlayer.paused=" << property.read().toInt();
-  }
-  else {
-    qDebug() << "ERROR: couldn't find property 'videoPlayer.paused'";
-  }
+  // changing the property videoPlayer.paused .
+  m_view->engine()->rootContext()->setContextProperty( "videoPlayer.paused" , true);
 }
 #endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
 
