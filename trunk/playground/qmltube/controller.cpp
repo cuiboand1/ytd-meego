@@ -194,11 +194,18 @@ void Controller::notifyResourcesLost() {
   QObject *obj = m_view->rootObject()->findChild<QObject*>("embeddedPlayer");
   if (obj) {
     qDebug() << "DEBUG: old value videoPlayer.paused=" << obj->property("paused").toBool();
-    obj->setProperty("paused", QVariant::fromValue(true));
+    if (obj->property("paused").toBool()) {   //NPM: if true, then this is a second notification that occurs when the interfering resource is relenquished --> start up player again...
+        qDebug() << "DEBUG: restarting video previously paused due to resource conflict.";
+        obj->setProperty("paused", QVariant::fromValue(false));
+    }
+    else {
+        qDebug() << "DEBUG: pausing video due to resource conflict.";
+        obj->setProperty("paused", QVariant::fromValue(true));
+    }
     qDebug() << "DEBUG: old value videoPlayer.paused=" << obj->property("paused").toBool();
   }
   else {
-    qDebug() << "ERROR: couldn't find object named 'embeddedPlayer'";
+    qDebug() << "ERROR: couldn't find QtMobility Video element object named 'embeddedPlayer'.";
   }
 }
 #endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
