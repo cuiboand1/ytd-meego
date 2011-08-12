@@ -283,6 +283,7 @@ Rectangle {
 
     Video {
         id: videoPlayer
+        objectName: "embeddedPlayer" //NPM -- per http://doc.qt.nokia.com/4.7/qtbinding.html#locating-child-objects this needed to be able to "find" the player from C++ see controller.cpp
 
         property bool repeat : false // True if playback of the current video is to be repeated
 
