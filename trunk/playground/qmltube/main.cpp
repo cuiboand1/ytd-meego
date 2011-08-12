@@ -107,10 +107,13 @@ int main(int argc, char *argv[])
     audioResource->setStreamTag("media.name", "*");
     mySet->addResourceObject(audioResource);
     mySet->addResource(ResourcePolicy::VideoPlaybackType);
-    QObject::connect(mySet, SIGNAL(resourcesGranted(QList<ResourcePolicy::ResourceType>)), &ct, SLOT(notifyResourcesGranted()));
-    QObject::connect(mySet, SIGNAL(resourcesDenied()), &ct, SLOT(notifyResourcesDenied()));
+    QObject::connect(mySet, SIGNAL(resourcesGranted(const QList<ResourcePolicy::ResourceType>&)),
+		     &ct,     SLOT(notifyResourcesGranted()));
+    QObject::connect(mySet, SIGNAL(resourcesDenied()),
+		     &ct,     SLOT(notifyResourcesDenied()));
     mySet->acquire();
-    QObject::connect(mySet, SIGNAL(lostResources()), &ct, SLOT(notifyResourcesLost()));
+    QObject::connect(mySet, SIGNAL(lostResources()),
+		     &ct,     SLOT(notifyResourcesLost()));
 #endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
 
     QStringList args = app.arguments();
