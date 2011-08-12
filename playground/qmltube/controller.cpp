@@ -191,14 +191,14 @@ void Controller::notifyResourcesLost() {
   // NPM: qml/qmltube/VideoPlaybackView.qml 'id: videoPlayer' defines Qt
   // Mobility Video element when resources are lost, pause the player by
   // changing the property videoPlayer.paused . See http://doc.qt.nokia.com/4.7/qtbinding.html
-  QObject *obj = m_view->rootObject()->findChild<QObject*>("videoPlayer.paused");
+  QObject *obj = m_view->rootObject()->findChild<QObject*>("videoPlayer");
   if (obj) {
-    qDebug() << "DEBUG: old value videoPlayer.paused=" << obj->property("videoPlayer.paused").toBool();
-    obj->setProperty("videoPlayer.paused", true);
-    qDebug() << "DEBUG: old value videoPlayer.paused=" << obj->property("videoPlayer.paused").toBool();
+    qDebug() << "DEBUG: old value videoPlayer.paused=" << obj->property("paused").toBool();
+    obj->setProperty("paused", QVariant::fromValue(true));
+    qDebug() << "DEBUG: old value videoPlayer.paused=" << obj->property("paused").toBool();
   }
   else {
-    qDebug() << "ERROR: couldn't find property 'videoPlayer.paused'";
+    qDebug() << "ERROR: couldn't find 'videoPlayer";
   }
 }
 #endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
