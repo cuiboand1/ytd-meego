@@ -100,7 +100,7 @@ Item {
 
         anchors { verticalCenter: bar.verticalCenter; left: bar.left; leftMargin: 10 }
         icon: (cuteTubeTheme == "light") ? "ui-images/minimizeiconlight.png" : "ui-images/minimizeicon.png"
-        visible: !Controller.isSymbian
+        visible: !(Controller.isSymbian || Controller.isHarmattan)
 
         Connections {
             onButtonClicked: if (!Controller.isMaemo) Controller.toggleState(); else Controller.minimize();

@@ -658,8 +658,8 @@ Rectangle {
 
                 anchors { left: titleBar.left; leftMargin: 10; verticalCenter: titleBar.verticalCenter }
                 icon: (cuteTubeTheme == "light") ? "ui-images/minimizeiconlight.png" : "ui-images/minimizeicon.png"
-                visible: !Controller.isSymbian
-                onButtonClicked: Controller.minimize()
+                visible: !(Controller.isSymbian || Controller.isHarmattan)
+                onButtonClicked: if (!Controller.isMaemo) Controller.toggleState(); else Controller.minimize(); //NPM
             }
 
             ToolButton {
