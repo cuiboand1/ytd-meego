@@ -27,12 +27,15 @@
 #endif /* (defined(Q_WS_MAEMO_5) || defined(Q_WS_X11)) */
 
 #ifdef MEEGO_EDITION_HARMATTAN
-#include <qmsystem2/qmdisplaystate.h> //for MeeGo::QmDisplayState::setBlankingPause()
+#include <qmsystem2/qmdisplaystate.h> //NPM: for MeeGo::QmDisplayState::setBlankingPause()
 #endif /* defined(MEEGO_EDITION_HARMATTAN) */
+
+#if (defined(MEEGO_EDITION_HARMATTAN) || defined(MEEGO_HAS_POLICY_FRAMEWORK))
+#include <QDeclarativeProperty>	/* NPM */
+#endif /* (defined(MEEGO_EDITION_HARMATTAN) || defined(MEEGO_HAS_POLICY_FRAMEWORK)) */
 
 Controller::Controller(QObject *parent) :
     QObject(parent) {
-    qparent = parent;		// Needed for Controller::doNotDisturb() on Harmattan
     converter = new QProcess(this);
     connect(converter, SIGNAL(started()), this, SIGNAL(conversionStarted()));
     connect(converter, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(conversionFinished(int, QProcess::ExitStatus)));
@@ -67,23 +70,14 @@ void Controller::setView(QmlApplicationViewer *view) {
 }
 
 void Controller::toggleState() {
-    if (!m_view->isFullScreen()) {
-        m_view->showFullScreen();
-    }
-    else {
-      //NPM: was m_view->showMaximized() but that gives "gray bar" on harmattan
-#ifdef Q_OS_SYMBIAN
-      m_view->showFullScreen();
-#elif defined(Q_WS_MAEMO_5)
-      m_view->showMaximized();
-#elif defined(MEEGO_EDITION_HARMATTAN)
-        m_view->show();
-#elif defined(Q_WS_MEEGO)
-      m_view->showMaximized();
-#else // desktop linux, meego netbook/tablet, etc.
-      m_view->show();
-#endif
-    }
+  qDebug() << "Controller::toggleState() isFullScreen = " << m_view->isFullScreen();
+  if (!(m_view->isFullScreen())) {
+    m_view->showFullScreen();
+  }
+  else {
+    //NPM: BUG: gives "gray bar" on harmattan
+    m_view->showMaximized();
+  }
 }
 
 bool Controller::osIsSymbian() const {
@@ -172,7 +166,7 @@ void Controller::doNotDisturb(bool videoPlaying) {
 #ifdef MEEGO_EDITION_HARMATTAN
 void Controller::preventBlanking() {
   if (displaystate == 0) {
-    displaystate = new MeeGo::QmDisplayState(qparent);
+    displaystate = new MeeGo::QmDisplayState(m_view);
   }
   displaystate->setBlankingPause();
 }
@@ -180,15 +174,24 @@ void Controller::preventBlanking() {
 
 #ifdef MEEGO_HAS_POLICY_FRAMEWORK
 void Controller::notifyResourcesDenied() {
-  qDebug() << "Controller::notifyResourcesDenied() called";
+  qDebug() << "DEBUG: Controller::notifyResourcesDenied() called";
 }
 
 void Controller::notifyResourcesGranted() {
-  qDebug() << "Controller::notifyResourcesGranted() called";
+  qDebug() << "DEBUG: Controller::notifyResourcesGranted() called";
 }
 
 void Controller::notifyResourcesLost() {
-  qDebug() << "Controller::notifyResourcesLost() called";
+  qDebug() << "DEBUG: Controller::notifyResourcesLost() called -- pausing player...";
+
+  // NPM: qml/qmltube/VideoPlaybackView.qml 'id: videoPlayer' defines Qt
+  // Mobility Video element when resources are lost, pause the player by
+  // changing the property videoPlayer.paused see
+  // http://doc.qt.nokia.com/latest/qdeclarativeproperty.html
+  QDeclarativeProperty property(m_view->engine(), "videoPlayer.paused");
+  qDebug() << "DEBUG: old value videoPlayer.paused=" << property.read().toBool();
+  property.write(true);
+  qDebug() << "DEBUG: DEBUG: new value videoPlayer.paused=" << property.read().toBool();
 }
 #endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
 

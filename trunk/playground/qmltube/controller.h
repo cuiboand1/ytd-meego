@@ -79,7 +79,6 @@ private:
     bool isSymbian;
     bool isHarmattan;		/* NPM */
     bool isMaemo;		/* NPM */
-    QObject *qparent;		/* NPM */
     QTimer *blankingtimer;	/* NPM */
 #ifdef MEEGO_EDITION_HARMATTAN
     MeeGo::QmDisplayState *displaystate; /* NPM */
