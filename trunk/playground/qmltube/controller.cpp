@@ -182,34 +182,38 @@ void Controller::notifyResourcesDenied() {
 }
 
 static bool granted = false;
+static bool paused = false;	//NPM: indicates got paused by loss of resources.
 void Controller::notifyResourcesGranted() {
-  qDebug() << "DEBUG: Controller::notifyResourcesGranted() called, prior value of 'granted'=" << granted;
-  granted = 1;
+  qDebug() << "DEBUG: Controller::notifyResourcesGranted() called, prior granted=" << granted << "prior paused=" << paused;
+  granted = true;
+  paused  = false;		//NPM: reset on new grant
 }
 
 void Controller::notifyResourcesLost() {
-  qDebug() << "DEBUG: Controller::notifyResourcesLost() called, ... prior value of 'granted'=" << granted;
+  qDebug() << "DEBUG: Controller::notifyResourcesLost() called, prior granted=" << granted;
 
   // NPM: qml/qmltube/VideoPlaybackView.qml 'id: videoPlayer' defines Qt
   // Mobility Video element when resources are lost, pause the player by
   // changing the property videoPlayer.paused . See http://doc.qt.nokia.com/4.7/qtbinding.html
   QObject *obj = m_view->rootObject()->findChild<QObject*>("embeddedPlayer");
   if (obj) {
-    qDebug() << "DEBUG: old value videoPlayer.paused=" << obj->property("paused").toBool();
-    if (granted && obj->property("paused").toBool()) {   //NPM: if true, then this is a second notification that occurs when the interfering resource is relenquished --> start up player again...
+    qDebug() << "DEBUG: old videoPlayer.paused=" << obj->property("paused").toBool() << " old granted=" << granted;
+    if (paused && granted && obj->property("paused").toBool()) {   //NPM: if true, then this is a second notification that occurs when the interfering resource is relenquished --> start up player again...
         qDebug() << "DEBUG: restarting video previously paused due to resource conflict.";
         obj->setProperty("paused", QVariant::fromValue(false));
+	paused = false;
     }
     else {
         qDebug() << "DEBUG: pausing video due to resource conflict.";
         obj->setProperty("paused", QVariant::fromValue(true));
+	paused = true;
     }
-    qDebug() << "DEBUG: old value videoPlayer.paused=" << obj->property("paused").toBool();
   }
   else {
     qDebug() << "ERROR: couldn't find QtMobility Video element object named 'embeddedPlayer'.";
   }
-  granted = 0;
+  granted = false;
+  qDebug() << "DEBUG: new videoPlayer.paused=" << obj->property("paused").toBool() << " new granted=" << granted;
 }
 #endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
 
