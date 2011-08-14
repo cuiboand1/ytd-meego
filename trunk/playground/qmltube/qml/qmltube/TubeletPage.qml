@@ -2,6 +2,9 @@ import QtQuick 1.0
 import MeeGo.Components 0.1 as MeeGo
 import "scripts/mainscripts.js" as Scripts
 import "scripts/settings.js" as Settings
+import "scripts/youtube.js" as YT
+import "scripts/dailymotion.js" as DM
+import "scripts/vimeo.js" as VM
 
 MeeGo.AppPage { // see: ~/qtquick/ux/meego-ux-components/src/components/ux/AppPage.qml
     id: mainWindow;
@@ -246,15 +249,15 @@ MeeGo.AppPage { // see: ~/qtquick/ux/meego-ux-components/src/components/ux/AppPa
                                 }
                             }
 
-                            width: 800
-                            height: 480
-                            anchors.fill: parent
-                            color: _VIDEO_PLAYING ? "black" : _BACKGROUND_COLOR
+//                            width: 800
+//                            height: 480
+//                            anchors.fill: parent
+//                            color: _VIDEO_PLAYING ? "black" : _BACKGROUND_COLOR
 
                             Image {
                                 id: background
 
-                                anchors.fill: window
+                                anchors.fill: mainWindow
                                 source: (mainWindow.state == "portrait") ? "ui-images/background2.png" : "ui-images/background.png"
                                 sourceSize.width: background.width
                                 sourceSize.height: background.height
@@ -705,7 +708,7 @@ MeeGo.AppPage { // see: ~/qtquick/ux/meego-ux-components/src/components/ux/AppPa
                                 id: dismissSearchBar
 
                                 z: 99
-                                anchors.fill: window
+                                anchors.fill: mainWindow
                                 enabled: notificationArea.searchBarOpen
                                 onClicked: notificationArea.closeSearchBar()
                             }
@@ -946,7 +949,7 @@ MeeGo.AppPage { // see: ~/qtquick/ux/meego-ux-components/src/components/ux/AppPa
                             ListView {
                                 id: windowView
 
-                                anchors.fill: window
+                                anchors.fill: mainWindow
                                 model: viewsModel
                                 orientation: ListView.Horizontal
                                 interactive: false
