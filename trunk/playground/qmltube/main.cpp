@@ -62,10 +62,10 @@ public:
 };
 QNetworkAccessManager *MyNetworkAccessManagerFactory::create(QObject *parent) {
     QNetworkAccessManager *nam = new MyNetworkAccessManager(parent); // NPM:
-    qDebug() << "MyNetworkAccessManagerFactory::create()'d nam=" << nam;
+    qDebug() << "DEBUG: MyNetworkAccessManagerFactory::create()'d nam=" << nam;
     //TODO: make this work with proxyHost below
 //    if (!proxyHost.isEmpty()) {
-//        qDebug() << "Created QNetworkAccessManager using proxy" << (proxyHost + ":" + QString::number(proxyPort));
+//        qDebug() << "DEBUG: Created QNetworkAccessManager using proxy" << (proxyHost + ":" + QString::number(proxyPort));
 //        QNetworkProxy proxy(QNetworkProxy::HttpCachingProxy, proxyHost, proxyPort);
 //        nam->setProxy(proxy);
 //    }
@@ -254,7 +254,22 @@ int main(int argc, char *argv[])
         if (translator.load(languagePath)) {
             app.installTranslator(&translator);
         }
-        viewer.setMainQmlFile(QLatin1String("qml/qmltube/main.qml"));
+
+	//if an important file in package meego-ux-components-common is installed
+	//launch toplevel for meego-ux toplevel and widgetry.
+	if (QFile::exists("/usr/lib/qt4/imports/MeeGo/Ux/Components/Common/qmldir")) {	
+	  qDebug() << "DEBUG: found /usr/lib/qt4/imports/MeeGo/Ux/Components/Common/qmldir using MeeGo-UX";
+	  viewer.setMainQmlFile(QLatin1String("qml/qmltube/main_tubelet.qml"));
+	}
+	else if (QFile::exists("/usr/lib/qt4/imports/com/nokia/meego/qmldir")) {
+	  qDebug() << "DEBUG: found /usr/lib/qt4/imports/com/nokia/meego/qmldir using Harmattan-UX";
+	  viewer.setMainQmlFile(QLatin1String("qml/qmltube/main.qml")); // same, as default, for now.
+	}
+	//otherwise use generic maemo 5 qmltube toplevel
+	else {
+	  qDebug() << "DEBUG: using generic UX";
+	  viewer.setMainQmlFile(QLatin1String("qml/qmltube/main.qml"));
+	}
 
 	/* NPM: the following sequence of ifdefs was viewer.showExpanded()
 	   but it didn't do right thing on Harmattan, so replaced with ifdefs
