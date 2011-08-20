@@ -87,8 +87,9 @@ int main(int argc, char *argv[])
     DownloadManager dm;
     QmlApplicationViewer viewer;
 
-    bool browser_mode = true;	// NPM
-    bool opengl_mode  = true;	// NPM
+    bool    browser_mode = true;	// NPM
+    bool    opengl_mode  = true;	// NPM
+    QString playerUrl;                  // NPM -- moved out of "play" mode branch below
 
 #ifdef Q_WS_X11		// NPM: aka, MeeGo 
     // NPM: unless '--raster' command-line option given, this gets
@@ -116,30 +117,42 @@ int main(int argc, char *argv[])
 		     &ct,     SLOT(notifyResourcesLost()));
 #endif /* defined(MEEGO_HAS_POLICY_FRAMEWORK) */
 
-    QStringList args = app.arguments();
-    args.takeFirst();
-    if (!args.isEmpty()) {
-      QString arrrh = args.first();
-      if (arrrh == ("--play")) {
-	browser_mode = false;
-	args.takeFirst();
-	if (!arrrh.isEmpty()) {
-	  arrrh = args.first();
-	  if (arrrh == ("--raster")) {
-	    opengl_mode = false;
-	  }
+    QStringList arglist = app.arguments();
+    arglist.takeFirst();
+    if (!arglist.isEmpty()) {
+      QString car = arglist.first();
+
+      if (car == "--raster") {
+	opengl_mode = false;
+	arglist.takeFirst();
+	if (!arglist.isEmpty()) {
+	  car = arglist.first();
 	}
       }
-      else if (arrrh == ("--raster")) {
-	opengl_mode = false;
+
+      if (car == "--play") {
+	browser_mode = false;
+	arglist.takeFirst();
+	if (!arglist.isEmpty()) {
+	  playerUrl = arglist.first(); //NPM: 'playerURL' used below in "play" mode branch
+	  arglist.takeFirst();
+	}
+	else {
+	  qWarning() << "qmltube: missing --play URL argument";
+	  exit(1);
+	}
       }
-      else {
-	qWarning() << "Invalid arguments";
+      else if (!arglist.isEmpty()) {
+	qWarning() << "Error: Unexpected commandline arguments. Usage: qmltube [[--raster] --play <URL>]";
+	exit(1);
+      }
+
+      if (!arglist.isEmpty() && (!opengl_mode || !browser_mode)) {
+	qWarning() << "Error: Too many commandline arguments. Usage: qmltube [[--raster] --play <URL>]";
 	exit(1);
       }
     }
 
-    if (browser_mode) {
 	viewer.setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
         viewer.setAttribute(Qt::WA_NoSystemBackground);
         QDeclarativeContext *context = viewer.rootContext();
@@ -188,6 +201,35 @@ int main(int argc, char *argv[])
             path.mkpath(QDir::homePath() + "/.config/cutetube");
         }
 
+        QStringList proxyList = ct.getProxyFromDB();
+        QString proxyHost = proxyList.first();
+        if (!proxyHost.isEmpty()) {
+            int proxyPort = proxyList.last().toInt();
+            QNetworkProxy proxy;
+            proxy.setType(QNetworkProxy::HttpCachingProxy);
+            proxy.setHostName(proxyHost);
+            proxy.setPort(proxyPort);
+            QNetworkProxy::setApplicationProxy(proxy);
+        }
+
+        QString locale = ct.getLanguage();
+        QString languagePath;
+#ifdef Q_WS_MAEMO_5
+        languagePath = "/opt/usr/share/qmltube/qml/qmltube/i18n/qml_" + locale;
+#elif defined(Q_WS_X11)		// NPM: aka, MeeGo & Harmattan, Linux
+        languagePath = "/opt/qmltube/qml/qmltube/i18n/qml_" + locale;
+	// on linux, the original code below seems to only work when cd'd
+	// to source or build directory in other directories, it fails.
+	//languagePath = viewer.engine()->baseUrl().toLocalFile().append("qml/qmltube/i18n/qml_" + locale);
+#else // fallback for neither Q_WS_X11 nor Q_WS_MAEMO_5 (the orig cutetube code)
+        languagePath = viewer.engine()->baseUrl().toLocalFile().append("qml/qmltube/i18n/qml_" + locale);
+#endif /* Q_WS_MAEMO_5 */
+        QTranslator translator;
+        if (translator.load(languagePath)) {
+            app.installTranslator(&translator);
+        }
+
+    if (browser_mode) {
 	if (opengl_mode) {
 	  // NPM: trying to understand what these all do as suggested by
 	  // http://doc.qt.nokia.com/latest/qt-embeddedlinux-opengl.html
@@ -227,33 +269,6 @@ int main(int argc, char *argv[])
 	  }
 	}
 #endif /* defined(Q_WS_X11) */
-        QStringList proxyList = ct.getProxyFromDB();
-        QString proxyHost = proxyList.first();
-        if (!proxyHost.isEmpty()) {
-            int proxyPort = proxyList.last().toInt();
-            QNetworkProxy proxy;
-            proxy.setType(QNetworkProxy::HttpCachingProxy);
-            proxy.setHostName(proxyHost);
-            proxy.setPort(proxyPort);
-            QNetworkProxy::setApplicationProxy(proxy);
-        }
-
-        QString locale = ct.getLanguage();
-        QString languagePath;
-#ifdef Q_WS_MAEMO_5
-        languagePath = "/opt/usr/share/qmltube/qml/qmltube/i18n/qml_" + locale;
-#elif defined(Q_WS_X11)		// NPM: aka, MeeGo & Harmattan, Linux
-        languagePath = "/opt/qmltube/qml/qmltube/i18n/qml_" + locale;
-	// on linux, the original code below seems to only work when cd'd
-	// to source or build directory in other directories, it fails.
-	//languagePath = viewer.engine()->baseUrl().toLocalFile().append("qml/qmltube/i18n/qml_" + locale);
-#else // fallback for neither Q_WS_X11 nor Q_WS_MAEMO_5 (the orig cutetube code)
-        languagePath = viewer.engine()->baseUrl().toLocalFile().append("qml/qmltube/i18n/qml_" + locale);
-#endif /* Q_WS_MAEMO_5 */
-        QTranslator translator;
-        if (translator.load(languagePath)) {
-            app.installTranslator(&translator);
-        }
 
 	//if an important file in package meego-ux-components-common is installed
 	//launch toplevel for meego-ux toplevel and widgetry.
@@ -289,22 +304,20 @@ int main(int argc, char *argv[])
 #endif
         return app.exec();
     }
-    else { //NPM: else play mode
+    else { //NPM:  "play" mode when "--play" commandline arg sets browser_mode=false
         /* Get the video URL and play the video */
-
         ct.getMediaPlayerFromDB();
         QObject::connect(&ct, SIGNAL(playbackStarted(QString)), &app, SLOT(quit()));
 
-        QString playerUrl = args.at(1);
         QString videoId;
         if (playerUrl.contains("youtube")) {
 
             QString quality = "hq";
-            if (args.length() > 2) {
-                if (args.at(2) == "m") {
-                    quality = "mobile";
-                }
-            }
+//            if (args.length() > 2) {
+//                if (args.at(2) == "m") {
+//                    quality = "mobile";
+//                }
+//            }
             videoId = playerUrl.split("v=").at(1).split("&").at(0);
             yt.setPlaybackQuality(quality);
             yt.getVideoUrl(videoId);
