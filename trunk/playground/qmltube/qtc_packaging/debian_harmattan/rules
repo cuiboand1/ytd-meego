@@ -58,9 +58,14 @@ install: build
 	# on harmattan with "invoker" to enable only a single instance of the app. Note that
 	# the default qmltube.desktop for "linux" doesn't use invoker, since it's only available
 	# on Harmattan and MeeGo Tablet UX (in package meegotouch-applauncherd).
-	sed 's:Exec=.*:Exec=invoker --single-instance --type=e /opt/qmltube/bin/qmltube:' $(CURDIR)/debian/qmltube/usr/share/applications/qmltube.desktop > $(CURDIR)/debian/qmltube/usr/share/applications/qmltube.desktop.sed || echo -n
-	mv $(CURDIR)/debian/qmltube/usr/share/applications/qmltube.desktop.sed "$(CURDIR)"/debian/qmltube/usr/share/applications/qmltube.desktop || echo -n
-
+	mkdir --parents --verbose "$(CURDIR)"/debian/qmltube/usr/share/applications
+	sed 's:Exec=.*:Exec=invoker --single-instance --type=e /opt/qmltube/bin/qmltube:' "$(CURDIR)"/../qmltube/qmltube.desktop > "$(CURDIR)"/debian/qmltube/usr/share/applications/qmltube.desktop.sed || echo -n
+	mv "$(CURDIR)"/debian/qmltube/usr/share/applications/qmltube.desktop.sed "$(CURDIR)"/debian/qmltube/usr/share/applications/qmltube.desktop || echo -n
+	## Copy application icon to the expected location written into the "$(CURDIR)"/../qmltube/qmltube.desktop
+	mkdir --parents --verbose "$(CURDIR)"/debian/qmltube/usr/share/icons/hicolor/64x64/apps
+	install -m644 "$(CURDIR)"/../qmltube/qmltube.png "$(CURDIR)"/debian/qmltube/usr/share/icons/hicolor/64x64/apps
+	## Cleanup subversion dirs that get copied to 'qml' directory so they don't get packaged
+	find "$(CURDIR)"/debian/qmltube/opt/qmltube/qml -type d -name '.svn' -exec rm -rf {} \; || true
 
 # Build architecture-independent files here.
 binary-indep: build install
