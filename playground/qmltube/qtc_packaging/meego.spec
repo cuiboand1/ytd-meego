@@ -63,11 +63,6 @@ mkdir     --parents --verbose                                   %{buildroot}%{_d
 install -m644 ../%name/qtc_packaging/debian_harmattan/README    %{buildroot}%{_datadir}/doc/%name
 install -m644 ../%name/qtc_packaging/debian_harmattan/changelog %{buildroot}%{_datadir}/doc/%name
 install -m644 ../%name/qtc_packaging/debian_harmattan/copyright %{buildroot}%{_datadir}/doc/%name
-## Don't package extraneous files that otherwise get copied in directory copy of 'qml' directory
-## during build process. This incldes subversion files, emacs backusp, patch leftovers, etc
-## see "%files -f" belo
-rm -f %{buildroot}/qmltube-qml.files
-
 
 %post
 touch --no-create %{_datadir}/icons/hicolor
