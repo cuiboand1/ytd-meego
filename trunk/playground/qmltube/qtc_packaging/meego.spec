@@ -11,14 +11,13 @@ BuildRequires:  pkgconfig(QtCore) >= 4.6.0
 BuildRequires:  pkgconfig(QtOpenGL)
 BuildRequires:  pkgconfig(QtGui)
 BuildRequires:  qt-mobility-devel  
-BuildRequires:  libqt-devel
-BuildRequires:  libqtopengl-devel  
 BuildRequires:  libresourceqt-devel  
 BuildRequires:  desktop-file-utils
 BuildRequires: gettext
 Requires: libqtcore4  
+Requires: libqtopengl4
+Requires: libqtgui4
 Requires: qt-mobility
-Requires: libqtopengl
 Requires: libresourceqt
 Requires: gst-plugins-good
 Requires: gst-plugins-base
