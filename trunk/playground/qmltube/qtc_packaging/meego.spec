@@ -63,6 +63,13 @@ mkdir     --parents --verbose                                   %{buildroot}%{_d
 install -m644 ../%name/qtc_packaging/debian_harmattan/README    %{buildroot}%{_datadir}/doc/%name
 install -m644 ../%name/qtc_packaging/debian_harmattan/changelog %{buildroot}%{_datadir}/doc/%name
 install -m644 ../%name/qtc_packaging/debian_harmattan/copyright %{buildroot}%{_datadir}/doc/%name
+## Cleanup subversion dirs that get copied to 'qml' directory so they don't get packaged
+find %{buildroot}/opt/qmltube/qml -type d -name '.svn' -print -exec rm -rf {} \; || true
+## Nuke copied emacs backup files...
+find %{buildroot}/opt/qmltube/qml -type f -name '*[0-9]*~' -print -exec rm -f {} \; || true
+## Nuke patch leftovers
+find %{buildroot}/opt/qmltube/qml -type f -name '*.rej' -print -exec rm -f {} \; || true
+find %{buildroot}/opt/qmltube/qml -type f -name '*.orig' -print -exec rm -f {} \; || true
 
 %post
 touch --no-create %{_datadir}/icons/hicolor
