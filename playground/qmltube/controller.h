@@ -22,11 +22,14 @@ class Controller : public QObject {
     Q_PROPERTY(bool isSymbian
                READ osIsSymbian
                NOTIFY osChanged)
-    Q_PROPERTY(bool isHarmattan
+    Q_PROPERTY(bool isHarmattan     /* NPM */
                READ osIsHarmattan
                NOTIFY osChanged)
-    Q_PROPERTY(bool isMaemo
+    Q_PROPERTY(bool isMaemo         /* NPM */
                READ osIsMaemo
+               NOTIFY osChanged)
+    Q_PROPERTY(bool isMeegoTablet  /* NPM */
+               READ osIsMeegoTablet
                NOTIFY osChanged)
 
 public:
@@ -34,8 +37,9 @@ public:
 
     void setView(QmlApplicationViewer* view);
     bool osIsSymbian() const;
-    bool osIsHarmattan() const;
-    bool osIsMaemo() const;
+    bool osIsHarmattan() const;    /* NPM */
+    bool osIsMaemo() const;        /* NPM */
+    bool osIsMeegoTablet() const; /* NPM */
 
 public slots:
 
@@ -79,6 +83,7 @@ private:
     bool isSymbian;
     bool isHarmattan;		/* NPM */
     bool isMaemo;		/* NPM */
+    bool isMeegoTablet;	        /* NPM */
     QTimer *blankingtimer;	/* NPM */
 #ifdef MEEGO_EDITION_HARMATTAN
     MeeGo::QmDisplayState *displaystate; /* NPM */

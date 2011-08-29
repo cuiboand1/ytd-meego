@@ -660,7 +660,18 @@ Rectangle {
                 anchors { left: titleBar.left; leftMargin: 10; verticalCenter: titleBar.verticalCenter }
                 icon: (cuteTubeTheme == "light") ? "ui-images/minimizeiconlight.png" : "ui-images/minimizeicon.png"
                 visible: !(Controller.isSymbian || Controller.isHarmattan)
-                onButtonClicked: if (!Controller.isMaemo) Controller.toggleState(); else Controller.minimize(); //NPM
+                onButtonClicked: { 
+ 		    if (Controller.isMeegoTablet) {    //NPM
+			mainWindow.fullScreen          = !(mainWindow.fullScreen);
+			mainWindow.pageUsingFullScreen = !(mainWindow.pageUsingFullScreen);
+		    }
+		    else if (!Controller.isMaemo) {
+			Controller.toggleState();
+		    }
+		    else {
+			Controller.minimize();
+		    }
+		}
             }
 
             ToolButton {
