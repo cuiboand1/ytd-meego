@@ -11,6 +11,10 @@ MeeGo.AppPage { // see: ~/qtquick/ux/meego-ux-components/src/components/ux/AppPa
     pageTitle:			"QmlTube";
     anchors.fill:		parent;
 
+    fullScreen:			true;
+    pageUsingFullScreen:	true;
+
+    /* from main.qml */
     property bool _VIDEO_PLAYING : false
     property string _DEFAULT_SITE : "YouTube"
     property variant _CATEGORY_DICT

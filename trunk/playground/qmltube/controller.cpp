@@ -40,6 +40,7 @@ Controller::Controller(QObject *parent) :
     converter = new QProcess(this);
     connect(converter, SIGNAL(started()), this, SIGNAL(conversionStarted()));
     connect(converter, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(conversionFinished(int, QProcess::ExitStatus)));
+   
 #ifdef Q_OS_SYMBIAN
     isSymbian = true;
 #else
@@ -64,6 +65,27 @@ Controller::Controller(QObject *parent) :
 #ifdef MEEGO_EDITION_HARMATTAN
     displaystate  = 0;
 #endif /* defined(MEEGO_EDITION_HARMATTAN) */
+
+#ifdef Q_WS_MAEMO_5
+    isMeegoTablet = false;      // NPM
+#elif defined(MEEGO_EDITION_HARMATTAN)
+    isMeegoTablet = false;
+#elif defined(Q_WS_X11)	
+    /* NPM: package 'tablet-target-config' is in the Tablet KS
+       http://ftp-nyc.osuosl.org/pub/meego/builds/1.2.0.90/1.2.0.90.12.20110809.2/images/meego-tablet-ia32-pinetrail/meego-tablet-ia32-pinetrail-1.2.0.90.12.20110809.2.packages
+       but not in
+       http://ftp-nyc.osuosl.org/pub/meego/builds/1.2.0.90/1.2.0.90.12.20110809.2/images/meego-netbook-ia32/meego-netbook-ia32-1.2.0.90.12.20110809.2.packages
+       Package 'tablet-target-config' contains a single file /usr/share/meegotouch/targets/tablet.conf
+       if present, then assume we're on MeeGo tablet UX. 
+    */
+    if (QFile::exists("/usr/share/meegotouch/targets/tablet.conf"))
+      isMeegoTablet = true;
+    else
+      isMeegoTablet = false;
+#else
+    isMeegoTablet = false;      // NPM
+#endif
+
 }
 
 void Controller::setView(QmlApplicationViewer *view) {
@@ -96,6 +118,11 @@ bool Controller::osIsHarmattan() const {
 /* NPM */
 bool Controller::osIsMaemo() const {
     return isMaemo;
+}
+
+/* NPM */
+bool Controller::osIsMeegoTablet() const {
+    return isMeegoTablet;
 }
 
 void Controller::doNotDisturb(bool videoPlaying) {
