@@ -73,7 +73,7 @@ implemented as a JSON "feed" (analogous to an RSS feed) where outgoing
 requests for new video stories are made, and a categorization system under
 which new stories can be submitted.
 
-<p align="center">[http://ureport.abc7news.com http://nielsmayer.com/ytd/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]</p>
+<p align="center">[http://ureport.abc7news.com http://ytd-meego.googlecode.com/svn/wiki/img/Abc7-UReport-SmallSize.png][http://ytd-android.googlecode.com http://ytd-android.googlecode.com/files/ytd-screenshot-sm.png]</p>
 <p align="center">*Figure 2: ABC7 "ureport"; Figure 3: YTD-Android*</p>
 
 Porting YTD-Android to !MeeGo consists of supporting the following major features from the [http://code.google.com/p/ytd-android/source/browse/trunk Android reference]:
@@ -137,7 +137,7 @@ The predecessor (an equivalent diagram couldn't be found for !MeeGo at time of w
 provides media uploading to a variety of services:
 
 <wiki:comment><p align="center">[http://wiki.maemo.org/images/0/0b/SharingAccounts.png]</p></wiki:comment>
-<p align="center">[http://nielsmayer.com/ytd/SharingAccounts.png]</p>
+<p align="center">[http://ytd-meego.googlecode.com/svn/wiki/img/SharingAccounts.png]</p>
 <p align="center">*Figure 4: Maemo Sharing Accounts*</p>
 
 The Maemo sharing GUI allows for any media captured on the device to be
@@ -145,7 +145,7 @@ selected and reliably uploaded to any provider that implements a
 [http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Using_Data_Sharing/Sharing_Plug-in sharing plugin]:
 
 <wiki:comment><p align="center">[http://wiki.maemo.org/images/4/49/SharingDialogInterface.png]</p></wiki:comment>
-<p align="center">[http://nielsmayer.com/ytd/SharingDialogInterface.png]</p>
+<p align="center">[http://ytd-meego.googlecode.com/svn/wiki/img/SharingDialogInterface.png]</p>
 <p align="center">*Figure 5: Maemo Sharing Dialog*</p>
 
 In the future, a well integrated youtube-direct "sharing plugin" written
@@ -287,7 +287,7 @@ appropriate to touch devices. Further, QML is a rich language and is
 already capable-enough to write fully functioning applications entirely in
 !JavaScript. As such, QML provides a dynamic, high-level, object-oriented
 language at the user-interface level, which was also observed as a good solution to 
-[http://nielsmayer.com/p45-mayer.pdf "declarative" GUI building with UIL in the late 80's].
+[http://winterp.googlecode.com/svn/wiki/doc/papers/p45-mayer.pdf "declarative" GUI building with UIL in the late 80's].
 
 In the code example above, note the "declarative" aspects of the code,
 which are implicit in the sizing constraints: for example, "parent.width"
@@ -983,7 +983,7 @@ The following diagram describes the
 and should translate, roughly, to !MeeGo on the same platform:
 
 <wiki:comment><p align="center">[http://wiki.maemo.org/images/thumb/5/56/OMAP_architecture.png/800px-OMAP_architecture.png]</p></wiki:comment>
-<p align="center">[http://nielsmayer.com/ytd/800px-OMAP_architecture.png]</p>
+<p align="center">[http://ytd-meego.googlecode.com/svn/wiki/img/800px-OMAP_architecture.png]</p>
 <p align="center">*Figure 16: N900 Multimedia Architecture*</p>
 
 http://meego.com/developers/meego-architecture/meego-architecture-domain-view
@@ -1006,7 +1006,7 @@ The audio subsystem is depicted in the following diagram from
 [http://linuxplumbersconf.org/2009/slides/Jyri-Sarha-audio_miniconf_slides.pdf Jyri Sarha's presentation "Practical Experiences from Using Pulseaudio in Embedded Handheld Device"]
 from the recent Linux Plumber's Conference:
 
-<p align="center">[http://nielsmayer.com/meego/N900-Pulseaudio-Configuration.png]</p>
+<p align="center">[http://ytd-meego.googlecode.com/svn/wiki/img/N900-Pulseaudio-Configuration.png]</p>
 <p align="center">*Figure 17: !MeeGo Pulseaudio Architecture*</p>
 
 A lively thread on the role of pulseaudio in a handset was started on the [http://lists.linuxaudio.org/listinfo/linux-audio-dev Linux Audio Developers] and [http://lists.meego.com/pipermail/meego-handset/ Meego Handset] Lists, with notable replies by:
@@ -1020,7 +1020,7 @@ Dr. Stefan Kost's presentation on the
 provides a good overview of the GStreamer framework, which enables
 [http://www.eetimes.com/design/signal-processing-dsp/4004620/DSP-video-processing-via-open-sourceAPIs DSP video processing via open-source APIs]:
 
-<p align="center">[http://elinux.org/images/d/d1/MeeGoMultimedia.pdf http://nielsmayer.com/ytd/KostMeegoMultimediaGstreamer.png]</p>
+<p align="center">[http://elinux.org/images/d/d1/MeeGoMultimedia.pdf http://ytd-meego.googlecode.com/svn/wiki/img/KostMeegoMultimediaGstreamer.png]</p>
 <p align="center">*Figure 18: !MeeGo GStreamer Architecture*</p>
 
 Kost's presentation suggests the following subcomponents.
@@ -1039,7 +1039,7 @@ will appear with Qt Mobility 1.2 and !MeeGo 1.2:
 
 == !MeeGo Policy Framework ==
 
-<p align="center">[http://wiki.meego.com/images/Meego-policy-framework-developer-guide.pdf http://nielsmayer.com/ytd/meego-policy-framework.png]</p>
+<p align="center">[http://wiki.meego.com/images/Meego-policy-framework-developer-guide.pdf http://ytd-meego.googlecode.com/svn/wiki/img/meego-policy-framework.png]</p>
 <p align="center">*Figure 19: !MeeGo Policy Framework Architecture*</p>
 
 Marco Ballesio's,
