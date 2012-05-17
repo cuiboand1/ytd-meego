@@ -1,5 +1,5 @@
 <p align="center"><font size=5>*Citizen Journalism with !YouTube-Direct for !MeeGo*</font></p>
-<p align="center">*Niels P. Mayer ( http://nielsmayer.com )*</p>
+<p align="center">*Niels P. Mayer ( http://www.nielsmayer.com )*</p>
 <p align="center">*December 27, 2010*</p>
 
 <wiki:toc max_depth="2" />
@@ -1099,4 +1099,3 @@ Please add your comments, in the comments section of this article, and if
 you have something to contribute to the project, please volunteer. There's
 a lot of code to write and a lot of different components to get working and
 test on this promising, but evolving platform.
-
