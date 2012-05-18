@@ -738,7 +738,7 @@ has already been [http://www.madeo.co.uk/?page_id=605 ported to MeeGo]:
  * http://gitorious.org/xbmc-qml-remote 
  * http://gitorious.org/xbmc-qml-remote/pages/Home
 
-<p align="center">[http://web2.0-apps.de/fabian/xbmc/screenshot/album.jpeg]</p>
+<p align="center">[http://www.meegoexperts.com/wp-content/uploads/2011/07/XBMC-Remote-Controller-Harmattan-Nokia-N950-meego-meegoexperts.png]</p>
 <p align="center">*Figure 15: XBMC QML Remote Example uses JSON RPC*</p>
 
 Some code examples from that app doing JSON/RPC entirely within QML:
